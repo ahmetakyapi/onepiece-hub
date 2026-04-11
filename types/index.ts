@@ -59,6 +59,10 @@ export type CrewType =
   | 'supernova'
   | 'beast-pirates'
   | 'big-mom-pirates'
+  | 'roger-pirates'
+  | 'whitebeard-pirates'
+  | 'red-hair-pirates'
+  | 'ally'
   | 'other'
 
 export type QuizQuestion = {

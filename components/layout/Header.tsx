@@ -53,7 +53,9 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="link-glow group flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-pirate-muted transition-colors hover:text-gold"
+                className={`link-glow group flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold transition-colors hover:text-gold ${
+                  scrolled ? 'text-pirate-text/80' : 'text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]'
+                }`}
               >
                 <link.icon className="h-4 w-4 transition-transform group-hover:scale-110" />
                 {link.label}
@@ -66,7 +68,11 @@ export default function Header() {
             {/* Login button */}
             <Link
               href="/login"
-              className="hidden items-center gap-1.5 rounded-lg border border-gold/20 bg-gold/5 px-3 py-2 text-sm font-semibold text-gold transition-all hover:border-gold/40 hover:bg-gold/10 sm:flex"
+              className={`hidden items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-semibold transition-all sm:flex ${
+                scrolled
+                  ? 'border-gold/20 bg-gold/5 text-gold hover:border-gold/40 hover:bg-gold/10'
+                  : 'border-white/25 bg-white/10 text-white backdrop-blur-sm hover:border-gold/40 hover:bg-gold/10 hover:text-gold'
+              }`}
             >
               <Swords className="h-4 w-4" />
               Maceraya Katıl
@@ -76,7 +82,9 @@ export default function Header() {
             <button
               onClick={() => setMenuOpen((v) => !v)}
               aria-label="Menu"
-              className="flex h-9 w-9 items-center justify-center rounded-xl text-pirate-muted transition-colors hover:text-gold md:hidden"
+              className={`flex h-9 w-9 items-center justify-center rounded-xl transition-colors hover:text-gold md:hidden ${
+                scrolled ? 'text-pirate-muted' : 'text-white'
+              }`}
             >
               {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>

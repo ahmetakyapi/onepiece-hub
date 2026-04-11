@@ -9,7 +9,7 @@ const EASE = [0.22, 1, 0.36, 1] as const
 const STATS = [
   { label: 'Arc', value: 32, suffix: '', icon: Compass, color: 'text-gold' },
   { label: 'Bölüm', value: 341, suffix: '', icon: Film, color: 'text-sea' },
-  { label: 'Karakter', value: 36, suffix: '', icon: Users, color: 'text-gold' },
+  { label: 'Karakter', value: 61, suffix: '', icon: Users, color: 'text-gold' },
   { label: 'Saat İçerik', value: 136, suffix: '+', icon: Clock, color: 'text-sea' },
 ] as const
 

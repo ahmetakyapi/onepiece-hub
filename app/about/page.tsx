@@ -30,7 +30,7 @@ const FEATURES = [
   {
     icon: Users,
     title: 'Karakter Ansiklopedisi',
-    description: 'Hasır Şapkalardan Dört İmparator\'lara kadar 36 karakterin detaylı profili, güçleri ve ödül bilgileri.',
+    description: 'Hasır Şapkalardan Dört İmparator\'lara, Devrimcilerden Deniz Kuvvetleri\'ne 60+ karakterin detaylı profili, güçleri ve ödül bilgileri.',
     color: 'text-luffy',
     bg: 'bg-luffy/10',
   },
@@ -60,7 +60,7 @@ const FEATURES = [
 const STATS = [
   { value: '32', label: 'Arc', icon: Map },
   { value: '341', label: 'Bölüm', icon: Film },
-  { value: '36', label: 'Karakter', icon: Users },
+  { value: '61', label: 'Karakter', icon: Users },
   { value: '136', label: 'Saat İçerik', icon: Play },
 ]
 
