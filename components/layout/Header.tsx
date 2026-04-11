@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Compass, Users, Swords, BookOpen } from 'lucide-react'
+import { Menu, X, Compass, Users, BookOpen, LogOut, User } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useAuth } from '@/hooks/useAuth'
 
 const NAV_LINKS = [
   { label: 'Arc\'lar',      href: '/arcs',       icon: Compass },
@@ -15,6 +16,7 @@ const NAV_LINKS = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const { user, logout, loading } = useAuth()
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 10)
@@ -65,18 +67,44 @@ export default function Header() {
 
           {/* Right side */}
           <div className="flex items-center gap-2">
-            {/* Login button */}
-            <Link
-              href="/login"
-              className={`hidden items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-semibold transition-all sm:flex ${
-                scrolled
-                  ? 'border-gold/20 bg-gold/5 text-gold hover:border-gold/40 hover:bg-gold/10'
-                  : 'border-white/25 bg-white/10 text-white backdrop-blur-sm hover:border-gold/40 hover:bg-gold/10 hover:text-gold'
-              }`}
-            >
-              <Swords className="h-4 w-4" />
-              Maceraya Katıl
-            </Link>
+            {!loading && (
+              user ? (
+                <div className="hidden items-center gap-2 sm:flex">
+                  <Link
+                    href="/profile"
+                    className={`flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-semibold transition-all ${
+                      scrolled
+                        ? 'border-gold/20 bg-gold/5 text-gold hover:border-gold/40 hover:bg-gold/10'
+                        : 'border-white/25 bg-white/10 text-white backdrop-blur-sm hover:border-gold/40 hover:bg-gold/10 hover:text-gold'
+                    }`}
+                  >
+                    <User className="h-4 w-4" />
+                    {user.name || user.username}
+                  </Link>
+                  <button
+                    onClick={logout}
+                    className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-luffy ${
+                      scrolled ? 'text-pirate-muted' : 'text-white/70'
+                    }`}
+                    title="Çıkış Yap"
+                  >
+                    <LogOut className="h-4 w-4" />
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  href="/login"
+                  className={`hidden items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-semibold transition-all sm:flex ${
+                    scrolled
+                      ? 'border-gold/20 bg-gold/5 text-gold hover:border-gold/40 hover:bg-gold/10'
+                      : 'border-white/25 bg-white/10 text-white backdrop-blur-sm hover:border-gold/40 hover:bg-gold/10 hover:text-gold'
+                  }`}
+                >
+                  <User className="h-4 w-4" />
+                  Maceraya Katıl
+                </Link>
+              )
+            )}
 
             {/* Mobile menu toggle */}
             <button
@@ -113,14 +141,34 @@ export default function Header() {
               </Link>
             ))}
             <div className="mt-2 border-t border-pirate-border pt-2">
-              <Link
-                href="/login"
-                onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-gold"
-              >
-                <Swords className="h-4 w-4" />
-                Maceraya Katıl
-              </Link>
+              {user ? (
+                <>
+                  <Link
+                    href="/profile"
+                    onClick={() => setMenuOpen(false)}
+                    className="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-gold"
+                  >
+                    <User className="h-4 w-4" />
+                    {user.name || user.username}
+                  </Link>
+                  <button
+                    onClick={() => { logout(); setMenuOpen(false) }}
+                    className="flex w-full items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-pirate-muted hover:text-luffy"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Çıkış Yap
+                  </button>
+                </>
+              ) : (
+                <Link
+                  href="/login"
+                  onClick={() => setMenuOpen(false)}
+                  className="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-gold"
+                >
+                  <User className="h-4 w-4" />
+                  Maceraya Katıl
+                </Link>
+              )}
             </div>
           </motion.div>
         )}

@@ -11,7 +11,7 @@ One Piece hayranları için kapsamlı Türkçe platform. Arc bazlı bölüm düz
 - **Animasyon**: Framer Motion
 - **DB**: Drizzle ORM + Neon Postgres (`@neondatabase/serverless`)
 - **Auth**: next-auth v5 (Google + Discord)
-- **Video**: Pixeldrain embed
+- **Video**: OnePaceTR iframe embed + harici link (onepacetr.net)
 - **Deployment**: Vercel
 
 ## Tema: Okyanus Derinliği
@@ -26,7 +26,8 @@ One Piece hayranları için kapsamlı Türkçe platform. Arc bazlı bölüm düz
 ## Özel Kurallar
 
 - Arc ve karakter verileri statik (`lib/constants/`), DB sadece kullanıcı etkileşimleri için
-- Video Pixeldrain embed ile oynatılır
+- Video OnePaceTR iframe embed ile oynatılır, iframe başarısızsa harici link gösterilir
+- Global bölüm numarası: `getGlobalEpisodeNumber(arcSlug, episodeNumber)` — OnePaceTR URL'i için
 - Tüm glassmorphism bileşenleri `.glass` class kullanır
 - Buton varyantları: `.btn-gold`, `.btn-luffy`, `.btn-ghost`
 - Gradient text: `.text-gold-gradient`, `.text-sea-gradient`

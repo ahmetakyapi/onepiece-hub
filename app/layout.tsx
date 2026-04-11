@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Manrope, IBM_Plex_Mono } from 'next/font/google'
 import dynamic from 'next/dynamic'
+import { AuthProvider } from '@/hooks/useAuth'
 import './globals.css'
 
 const CustomCursor = dynamic(() => import('@/components/CustomCursor'), { ssr: false })
@@ -57,8 +58,10 @@ export default function RootLayout({
         />
       </head>
       <body className={manrope.className}>
-        <CustomCursor />
-        {children}
+        <AuthProvider>
+          <CustomCursor />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   )

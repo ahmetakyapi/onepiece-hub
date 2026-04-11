@@ -57,6 +57,9 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover { background: rgba(244,163,0,0.5); }
 
+.scrollbar-thin::-webkit-scrollbar { width: 4px; }
+.scrollbar-thin { scrollbar-width: thin; scrollbar-color: rgba(244,163,0,0.2) transparent; }
+
 /* ─── Background attachment mobile fix ─────────────────────────────────── */
 @media (max-width: 640px) {
   body { background-attachment: scroll; }

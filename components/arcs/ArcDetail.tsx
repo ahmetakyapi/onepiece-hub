@@ -107,7 +107,73 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                 </p>
               </motion.div>
             )}
+          </motion.div>
 
+          {/* ─── Episode List (right after summary) ──────────────── */}
+          <section className="mb-10">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="flex items-center gap-2 text-lg font-bold text-pirate-text">
+                <Film className="h-5 w-5 text-sea" />
+                Bölümler
+                <span className="ml-1 text-sm font-normal text-pirate-muted">({arc.episodeCount})</span>
+              </h2>
+              <Link
+                href={`/arcs/${arc.slug}/${arc.episodes[0]?.slug}`}
+                className="btn-gold text-xs sm:text-sm"
+              >
+                <Play className="h-4 w-4" />
+                İzlemeye Başla
+              </Link>
+            </div>
+            <motion.div
+              variants={staggerContainer(0.04)}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="space-y-2"
+            >
+              {arc.episodes.map((ep) => (
+                <motion.div key={ep.slug} variants={fadeUp}>
+                  <Link
+                    href={`/arcs/${arc.slug}/${ep.slug}`}
+                    className="glass glass-lift group flex items-center gap-4 rounded-xl px-4 py-3 hover:border-gold/30"
+                  >
+                    {/* Episode number */}
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-ocean-surface border border-pirate-border/50 text-sm font-bold text-sea transition-all group-hover:border-gold/30 group-hover:text-gold">
+                      {ep.number}
+                    </div>
+
+                    {/* Title + summary */}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-pirate-text transition-colors group-hover:text-gold">
+                        {ep.title}
+                      </p>
+                      {ep.summary && (
+                        <p className="mt-0.5 line-clamp-1 text-xs text-pirate-muted/70">
+                          {ep.summary}
+                        </p>
+                      )}
+                      <p className="mt-0.5 text-xs text-pirate-muted">{ep.duration}</p>
+                    </div>
+
+                    {/* Play icon */}
+                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-transparent transition-all group-hover:bg-gold/10">
+                      <Play className="h-4 w-4 text-pirate-muted transition-colors group-hover:text-gold" />
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          </section>
+
+          {/* ─── Arc Details (after episodes) ────────────────────── */}
+          <motion.div
+            variants={staggerContainer(0.1)}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="mb-10"
+          >
             {/* Location + Villain */}
             <motion.div variants={fadeUp} className="mb-6 flex flex-wrap gap-3">
               {arc.location && (
@@ -182,66 +248,12 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
 
             {/* Quick actions */}
             <motion.div variants={fadeUp} className="flex flex-wrap gap-3">
-              <Link
-                href={`/arcs/${arc.slug}/${arc.episodes[0]?.slug}`}
-                className="btn-gold"
-              >
-                <Play className="h-4 w-4" />
-                İzlemeye Başla
-              </Link>
               <Link href={`/quiz/${arc.slug}`} className="btn-ghost">
                 <BrainCircuit className="h-4 w-4" />
                 Arc Quiz
               </Link>
             </motion.div>
           </motion.div>
-
-          {/* Episode list */}
-          <section className="mb-16">
-            <h2 className="mb-6 flex items-center gap-2 text-lg font-bold text-pirate-text">
-              <Film className="h-5 w-5 text-sea" />
-              Bölümler
-            </h2>
-            <motion.div
-              variants={staggerContainer(0.04)}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="space-y-2"
-            >
-              {arc.episodes.map((ep) => (
-                <motion.div key={ep.slug} variants={fadeUp}>
-                  <Link
-                    href={`/arcs/${arc.slug}/${ep.slug}`}
-                    className="glass glass-lift group flex items-center gap-4 rounded-xl px-4 py-3 hover:border-gold/30"
-                  >
-                    {/* Episode number */}
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-ocean-surface border border-pirate-border/50 text-sm font-bold text-sea transition-all group-hover:border-gold/30 group-hover:text-gold">
-                      {ep.number}
-                    </div>
-
-                    {/* Title + summary */}
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-pirate-text transition-colors group-hover:text-gold">
-                        {ep.title}
-                      </p>
-                      {ep.summary && (
-                        <p className="mt-0.5 line-clamp-1 text-xs text-pirate-muted/70">
-                          {ep.summary}
-                        </p>
-                      )}
-                      <p className="mt-0.5 text-xs text-pirate-muted">{ep.duration}</p>
-                    </div>
-
-                    {/* Play icon */}
-                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-transparent transition-all group-hover:bg-gold/10">
-                      <Play className="h-4 w-4 text-pirate-muted transition-colors group-hover:text-gold" />
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </motion.div>
-          </section>
 
           {/* Comments section placeholder */}
           <section className="mb-16">

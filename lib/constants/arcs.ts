@@ -4,6 +4,7 @@ export {
   getArcBySlug,
   getArcsBySaga,
   getTotalEpisodes,
+  getGlobalEpisodeNumber,
   EAST_BLUE_ARCS,
   ALABASTA_ARCS,
   SKY_ISLAND_ARCS,

@@ -35,6 +35,21 @@ export function getTotalEpisodes(): number {
   return ARCS.reduce((sum, arc) => sum + arc.episodeCount, 0)
 }
 
+/**
+ * Arc içindeki bölüm numarasını OnePaceTR'nin global bölüm numarasına çevirir.
+ * OnePaceTR URL: https://www.onepacetr.net/bolum/{globalNumber}
+ */
+export function getGlobalEpisodeNumber(arcSlug: string, episodeNumber: number): number {
+  let total = 0
+  for (const arc of ARCS) {
+    if (arc.slug === arcSlug) {
+      return total + episodeNumber
+    }
+    total += arc.episodeCount
+  }
+  return episodeNumber // fallback
+}
+
 // Re-export saga arrays for direct access
 export {
   EAST_BLUE_ARCS,
