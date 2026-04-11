@@ -1,0 +1,43 @@
+import type { Arc } from '@/types'
+
+export const THRILLER_BARK_ARCS: Arc[] = [
+  {
+    name: 'Thriller Bark',
+    slug: 'thriller-bark',
+    saga: 'thriller-bark',
+    cover: '/arcs/thriller-bark.jpg',
+    episodeCount: 14,
+    summary: 'Devasa gemi-ada Thriller Bark\'ta gölgeleri çalan Shichibukai Gecko Moria ile karşılaşma. Brook mürettebata katılır.',
+    detailedSummary: 'Mürettebat, Florian Üçgeni\'nde devasa bir gemi-ada olan Thriller Bark\'a ulaşır. Bu korku temalı ada, Shichibukai Gecko Moria\'nın üssüdür. Moria, Kage Kage meyvesiyle insanların gölgelerini çalıp zombilere yerleştirmektedir. Gölgesi çalınan kişi güneş ışığında yok olur. Mürettebatın gölgeleri de çalınır! Brook — 50 yıldır tek başına denizde dolaşan iskelet müzisyen — ile karşılaşırlar. Brook, Yomi Yomi meyvesiyle ölümden dönen Rumbar Korsanlarının son üyesidir. Laboon\'un onu beklediğini hâlâ bilmektedir. Mürettebat, zombi ordusuyla, Absalom\'un görünmezlik gücüyle ve Perona\'nın negatif hayaletleriyle savaşır. Luffy, Nightmare Luffy formuna girerek Moria\'nın gölge devi Oars ile savaşır. Moria yenildikten sonra, daha büyük bir tehdit belirir: Shichibukai Bartholomew Kuma. Zoro, mürettebatı korumak için Luffy\'nin tüm acısını kendi üstüne alır. "Hiçbir şey olmadı" — Zoro\'nun en ikonik sahnesi.',
+    keyEvents: [
+      'Brook ile karşılaşma',
+      'Gölgelerin çalınması ve zombi ordusu',
+      'Nightmare Luffy formu',
+      'Mürettebat vs Oars',
+      'Luffy vs Gecko Moria',
+      'Kuma\'nın müdahalesi',
+      'Zoro\'nun fedakarlığı: "Hiçbir şey olmadı"',
+      'Brook mürettebata katılır',
+    ],
+    themes: ['Ölüm ve Diriliş', 'Gölge ve Işık', 'Fedakarlık', 'Yalnızlık ve Aidiyet'],
+    location: 'Thriller Bark (Florian Üçgeni)',
+    villain: 'Gecko Moria',
+    characters: ['luffy', 'zoro', 'nami', 'sanji', 'usopp', 'chopper', 'robin', 'franky', 'brook', 'kuma'],
+    episodes: [
+      { number: 1, title: 'Korku Adası', slug: 'thriller-bark-01', duration: '24:30', summary: 'Mürettebat, sisten bir iskelet geminin belirmesiyle Florian Üçgeni\'ne girer. İskelet Brook ile tanışırlar — konuşan, yemek yiyen ve müzik çalan bir iskelet! Brook, Yomi Yomi meyvesiyle ölümden dönmüş ama gölgesi çalınmıştır.' },
+      { number: 2, title: 'Thriller Bark\'a Giriş', slug: 'thriller-bark-02', duration: '24:30', summary: 'Devasa gemi-ada Thriller Bark ortaya çıkar. Gizemli doktor Hogback, hayalet prenses Perona ve görünmez adam Absalom burada yaşamaktadır. Mürettebat adayı keşfetmeye başlar ve zombilerle karşılaşır.' },
+      { number: 3, title: 'Gölge Hırsızı Moria', slug: 'thriller-bark-03', duration: '24:30', summary: 'Shichibukai Gecko Moria\'nın planı ortaya çıkar: insanların gölgelerini çalıp zombilere yerleştirmektedir. Moria, Luffy\'nin gölgesini çalar ve onu dev zombi Oars\'a yerleştirir. Gölgesi çalınan Luffy güneşe çıkamaz.' },
+      { number: 4, title: 'Perona\'nın Hayaletleri', slug: 'thriller-bark-04', duration: '24:30', summary: 'Perona\'nın Horo Horo meyvesiyle ürettiği negatif hayaletler, dokunduğu herkesi depresyona sokar. Usopp, zaten negatif olduğu için bağışıktır! Usopp vs Perona savaşı başlar.' },
+      { number: 5, title: 'Brook\'un Hikayesi', slug: 'thriller-bark-05', duration: '24:30', summary: 'Brook\'un geçmişi anlatılır. 50 yıl önce Rumbar Korsanları, Laboon\'a geri döneceğine söz vermiştir. Ancak zehirli bir düşmanla karşılaşıp tüm mürettebat ölmüştür. Brook, son şarkıyı kaydeder ve tekrar dirilir — ama 50 yıl boyunca yalnızdır.' },
+      { number: 6, title: 'Absalom\'un Düğünü', slug: 'thriller-bark-06', duration: '24:30', summary: 'Absalom, Suke Suke meyvesiyle görünmez olabilen sapık bir zombi. Nami\'yi zorla evlendirmeye çalışır. Sanji öfkelenir — görünmezlik meyvesini o istiyordu! Sanji vs Absalom savaşı.' },
+      { number: 7, title: 'Oars Uyanıyor', slug: 'thriller-bark-07', duration: '24:30', summary: 'Luffy\'nin gölgesi yerleştirilen dev zombi Oars uyanır. Luffy\'nin karakterini taşıyan devasa bir canavar — et ister, savaşmak ister. Mürettebatın tek başlarına yenemeyeceği kadar büyüktür.' },
+      { number: 8, title: 'Nightmare Luffy', slug: 'thriller-bark-08', duration: '24:30', summary: 'Luffy, 100 gölgeyi aynı anda vücuduna alarak Nightmare Luffy formuna girer. Devasa, kas dolu ve inanılmaz güçlü bir form. Oars\'a karşı geçici ama etkili bir güç.' },
+      { number: 9, title: 'Mürettebat vs Oars', slug: 'thriller-bark-09', duration: '24:30', summary: 'Tüm mürettebat birlikte Oars ile savaşır. Her birinin özel tekniği Oars\'ın zayıf noktalarını hedef alır. Takım çalışmasının en güzel örneklerinden biri. Oars\'ın omurgası kırılır.' },
+      { number: 10, title: 'Luffy vs Moria', slug: 'thriller-bark-10', duration: '24:30', summary: 'Luffy, Gecko Moria ile son savaşını yapar. Moria, 1000 gölgeyi aynı anda alarak Shadow Asgard formuna girer. Luffy, Gear 2 ile Moria\'yı yener ve tüm gölgeler sahiplerine döner.' },
+      { number: 11, title: 'Kuma\'nın Teklifi', slug: 'thriller-bark-11', duration: '24:30', summary: 'Moria yenildiğinde Shichibukai Kuma belirir. Görevi mürettebatı yok etmektir. Kuma\'nın Nikyu Nikyu meyvesiyle pençelerinden çıkan dalgalar her şeyi fırlatabilir. Mürettebat umutsuz bir durumdadır.' },
+      { number: 12, title: 'Hiçbir Şey Olmadı', slug: 'thriller-bark-12', duration: '24:30', summary: 'Serinin en ikonik sahnelerinden biri. Kuma, Luffy\'nin tüm acısını bir balon halinde çıkarır. Zoro, mürettebatını korumak için Luffy\'nin tüm acısını kendi üstüne alır. Sanji onu kan içinde bulur. Zoro: "Hiçbir şey olmadı."' },
+      { number: 13, title: 'Yeni Bir Arkadaş', slug: 'thriller-bark-13', duration: '24:30', summary: 'Brook\'un gölgesi geri döner. Luffy, Brook\'u mürettebata davet eder. Brook, 50 yıllık yalnızlığından sonra gözyaşlarıyla kabul eder. Laboon\'a verdiği sözü yerine getirmek için onlarla gidecektir.' },
+      { number: 14, title: 'Laboon\'a Söz', slug: 'thriller-bark-14', duration: '24:30', summary: 'Brook, son şarkıyı — Binks\'in Sake\'sini — mürettebatla birlikte söyler. Thriller Bark\'tan ayrılırlar. Brook, 50 yıl sonra ilk kez yalnız değildir. Mürettebat tam kadro: 9 kişi. Red Line\'a ve Yeni Dünya\'ya doğru!' },
+    ],
+  },
+]

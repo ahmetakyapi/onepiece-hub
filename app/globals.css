@@ -1,0 +1,230 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Fonts ──────────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap&subset=latin-ext');
+
+/* ─── Variables: Okyanus Derinligi ──────────────────────────────────────── */
+:root {
+  --font-sans: 'Manrope';
+  --font-mono: 'IBM Plex Mono';
+  --bg-deep:       #0a1628;
+  --bg-surface:    #0f1f3a;
+  --color-gold:    #f4a300;
+  --color-sea:     #1e90ff;
+  --color-luffy:   #e74c3c;
+  --color-text:    #e8eaf0;
+  --color-muted:   rgba(232,234,240,0.6);
+  --color-border:  rgba(30,144,255,0.15);
+}
+
+/* ─── Base ──────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.01em;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(244,163,0,0.08), transparent 30%),
+    radial-gradient(circle at 80% 15%, rgba(30,144,255,0.12), transparent 28%),
+    radial-gradient(circle at 50% 90%, rgba(231,76,60,0.05), transparent 25%),
+    var(--bg-deep);
+  color: var(--color-text);
+}
+
+/* ─── Selection ─────────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(244,163,0,0.24);
+  color: inherit;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(244,163,0,0.28);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(244,163,0,0.5); }
+
+/* ─── Background attachment mobile fix ─────────────────────────────────── */
+@media (max-width: 640px) {
+  body { background-attachment: scroll; }
+}
+
+/* ─── Components ────────────────────────────────────────────────────────── */
+@layer components {
+
+  /* Glassmorphism card — ocean theme */
+  .glass {
+    background: linear-gradient(180deg, rgba(15,31,58,0.92), rgba(10,22,40,0.85));
+    border: 1px solid rgba(30,144,255,0.18);
+    box-shadow:
+      inset 0 1px 0 rgba(244,163,0,0.06),
+      0 14px 34px rgba(2,6,23,0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  /* Strong surface (modal, panel) */
+  .surface {
+    background: linear-gradient(180deg, rgba(15,31,58,0.96), rgba(8,16,32,0.98));
+    border: 1px solid rgba(30,144,255,0.2);
+    box-shadow: 0 20px 40px rgba(2,6,23,0.5);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  /* Pill chip / badge */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    border: 1px solid rgba(244,163,0,0.25);
+    background: rgba(15,31,58,0.7);
+    padding: 0.6rem 1rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #e8eaf0;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: inset 0 1px 0 rgba(244,163,0,0.08);
+  }
+
+  /* Gold gradient text */
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #f4a300, #fbbf24, #f4a300);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Sea gradient text */
+  .text-sea-gradient {
+    background: linear-gradient(135deg, #1e90ff, #60b8ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Gold CTA button */
+  .btn-gold {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    background: linear-gradient(135deg, #f4a300, #e8960a);
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #0a1628;
+    box-shadow: 0 8px 24px rgba(244,163,0,0.25);
+    transition: all 0.2s ease;
+  }
+  .btn-gold:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 12px 32px rgba(244,163,0,0.35);
+    transform: translateY(-1px);
+  }
+  .btn-gold:active { transform: scale(0.97); }
+
+  /* Luffy red CTA button */
+  .btn-luffy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: white;
+    box-shadow: 0 8px 24px rgba(231,76,60,0.25);
+    transition: all 0.2s ease;
+  }
+  .btn-luffy:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 12px 32px rgba(231,76,60,0.35);
+    transform: translateY(-1px);
+  }
+  .btn-luffy:active { transform: scale(0.97); }
+
+  /* Ghost button */
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    background: rgba(10,22,40,0.5);
+    border: 1px solid var(--color-border);
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.2s ease;
+  }
+  .btn-ghost:hover {
+    background: rgba(30,144,255,0.1);
+    border-color: rgba(30,144,255,0.3);
+    color: white;
+  }
+  .btn-ghost:active { transform: scale(0.97); }
+
+  /* Progress bar */
+  .progress-bar {
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(30,144,255,0.15);
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #1e90ff, #f4a300);
+    transition: width 0.5s ease;
+  }
+}
+
+/* ─── Wave SVG ──────────────────────────────────────────────────────────── */
+.wave-bg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+.wave-bg svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 120px;
+}
+
+/* ─── Animations ────────────────────────────────────────────────────────── */
+@layer utilities {
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-16px); }
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+}

@@ -1,0 +1,83 @@
+// Yerel görsel dosyaları (public/ altında)
+
+export const ARC_IMAGES: Record<string, string> = {
+  'romance-dawn': '/arcs/romance-dawn.webp',
+  'orange-town': '/arcs/orange-town.webp',
+  'syrup-village': '/arcs/syrup-village.webp',
+  'baratie': '/arcs/baratie.webp',
+  'arlong-park': '/arcs/arlong-park.webp',
+  'loguetown': '/arcs/loguetown.webp',
+  'reverse-mountain': '/arcs/reverse-mountain.webp',
+  'whiskey-peak': '/arcs/whiskey-peak.webp',
+  'little-garden': '/arcs/little-garden.webp',
+  'drum-island': '/arcs/drum-island.webp',
+  'arabasta': '/arcs/arabasta.webp',
+  'jaya': '/arcs/jaya.webp',
+  'skypiea': '/arcs/skypiea.webp',
+  'long-ring-long-land': '/arcs/long-ring-long-land.webp',
+  'water-seven': '/arcs/water-seven.webp',
+  'enies-lobby': '/arcs/enies-lobby.webp',
+  'post-enies-lobby': '/arcs/post-enies-lobby.webp',
+  'thriller-bark': '/arcs/thriller-bark.webp',
+  'sabaody-archipelago': '/arcs/sabaody.webp',
+  'amazon-lily': '/arcs/amazon-lily.webp',
+  'impel-down': '/arcs/impel-down.webp',
+  'marineford': '/arcs/marineford.webp',
+  'post-war': '/arcs/post-war.webp',
+  'return-to-sabaody': '/arcs/return-sabaody.webp',
+  'fish-man-island': '/arcs/fish-man-island.webp',
+  'punk-hazard': '/arcs/punk-hazard.webp',
+  'dressrosa': '/arcs/dressrosa.webp',
+  'zou': '/arcs/zou.webp',
+  'whole-cake-island': '/arcs/whole-cake-island.webp',
+  'reverie': '/arcs/reverie.webp',
+  'wano': '/arcs/wano.webp',
+  'egghead': '/arcs/egghead.webp',
+}
+
+export const CHARACTER_IMAGES: Record<string, string> = {
+  'luffy': '/characters/luffy.webp',
+  'zoro': '/characters/zoro.webp',
+  'nami': '/characters/nami.webp',
+  'usopp': '/characters/usopp.webp',
+  'sanji': '/characters/sanji.webp',
+  'chopper': '/characters/chopper.webp',
+  'robin': '/characters/robin.webp',
+  'franky': '/characters/franky.webp',
+  'brook': '/characters/brook.webp',
+  'jinbe': '/characters/jinbe.webp',
+  'shanks': '/characters/shanks.webp',
+  'ace': '/characters/ace.webp',
+  'law': '/characters/law.webp',
+  'hancock': '/characters/hancock.webp',
+  'mihawk': '/characters/mihawk.webp',
+  'kaido': '/characters/kaido.webp',
+  'whitebeard': '/characters/whitebeard.webp',
+  'blackbeard': '/characters/blackbeard.webp',
+  'sabo': '/characters/sabo.webp',
+  'vivi': '/characters/vivi.webp',
+  'crocodile': '/characters/crocodile.webp',
+  'doflamingo': '/characters/doflamingo.webp',
+  'enel': '/characters/enel.webp',
+  'kuma': '/characters/kuma.webp',
+  'smoker': '/characters/smoker.webp',
+  'koby': '/characters/koby.webp',
+  'garp': '/characters/garp.webp',
+  'akainu': '/characters/akainu.webp',
+  'aokiji': '/characters/aokiji.webp',
+  'kizaru': '/characters/kizaru.webp',
+  'buggy': '/characters/buggy.webp',
+  'bigmom': '/characters/bigmom.webp',
+  'kid': '/characters/kid.webp',
+  'yamato': '/characters/yamato.webp',
+  'carrot': '/characters/carrot.webp',
+  'vegapunk': '/characters/vegapunk.webp',
+}
+
+export function getArcImage(slug: string): string {
+  return ARC_IMAGES[slug] ?? ''
+}
+
+export function getCharacterImage(slug: string): string {
+  return CHARACTER_IMAGES[slug] ?? ''
+}
