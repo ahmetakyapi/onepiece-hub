@@ -53,10 +53,9 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:text-gold"
-                style={{ color: '#8b8fa3' }}
+                className="link-glow group flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-pirate-muted transition-colors hover:text-gold"
               >
-                <link.icon className="h-4 w-4" />
+                <link.icon className="h-4 w-4 transition-transform group-hover:scale-110" />
                 {link.label}
               </Link>
             ))}

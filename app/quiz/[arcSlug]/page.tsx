@@ -10,6 +10,7 @@ import {
 } from 'lucide-react'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+import Confetti from '@/components/ui/Confetti'
 import { getQuizByArcSlug } from '@/lib/constants/quizzes'
 import { getArcBySlug } from '@/lib/constants/arcs'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
@@ -111,12 +112,19 @@ export default function QuizPage() {
               /* Result */
               <motion.div
                 key="result"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, ease: EASE }}
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: EASE }}
                 className="glass rounded-2xl p-8 text-center"
               >
-                <Trophy className={`mx-auto mb-4 h-16 w-16 ${percentage >= 80 ? 'text-gold' : percentage >= 50 ? 'text-sea' : 'text-luffy'}`} />
+                {percentage >= 70 && <Confetti />}
+                <motion.div
+                  initial={{ scale: 0, rotate: -20 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ duration: 0.6, ease: [0.34, 1.56, 0.64, 1], delay: 0.2 }}
+                >
+                  <Trophy className={`mx-auto mb-4 h-16 w-16 ${percentage >= 80 ? 'text-gold' : percentage >= 50 ? 'text-sea' : 'text-luffy'}`} />
+                </motion.div>
                 <h2 className="mb-2 text-2xl font-extrabold text-pirate-text">
                   {percentage >= 80 ? 'Harika!' : percentage >= 50 ? 'İyi İş!' : 'Tekrar Dene!'}
                 </h2>
@@ -124,19 +132,28 @@ export default function QuizPage() {
                   {quiz.questions.length} sorudan <span className="font-bold text-gold">{score}</span> tanesini doğru bildin.
                 </p>
 
-                {/* Score ring */}
-                <div className="mx-auto mb-8 flex h-32 w-32 items-center justify-center">
-                  <svg className="h-32 w-32 -rotate-90" viewBox="0 0 120 120">
-                    <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(30,144,255,0.1)" strokeWidth="8" />
-                    <circle
+                {/* Score ring — animated */}
+                <div className="relative mx-auto mb-8 flex h-36 w-36 items-center justify-center">
+                  <svg className="h-36 w-36 -rotate-90" viewBox="0 0 120 120">
+                    <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(30,144,255,0.08)" strokeWidth="8" />
+                    <motion.circle
                       cx="60" cy="60" r="52" fill="none"
                       stroke={percentage >= 80 ? '#f4a300' : percentage >= 50 ? '#1e90ff' : '#e74c3c'}
                       strokeWidth="8"
                       strokeLinecap="round"
-                      strokeDasharray={`${(percentage / 100) * 327} 327`}
+                      initial={{ strokeDasharray: '0 327' }}
+                      animate={{ strokeDasharray: `${(percentage / 100) * 327} 327` }}
+                      transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
                     />
                   </svg>
-                  <span className="absolute text-3xl font-extrabold text-pirate-text">%{percentage}</span>
+                  <motion.span
+                    className="absolute text-3xl font-extrabold text-pirate-text"
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: 0.8 }}
+                  >
+                    %{percentage}
+                  </motion.span>
                 </div>
 
                 <div className="flex flex-wrap justify-center gap-3">
@@ -165,7 +182,7 @@ export default function QuizPage() {
 
                 <div className="space-y-3">
                   {question.options.map((option, i) => {
-                    let optionClass = 'border-pirate-border bg-ocean-surface/50 text-pirate-text hover:border-gold/30'
+                    let optionClass = 'border-pirate-border bg-ocean-surface/50 text-pirate-text hover:border-gold/30 hover:bg-ocean-surface/80'
                     if (showResult) {
                       if (i === question.correctIndex) {
                         optionClass = 'border-emerald-500/50 bg-emerald-500/10 text-emerald-400'
@@ -177,11 +194,16 @@ export default function QuizPage() {
                     }
 
                     return (
-                      <button
+                      <motion.button
                         key={i}
+                        initial={{ opacity: 0, x: -16 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, ease: EASE, delay: i * 0.08 }}
                         onClick={() => handleSelect(i)}
                         disabled={showResult}
-                        className={`flex w-full items-center gap-3 rounded-xl border px-4 py-3 text-left text-sm font-medium transition-all ${optionClass}`}
+                        className={`flex w-full items-center gap-3 rounded-xl border px-4 py-3.5 text-left text-sm font-medium transition-all ${optionClass}`}
+                        whileHover={!showResult ? { scale: 1.01 } : undefined}
+                        whileTap={!showResult ? { scale: 0.98 } : undefined}
                       >
                         <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-ocean-deep text-xs font-bold">
                           {String.fromCharCode(65 + i)}
@@ -193,7 +215,7 @@ export default function QuizPage() {
                         {showResult && i === selected && i !== question.correctIndex && (
                           <XCircle className="h-5 w-5 text-luffy" />
                         )}
-                      </button>
+                      </motion.button>
                     )
                   })}
                 </div>

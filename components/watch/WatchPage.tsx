@@ -51,7 +51,7 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
             {/* Video player area */}
             <motion.div
               variants={fadeUp}
-              className="mb-6 overflow-hidden rounded-2xl border border-pirate-border bg-ocean-deep"
+              className="mb-6 overflow-hidden rounded-2xl border border-pirate-border bg-ocean-deep shadow-2xl shadow-black/20"
             >
               <div className="relative aspect-video w-full">
                 {episode.pixeldrainId ? (
@@ -143,7 +143,7 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
                       href={`/arcs/${arc.slug}/${ep.slug}`}
                       className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all ${
                         isCurrent
-                          ? 'bg-gold/10 text-gold'
+                          ? 'bg-gold/10 text-gold border border-gold/20 shadow-[0_0_12px_rgba(244,163,0,0.1)]'
                           : 'text-pirate-muted hover:bg-sea/5 hover:text-pirate-text'
                       }`}
                     >

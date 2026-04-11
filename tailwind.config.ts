@@ -53,13 +53,16 @@ const config: Config = {
         grid: '64px 64px',
       },
       animation: {
-        float:        'float 6s ease-in-out infinite',
-        'pulse-slow': 'pulse 4s cubic-bezier(0.4,0,0.6,1) infinite',
-        'spin-slow':  'spin 8s linear infinite',
-        blink:        'blink 1.1s step-end infinite',
-        wave:         'wave 8s ease-in-out infinite',
-        'wave-slow':  'wave 12s ease-in-out infinite',
-        ripple:       'ripple 2s ease-out infinite',
+        float:           'float 6s ease-in-out infinite',
+        'float-delayed': 'float 6s ease-in-out 2s infinite',
+        'float-slow':    'float 8s ease-in-out infinite',
+        'pulse-slow':    'pulse 4s cubic-bezier(0.4,0,0.6,1) infinite',
+        'spin-slow':     'spin 8s linear infinite',
+        blink:           'blink 1.1s step-end infinite',
+        wave:            'wave 8s ease-in-out infinite',
+        'wave-slow':     'wave 12s ease-in-out infinite',
+        ripple:          'ripple 2s ease-out infinite',
+        shimmer:         'shimmer 2s linear infinite',
       },
       keyframes: {
         float: {

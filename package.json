@@ -14,8 +14,6 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@ahmetakyapi/theme": "file:../../dev-starter/packages/@ahmet/theme",
-    "@ahmetakyapi/ui": "file:../../dev-starter/packages/@ahmet/ui",
     "@neondatabase/serverless": "^1.0.2",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.44.0",

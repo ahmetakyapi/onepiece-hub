@@ -1,6 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
@@ -15,6 +16,14 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 
 export default function ArcDetailClient({ arc }: { arc: Arc }) {
+  const coverRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: coverRef,
+    offset: ['start start', 'end start'],
+  })
+  const coverScale = useTransform(scrollYProgress, [0, 1], [1, 1.15])
+  const coverOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.3])
+
   return (
     <>
       <Header />
@@ -23,9 +32,9 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
           {/* Back */}
           <Link
             href="/arcs"
-            className="mb-6 inline-flex items-center gap-1.5 text-sm text-pirate-muted transition-colors hover:text-gold"
+            className="mb-6 inline-flex items-center gap-1.5 text-sm text-pirate-muted transition-colors hover:text-gold group"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
             Tüm Arc&apos;lar
           </Link>
 
@@ -36,20 +45,23 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
             animate="visible"
             className="mb-10"
           >
-            {/* Cover */}
+            {/* Cover with parallax */}
             <motion.div
+              ref={coverRef}
               variants={fadeUp}
-              className="relative mb-6 h-48 overflow-hidden rounded-2xl bg-ocean-surface sm:h-72"
+              className="relative mb-6 h-56 overflow-hidden rounded-2xl bg-ocean-surface sm:h-80"
             >
               {getArcImage(arc.slug) ? (
-                <Image
-                  src={getArcImage(arc.slug)}
-                  alt={arc.name}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 640px) 100vw, 896px"
-                  priority
-                />
+                <motion.div className="absolute inset-0" style={{ scale: coverScale, opacity: coverOpacity }}>
+                  <Image
+                    src={getArcImage(arc.slug)}
+                    alt={arc.name}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, 896px"
+                    priority
+                  />
+                </motion.div>
               ) : (
                 <div className="flex h-full w-full items-center justify-center">
                   <Compass className="h-16 w-16 text-sea/20" />
@@ -201,10 +213,10 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                 <motion.div key={ep.slug} variants={fadeUp}>
                   <Link
                     href={`/arcs/${arc.slug}/${ep.slug}`}
-                    className="glass group flex items-center gap-4 rounded-xl px-4 py-3 transition-all hover:border-gold/30"
+                    className="glass glass-lift group flex items-center gap-4 rounded-xl px-4 py-3 hover:border-gold/30"
                   >
                     {/* Episode number */}
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-ocean-surface text-sm font-bold text-sea">
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-ocean-surface border border-pirate-border/50 text-sm font-bold text-sea transition-all group-hover:border-gold/30 group-hover:text-gold">
                       {ep.number}
                     </div>
 
@@ -222,7 +234,9 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                     </div>
 
                     {/* Play icon */}
-                    <Play className="h-4 w-4 flex-shrink-0 text-pirate-muted transition-colors group-hover:text-gold" />
+                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-transparent transition-all group-hover:bg-gold/10">
+                      <Play className="h-4 w-4 text-pirate-muted transition-colors group-hover:text-gold" />
+                    </div>
                   </Link>
                 </motion.div>
               ))}

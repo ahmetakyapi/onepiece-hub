@@ -60,7 +60,7 @@ export default function CustomCursor() {
     <>
       {/* Nokta */}
       <motion.div
-        className="pointer-events-none fixed z-[9999] rounded-full bg-sky-400"
+        className="pointer-events-none fixed z-[9999] rounded-full bg-gold"
         style={{
           x: dotX, y: dotY,
           width: isPress ? 6 : 8, height: isPress ? 6 : 8,
@@ -72,7 +72,7 @@ export default function CustomCursor() {
       />
       {/* Halka */}
       <motion.div
-        className="pointer-events-none fixed z-[9998] rounded-full border border-sky-400/40"
+        className="pointer-events-none fixed z-[9998] rounded-full border border-gold/40"
         style={{
           x: ringX, y: ringY,
           width:  isHover ? 40 : isPress ? 28 : 32,
