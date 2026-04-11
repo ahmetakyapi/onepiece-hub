@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Manrope, IBM_Plex_Mono } from 'next/font/google'
 import dynamic from 'next/dynamic'
+import { Analytics } from '@vercel/analytics/next'
 import { AuthProvider } from '@/hooks/useAuth'
 import './globals.css'
 
@@ -62,6 +63,7 @@ export default function RootLayout({
           <CustomCursor />
           {children}
         </AuthProvider>
+        <Analytics />
       </body>
     </html>
   )
