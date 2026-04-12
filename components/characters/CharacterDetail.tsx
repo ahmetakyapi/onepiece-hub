@@ -176,6 +176,21 @@ export default function CharacterDetailClient({ character }: { character: Charac
               </motion.div>
             )}
 
+            {/* Backstory — first section */}
+            {character.backstory && (
+              <motion.div variants={fadeUp} className="mb-8">
+                <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+                  <BookOpen className="h-5 w-5 text-gold" />
+                  Geçmiş Hikayesi
+                </h2>
+                <div className="glass rounded-xl p-5">
+                  <p className="text-sm leading-relaxed text-pirate-muted whitespace-pre-line">
+                    {character.backstory}
+                  </p>
+                </div>
+              </motion.div>
+            )}
+
             {/* Devil Fruit Detail */}
             {character.devilFruit && (
               <motion.div variants={fadeUp} className="mb-8">
@@ -234,21 +249,6 @@ export default function CharacterDetailClient({ character }: { character: Charac
                 })}
               </div>
             </motion.div>
-
-            {/* Backstory */}
-            {character.backstory && (
-              <motion.div variants={fadeUp} className="mb-8">
-                <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
-                  <BookOpen className="h-5 w-5 text-gold" />
-                  Geçmiş Hikayesi
-                </h2>
-                <div className="glass rounded-xl p-5">
-                  <p className="text-sm leading-relaxed text-pirate-muted whitespace-pre-line">
-                    {character.backstory}
-                  </p>
-                </div>
-              </motion.div>
-            )}
 
             {/* Appearances */}
             {character.appearances && character.appearances.length > 0 && (

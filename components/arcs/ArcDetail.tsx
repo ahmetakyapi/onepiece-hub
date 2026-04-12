@@ -85,6 +85,33 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                   ~{Math.round(arc.episodeCount * 24 / 60)} saat
                 </span>
               </div>
+
+              {/* Location + Villain + Quiz */}
+              <div className="mt-4 flex flex-wrap items-center gap-3">
+                {arc.location && (
+                  <div className="glass flex items-center gap-2 rounded-xl px-4 py-2.5">
+                    <MapPin className="h-4 w-4 text-sea" />
+                    <div>
+                      <p className="text-xs text-pirate-muted">Konum</p>
+                      <p className="text-sm font-semibold text-pirate-text">{arc.location}</p>
+                    </div>
+                  </div>
+                )}
+                {arc.villain && (
+                  <div className="glass flex items-center gap-2 rounded-xl px-4 py-2.5">
+                    <Skull className="h-4 w-4 text-luffy" />
+                    <div>
+                      <p className="text-xs text-pirate-muted">Ana Düşman</p>
+                      <p className="text-sm font-semibold text-pirate-text">{arc.villain}</p>
+                    </div>
+                  </div>
+                )}
+                <div className="flex-1" />
+                <Link href={`/quiz/${arc.slug}`} className="btn-ghost">
+                  <BrainCircuit className="h-4 w-4" />
+                  Arc Quiz
+                </Link>
+              </div>
             </motion.div>
 
             {/* Summary */}
@@ -174,28 +201,6 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
             viewport={{ once: true }}
             className="mb-10"
           >
-            {/* Location + Villain */}
-            <motion.div variants={fadeUp} className="mb-6 flex flex-wrap gap-3">
-              {arc.location && (
-                <div className="glass flex items-center gap-2 rounded-xl px-4 py-2.5">
-                  <MapPin className="h-4 w-4 text-sea" />
-                  <div>
-                    <p className="text-xs text-pirate-muted">Konum</p>
-                    <p className="text-sm font-semibold text-pirate-text">{arc.location}</p>
-                  </div>
-                </div>
-              )}
-              {arc.villain && (
-                <div className="glass flex items-center gap-2 rounded-xl px-4 py-2.5">
-                  <Skull className="h-4 w-4 text-luffy" />
-                  <div>
-                    <p className="text-xs text-pirate-muted">Ana Düşman</p>
-                    <p className="text-sm font-semibold text-pirate-text">{arc.villain}</p>
-                  </div>
-                </div>
-              )}
-            </motion.div>
-
             {/* Key Events */}
             {arc.keyEvents && arc.keyEvents.length > 0 && (
               <motion.div variants={fadeUp} className="glass mb-6 rounded-xl p-5">
@@ -246,13 +251,6 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
               </motion.div>
             )}
 
-            {/* Quick actions */}
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-3">
-              <Link href={`/quiz/${arc.slug}`} className="btn-ghost">
-                <BrainCircuit className="h-4 w-4" />
-                Arc Quiz
-              </Link>
-            </motion.div>
           </motion.div>
 
           {/* Comments section placeholder */}
