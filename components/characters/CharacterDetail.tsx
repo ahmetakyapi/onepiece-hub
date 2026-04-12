@@ -6,15 +6,44 @@ import Link from 'next/link'
 import {
   ArrowLeft, Users, Anchor, Sword, Sparkles,
   Skull, MapPin, Zap, BookOpen, Film,
-  Ruler, Calendar, Globe, Quote
+  Ruler, Calendar, Globe, Quote, Cherry, Shield
 } from 'lucide-react'
 import { fadeUp, staggerContainer } from '@/lib/variants'
 import { CREW_LABELS } from '@/lib/constants/characters'
 import { getArcBySlug } from '@/lib/constants/arcs'
 import { getCharacterImage } from '@/lib/constants/images'
-import type { Character } from '@/types'
+import type { Character, Ability } from '@/types'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+
+const DEVIL_FRUIT_TYPE_COLORS: Record<string, string> = {
+  'Paramecia': 'bg-purple-500/20 text-purple-300',
+  'Zoan': 'bg-green-500/20 text-green-300',
+  'Logia': 'bg-yellow-500/20 text-yellow-300',
+  'Mythical Zoan': 'bg-amber-500/20 text-amber-200',
+  'Ancient Zoan': 'bg-emerald-500/20 text-emerald-300',
+  'Special Paramecia': 'bg-pink-500/20 text-pink-300',
+} as const
+
+const ABILITY_CATEGORY_CONFIG: Record<string, { icon: typeof Zap; color: string }> = {
+  'Haki': { icon: Shield, color: 'text-purple-400' },
+  'Şeytan Meyvesi': { icon: Cherry, color: 'text-luffy' },
+  'Kılıç': { icon: Sword, color: 'text-sea' },
+  'Fiziksel': { icon: Zap, color: 'text-gold' },
+  'Silah': { icon: Anchor, color: 'text-pirate-muted' },
+  'Özel': { icon: Sparkles, color: 'text-gold' },
+  'Bilim': { icon: BookOpen, color: 'text-green-400' },
+} as const
+
+function groupAbilitiesByCategory(abilities: Ability[]): Record<string, Ability[]> {
+  const groups: Record<string, Ability[]> = {}
+  for (const ability of abilities) {
+    const cat = ability.category ?? 'Özel'
+    if (!groups[cat]) groups[cat] = []
+    groups[cat].push(ability)
+  }
+  return groups
+}
 
 export default function CharacterDetailClient({ character }: { character: Character }) {
   const firstArc = getArcBySlug(character.firstArc)
@@ -96,7 +125,10 @@ export default function CharacterDetailClient({ character }: { character: Charac
                   {character.devilFruit && (
                     <div className="glass rounded-xl px-4 py-2">
                       <p className="text-xs text-pirate-muted">Şeytan Meyvesi</p>
-                      <p className="text-sm font-bold text-luffy">{character.devilFruit}</p>
+                      <p className="text-sm font-bold text-luffy">{character.devilFruit.name}</p>
+                      <span className={`mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold ${DEVIL_FRUIT_TYPE_COLORS[character.devilFruit.type]}`}>
+                        {character.devilFruit.type}
+                      </span>
                     </div>
                   )}
                   {firstArc && (
@@ -144,24 +176,62 @@ export default function CharacterDetailClient({ character }: { character: Charac
               </motion.div>
             )}
 
+            {/* Devil Fruit Detail */}
+            {character.devilFruit && (
+              <motion.div variants={fadeUp} className="mb-8">
+                <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+                  <Cherry className="h-5 w-5 text-luffy" />
+                  Şeytan Meyvesi
+                </h2>
+                <div className="glass rounded-xl p-5">
+                  <div className="mb-3 flex items-center gap-3">
+                    <p className="text-base font-bold text-pirate-text">{character.devilFruit.name}</p>
+                    <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${DEVIL_FRUIT_TYPE_COLORS[character.devilFruit.type]}`}>
+                      {character.devilFruit.type}
+                    </span>
+                  </div>
+                  <p className="text-sm leading-relaxed text-pirate-muted">
+                    {character.devilFruit.description}
+                  </p>
+                </div>
+              </motion.div>
+            )}
+
             {/* Abilities */}
             <motion.div variants={fadeUp} className="mb-8">
               <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
                 <Zap className="h-5 w-5 text-gold" />
                 Yetenekler
               </h2>
-              <div className="glass rounded-xl p-4">
-                <div className="flex flex-wrap gap-2">
-                  {character.abilities.map((ability) => (
-                    <span
-                      key={ability}
-                      className="chip"
-                    >
-                      <Sparkles className="h-3 w-3 text-gold" />
-                      {ability}
-                    </span>
-                  ))}
-                </div>
+              <div className="space-y-5">
+                {Object.entries(groupAbilitiesByCategory(character.abilities)).map(([category, abilities]) => {
+                  const config = ABILITY_CATEGORY_CONFIG[category] ?? ABILITY_CATEGORY_CONFIG['Özel']
+                  const CategoryIcon = config.icon
+                  return (
+                    <div key={category} className="glass rounded-xl p-4">
+                      <div className="mb-3 flex items-center gap-2">
+                        <CategoryIcon className={`h-4 w-4 ${config.color}`} />
+                        <h3 className={`text-sm font-bold ${config.color}`}>{category}</h3>
+                      </div>
+                      <div className="grid gap-2 sm:grid-cols-2">
+                        {abilities.map((ability) => (
+                          <div
+                            key={ability.name}
+                            className="rounded-lg bg-ocean-surface px-3.5 py-2.5 transition-colors hover:bg-ocean-surface/80"
+                          >
+                            <p className="mb-0.5 flex items-center gap-1.5 text-sm font-semibold text-pirate-text">
+                              <Sparkles className="h-3 w-3 text-gold" />
+                              {ability.name}
+                            </p>
+                            <p className="text-xs leading-relaxed text-pirate-muted">
+                              {ability.description}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             </motion.div>
 

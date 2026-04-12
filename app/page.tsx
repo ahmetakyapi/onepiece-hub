@@ -32,13 +32,13 @@ const fadeUpVariant = {
 
 function AnimatedTitle({ text, className }: { text: string; className?: string }) {
   return (
-    <span className={className} style={{ perspective: '600px' }}>
+    <span style={{ perspective: '600px' }}>
       {text.split('').map((char, i) => (
         <motion.span
           key={`${char}-${i}`}
           custom={i}
           variants={letterVariants}
-          className="inline-block"
+          className={`inline-block ${className ?? ''}`}
           style={{ transformOrigin: 'bottom' }}
         >
           {char === ' ' ? '\u00A0' : char}

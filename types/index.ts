@@ -29,6 +29,18 @@ export type Episode = {
   pixeldrainId?: string
 }
 
+export type DevilFruit = {
+  name: string
+  type: 'Paramecia' | 'Zoan' | 'Logia' | 'Mythical Zoan' | 'Ancient Zoan' | 'Special Paramecia'
+  description: string
+}
+
+export type Ability = {
+  name: string
+  description: string
+  category?: 'Haki' | 'Şeytan Meyvesi' | 'Kılıç' | 'Fiziksel' | 'Silah' | 'Özel' | 'Bilim'
+}
+
 export type Character = {
   name: string
   slug: string
@@ -36,7 +48,7 @@ export type Character = {
   crew: CrewType
   epithet?: string
   bounty?: string
-  devilFruit?: string
+  devilFruit?: DevilFruit
   description: string
   backstory: string
   role: string
@@ -45,7 +57,7 @@ export type Character = {
   origin?: string
   firstArc: string // arc slug
   appearances: string[] // arc slugs where they appear
-  abilities: string[]
+  abilities: Ability[]
 }
 
 export type CrewType =
