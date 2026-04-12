@@ -104,25 +104,29 @@ export default function Home() {
             />
           </div>
 
-          {/* Hero content */}
+          {/* Hero content — split into top badge + bottom title */}
           <motion.div
             style={{ opacity: contentOpacity, y: contentY }}
-            className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 text-center"
+            className="relative z-10 flex min-h-screen flex-col items-center px-6 text-center"
           >
-            <div className="max-w-3xl">
-              {/* Eyebrow badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 16, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
-                className="mb-6 inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/[0.06] px-4 py-1.5 backdrop-blur-md"
-              >
-                <Sparkles className="h-3 w-3 text-gold" />
-                <span className="text-[11px] font-semibold tracking-wide text-gold">
-                  FILLER&apos;SIZ ARC BAZLI
-                </span>
-              </motion.div>
+            {/* Top badge — positioned at ~28% from top (above Luffy's hat) */}
+            <motion.div
+              initial={{ opacity: 0, y: 16, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
+              className="mt-[22vh] inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/[0.06] px-4 py-1.5 backdrop-blur-md sm:mt-[20vh]"
+            >
+              <Sparkles className="h-3 w-3 text-gold" />
+              <span className="text-[11px] font-semibold tracking-wide text-gold">
+                FILLER&apos;SIZ ARC BAZLI
+              </span>
+            </motion.div>
 
+            {/* Spacer — pushes title below Luffy's face */}
+            <div className="flex-1" />
+
+            {/* Bottom section — title, subtitle, buttons */}
+            <div className="max-w-3xl pb-20 sm:pb-16">
               {/* Title — word-by-word reveal with blur */}
               <h1 className="mb-6 text-4xl font-extrabold leading-[1.1] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] sm:text-5xl md:text-6xl lg:text-7xl">
                 {['One', 'Piece'].map((word, i) => (
