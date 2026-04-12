@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { Play, Compass, ChevronDown, Cherry, Shield, Globe, Anchor, Swords, Trophy, Clock } from 'lucide-react'
+import { Play, Compass, Cherry, Shield, Globe, Anchor, Swords, Trophy, Clock } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRef } from 'react'
@@ -76,7 +76,7 @@ export default function Home() {
               className="object-cover scale-110"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-ocean-deep/60 via-ocean-deep/30 to-ocean-deep" />
+            <div className="absolute inset-0 bg-gradient-to-b from-ocean-deep/60 via-transparent to-ocean-deep" />
             <div className="absolute inset-0 bg-gradient-to-r from-ocean-deep/50 via-transparent to-ocean-deep/50" />
           </motion.div>
 
@@ -138,29 +138,6 @@ export default function Home() {
               </motion.div>
             </motion.div>
 
-            {/* Enhanced scroll indicator */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 2, duration: 1 }}
-              className="absolute bottom-8 left-1/2 -translate-x-1/2"
-            >
-              <motion.div
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                className="flex flex-col items-center gap-2"
-              >
-                <span className="text-xs font-medium text-white/40 tracking-widest uppercase">Keşfet</span>
-                <div className="relative h-10 w-6 rounded-full border-2 border-white/15 p-1">
-                  <motion.div
-                    animate={{ y: [0, 14, 0] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                    className="h-2 w-2 rounded-full bg-gold shadow-[0_0_8px_rgba(244,163,0,0.5)]"
-                  />
-                </div>
-                <ChevronDown className="h-4 w-4 text-white/20" />
-              </motion.div>
-            </motion.div>
           </motion.div>
 
           {/* Wave at bottom of hero */}

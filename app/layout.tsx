@@ -1,11 +1,8 @@
 import type { Metadata } from 'next'
 import { Manrope, IBM_Plex_Mono } from 'next/font/google'
-import dynamic from 'next/dynamic'
 import { Analytics } from '@vercel/analytics/next'
 import { AuthProvider } from '@/hooks/useAuth'
 import './globals.css'
-
-const CustomCursor = dynamic(() => import('@/components/CustomCursor'), { ssr: false })
 
 const manrope = Manrope({
   subsets: ['latin'],
@@ -60,7 +57,6 @@ export default function RootLayout({
       </head>
       <body className={manrope.className}>
         <AuthProvider>
-          <CustomCursor />
           {children}
         </AuthProvider>
         <Analytics />

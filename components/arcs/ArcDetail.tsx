@@ -86,7 +86,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                 </span>
               </div>
 
-              {/* Location + Villain + Quiz */}
+              {/* Location + Villain + Characters + Quiz */}
               <div className="mt-4 flex flex-wrap items-center gap-3">
                 {arc.location && (
                   <div className="glass flex items-center gap-2 rounded-xl px-4 py-2.5">
@@ -103,6 +103,25 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                     <div>
                       <p className="text-xs text-pirate-muted">Ana Düşman</p>
                       <p className="text-sm font-semibold text-pirate-text">{arc.villain}</p>
+                    </div>
+                  </div>
+                )}
+                {arc.characters && arc.characters.length > 0 && (
+                  <div className="glass flex items-center gap-2 rounded-xl px-4 py-2.5">
+                    <Users className="h-4 w-4 text-sea" />
+                    <div>
+                      <p className="text-xs text-pirate-muted">Öne Çıkan Karakterler</p>
+                      <div className="mt-0.5 flex flex-wrap gap-1.5">
+                        {arc.characters.map((slug) => (
+                          <Link
+                            key={slug}
+                            href={`/characters/${slug}`}
+                            className="rounded-md bg-ocean-surface px-2 py-0.5 text-xs font-medium text-pirate-muted transition-colors hover:bg-sea/10 hover:text-sea"
+                          >
+                            {slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -227,27 +246,6 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                     {theme}
                   </span>
                 ))}
-              </motion.div>
-            )}
-
-            {/* Characters */}
-            {arc.characters && arc.characters.length > 0 && (
-              <motion.div variants={fadeUp} className="glass mb-6 rounded-xl p-5">
-                <h3 className="mb-3 flex items-center gap-2 text-sm font-bold text-pirate-text">
-                  <Users className="h-4 w-4 text-sea" />
-                  Öne Çıkan Karakterler
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {arc.characters.map((slug) => (
-                    <Link
-                      key={slug}
-                      href={`/characters/${slug}`}
-                      className="rounded-lg bg-ocean-surface px-3 py-1.5 text-xs font-medium text-pirate-muted transition-colors hover:bg-sea/10 hover:text-sea"
-                    >
-                      {slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
-                    </Link>
-                  ))}
-                </div>
               </motion.div>
             )}
 

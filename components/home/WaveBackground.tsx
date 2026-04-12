@@ -8,12 +8,12 @@ import { motion } from 'framer-motion'
  */
 export default function WaveBackground() {
   return (
-    <div className="pointer-events-none absolute inset-x-0 bottom-0 overflow-hidden" style={{ height: 240 }}>
+    <div className="pointer-events-none absolute inset-x-0 bottom-0 overflow-hidden" style={{ height: 160 }}>
       {/* Layer 1 — deep, slowest */}
       <motion.svg
         viewBox="0 0 1440 200"
         className="absolute bottom-0 left-0 w-[200%]"
-        style={{ height: 200 }}
+        style={{ height: 160 }}
         animate={{ x: ['0%', '-50%'] }}
         transition={{ duration: 20, ease: 'linear', repeat: Infinity }}
         preserveAspectRatio="none"
@@ -28,7 +28,7 @@ export default function WaveBackground() {
       <motion.svg
         viewBox="0 0 1440 200"
         className="absolute bottom-0 left-0 w-[200%]"
-        style={{ height: 160 }}
+        style={{ height: 120 }}
         animate={{ x: ['-50%', '0%'] }}
         transition={{ duration: 14, ease: 'linear', repeat: Infinity }}
         preserveAspectRatio="none"
@@ -43,7 +43,7 @@ export default function WaveBackground() {
       <motion.svg
         viewBox="0 0 1440 200"
         className="absolute bottom-0 left-0 w-[200%]"
-        style={{ height: 120 }}
+        style={{ height: 80 }}
         animate={{ x: ['0%', '-50%'] }}
         transition={{ duration: 10, ease: 'linear', repeat: Infinity }}
         preserveAspectRatio="none"
@@ -58,7 +58,7 @@ export default function WaveBackground() {
       <motion.svg
         viewBox="0 0 1440 200"
         className="absolute bottom-0 left-0 w-[200%]"
-        style={{ height: 80 }}
+        style={{ height: 50 }}
         animate={{ x: ['-50%', '0%'] }}
         transition={{ duration: 7, ease: 'linear', repeat: Infinity }}
         preserveAspectRatio="none"

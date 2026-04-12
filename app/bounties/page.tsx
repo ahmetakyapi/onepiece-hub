@@ -1,15 +1,15 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { motion } from 'framer-motion'
-import { Trophy, Skull, Crown, Search, Medal } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Trophy, Skull, Crown, Search, Medal, Sparkles, Star } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
-import { CHARACTERS, CREW_LABELS } from '@/lib/constants/characters'
+import PageHero from '@/components/wiki/PageHero'
 import { getCharacterImage } from '@/lib/constants/images'
-import { fadeUp, staggerContainer } from '@/lib/variants'
+import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
 
 function parseBounty(bounty?: string): number {
   if (!bounty) return 0
@@ -26,17 +26,11 @@ function formatBounty(value: number): string {
   return value.toLocaleString()
 }
 
-const RANK_STYLES = [
-  'border-gold/50 shadow-gold-glow bg-gradient-to-r from-gold/10 to-transparent', // 1st
-  'border-pirate-text/30 bg-gradient-to-r from-pirate-text/5 to-transparent', // 2nd
-  'border-amber-700/30 bg-gradient-to-r from-amber-700/5 to-transparent', // 3rd
-] as const
-
 const RANK_COLORS = ['text-gold', 'text-pirate-text', 'text-amber-600'] as const
 
 // Additional known bounties (characters not in CHARACTERS array)
 const EXTRA_BOUNTIES: { name: string; bounty: string; crew: string; slug?: string; epithet?: string }[] = [
-  { name: 'Gol D. Roger', bounty: '5,564,800,000', crew: 'Korsanlar Kralı', epithet: 'Korsanlar Kralı' },
+  { name: 'Gol D. Roger', bounty: '5,564,800,000', crew: 'Korsanlar Kralı', slug: 'roger', epithet: 'Korsanlar Kralı' },
   { name: 'Edward Newgate', bounty: '5,046,000,000', crew: 'Yonko', slug: 'whitebeard', epithet: 'Beyaz Sakal' },
   { name: 'Kaido', bounty: '4,611,100,000', crew: 'Yonko', slug: 'kaido', epithet: 'En Güçlü Yaratık' },
   { name: 'Charlotte Linlin', bounty: '4,388,000,000', crew: 'Yonko', slug: 'bigmom', epithet: 'Big Mom' },
@@ -71,61 +65,100 @@ const EXTRA_BOUNTIES: { name: string; bounty: string; crew: string; slug?: strin
   { name: 'Yamato', bounty: '---', crew: 'Bağımsız', slug: 'yamato', epithet: 'Oni Prensesi' },
 ]
 
+const CREW_FILTERS = [
+  { label: 'Tümü', value: '' },
+  { label: 'Hasır Şapka', value: 'Hasır Şapka' },
+  { label: 'Yonko', value: 'Yonko' },
+  { label: 'Cross Guild', value: 'Cross Guild' },
+  { label: 'Big Mom', value: 'Big Mom Korsanları' },
+  { label: 'Beast', value: 'Beast Korsanları' },
+  { label: 'Whitebeard', value: 'Whitebeard Korsanları' },
+  { label: 'Devrimci', value: 'Devrimci Ordu' },
+] as const
+
+const HERO_ORBS = [
+  { color: 'rgba(244, 163, 0, 0.4)', size: 300, x: '10%', y: '20%', delay: 0 },
+  { color: 'rgba(30, 144, 255, 0.2)', size: 200, x: '70%', y: '10%', delay: 1.5 },
+  { color: 'rgba(244, 163, 0, 0.15)', size: 250, x: '80%', y: '60%', delay: 3 },
+  { color: 'rgba(231, 76, 60, 0.12)', size: 180, x: '5%', y: '70%', delay: 2 },
+]
+
 export default function BountiesPage() {
   const [search, setSearch] = useState('')
+  const [crewFilter, setCrewFilter] = useState('')
 
-  const sorted = useMemo(() => {
-    const all = EXTRA_BOUNTIES
+  const allSorted = useMemo(() => {
+    return EXTRA_BOUNTIES
       .filter((b) => b.bounty !== '---')
       .sort((a, b) => parseBounty(b.bounty) - parseBounty(a.bounty))
+  }, [])
 
-    if (!search) return all
+  const filtered = useMemo(() => {
+    let result = allSorted
 
-    return all.filter((b) =>
-      b.name.toLowerCase().includes(search.toLowerCase()) ||
-      b.crew.toLowerCase().includes(search.toLowerCase()) ||
-      (b.epithet?.toLowerCase().includes(search.toLowerCase()) ?? false)
-    )
-  }, [search])
+    if (crewFilter) {
+      result = result.filter((b) => b.crew === crewFilter)
+    }
+
+    if (search) {
+      result = result.filter((b) =>
+        b.name.toLowerCase().includes(search.toLowerCase()) ||
+        b.crew.toLowerCase().includes(search.toLowerCase()) ||
+        (b.epithet?.toLowerCase().includes(search.toLowerCase()) ?? false)
+      )
+    }
+
+    return result
+  }, [search, crewFilter, allSorted])
+
+  const highestBounty = parseBounty(allSorted[0]?.bounty)
+  const top3 = filtered.slice(0, 3)
+  const rest = filtered.slice(3)
+  const totalBounty = allSorted.reduce((sum, b) => sum + parseBounty(b.bounty), 0)
+  const isFiltered = search !== '' || crewFilter !== ''
 
   return (
     <>
       <Header />
       <main className="relative min-h-screen pt-24">
-        <div className="mx-auto max-w-4xl px-6">
-          {/* Header */}
-          <motion.div
-            variants={staggerContainer(0.1)}
-            initial="hidden"
-            animate="visible"
-            className="mb-10"
+        <div className="mx-auto max-w-5xl px-6">
+          {/* Hero */}
+          <PageHero
+            icon={Trophy}
+            title="Ödül"
+            subtitle="Sıralaması"
+            description="One Piece evrenindeki en yüksek ödüllü korsanlar ve suçlular. Dünya Hükümeti tarafından belirlenen ödüller, bir kişinin tehlike seviyesini gösterir."
+            accentColor="gold"
+            orbs={HERO_ORBS}
           >
-            <motion.h1
-              variants={fadeUp}
-              className="mb-3 text-3xl font-extrabold sm:text-4xl"
-            >
-              <span className="text-gold-gradient">Ödül</span>{' '}
-              <span className="text-pirate-text">Sıralaması</span>
-            </motion.h1>
-            <motion.p variants={fadeUp} className="max-w-2xl text-pirate-muted">
-              One Piece evrenindeki en yüksek ödüllü korsanlar ve suçlular.
-              Dünya Hükümeti tarafından belirlenen ödüller, bir kişinin tehlike seviyesini gösterir.
-            </motion.p>
-
-            {/* Total */}
-            <motion.div variants={fadeUp} className="mt-4 glass rounded-xl p-4 inline-flex items-center gap-3">
-              <Trophy className="h-5 w-5 text-gold" />
-              <div>
-                <p className="text-xs text-pirate-muted">Toplam Kayıtlı Ödül</p>
-                <p className="text-lg font-extrabold text-gold">
-                  {sorted.reduce((sum, b) => sum + parseBounty(b.bounty), 0).toLocaleString()} Berry
-                </p>
+            <div className="flex flex-wrap items-center gap-4">
+              <div className="glass inline-flex items-center gap-3 rounded-xl px-5 py-3">
+                <Trophy className="h-5 w-5 text-gold" />
+                <div>
+                  <p className="text-[10px] uppercase tracking-wider text-pirate-muted">Toplam Kayıtlı Ödül</p>
+                  <p className="text-lg font-extrabold text-gold">
+                    {totalBounty.toLocaleString()} Berry
+                  </p>
+                </div>
               </div>
-            </motion.div>
-          </motion.div>
+              <div className="glass inline-flex items-center gap-3 rounded-xl px-5 py-3">
+                <Skull className="h-5 w-5 text-sea" />
+                <div>
+                  <p className="text-[10px] uppercase tracking-wider text-pirate-muted">Aranan Korsan</p>
+                  <p className="text-lg font-extrabold text-sea">{allSorted.length}</p>
+                </div>
+              </div>
+            </div>
+          </PageHero>
 
-          {/* Search */}
-          <div className="mb-6">
+          {/* Search + Crew Filters */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: EASE, delay: 0.2 }}
+            className="mb-8 space-y-4"
+          >
+            {/* Search */}
             <div className="relative max-w-md">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-pirate-muted" />
               <input
@@ -136,76 +169,305 @@ export default function BountiesPage() {
                 className="w-full rounded-xl border border-pirate-border bg-ocean-surface/50 py-2.5 pl-10 pr-4 text-sm text-pirate-text placeholder:text-pirate-muted focus:border-gold/30 focus:outline-none focus:ring-1 focus:ring-gold/20"
               />
             </div>
-          </div>
 
-          {/* Leaderboard */}
-          <motion.div
-            variants={staggerContainer(0.02)}
-            initial="hidden"
-            animate="visible"
-            className="space-y-2"
-          >
-            {sorted.map((entry, i) => {
-              const rank = i + 1
-              const bountyValue = parseBounty(entry.bounty)
-              const characterImage = entry.slug ? getCharacterImage(entry.slug) : ''
-              const isTop3 = rank <= 3
-
-              return (
-                <motion.div key={`${entry.name}-${entry.bounty}`} variants={fadeUp}>
-                  {entry.slug ? (
-                    <Link
-                      href={`/characters/${entry.slug}`}
-                      className={`group flex items-center gap-4 rounded-xl border p-4 transition-all hover:border-gold/30 ${
-                        isTop3
-                          ? RANK_STYLES[rank - 1]
-                          : 'border-pirate-border/50 bg-ocean-surface/30 hover:bg-ocean-surface/50'
-                      }`}
-                    >
-                      <RankContent
-                        rank={rank}
-                        entry={entry}
-                        bountyValue={bountyValue}
-                        characterImage={characterImage}
-                        isTop3={isTop3}
-                      />
-                    </Link>
-                  ) : (
-                    <div
-                      className={`flex items-center gap-4 rounded-xl border p-4 ${
-                        isTop3
-                          ? RANK_STYLES[rank - 1]
-                          : 'border-pirate-border/50 bg-ocean-surface/30'
-                      }`}
-                    >
-                      <RankContent
-                        rank={rank}
-                        entry={entry}
-                        bountyValue={bountyValue}
-                        characterImage={characterImage}
-                        isTop3={isTop3}
-                      />
-                    </div>
-                  )}
-                </motion.div>
-              )
-            })}
+            {/* Crew filter chips */}
+            <div className="flex flex-wrap gap-2">
+              {CREW_FILTERS.map((crew) => (
+                <button
+                  key={crew.value}
+                  onClick={() => setCrewFilter(crew.value === crewFilter ? '' : crew.value)}
+                  className={`chip transition-all duration-200 ${
+                    crewFilter === crew.value
+                      ? 'border-gold/50 bg-gold/15 text-gold shadow-[0_0_12px_rgba(244,163,0,0.15)]'
+                      : 'border-pirate-border/50 bg-ocean-surface/30 text-pirate-muted hover:border-pirate-border hover:text-pirate-text'
+                  }`}
+                >
+                  {crew.label}
+                </button>
+              ))}
+            </div>
           </motion.div>
 
-          {/* Fun fact about Chopper */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="mt-8 glass rounded-xl p-5"
+          {/* PODIUM - Top 3 */}
+          {!isFiltered && top3.length >= 3 && (
+            <motion.section
+              initial={{ opacity: 0, y: 32 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: EASE, delay: 0.3 }}
+              className="relative mb-12"
+            >
+              {/* Section label */}
+              <div className="mb-6 flex items-center gap-3">
+                <Crown className="h-5 w-5 text-gold" />
+                <h2 className="text-lg font-bold text-gold-gradient">En Çok Arananlar</h2>
+                <div className="divider-glow flex-1" />
+              </div>
+
+              {/* Podium background glow */}
+              <div className="absolute inset-0 -top-8 rounded-3xl">
+                <div className="absolute left-1/2 top-0 h-64 w-96 -translate-x-1/2 rounded-full bg-gold/5 blur-3xl" />
+              </div>
+
+              {/* Podium grid: #2 left, #1 center (elevated), #3 right */}
+              <div className="relative grid grid-cols-3 items-end gap-3 sm:gap-5">
+                {[top3[1], top3[0], top3[2]].map((entry, podiumIdx) => {
+                  const actualRank = podiumIdx === 0 ? 2 : podiumIdx === 1 ? 1 : 3
+                  const isFirst = actualRank === 1
+                  const bountyValue = parseBounty(entry.bounty)
+                  const characterImage = entry.slug ? getCharacterImage(entry.slug) : ''
+
+                  const heights = ['h-52 sm:h-64', 'h-64 sm:h-80', 'h-48 sm:h-56']
+                  const podiumHeight = heights[podiumIdx]
+
+                  return (
+                    <motion.div
+                      key={entry.name}
+                      initial={{ opacity: 0, y: 40 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, ease: EASE, delay: 0.4 + podiumIdx * 0.15 }}
+                      className="flex flex-col items-center"
+                    >
+                      {/* Card */}
+                      <MaybeLinkWrapper slug={entry.slug}>
+                        <div
+                          className={`group relative flex w-full flex-col items-center overflow-hidden rounded-2xl border transition-all duration-300 ${podiumHeight} ${
+                            isFirst
+                              ? 'border-gold/40 bg-gradient-to-b from-gold/10 via-ocean-surface/80 to-ocean-deep shadow-[0_0_40px_rgba(244,163,0,0.12)] hover:shadow-[0_0_60px_rgba(244,163,0,0.2)]'
+                              : 'border-pirate-border/50 bg-gradient-to-b from-ocean-surface/60 to-ocean-deep hover:border-pirate-border'
+                          }`}
+                        >
+                          {/* Gold shimmer for #1 */}
+                          {isFirst && (
+                            <div className="absolute inset-0 bg-gradient-to-b from-gold/5 via-transparent to-transparent" />
+                          )}
+
+                          {/* Rank badge */}
+                          <div className={`relative z-10 mt-3 sm:mt-4 flex items-center justify-center rounded-full ${
+                            isFirst
+                              ? 'h-8 w-8 sm:h-10 sm:w-10 bg-gold/20 border border-gold/40'
+                              : 'h-7 w-7 sm:h-8 sm:w-8 bg-ocean-surface border border-pirate-border/50'
+                          }`}>
+                            {isFirst ? (
+                              <Crown className="h-4 w-4 sm:h-5 sm:w-5 text-gold" />
+                            ) : (
+                              <span className={`text-xs sm:text-sm font-extrabold ${RANK_COLORS[actualRank - 1]}`}>
+                                {actualRank}
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Character image */}
+                          <div className={`relative z-10 my-2 sm:my-3 overflow-hidden rounded-xl bg-ocean-surface/50 ${
+                            isFirst ? 'h-16 w-16 sm:h-24 sm:w-24' : 'h-14 w-14 sm:h-20 sm:w-20'
+                          }`}>
+                            {characterImage ? (
+                              <Image
+                                src={characterImage}
+                                alt={entry.name}
+                                fill
+                                className="object-cover object-top transition-transform duration-500 group-hover:scale-110"
+                                sizes="96px"
+                              />
+                            ) : (
+                              <div className="flex h-full w-full items-center justify-center">
+                                <Skull className="h-6 w-6 text-pirate-muted" />
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Name & epithet */}
+                          <div className="relative z-10 px-2 text-center">
+                            <p className={`font-bold leading-tight ${
+                              isFirst ? 'text-xs sm:text-sm text-gold' : 'text-[11px] sm:text-xs text-pirate-text'
+                            }`}>
+                              {entry.name}
+                            </p>
+                            {entry.epithet && (
+                              <p className="mt-0.5 text-[9px] sm:text-[10px] italic text-pirate-muted">
+                                &quot;{entry.epithet}&quot;
+                              </p>
+                            )}
+                          </div>
+
+                          {/* Bounty */}
+                          <div className={`relative z-10 mt-auto mb-3 sm:mb-4 rounded-lg px-3 py-1.5 ${
+                            isFirst ? 'bg-gold/15 border border-gold/20' : 'bg-ocean-surface/80'
+                          }`}>
+                            <p className={`text-center text-xs sm:text-sm font-extrabold ${
+                              isFirst ? 'text-gold' : RANK_COLORS[actualRank - 1]
+                            }`}>
+                              {formatBounty(bountyValue)}
+                            </p>
+                            <p className="text-center text-[8px] sm:text-[9px] text-pirate-muted">Berry</p>
+                          </div>
+                        </div>
+                      </MaybeLinkWrapper>
+
+                      {/* Podium base */}
+                      <div className={`mt-2 w-full rounded-t-lg text-center py-1 ${
+                        isFirst
+                          ? 'bg-gradient-to-r from-gold/20 via-gold/30 to-gold/20 border-x border-t border-gold/20'
+                          : actualRank === 2
+                            ? 'bg-gradient-to-r from-pirate-text/10 via-pirate-text/15 to-pirate-text/10 border-x border-t border-pirate-border/30'
+                            : 'bg-gradient-to-r from-amber-700/10 via-amber-700/15 to-amber-700/10 border-x border-t border-amber-700/20'
+                      }`}>
+                        <span className={`text-[10px] font-bold ${RANK_COLORS[actualRank - 1]}`}>
+                          #{actualRank}
+                        </span>
+                      </div>
+                    </motion.div>
+                  )
+                })}
+              </div>
+            </motion.section>
+          )}
+
+          {/* Leaderboard */}
+          <motion.section
+            variants={staggerContainer(0.03)}
+            initial="hidden"
+            animate="visible"
+            className="mb-8"
           >
-            <p className="flex items-center gap-2 text-sm text-pirate-muted">
-              <Medal className="h-4 w-4 text-gold" />
-              <span>
-                <span className="font-bold text-pirate-text">Eğlenceli Bilgi:</span>{' '}
-                Chopper&apos;ın ödülü sadece 1.000 Berry — Dünya Hükümeti onu mürettebatın maskotu (evcil hayvanı) sanıyor!
-              </span>
-            </p>
+            {/* Section label */}
+            <motion.div variants={fadeUp} className="mb-4 flex items-center gap-3">
+              <Star className="h-4 w-4 text-sea" />
+              <h2 className="text-sm font-bold uppercase tracking-wider text-pirate-muted">
+                {isFiltered ? `Sonuçlar (${filtered.length})` : 'Tam Sıralama'}
+              </h2>
+              <div className="divider-glow flex-1" />
+            </motion.div>
+
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <AnimatePresence mode="popLayout">
+                {(isFiltered ? filtered : rest).map((entry, i) => {
+                  const rank = isFiltered
+                    ? allSorted.findIndex((e) => e.name === entry.name) + 1
+                    : i + 4
+                  const bountyValue = parseBounty(entry.bounty)
+                  const characterImage = entry.slug ? getCharacterImage(entry.slug) : ''
+                  const isTop10 = rank <= 10
+
+                  return (
+                    <motion.div
+                      key={`${entry.name}-${entry.bounty}`}
+                      variants={fadeUp}
+                      layout
+                      exit={{ opacity: 0, scale: 0.95 }}
+                    >
+                      <MaybeLinkWrapper slug={entry.slug}>
+                        <div className={`glass glass-lift group relative flex flex-col items-center overflow-hidden rounded-2xl border p-5 text-center transition-all duration-300 ${
+                          isTop10 ? 'border-gold/20 hover:border-gold/40 hover:shadow-gold-glow' : 'hover:border-pirate-border'
+                        }`}>
+                          {/* Rank badge */}
+                          <div className={`absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-lg border ${
+                            rank <= 5 ? 'bg-gold/15 border-gold/30' : rank <= 10 ? 'bg-sea/10 border-sea/20' : 'bg-ocean-surface/60 border-pirate-border/30'
+                          }`}>
+                            <span className={`text-xs font-extrabold ${
+                              rank <= 5 ? 'text-gold' : rank <= 10 ? 'text-sea' : 'text-pirate-muted'
+                            }`}>
+                              #{rank}
+                            </span>
+                          </div>
+
+                          {/* Character image */}
+                          <div className={`relative mb-3 h-20 w-20 overflow-hidden rounded-2xl border-2 ${
+                            isTop10 ? 'border-gold/25 bg-ocean-surface' : 'border-pirate-border/30 bg-ocean-surface'
+                          }`}>
+                            {characterImage ? (
+                              <Image
+                                src={characterImage}
+                                alt={entry.name}
+                                fill
+                                className="object-cover object-top transition-transform duration-500 group-hover:scale-110"
+                                sizes="80px"
+                              />
+                            ) : (
+                              <div className="flex h-full w-full items-center justify-center">
+                                <Skull className="h-8 w-8 text-pirate-muted/40" />
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Name */}
+                          <h3 className="mb-0.5 text-base font-bold text-pirate-text transition-colors group-hover:text-gold">
+                            {entry.name}
+                          </h3>
+                          {entry.epithet && (
+                            <p className="mb-2 text-xs italic text-pirate-muted">&quot;{entry.epithet}&quot;</p>
+                          )}
+
+                          {/* Bounty */}
+                          <div className={`mt-auto rounded-xl px-4 py-2 ${
+                            isTop10 ? 'bg-gold/10 border border-gold/20' : 'bg-ocean-surface/80'
+                          }`}>
+                            <p className={`text-lg font-extrabold ${rank <= 5 ? 'text-gold' : rank <= 10 ? 'text-gold/80' : 'text-pirate-text'}`}>
+                              {formatBounty(bountyValue)}
+                            </p>
+                            <p className="text-[10px] text-pirate-muted">{entry.bounty} Berry</p>
+                          </div>
+
+                          {/* Crew pill */}
+                          <span className="mt-3 rounded-full bg-ocean-surface/80 px-3 py-1 text-[10px] font-medium text-pirate-muted">
+                            {entry.crew}
+                          </span>
+                        </div>
+                      </MaybeLinkWrapper>
+                    </motion.div>
+                  )
+                })}
+              </AnimatePresence>
+            </div>
+
+            {filtered.length === 0 && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="mt-8 flex flex-col items-center gap-3 py-12 text-center"
+              >
+                <Search className="h-8 w-8 text-pirate-muted/40" />
+                <p className="text-pirate-muted">Aramanızla eşleşen korsan bulunamadı.</p>
+              </motion.div>
+            )}
+          </motion.section>
+
+          {/* Chopper fun fact callout */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.6, ease: EASE }}
+            className="relative mb-8 overflow-hidden rounded-2xl border border-gold/20 bg-gradient-to-br from-gold/[0.06] via-ocean-surface/60 to-ocean-surface/30"
+          >
+            {/* Background sparkle */}
+            <div className="absolute right-4 top-4 opacity-20">
+              <Sparkles className="h-16 w-16 text-gold" />
+            </div>
+
+            <div className="relative flex items-start gap-4 p-5 sm:p-6">
+              {/* Chopper avatar */}
+              <div className="relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-xl border-2 border-gold/20 bg-ocean-surface">
+                <Image
+                  src={getCharacterImage('chopper')}
+                  alt="Tony Tony Chopper"
+                  fill
+                  className="object-cover object-top"
+                  sizes="56px"
+                />
+              </div>
+
+              <div className="flex-1">
+                <div className="mb-1.5 flex items-center gap-2">
+                  <Medal className="h-4 w-4 text-gold" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-gold">Eğlenceli Bilgi</span>
+                </div>
+                <p className="text-sm leading-relaxed text-pirate-text">
+                  Chopper&apos;ın ödülü sadece <span className="font-extrabold text-gold">1.000 Berry</span> — Dünya Hükümeti onu mürettebatın maskotu (evcil hayvanı) sanıyor! Bu, tüm One Piece evrenindeki en düşük aktif korsan ödülü.
+                </p>
+                <p className="mt-1.5 text-[11px] text-pirate-muted italic">
+                  &quot;Ben bir geyik değilim, bir Tanuki&apos;yim!&quot; — Chopper (muhtemelen)
+                </p>
+              </div>
+            </div>
           </motion.div>
         </div>
 
@@ -216,69 +478,14 @@ export default function BountiesPage() {
   )
 }
 
-function RankContent({
-  rank,
-  entry,
-  bountyValue,
-  characterImage,
-  isTop3,
-}: {
-  rank: number
-  entry: { name: string; bounty: string; crew: string; slug?: string; epithet?: string }
-  bountyValue: number
-  characterImage: string
-  isTop3: boolean
-}) {
-  return (
-    <>
-      {/* Rank */}
-      <div className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl font-extrabold ${
-        isTop3
-          ? `text-lg ${RANK_COLORS[rank - 1]}`
-          : 'text-sm text-pirate-muted'
-      }`}>
-        {isTop3 ? (
-          <Crown className={`h-6 w-6 ${RANK_COLORS[rank - 1]}`} />
-        ) : (
-          `#${rank}`
-        )}
-      </div>
-
-      {/* Avatar */}
-      <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-lg bg-ocean-surface">
-        {characterImage ? (
-          <Image
-            src={characterImage}
-            alt={entry.name}
-            fill
-            className="object-cover object-top"
-            sizes="40px"
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center">
-            <Skull className="h-4 w-4 text-pirate-muted" />
-          </div>
-        )}
-      </div>
-
-      {/* Info */}
-      <div className="flex-1 min-w-0">
-        <p className="text-sm font-bold text-pirate-text truncate">{entry.name}</p>
-        <div className="flex items-center gap-2">
-          {entry.epithet && (
-            <span className="text-[10px] italic text-pirate-muted">&quot;{entry.epithet}&quot;</span>
-          )}
-          <span className="text-[10px] text-pirate-muted/60">{entry.crew}</span>
-        </div>
-      </div>
-
-      {/* Bounty */}
-      <div className="text-right flex-shrink-0">
-        <p className={`text-sm font-extrabold ${isTop3 ? 'text-gold' : 'text-pirate-text'}`}>
-          {formatBounty(bountyValue)}
-        </p>
-        <p className="text-[10px] text-pirate-muted">{entry.bounty} Berry</p>
-      </div>
-    </>
-  )
+/** Wraps children in a Link if slug exists, otherwise renders as-is */
+function MaybeLinkWrapper({ slug, children }: { slug?: string; children: React.ReactNode }) {
+  if (slug) {
+    return (
+      <Link href={`/characters/${slug}`} className="block">
+        {children}
+      </Link>
+    )
+  }
+  return <>{children}</>
 }

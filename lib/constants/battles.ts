@@ -4,6 +4,7 @@ export type Battle = {
   arc: string
   arcSlug: string
   participants: { side1: string[]; side2: string[] }
+  participantSlugs?: { side1: string[]; side2: string[] }
   winner: 'side1' | 'side2' | 'draw' | 'interrupted'
   significance: string
   description: string
@@ -11,6 +12,7 @@ export type Battle = {
   emotionalWeight: 1 | 2 | 3 | 4 | 5 // 5 = maximum emotional impact
   powerLevel: 1 | 2 | 3 | 4 | 5 // 5 = world-shaking
   category: 'epic' | 'emotional' | 'rivalry' | 'war' | 'turning-point'
+  episodes?: string // e.g. "110-130" or "Bölüm 126"
 }
 
 export const BATTLE_CATEGORIES: Record<string, { label: string; color: string }> = {
@@ -31,6 +33,8 @@ export const BATTLES: Battle[] = [
       side1: ['Monkey D. Luffy'],
       side2: ['Sir Crocodile'],
     },
+    participantSlugs: { side1: ['luffy'], side2: ['crocodile'] },
+    episodes: 'Bölüm 110-130',
     winner: 'side1',
     significance: 'Luffy\'nin ilk Shichibukai\'yi yendiği savaş. Arabasta Krallığı\'nı kurtardı.',
     description: 'Üç aşamada gerçekleşen epik savaş. İlk iki seferde Crocodile galip geldi — Luffy hem kurutuldu hem de zehirlendi. Üçüncü seferde Luffy, kendi kanını kullanarak Crocodile\'ın kum formunu katılaştırdı ve onu yendi. "Yenilmez" Shichibukai\'nin devrilmesi dünyayı sarstı.',
@@ -54,6 +58,8 @@ export const BATTLES: Battle[] = [
       side1: ['Roronoa Zoro'],
       side2: ['Dracule Mihawk'],
     },
+    participantSlugs: { side1: ['zoro'], side2: ['mihawk'] },
+    episodes: 'Bölüm 24',
     winner: 'side2',
     significance: 'Zoro\'nun dünyanın en güçlü kılıç ustasıyla karşılaşması. Yenilgisi onu daha güçlü yaptı.',
     description: 'Zoro, rüyasının somut hedefi Mihawk\'a meydan okudu. Mihawk başlangıçta onu ciddiye almadı ve küçük bir bıçakla savaştı. Zoro\'nun iradesi karşısında etkilenen Mihawk, Yoru kılıcını çekti ve tek hamleyle Zoro\'yu yenilgiye uğrattı. Zoro\'nun son sözleri: "Sırtımdan vurulmaktansa ölmeyi tercih ederim." Bu irade Mihawk\'ı derinden etkiledi.',
@@ -78,6 +84,8 @@ export const BATTLES: Battle[] = [
       side1: ['Monkey D. Luffy'],
       side2: ['Rob Lucci'],
     },
+    participantSlugs: { side1: ['luffy'], side2: [] },
+    episodes: 'Bölüm 294-312',
     winner: 'side1',
     significance: 'Luffy\'nin Gear 2 ve Gear 3\'ü ilk kez kullandığı savaş. Robin\'i kurtarmak için Dünya Hükümeti\'ne meydan okudu.',
     description: 'CP9\'un en güçlü üyesi Rob Lucci ile One Piece\'in en uzun 1v1 savaşlarından biri. Luffy, Gear 2 ile hız avantajı, Gear 3 ile güç avantajı kazandı. Lucci\'nin Rokushiki teknikleri ve Zoan formu Luffy\'yi defalarca yere serdi. Sonunda Usopp\'un "Ayağa kalk!" çığlığıyla güç bulan Luffy, Jet Gatling ile Lucci\'yi yendi.',
@@ -102,6 +110,8 @@ export const BATTLES: Battle[] = [
       side1: ['Whitebeard Korsanları', '43 Müttefik Mürettebat', 'Monkey D. Luffy', 'Impel Down kaçakları'],
       side2: ['Deniz Kuvvetleri', '3 Amiral', 'Shichibukai'],
     },
+    participantSlugs: { side1: ['whitebeard', 'luffy', 'ace'], side2: ['akainu'] },
+    episodes: 'Bölüm 457-489',
     winner: 'side2',
     significance: 'One Piece tarihinin en büyük savaşı. Ace ve Whitebeard\'ın ölümü, Büyük Korsan Çağı\'nın yeni döneminin başlangıcı.',
     description: 'Portgas D. Ace\'in idamını engellemek için Whitebeard tüm gücüyle Marineford\'a saldırdı. Luffy Impel Down\'dan kaçarak savaşa katıldı. Ace kurtarıldı ancak Akainu\'nun magma yumruğuyla öldürüldü. Whitebeard, son nefesinde "One Piece gerçek!" diye haykırdı. Shanks savaşı durdurdu. Blackbeard, Whitebeard\'ın Gura Gura meyvesini çaldı.',
@@ -127,6 +137,8 @@ export const BATTLES: Battle[] = [
       side1: ['Monkey D. Luffy'],
       side2: ['Charlotte Katakuri'],
     },
+    participantSlugs: { side1: ['luffy'], side2: [] },
+    episodes: 'Bölüm 850-871',
     winner: 'side1',
     significance: 'Luffy\'nin Gelecek Görüşü Haki\'yi (Future Sight) öğrendiği savaş. Karşılıklı saygı üzerine kurulu epik düello.',
     description: 'Ayna dünyasında 11 saatten fazla süren savaş. Katakuri başlangıçta Luffy\'den çok üstündü — Gelecek Görüşü Haki\'siyle her saldırıyı önceden gördü. Luffy, savaş içinde büyüdü ve Katakuri\'nin seviyesine ulaştı. Katakuri, Luffy\'nin iradesine saygı duyarak sonunda yenilgiyi kabul etti. Snakeman formu bu savaşta ortaya çıktı.',
@@ -151,6 +163,8 @@ export const BATTLES: Battle[] = [
       side1: ['Monkey D. Luffy'],
       side2: ['Kaido'],
     },
+    participantSlugs: { side1: ['luffy'], side2: ['kaido'] },
+    episodes: 'Bölüm 1015-1076',
     winner: 'side1',
     significance: 'Luffy\'nin Gear 5\'i uyandırdığı ve Joy Boy\'un mirasçısı olduğu savaş. Bir Yonko\'yu 1v1\'de yenen ilk savaş.',
     description: 'Onigashima\'nın tepesinde gerçekleşen Yonko düzeyinde savaş. Luffy birçok kez yenildi ve hatta "öldü". Ancak her seferinde geri döndü — son seferde Gomu Gomu meyvesinin gerçek uyanışı olan Gear 5\'i aktive etti. Güneş Tanrısı Nika olarak Kaido\'yu yendi. "Kauçuk adam değil, en özgür adam."',
@@ -176,6 +190,8 @@ export const BATTLES: Battle[] = [
       side1: ['Hasır Şapka Korsanları (tüm mürettebat)'],
       side2: ['Oars (Luffy\'nin gölgesiyle)', 'Gecko Moria'],
     },
+    participantSlugs: { side1: ['luffy', 'zoro', 'sanji', 'robin'], side2: [] },
+    episodes: 'Bölüm 362-381',
     winner: 'side1',
     significance: 'Tüm mürettebatın birlikte savaştığı nadir anlardan biri. "Hiçbir şey olmadı" sahnesinin prelüdü.',
     description: 'Luffy\'nin gölgesi yerleştirilen dev Oars\'a karşı tüm mürettebat birlikte savaştı. Her üyenin özel yeteneği kombine edilerek Oars yenildi. Sonrasında Kuma\'nın müdahalesi ve Zoro\'nun ikonik fedakarlığı.',
@@ -199,6 +215,8 @@ export const BATTLES: Battle[] = [
       side1: ['Vinsmoke Sanji'],
       side2: ['Queen'],
     },
+    participantSlugs: { side1: ['sanji'], side2: [] },
+    episodes: 'Bölüm 1034-1036',
     winner: 'side1',
     significance: 'Sanji\'nin Germa genetik uyanışını yaşadığı ve kimliğini kabul ettiği savaş.',
     description: 'Sanji, savaş sırasında Germa genetik modifikasyonunun uyanışını yaşadı — dış iskeleti aktive oldu ve süper dayanıklılık kazandı. "Baba gibi olmak istemiyorum" ile "Bu gücü kendi yolumda kullanacağım" arasındaki iç çatışma. Ifrit Jambe ile Queen\'i yendi.',
@@ -221,6 +239,8 @@ export const BATTLES: Battle[] = [
       side1: ['Roronoa Zoro'],
       side2: ['King'],
     },
+    participantSlugs: { side1: ['zoro'], side2: [] },
+    episodes: 'Bölüm 1027-1036',
     winner: 'side1',
     significance: 'Zoro\'nun Haoshoku Haki\'yi kılıcına akıtmayı öğrendiği ve Enma\'yı tam olarak kontrol ettiği savaş.',
     description: 'Kaido\'nun sağ kolu King, son Lunarian ırkından bir savaşçı. Zoro, King\'in savunma ve saldırı arasında geçiş yapan benzersiz savaş tarzını çözdü. Enma kılıcının tüm Haki\'sini çekmesine izin vererek Haoshoku Haki\'yi kılıcına akıttı.',
@@ -243,6 +263,8 @@ export const BATTLES: Battle[] = [
       side1: ['Monkey D. Luffy'],
       side2: ['Arlong'],
     },
+    participantSlugs: { side1: ['luffy'], side2: [] },
+    episodes: 'Bölüm 37-44',
     winner: 'side1',
     significance: 'Nami\'nin özgürlüğü. "Bana yardım et" sahnesi ve Luffy\'nin şapkasını Nami\'ye vermesi.',
     description: 'Nami\'nin 8 yıllık acısına son veren savaş. Luffy, Arlong\'un harita odasını — Nami\'nin gözyaşlarıyla çizdiği haritaların olduğu odayı — yumruklarıyla paramparça etti. "Bu odayı, bu kalemi, bu masayı — HEPSİNİ YOK EDECEĞİM!" Arlong Park yıkıldı, Nami özgürleşti.',
@@ -267,6 +289,8 @@ export const BATTLES: Battle[] = [
       side1: ['Gol D. Roger'],
       side2: ['Edward Newgate / Whitebeard'],
     },
+    participantSlugs: { side1: [], side2: ['whitebeard'] },
+    episodes: 'Bölüm 966',
     winner: 'draw',
     significance: 'İki efsanevi korsan arasındaki çarpışma. Haoshoku İnfüzyonu ile gökyüzünün ikiye bölündüğü an.',
     description: 'Oden\'in flashback\'inde gösterilen efsanevi çarpışma. Roger ve Whitebeard kılıçlarını çarpıştırdığında — silahları temas etmeden — Haoshoku Haki\'nin çarpışmasıyla gökyüzü ikiye bölündü. İki dünyanın en güçlü adamının eşit düzeyde karşılaşması.',
@@ -289,6 +313,8 @@ export const BATTLES: Battle[] = [
       side1: ['Monkey D. Luffy'],
       side2: ['Usopp'],
     },
+    participantSlugs: { side1: ['luffy'], side2: ['usopp'] },
+    episodes: 'Bölüm 236',
     winner: 'side1',
     significance: 'Mürettebat içi en duygusal çatışma. Going Merry\'nin kaderi üzerine.',
     description: 'Going Merry\'nin tamir edilemeyecek durumda olduğu öğrenildiğinde Usopp buna itiraz etti — Merry onun Kaya\'dan aldığı en değerli şeydi. Luffy\'ye düello etti. Luffy kazandı ama ikisi de ağladı. Usopp, Enies Lobby\'de "Sogeking" maskesiyle geri döndü ama resmi olarak ancak Post-Enies Lobby\'de özür dileyerek tekrar katıldı.',

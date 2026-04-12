@@ -72,6 +72,7 @@ export const CHARACTER_IMAGES: Record<string, string> = {
   'yamato': '/characters/yamato.webp',
   'carrot': '/characters/carrot.webp',
   'vegapunk': '/characters/vegapunk.webp',
+  'roger': '/characters/roger.webp',
 }
 
 export function getArcImage(slug: string): string {
