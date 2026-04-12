@@ -3,13 +3,13 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Search, Compass, Anchor } from 'lucide-react'
-import Link from 'next/link'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { SAGAS } from '@/lib/constants/sagas'
 import { ARCS, getArcsBySaga } from '@/lib/constants/arcs'
-import { fadeUp, staggerContainer } from '@/lib/variants'
 import ArcCard from '@/components/arcs/ArcCard'
+
+const EASE = [0.16, 1, 0.3, 1] as const
 
 export default function ArcsPage() {
   const [search, setSearch] = useState('')
@@ -29,42 +29,60 @@ export default function ArcsPage() {
         <div className="mx-auto max-w-7xl px-6">
           {/* Page header */}
           <motion.div
-            variants={staggerContainer(0.1)}
-            initial="hidden"
-            animate="visible"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: EASE }}
             className="mb-10"
           >
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5, ease: EASE }}
+              className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-gold/15 bg-gold/[0.06]"
+            >
+              <Compass className="h-6 w-6 text-gold" />
+            </motion.div>
             <motion.h1
-              variants={fadeUp}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
               className="mb-3 text-3xl font-extrabold sm:text-4xl"
             >
               <span className="text-gold-gradient">Arc</span>{' '}
               <span className="text-pirate-text">Haritası</span>
             </motion.h1>
-            <motion.p variants={fadeUp} className="text-pirate-muted">
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
+              className="text-sm text-pirate-muted sm:text-base"
+            >
               East Blue&apos;dan Egghead&apos;e kadar tüm maceralar
             </motion.p>
           </motion.div>
 
           {/* Search + Filters */}
-          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center">
-            {/* Search */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: EASE, delay: 0.2 }}
+            className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center"
+          >
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-pirate-muted" />
+              <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-pirate-muted/50" />
               <input
                 type="text"
                 placeholder="Arc ara..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full rounded-xl border border-pirate-border bg-ocean-surface/50 py-2.5 pl-10 pr-4 text-sm text-pirate-text placeholder:text-pirate-muted focus:border-gold/30 focus:outline-none focus:ring-1 focus:ring-gold/20"
+                className="w-full rounded-2xl border border-pirate-border/50 bg-ocean-surface/40 py-3 pl-11 pr-4 text-sm text-pirate-text placeholder:text-pirate-muted/40 focus:border-gold/20 focus:outline-none focus:ring-2 focus:ring-gold/[0.08] transition-all"
               />
             </div>
 
-            {/* Saga filters */}
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setActiveSaga(null)}
-                className={`chip transition-all ${!activeSaga ? 'border-gold/40 bg-gold/10 text-gold' : ''}`}
+                className={`chip transition-all duration-300 ${!activeSaga ? 'border-gold/30 bg-gold/[0.08] text-gold' : ''}`}
               >
                 Tümü
               </button>
@@ -72,20 +90,18 @@ export default function ArcsPage() {
                 <button
                   key={saga.slug}
                   onClick={() => setActiveSaga(saga.slug === activeSaga ? null : saga.slug)}
-                  className={`chip transition-all ${activeSaga === saga.slug ? 'border-gold/40 bg-gold/10 text-gold' : ''}`}
+                  className={`chip transition-all duration-300 ${activeSaga === saga.slug ? 'border-gold/30 bg-gold/[0.08] text-gold' : ''}`}
                 >
                   {saga.name}
                 </button>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Arc grid */}
           {activeSaga ? (
             <motion.div
-              variants={staggerContainer(0.06)}
-              initial="hidden"
-              animate="visible"
+              layout
               className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
             >
               {filteredArcs.map((arc) => (
@@ -93,7 +109,7 @@ export default function ArcsPage() {
               ))}
             </motion.div>
           ) : (
-            <div className="space-y-10">
+            <div className="space-y-12">
               {SAGAS.map((saga) => {
                 const arcs = getArcsBySaga(saga.slug).filter((arc) =>
                   arc.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -102,16 +118,19 @@ export default function ArcsPage() {
                 if (arcs.length === 0) return null
                 return (
                   <div key={saga.slug}>
-                    <div className="mb-4 flex items-center gap-3">
-                      <Anchor className="h-4 w-4 text-sea" />
-                      <h2 className="text-sm font-bold uppercase tracking-wider text-sea">
+                    <div className="mb-5 flex items-center gap-3">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sea/[0.08] border border-sea/10">
+                        <Anchor className="h-3.5 w-3.5 text-sea" />
+                      </div>
+                      <h2 className="text-sm font-bold uppercase tracking-[0.1em] text-sea">
                         {saga.name}
                       </h2>
-                      <div className="h-px flex-1 bg-gradient-to-r from-sea/20 to-transparent" />
-                      <span className="text-xs text-pirate-muted">{arcs.length} arc</span>
+                      <div className="h-px flex-1 bg-gradient-to-r from-sea/15 to-transparent" />
+                      <span className="rounded-full bg-sea/[0.06] px-2.5 py-0.5 text-[10px] font-semibold text-sea/70">
+                        {arcs.length} arc
+                      </span>
                     </div>
                     <motion.div
-                      variants={staggerContainer(0.06)}
                       initial="hidden"
                       whileInView="visible"
                       viewport={{ once: true, margin: '-60px' }}
@@ -128,10 +147,14 @@ export default function ArcsPage() {
           )}
 
           {filteredArcs.length === 0 && (
-            <div className="py-20 text-center">
-              <Compass className="mx-auto mb-4 h-12 w-12 text-pirate-muted" />
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="py-20 text-center"
+            >
+              <Compass className="mx-auto mb-4 h-12 w-12 text-pirate-muted/30" />
               <p className="text-pirate-muted">Aramanızla eşleşen arc bulunamadı.</p>
-            </div>
+            </motion.div>
           )}
         </div>
       </main>

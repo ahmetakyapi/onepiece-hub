@@ -168,7 +168,7 @@ export default function DevilFruitsPage() {
                 placeholder="Meyve adı, kullanıcı veya güç ara..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full rounded-2xl border border-pirate-border bg-ocean-surface/50 py-3.5 pl-12 pr-4 text-sm text-pirate-text placeholder:text-pirate-muted/50 focus:border-gold/30 focus:outline-none focus:ring-2 focus:ring-gold/10 transition-all"
+                className="w-full rounded-2xl border border-pirate-border/50 bg-ocean-surface/40 py-3.5 pl-12 pr-4 text-sm text-pirate-text placeholder:text-pirate-muted/40 focus:border-gold/20 focus:outline-none focus:ring-2 focus:ring-gold/[0.08] transition-all"
               />
             </div>
           </motion.div>
@@ -232,7 +232,7 @@ export default function DevilFruitsPage() {
                         <motion.div key={df.slug} variants={fadeUp}>
                           <Link
                             href={`/devil-fruits/${df.slug}`}
-                            className="glass glass-lift group relative flex flex-col overflow-hidden rounded-2xl transition-all hover:border-gold/30"
+                            className="bento-card group relative flex flex-col overflow-hidden transition-all hover:border-gold/20"
                           >
                             {/* Character image — large hero area */}
                             <div className={`relative h-44 w-full overflow-hidden ${typeInfo.bg}`}>

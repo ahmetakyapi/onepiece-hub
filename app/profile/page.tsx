@@ -159,7 +159,7 @@ export default function ProfilePage() {
               { label: 'Toplam Saat', value: `${totalHours}+`, icon: Clock, color: 'text-emerald-400' },
               { label: 'Toplam Arc', value: `${arcProgress.length}/${ARCS.length}`, icon: Trophy, color: 'text-luffy' },
             ].map((stat) => (
-              <motion.div key={stat.label} variants={fadeUp} className="glass rounded-xl p-4 text-center">
+              <motion.div key={stat.label} variants={fadeUp} className="bento-card rounded-xl p-4 text-center">
                 <stat.icon className={`mx-auto mb-2 h-5 w-5 ${stat.color}`} />
                 <p className="text-2xl font-extrabold text-pirate-text">{stat.value}</p>
                 <p className="text-xs text-pirate-muted">{stat.label}</p>
@@ -187,7 +187,7 @@ export default function ProfilePage() {
                     <motion.div key={arc.slug} variants={fadeUp}>
                       <Link
                         href={`/arcs/${arc.slug}/${nextEpisode!.slug}`}
-                        className="glass glass-lift group flex items-center gap-4 rounded-xl px-4 py-3 hover:border-gold/30"
+                        className="bento-card group flex items-center gap-4 px-4 py-3 transition-all duration-500 hover:border-gold/15"
                       >
                         <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-gold/10 border border-gold/20">
                           <Play className="h-4 w-4 text-gold" />
@@ -261,7 +261,7 @@ export default function ProfilePage() {
               Son İzlenenler
             </h2>
             {recentWatched.length === 0 ? (
-              <div className="glass rounded-xl p-8 text-center">
+              <div className="bento-card rounded-xl p-8 text-center">
                 <Compass className="mx-auto mb-3 h-8 w-8 text-pirate-muted" />
                 <p className="mb-4 text-sm text-pirate-muted">Henüz izleme geçmişin yok</p>
                 <Link href="/arcs" className="btn-ghost text-sm">

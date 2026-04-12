@@ -117,13 +117,13 @@ export default function CharacterDetailClient({ character }: { character: Charac
                 {/* Quick stats */}
                 <div className="flex flex-wrap gap-3">
                   {character.bounty && (
-                    <div className="glass rounded-xl px-4 py-2">
+                    <div className="bento-card rounded-xl px-4 py-2">
                       <p className="text-xs text-pirate-muted">Ödül</p>
                       <p className="text-sm font-bold text-gold">{character.bounty} Berry</p>
                     </div>
                   )}
                   {character.devilFruit && (
-                    <div className="glass rounded-xl px-4 py-2">
+                    <div className="bento-card rounded-xl px-4 py-2">
                       <p className="text-xs text-pirate-muted">Şeytan Meyvesi</p>
                       <p className="text-sm font-bold text-luffy">{character.devilFruit.name}</p>
                       <span className={`mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold ${DEVIL_FRUIT_TYPE_COLORS[character.devilFruit.type]}`}>
@@ -132,7 +132,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
                     </div>
                   )}
                   {firstArc && (
-                    <div className="glass rounded-xl px-4 py-2">
+                    <div className="bento-card rounded-xl px-4 py-2">
                       <p className="text-xs text-pirate-muted">İlk Görünüm</p>
                       <Link href={`/arcs/${firstArc.slug}`} className="text-sm font-bold text-sea hover:text-gold">
                         {firstArc.name}
@@ -147,7 +147,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
             {(character.age || character.height || character.origin) && (
               <motion.div variants={fadeUp} className="mb-8 flex flex-wrap gap-3">
                 {character.age && (
-                  <div className="glass flex items-center gap-2 rounded-xl px-4 py-2.5">
+                  <div className="bento-card flex items-center gap-2 rounded-xl px-4 py-2.5">
                     <Calendar className="h-4 w-4 text-sea" />
                     <div>
                       <p className="text-xs text-pirate-muted">Yaş</p>
@@ -156,7 +156,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
                   </div>
                 )}
                 {character.height && (
-                  <div className="glass flex items-center gap-2 rounded-xl px-4 py-2.5">
+                  <div className="bento-card flex items-center gap-2 rounded-xl px-4 py-2.5">
                     <Ruler className="h-4 w-4 text-sea" />
                     <div>
                       <p className="text-xs text-pirate-muted">Boy</p>
@@ -165,7 +165,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
                   </div>
                 )}
                 {character.origin && (
-                  <div className="glass flex items-center gap-2 rounded-xl px-4 py-2.5">
+                  <div className="bento-card flex items-center gap-2 rounded-xl px-4 py-2.5">
                     <Globe className="h-4 w-4 text-sea" />
                     <div>
                       <p className="text-xs text-pirate-muted">Köken</p>
@@ -183,7 +183,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
                   <BookOpen className="h-5 w-5 text-gold" />
                   Geçmiş Hikayesi
                 </h2>
-                <div className="glass rounded-xl p-5">
+                <div className="bento-card rounded-xl p-5">
                   <p className="text-sm leading-relaxed text-pirate-muted whitespace-pre-line">
                     {character.backstory}
                   </p>
@@ -198,7 +198,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
                   <Cherry className="h-5 w-5 text-luffy" />
                   Şeytan Meyvesi
                 </h2>
-                <div className="glass rounded-xl p-5">
+                <div className="bento-card rounded-xl p-5">
                   <div className="mb-3 flex items-center gap-3">
                     <p className="text-base font-bold text-pirate-text">{character.devilFruit.name}</p>
                     <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${DEVIL_FRUIT_TYPE_COLORS[character.devilFruit.type]}`}>
@@ -223,7 +223,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
                   const config = ABILITY_CATEGORY_CONFIG[category] ?? ABILITY_CATEGORY_CONFIG['Özel']
                   const CategoryIcon = config.icon
                   return (
-                    <div key={category} className="glass rounded-xl p-4">
+                    <div key={category} className="bento-card rounded-xl p-4">
                       <div className="mb-3 flex items-center gap-2">
                         <CategoryIcon className={`h-4 w-4 ${config.color}`} />
                         <h3 className={`text-sm font-bold ${config.color}`}>{category}</h3>
@@ -257,7 +257,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
                   <Film className="h-5 w-5 text-sea" />
                   Göründüğü Arc&apos;lar
                 </h2>
-                <div className="glass rounded-xl p-4">
+                <div className="bento-card rounded-xl p-4">
                   <div className="flex flex-wrap gap-2">
                     {character.appearances.map((arcSlug) => {
                       const arcData = getArcBySlug(arcSlug)

@@ -183,7 +183,7 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
 
               {/* Episode summary — below controls */}
               {episode.summary && (
-                <div className="glass rounded-xl p-5">
+                <div className="bento-card rounded-xl p-5">
                   <h3 className="mb-2 flex items-center gap-2 text-sm font-bold text-pirate-text">
                     <BookOpen className="h-4 w-4 text-gold" />
                     Bölüm Özeti
@@ -197,7 +197,7 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
 
             {/* Right: Episode List Sidebar */}
             <motion.div variants={fadeUp} className="w-full lg:w-[22rem] xl:w-[26rem] flex-shrink-0">
-              <div className="glass sticky top-24 rounded-2xl p-4 sm:p-5">
+              <div className="bento-card sticky top-24 rounded-2xl p-4 sm:p-5">
                 {/* Header */}
                 <div className="mb-3 flex items-center justify-between">
                   <h2 className="flex items-center gap-2 text-sm font-bold text-pirate-text sm:text-base">

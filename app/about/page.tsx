@@ -180,7 +180,7 @@ export default function AboutPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-40px' }}
                   transition={{ duration: 0.5, ease: EASE, delay: i * 0.08 }}
-                  className="glass group rounded-2xl p-6 transition-all hover:border-gold/20"
+                  className="bento-card group p-6 transition-all duration-500 hover:border-gold/15"
                 >
                   <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl ${feature.bg}`}>
                     <feature.icon className={`h-6 w-6 ${feature.color}`} />
@@ -282,7 +282,7 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: EASE }}
-              className="glass rounded-2xl p-8 sm:p-10"
+              className="bento-card p-8 sm:p-10"
             >
               <div className="mb-6 flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold/10">

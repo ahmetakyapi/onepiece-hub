@@ -55,7 +55,7 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
 
             {/* Description */}
             <motion.div variants={fadeUp} className="mb-8">
-              <div className="glass rounded-xl p-6">
+              <div className="bento-card rounded-xl p-6">
                 <div className="mb-3 flex items-center gap-2">
                   <BookOpen className="h-4 w-4 text-gold" />
                   <h2 className="text-sm font-bold text-pirate-text">Açıklama</h2>
@@ -68,7 +68,7 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
 
             {/* User */}
             <motion.div variants={fadeUp} className="mb-8">
-              <div className="glass rounded-xl p-5">
+              <div className="bento-card rounded-xl p-5">
                 <div className="mb-3 flex items-center gap-2">
                   <Skull className="h-4 w-4 text-sea" />
                   <h2 className="text-sm font-bold text-pirate-text">Kullanıcı</h2>
@@ -97,7 +97,7 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
                 <Zap className="h-5 w-5 text-gold" />
                 Yetenekler
               </h2>
-              <div className="glass rounded-xl p-5">
+              <div className="bento-card rounded-xl p-5">
                 <div className="space-y-3">
                   {fruit.abilities.map((ability, i) => (
                     <div
@@ -119,7 +119,7 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
                   <AlertTriangle className="h-5 w-5 text-luffy" />
                   Zayıf Nokta
                 </h2>
-                <div className="glass rounded-xl border-luffy/20 p-5">
+                <div className="bento-card rounded-xl border-luffy/20 p-5">
                   <p className="text-sm leading-relaxed text-pirate-muted">
                     {fruit.weakness}
                   </p>
@@ -134,7 +134,7 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
                   <Star className="h-5 w-5 text-gold" />
                   Uyanış (Awakening)
                 </h2>
-                <div className="glass rounded-xl border-gold/20 p-5">
+                <div className="bento-card rounded-xl border-gold/20 p-5">
                   <p className="text-sm leading-relaxed text-pirate-muted">
                     {fruit.awakening}
                   </p>
@@ -148,7 +148,7 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
                 <Cherry className="h-5 w-5 text-purple-400" />
                 Meyve Türü Hakkında
               </h2>
-              <div className="glass rounded-xl p-5">
+              <div className="bento-card rounded-xl p-5">
                 <p className={`mb-2 text-sm font-bold ${typeInfo.color}`}>{typeInfo.label}</p>
                 <p className="text-sm leading-relaxed text-pirate-muted">
                   {typeInfo.description}

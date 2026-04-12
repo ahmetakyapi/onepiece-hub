@@ -266,7 +266,7 @@ export default function HakiPage() {
             ]}
           >
             {/* Quick summary inside hero */}
-            <div className="glass rounded-xl p-5">
+            <div className="bento-card rounded-xl p-5">
               <div className="mb-3 flex items-center gap-2">
                 <BookOpen className="h-4 w-4 text-gold" />
                 <h2 className="text-sm font-bold text-pirate-text">Haki Nedir?</h2>
@@ -330,7 +330,7 @@ export default function HakiPage() {
 
                       {/* Description */}
                       <motion.div
-                        className="glass mb-8 rounded-xl p-6"
+                        className="bento-card mb-8 p-6"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
@@ -355,11 +355,11 @@ export default function HakiPage() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, ease: EASE, delay: 0.2 }}
                       >
-                        <div className="glass rounded-xl px-5 py-3">
+                        <div className="bento-card rounded-xl px-5 py-3">
                           <p className="text-xs text-pirate-muted">İlk Görünüm</p>
                           <p className="text-sm font-semibold text-pirate-text">{haki.firstSeen}</p>
                         </div>
-                        <div className="glass rounded-xl px-5 py-3">
+                        <div className="bento-card rounded-xl px-5 py-3">
                           <p className="text-xs text-pirate-muted">Nadirlik</p>
                           <p className={`text-sm font-semibold ${haki.color}`}>{haki.rarity}</p>
                         </div>
@@ -390,7 +390,7 @@ export default function HakiPage() {
                               <motion.div
                                 key={form.name}
                                 variants={scaleIn}
-                                className="glass glass-lift group relative overflow-hidden rounded-xl p-5"
+                                className="bento-card group relative overflow-hidden p-5"
                               >
                                 {/* Colored top border gradient */}
                                 <div
@@ -496,7 +496,7 @@ export default function HakiPage() {
                 <motion.div
                   key={i}
                   variants={fadeUp}
-                  className="glass glass-lift group relative overflow-hidden rounded-xl p-5"
+                  className="bento-card group relative overflow-hidden p-5"
                 >
                   {/* Number badge */}
                   <div className="absolute -right-2 -top-2 flex h-12 w-12 items-center justify-center rounded-full bg-gold/5 font-extrabold text-gold/20 text-2xl">

@@ -293,7 +293,7 @@ function EraDivider({ category }: { category: string }) {
       <div className="h-px flex-1 bg-gradient-to-r from-transparent via-pirate-border/60 to-pirate-border/30" />
 
       {/* Era badge */}
-      <div className={`glass flex items-center gap-3 rounded-2xl px-5 py-3 ${info.border} border`}>
+      <div className={`bento-card flex items-center gap-3 rounded-2xl px-5 py-3 ${info.border} border`}>
         <div className={`flex h-9 w-9 items-center justify-center rounded-xl ${info.bg}`}>
           <Icon className={`h-4.5 w-4.5 ${info.color}`} />
         </div>
@@ -397,15 +397,15 @@ export default function TimelinePage() {
           >
             {/* Stats inside hero */}
             <div className="flex flex-wrap gap-4">
-              <div className="glass rounded-xl px-4 py-2 text-sm">
+              <div className="bento-card rounded-xl px-4 py-2 text-sm">
                 <span className="text-gold font-bold">{TIMELINE.length}</span>{' '}
                 <span className="text-pirate-muted">olay</span>
               </div>
-              <div className="glass rounded-xl px-4 py-2 text-sm">
+              <div className="bento-card rounded-xl px-4 py-2 text-sm">
                 <span className="text-purple-400 font-bold">900+</span>{' '}
                 <span className="text-pirate-muted">yıl</span>
               </div>
-              <div className="glass rounded-xl px-4 py-2 text-sm">
+              <div className="bento-card rounded-xl px-4 py-2 text-sm">
                 <span className="text-sea font-bold">6</span>{' '}
                 <span className="text-pirate-muted">dönem</span>
               </div>
@@ -423,7 +423,7 @@ export default function TimelinePage() {
             <motion.button
               variants={fadeUp}
               onClick={() => setActiveCategory(null)}
-              className={`glass glass-lift group flex items-center gap-3 rounded-xl px-4 py-3 text-left transition-all ${
+              className={`bento-card group flex items-center gap-3 rounded-xl px-4 py-3 text-left transition-all ${
                 !activeCategory
                   ? 'border-gold/40 ring-2 ring-gold/20'
                   : 'hover:border-pirate-border/80'
@@ -451,7 +451,7 @@ export default function TimelinePage() {
                   key={key}
                   variants={fadeUp}
                   onClick={() => setActiveCategory(activeCategory === key ? null : key)}
-                  className={`glass glass-lift group flex items-center gap-3 rounded-xl px-4 py-3 text-left transition-all ${
+                  className={`bento-card group flex items-center gap-3 rounded-xl px-4 py-3 text-left transition-all ${
                     isActive
                       ? `${info.border} ring-2 ${info.ring}`
                       : 'hover:border-pirate-border/80'
@@ -515,7 +515,7 @@ export default function TimelinePage() {
 
                         {/* Event card */}
                         <div
-                          className={`glass group relative flex-1 overflow-hidden rounded-xl border-l-[3px] px-5 py-4 transition-all sm:px-6 sm:py-5 ${
+                          className={`bento-card group relative flex-1 overflow-hidden rounded-xl border-l-[3px] px-5 py-4 transition-all sm:px-6 sm:py-5 ${
                             isImportant
                               ? `${catInfo.border} hover:border-l-[3px]`
                               : 'border-l-pirate-border/40 hover:border-l-pirate-border/60'

@@ -3,7 +3,8 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import type { LucideIcon } from 'lucide-react'
-import { EASE } from '@/lib/variants'
+
+const EASE = [0.16, 1, 0.3, 1] as const
 
 type Orb = {
   color: string
@@ -19,9 +20,9 @@ type PageHeroProps = {
   titleGradient?: string
   subtitle: string
   description: string
-  accentColor: string       // e.g. 'gold', 'sea', 'luffy', 'purple-400'
+  accentColor: string
   orbs: Orb[]
-  children?: React.ReactNode // extra content inside hero (stats, badges, etc.)
+  children?: React.ReactNode
   gridOverlay?: boolean
 }
 
@@ -41,16 +42,16 @@ export default function PageHero({
     target: heroRef,
     offset: ['start start', 'end start'],
   })
-  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '20%'])
+  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '15%'])
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
 
   return (
     <motion.section
       ref={heroRef}
       style={{ opacity }}
-      className="relative mb-12 overflow-hidden rounded-3xl border border-pirate-border/50"
+      className="relative mb-12 overflow-hidden rounded-3xl border border-pirate-border/20"
     >
-      {/* Background gradient */}
+      {/* Background */}
       <motion.div
         style={{ y: bgY }}
         className="absolute inset-0 -top-20 -bottom-20"
@@ -59,7 +60,7 @@ export default function PageHero({
         {orbs.map((orb, i) => (
           <motion.div
             key={i}
-            className="absolute rounded-full blur-3xl"
+            className="orb"
             style={{
               width: orb.size,
               height: orb.size,
@@ -69,7 +70,7 @@ export default function PageHero({
             }}
             animate={{
               scale: [1, 1.3, 1],
-              opacity: [0.3, 0.6, 0.3],
+              opacity: [0.25, 0.5, 0.25],
             }}
             transition={{
               duration: 6 + i * 2,
@@ -83,7 +84,7 @@ export default function PageHero({
 
       {/* Grid overlay */}
       {gridOverlay && (
-        <div className="absolute inset-0 bg-grid-ocean bg-grid opacity-30" />
+        <div className="absolute inset-0 bg-grid-dot bg-grid-dot opacity-40" />
       )}
 
       {/* Content */}
@@ -93,9 +94,9 @@ export default function PageHero({
           initial={{ opacity: 0, scale: 0.5, rotate: -20 }}
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
           transition={{ duration: 0.6, ease: EASE }}
-          className={`mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-${accentColor}/30 bg-${accentColor}/10 shadow-lg`}
+          className={`mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-${accentColor}/20 bg-${accentColor}/[0.06]`}
         >
-          <Icon className={`h-8 w-8 text-${accentColor}`} />
+          <Icon className={`h-7 w-7 text-${accentColor}`} />
         </motion.div>
 
         {/* Title */}
@@ -114,7 +115,7 @@ export default function PageHero({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: EASE, delay: 0.2 }}
-          className="max-w-2xl text-base leading-relaxed text-pirate-muted sm:text-lg"
+          className="max-w-2xl text-sm leading-relaxed text-pirate-muted sm:text-base"
         >
           {description}
         </motion.p>

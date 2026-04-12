@@ -215,7 +215,7 @@ export default function CrewsPage() {
                   <motion.div key={crew.slug} variants={fadeUp}>
                     <Link
                       href={`/crews/${crew.slug}`}
-                      className={`glass group relative flex flex-col overflow-hidden rounded-xl transition-all duration-300 hover:scale-[1.02] hover:border-gold/20 ${hoverGlow} h-full`}
+                      className={`bento-card group relative flex flex-col overflow-hidden rounded-xl transition-all duration-300 hover:scale-[1.02] hover:border-gold/20 ${hoverGlow} h-full`}
                     >
                       {/* Top border gradient */}
                       <div className={`h-1 w-full bg-gradient-to-r ${borderGradient}`} />

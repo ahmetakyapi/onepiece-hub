@@ -5,26 +5,22 @@ import { useRef, useCallback } from 'react'
 interface GlassCardProps {
   children: React.ReactNode
   className?: string
-  tilt?: boolean    // 3D eğim efekti
-  glow?: boolean    // Holografik parlaklık
+  tilt?: boolean
+  glow?: boolean
 }
 
-/**
- * Glassmorphism kart bileşeni.
- * tilt=true → 3D eğim + holografik parlaklık efekti (ahmetakyapi.com Projects kartı)
- */
 export function GlassCard({ children, className, tilt = false, glow = false }: GlassCardProps) {
   const ref = useRef<HTMLDivElement>(null)
-  const rx = useSpring(useMotionValue(0), { stiffness: 300, damping: 30 })
-  const ry = useSpring(useMotionValue(0), { stiffness: 300, damping: 30 })
+  const rx = useSpring(useMotionValue(0), { stiffness: 250, damping: 25 })
+  const ry = useSpring(useMotionValue(0), { stiffness: 250, damping: 25 })
   const mouseX = useMotionValue(0.5)
   const mouseY = useMotionValue(0.5)
 
   const onMove = useCallback((e: React.MouseEvent) => {
     if (!tilt || !ref.current) return
     const r = ref.current.getBoundingClientRect()
-    rx.set(-((e.clientY - r.top) / r.height - 0.5) * 8)
-    ry.set(((e.clientX - r.left) / r.width - 0.5) * 8)
+    rx.set(-((e.clientY - r.top) / r.height - 0.5) * 6)
+    ry.set(((e.clientX - r.left) / r.width - 0.5) * 6)
     mouseX.set((e.clientX - r.left) / r.width)
     mouseY.set((e.clientY - r.top) / r.height)
   }, [tilt, rx, ry, mouseX, mouseY])
@@ -36,7 +32,7 @@ export function GlassCard({ children, className, tilt = false, glow = false }: G
 
   const shineX = useTransform(mouseX, [0, 1], ['0%', '100%'])
   const shineY = useTransform(mouseY, [0, 1], ['0%', '100%'])
-  const shine  = useMotionTemplate`radial-gradient(400px circle at ${shineX} ${shineY}, rgba(244,163,0,0.1), rgba(30,144,255,0.06), transparent 70%)`
+  const shine  = useMotionTemplate`radial-gradient(400px circle at ${shineX} ${shineY}, rgba(244,163,0,0.07), rgba(30,144,255,0.04), transparent 70%)`
 
   return (
     <motion.div
@@ -44,11 +40,11 @@ export function GlassCard({ children, className, tilt = false, glow = false }: G
       style={tilt ? { rotateX: rx, rotateY: ry, transformStyle: 'preserve-3d' } : undefined}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
-      className={cn('glass relative rounded-2xl overflow-hidden', className)}
+      className={cn('bento-card relative overflow-hidden', className)}
     >
       {(tilt || glow) && (
         <motion.div
-          className="pointer-events-none absolute inset-0 z-10"
+          className="pointer-events-none absolute inset-0 z-10 rounded-[inherit]"
           style={{ background: shine }}
         />
       )}

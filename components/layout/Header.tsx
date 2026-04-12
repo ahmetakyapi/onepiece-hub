@@ -1,15 +1,18 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useMotionValueEvent, useScroll } from 'framer-motion'
+// motion used for dropdown/drawer animations, not header element itself
 import {
   Menu, X, Compass, Users, BookOpen, LogOut, User,
   ChevronDown, Cherry, Shield, Globe, Anchor, Swords,
-  Trophy, Clock, Crown
+  Trophy, Clock, ArrowRight
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/useAuth'
+
+const EASE = [0.16, 1, 0.3, 1] as const
 
 const MAIN_LINKS = [
   { label: 'Arc\'lar', href: '/arcs', icon: Compass },
@@ -27,17 +30,19 @@ const WIKI_LINKS = [
 ] as const
 
 export default function Header() {
+  const [mounted, setMounted] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [wikiOpen, setWikiOpen] = useState(false)
   const wikiRef = useRef<HTMLDivElement>(null)
   const { user, logout, loading } = useAuth()
+  const { scrollY } = useScroll()
 
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 10)
-    window.addEventListener('scroll', fn, { passive: true })
-    return () => window.removeEventListener('scroll', fn)
-  }, [])
+  useEffect(() => { setMounted(true) }, [])
+
+  useMotionValueEvent(scrollY, 'change', (latest) => {
+    setScrolled(latest > 20)
+  })
 
   // Close wiki dropdown on outside click
   useEffect(() => {
@@ -50,136 +55,180 @@ export default function Header() {
     return () => document.removeEventListener('mousedown', fn)
   }, [])
 
+  // Close mobile menu on route change (escape key)
+  useEffect(() => {
+    const fn = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMenuOpen(false)
+        setWikiOpen(false)
+      }
+    }
+    document.addEventListener('keydown', fn)
+    return () => document.removeEventListener('keydown', fn)
+  }, [])
+
   return (
     <>
+      {/* ── Desktop Header ───────────────────────────────────────── */}
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-          scrolled ? 'glass shadow-xl shadow-black/10 h-16' : 'bg-transparent h-20'
-        }`}
+        className="fixed inset-x-0 top-0 z-50"
       >
-        <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6">
+        {/* Blur backdrop that grows on scroll */}
+        <div
+          className="absolute inset-0 transition-all duration-500"
+          style={{
+            backgroundColor: scrolled ? 'rgba(6,14,26,0.82)' : 'rgba(6,14,26,0)',
+            backdropFilter: scrolled ? 'blur(20px) saturate(1.4)' : 'blur(0px)',
+            WebkitBackdropFilter: scrolled ? 'blur(20px) saturate(1.4)' : 'blur(0px)',
+          }}
+        />
+
+        {/* Bottom border that fades in */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-px transition-opacity duration-400"
+          style={{
+            opacity: scrolled ? 1 : 0,
+            background: 'linear-gradient(90deg, transparent, rgba(30,144,255,0.12) 20%, rgba(244,163,0,0.12) 80%, transparent)',
+          }}
+        />
+
+        <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-6 sm:h-[4.5rem]">
           {/* Logo */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-          >
-            <Link href="/" className="flex items-center gap-2 group">
-              <Image
-                src="/logo.png"
-                alt="One Piece Hub"
-                width={180}
-                height={72}
-                className="h-14 w-auto drop-shadow-lg transition-all group-hover:scale-105 sm:h-[4.5rem]"
-                priority
-              />
-            </Link>
-          </motion.div>
+          <Link href="/" className="relative flex items-center gap-2 group">
+            <Image
+              src="/logo.png"
+              alt="One Piece Hub"
+              width={180}
+              height={72}
+              className="h-12 w-auto drop-shadow-lg transition-all duration-500 ease-expo-out group-hover:drop-shadow-[0_0_20px_rgba(244,163,0,0.25)] sm:h-14"
+              priority
+            />
+          </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden items-center gap-1 md:flex">
-            {MAIN_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`link-glow group flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold transition-colors hover:text-gold ${
-                  scrolled ? 'text-pirate-text/80' : 'text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]'
-                }`}
-              >
-                <link.icon className="h-4 w-4 transition-transform group-hover:scale-110" />
-                {link.label}
-              </Link>
-            ))}
+          {/* Desktop nav — floating pill style */}
+          <nav className="hidden items-center md:flex">
+            {/* Nav pill container */}
+            <div className="flex items-center gap-0.5 rounded-full border border-white/[0.06] bg-white/[0.03] px-1 py-1 backdrop-blur-sm">
+              {MAIN_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="group flex items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-semibold text-pirate-text/80 transition-all duration-300 hover:bg-white/[0.06] hover:text-white"
+                >
+                  <link.icon className="h-3.5 w-3.5 opacity-60 transition-all group-hover:opacity-100 group-hover:text-gold" />
+                  {link.label}
+                </Link>
+              ))}
 
-            {/* Wiki dropdown */}
-            <div ref={wikiRef} className="relative">
-              <button
-                onClick={() => setWikiOpen(!wikiOpen)}
-                className={`link-glow group flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-semibold transition-colors hover:text-gold ${
-                  scrolled ? 'text-pirate-text/80' : 'text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]'
-                }`}
-              >
-                <BookOpen className="h-4 w-4 transition-transform group-hover:scale-110" />
-                Wiki
-                <ChevronDown className={`h-3.5 w-3.5 transition-transform ${wikiOpen ? 'rotate-180' : ''}`} />
-              </button>
+              {/* Wiki dropdown */}
+              <div ref={wikiRef} className="relative">
+                <button
+                  onClick={() => setWikiOpen(!wikiOpen)}
+                  className={`group flex items-center gap-1 rounded-full px-4 py-2 text-[13px] font-semibold transition-all duration-300 ${
+                    wikiOpen
+                      ? 'bg-white/[0.08] text-white'
+                      : 'text-pirate-text/80 hover:bg-white/[0.06] hover:text-white'
+                  }`}
+                >
+                  <BookOpen className="h-3.5 w-3.5 opacity-60 transition-all group-hover:opacity-100 group-hover:text-gold" />
+                  Wiki
+                  <ChevronDown className={`h-3 w-3 opacity-50 transition-transform duration-300 ${wikiOpen ? 'rotate-180' : ''}`} />
+                </button>
 
-              <AnimatePresence>
-                {wikiOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -8, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -8, scale: 0.95 }}
-                    transition={{ duration: 0.15 }}
-                    className="surface absolute right-0 top-full mt-2 w-72 rounded-2xl p-3"
-                  >
-                    <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-wider text-pirate-muted">
-                      Ansiklopedi
-                    </p>
-                    {WIKI_LINKS.map((link) => (
-                      <Link
-                        key={link.href}
-                        href={link.href}
-                        onClick={() => setWikiOpen(false)}
-                        className="flex items-start gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-sea/5"
-                      >
-                        <link.icon className="mt-0.5 h-4 w-4 text-gold" />
-                        <div>
-                          <p className="text-sm font-semibold text-pirate-text">{link.label}</p>
-                          <p className="text-[11px] text-pirate-muted">{link.desc}</p>
-                        </div>
-                      </Link>
-                    ))}
-                    <div className="my-2 divider-glow" />
-                    <Link
-                      href="/about"
-                      onClick={() => setWikiOpen(false)}
-                      className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-sea/5"
+                <AnimatePresence>
+                  {wikiOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                      transition={{ duration: 0.2, ease: EASE }}
+                      className="glass-elevated absolute right-0 top-full mt-3 w-80 overflow-hidden rounded-2xl p-2"
                     >
-                      <BookOpen className="h-4 w-4 text-sea" />
-                      <p className="text-sm font-semibold text-pirate-text">Hakkında</p>
-                    </Link>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                      {/* Header */}
+                      <div className="mb-1 flex items-center justify-between px-3 py-2">
+                        <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-pirate-muted">
+                          Ansiklopedi
+                        </span>
+                        <span className="rounded-full bg-gold/10 px-2 py-0.5 text-[9px] font-bold text-gold">
+                          7 bölüm
+                        </span>
+                      </div>
+
+                      {WIKI_LINKS.map((link, i) => (
+                        <motion.div
+                          key={link.href}
+                          initial={{ opacity: 0, x: -8 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: i * 0.03, duration: 0.2 }}
+                        >
+                          <Link
+                            href={link.href}
+                            onClick={() => setWikiOpen(false)}
+                            className="group flex items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200 hover:bg-white/[0.04]"
+                          >
+                            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-gold/[0.06] transition-colors group-hover:bg-gold/[0.12]">
+                              <link.icon className="h-3.5 w-3.5 text-gold/70 transition-colors group-hover:text-gold" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-[13px] font-semibold text-pirate-text transition-colors group-hover:text-white">
+                                {link.label}
+                              </p>
+                              <p className="text-[11px] text-pirate-muted/70">{link.desc}</p>
+                            </div>
+                            <ArrowRight className="h-3.5 w-3.5 text-pirate-muted/30 transition-all group-hover:translate-x-0.5 group-hover:text-gold/50" />
+                          </Link>
+                        </motion.div>
+                      ))}
+
+                      <div className="my-1.5 mx-3 h-px bg-gradient-to-r from-transparent via-pirate-border/30 to-transparent" />
+
+                      <Link
+                        href="/about"
+                        onClick={() => setWikiOpen(false)}
+                        className="group flex items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200 hover:bg-white/[0.04]"
+                      >
+                        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-sea/[0.06]">
+                          <BookOpen className="h-3.5 w-3.5 text-sea/70 transition-colors group-hover:text-sea" />
+                        </div>
+                        <p className="text-[13px] font-semibold text-pirate-text transition-colors group-hover:text-white">
+                          Hakkında
+                        </p>
+                      </Link>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           </nav>
 
-          {/* Right side */}
-          <div className="flex items-center gap-2">
+          {/* Right side — auth + mobile */}
+          <div className="flex items-center gap-3">
             {!loading && (
               user ? (
                 <div className="hidden items-center gap-2 sm:flex">
                   <Link
                     href="/profile"
-                    className={`flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-semibold transition-all ${
-                      scrolled
-                        ? 'border-gold/20 bg-gold/5 text-gold hover:border-gold/40 hover:bg-gold/10'
-                        : 'border-white/25 bg-white/10 text-white backdrop-blur-sm hover:border-gold/40 hover:bg-gold/10 hover:text-gold'
-                    }`}
+                    className="group flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-[13px] font-semibold text-pirate-text transition-all duration-300 hover:border-gold/20 hover:bg-gold/[0.06] hover:text-gold"
                   >
-                    <User className="h-4 w-4" />
+                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-gold/15">
+                      <User className="h-3 w-3 text-gold" />
+                    </div>
                     {user.name || user.username}
                   </Link>
                   <button
                     onClick={logout}
-                    className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-luffy ${
-                      scrolled ? 'text-pirate-muted' : 'text-white/70'
-                    }`}
+                    className="flex h-8 w-8 items-center justify-center rounded-full text-pirate-muted transition-all duration-200 hover:bg-luffy/10 hover:text-luffy"
                     title="Çıkış Yap"
                   >
-                    <LogOut className="h-4 w-4" />
+                    <LogOut className="h-3.5 w-3.5" />
                   </button>
                 </div>
               ) : (
                 <Link
                   href="/login"
-                  className={`hidden items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-semibold transition-all sm:flex ${
-                    scrolled
-                      ? 'border-gold/20 bg-gold/5 text-gold hover:border-gold/40 hover:bg-gold/10'
-                      : 'border-white/25 bg-white/10 text-white backdrop-blur-sm hover:border-gold/40 hover:bg-gold/10 hover:text-gold'
-                  }`}
+                  className="hidden items-center gap-2 rounded-full border border-gold/20 bg-gold/[0.06] px-4 py-2 text-[13px] font-semibold text-gold transition-all duration-300 hover:bg-gold/[0.12] hover:shadow-[0_0_20px_rgba(244,163,0,0.1)] sm:flex"
                 >
-                  <User className="h-4 w-4" />
+                  <User className="h-3.5 w-3.5" />
                   Maceraya Katıl
                 </Link>
               )
@@ -189,103 +238,152 @@ export default function Header() {
             <button
               onClick={() => setMenuOpen((v) => !v)}
               aria-label="Menu"
-              className={`flex h-9 w-9 items-center justify-center rounded-xl transition-colors hover:text-gold md:hidden ${
-                scrolled ? 'text-pirate-muted' : 'text-white'
-              }`}
+              className="relative flex h-10 w-10 items-center justify-center rounded-xl text-pirate-text transition-colors hover:text-gold md:hidden"
             >
-              {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {menuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
             </button>
           </div>
         </div>
       </header>
 
-      {/* Mobile dropdown */}
+      {/* ── Mobile menu overlay + drawer ──────────────────────────── */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            className="surface fixed inset-x-4 top-20 z-40 max-h-[80vh] overflow-y-auto rounded-2xl p-4 md:hidden scrollbar-thin"
-          >
-            {/* Main links */}
-            {MAIN_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-pirate-text transition-colors hover:bg-sea/5 hover:text-gold"
-              >
-                <link.icon className="h-4 w-4 text-sea" />
-                {link.label}
-              </Link>
-            ))}
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-40 bg-ocean-deep/60 backdrop-blur-sm md:hidden"
+              onClick={() => setMenuOpen(false)}
+            />
 
-            {/* Wiki section */}
-            <div className="mt-2 border-t border-pirate-border pt-2">
-              <p className="px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-pirate-muted">
-                Wiki & Ansiklopedi
-              </p>
-              {WIKI_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-pirate-text transition-colors hover:bg-sea/5 hover:text-gold"
-                >
-                  <link.icon className="h-4 w-4 text-gold" />
-                  <div>
-                    <p className="text-sm">{link.label}</p>
-                    <p className="text-[10px] text-pirate-muted">{link.desc}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            {/* Drawer */}
+            <motion.div
+              initial={{ opacity: 0, y: -16, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -16, scale: 0.98 }}
+              transition={{ duration: 0.3, ease: EASE }}
+              className="glass-elevated fixed inset-x-4 top-20 z-40 max-h-[75vh] overflow-y-auto rounded-2xl p-3 md:hidden scrollbar-thin"
+            >
+              {/* Main links */}
+              <div className="mb-2 space-y-0.5">
+                {MAIN_LINKS.map((link, i) => (
+                  <motion.div
+                    key={link.href}
+                    initial={{ opacity: 0, x: -12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.05, duration: 0.3, ease: EASE }}
+                  >
+                    <Link
+                      href={link.href}
+                      onClick={() => setMenuOpen(false)}
+                      className="group flex items-center gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-white/[0.04]"
+                    >
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-sea/[0.08]">
+                        <link.icon className="h-4 w-4 text-sea" />
+                      </div>
+                      <span className="text-sm font-semibold text-pirate-text">{link.label}</span>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
 
-            {/* About */}
-            <div className="mt-2 border-t border-pirate-border pt-2">
+              {/* Divider */}
+              <div className="mx-4 my-2 h-px bg-gradient-to-r from-transparent via-pirate-border/30 to-transparent" />
+
+              {/* Wiki section */}
+              <div className="mb-2">
+                <p className="px-4 py-2 text-[10px] font-bold uppercase tracking-[0.12em] text-pirate-muted">
+                  Wiki & Ansiklopedi
+                </p>
+                <div className="space-y-0.5">
+                  {WIKI_LINKS.map((link, i) => (
+                    <motion.div
+                      key={link.href}
+                      initial={{ opacity: 0, x: -12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + i * 0.03, duration: 0.3, ease: EASE }}
+                    >
+                      <Link
+                        href={link.href}
+                        onClick={() => setMenuOpen(false)}
+                        className="group flex items-center gap-3 rounded-xl px-4 py-2.5 transition-colors hover:bg-white/[0.04]"
+                      >
+                        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-gold/[0.06]">
+                          <link.icon className="h-3.5 w-3.5 text-gold/70" />
+                        </div>
+                        <div>
+                          <p className="text-[13px] font-semibold text-pirate-text">{link.label}</p>
+                          <p className="text-[10px] text-pirate-muted/60">{link.desc}</p>
+                        </div>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="mx-4 my-2 h-px bg-gradient-to-r from-transparent via-pirate-border/30 to-transparent" />
+
+              {/* About */}
               <Link
                 href="/about"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-pirate-text transition-colors hover:bg-sea/5 hover:text-gold"
+                className="flex items-center gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-white/[0.04]"
               >
-                <BookOpen className="h-4 w-4 text-sea" />
-                Hakkında
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-sea/[0.08]">
+                  <BookOpen className="h-4 w-4 text-sea" />
+                </div>
+                <span className="text-sm font-semibold text-pirate-text">Hakkında</span>
               </Link>
-            </div>
 
-            {/* Auth */}
-            <div className="mt-2 border-t border-pirate-border pt-2">
+              {/* Auth */}
+              <div className="mx-4 my-2 h-px bg-gradient-to-r from-transparent via-pirate-border/30 to-transparent" />
               {user ? (
-                <>
+                <div className="space-y-0.5">
                   <Link
                     href="/profile"
                     onClick={() => setMenuOpen(false)}
-                    className="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-gold"
+                    className="flex items-center gap-3 rounded-xl px-4 py-3"
                   >
-                    <User className="h-4 w-4" />
-                    {user.name || user.username}
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gold/10">
+                      <User className="h-4 w-4 text-gold" />
+                    </div>
+                    <span className="text-sm font-semibold text-gold">
+                      {user.name || user.username}
+                    </span>
                   </Link>
                   <button
                     onClick={() => { logout(); setMenuOpen(false) }}
-                    className="flex w-full items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-pirate-muted hover:text-luffy"
+                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-luffy/[0.06]"
                   >
-                    <LogOut className="h-4 w-4" />
-                    Çıkış Yap
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-luffy/[0.08]">
+                      <LogOut className="h-4 w-4 text-luffy/70" />
+                    </div>
+                    <span className="text-sm font-medium text-pirate-muted">Çıkış Yap</span>
                   </button>
-                </>
+                </div>
               ) : (
                 <Link
                   href="/login"
                   onClick={() => setMenuOpen(false)}
-                  className="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-gold"
+                  className="flex items-center gap-3 rounded-xl px-4 py-3"
                 >
-                  <User className="h-4 w-4" />
-                  Maceraya Katıl
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gold/10">
+                    <User className="h-4 w-4 text-gold" />
+                  </div>
+                  <span className="text-sm font-semibold text-gold">Maceraya Katıl</span>
                 </Link>
               )}
-            </div>
-          </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>

@@ -7,13 +7,14 @@ import Link from 'next/link'
 import {
   ArrowLeft, Play, Compass, Film, Clock,
   ChevronRight, BrainCircuit, MessageCircle,
-  MapPin, Skull, Sparkles, BookOpen, Users
+  MapPin, Skull, Sparkles, BookOpen, Users, ArrowRight
 } from 'lucide-react'
-import { fadeUp, staggerContainer } from '@/lib/variants'
 import { getArcImage } from '@/lib/constants/images'
 import type { Arc } from '@/types'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+
+const EASE = [0.16, 1, 0.3, 1] as const
 
 export default function ArcDetailClient({ arc }: { arc: Arc }) {
   const coverRef = useRef<HTMLDivElement>(null)
@@ -29,139 +30,165 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
       <Header />
       <main className="relative min-h-screen pt-24">
         <div className="mx-auto max-w-5xl px-6">
-          {/* Back */}
-          <Link
-            href="/arcs"
-            className="mb-6 inline-flex items-center gap-1.5 text-sm text-pirate-muted transition-colors hover:text-gold group"
-          >
-            <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-            Tüm Arc&apos;lar
-          </Link>
-
-          {/* Header section */}
+          {/* Back button */}
           <motion.div
-            variants={staggerContainer(0.1)}
-            initial="hidden"
-            animate="visible"
-            className="mb-10"
+            initial={{ opacity: 0, x: -12 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, ease: EASE }}
           >
-            {/* Cover with parallax */}
-            <motion.div
-              ref={coverRef}
-              variants={fadeUp}
-              className="relative mb-6 h-56 overflow-hidden rounded-2xl bg-ocean-surface sm:h-80"
+            <Link
+              href="/arcs"
+              className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-pirate-border/30 bg-ocean-surface/30 px-4 py-2 text-[13px] text-pirate-muted transition-all duration-300 hover:border-gold/20 hover:text-gold group"
             >
-              {getArcImage(arc.slug) ? (
-                <motion.div className="absolute inset-0" style={{ scale: coverScale, opacity: coverOpacity }}>
-                  <Image
-                    src={getArcImage(arc.slug)}
-                    alt={arc.name}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 100vw, 896px"
-                    priority
-                  />
-                </motion.div>
-              ) : (
-                <div className="flex h-full w-full items-center justify-center">
-                  <Compass className="h-16 w-16 text-sea/20" />
-                </div>
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep via-ocean-deep/30 to-transparent" />
-            </motion.div>
-
-            {/* Title + meta */}
-            <motion.div variants={fadeUp} className="mb-4">
-              <h1 className="mb-2 text-3xl font-extrabold text-pirate-text sm:text-4xl">
-                {arc.name}
-              </h1>
-              <div className="flex flex-wrap items-center gap-4 text-sm text-pirate-muted">
-                <span className="flex items-center gap-1">
-                  <Film className="h-4 w-4 text-sea" />
-                  {arc.episodeCount} Bölüm
-                </span>
-                <span className="flex items-center gap-1">
-                  <Clock className="h-4 w-4 text-gold" />
-                  ~{Math.round(arc.episodeCount * 24 / 60)} saat
-                </span>
-              </div>
-
-              {/* Location + Villain + Characters + Quiz */}
-              <div className="mt-4 flex flex-wrap items-center gap-3">
-                {arc.location && (
-                  <div className="glass flex items-center gap-2 rounded-xl px-4 py-2.5">
-                    <MapPin className="h-4 w-4 text-sea" />
-                    <div>
-                      <p className="text-xs text-pirate-muted">Konum</p>
-                      <p className="text-sm font-semibold text-pirate-text">{arc.location}</p>
-                    </div>
-                  </div>
-                )}
-                {arc.villain && (
-                  <div className="glass flex items-center gap-2 rounded-xl px-4 py-2.5">
-                    <Skull className="h-4 w-4 text-luffy" />
-                    <div>
-                      <p className="text-xs text-pirate-muted">Ana Düşman</p>
-                      <p className="text-sm font-semibold text-pirate-text">{arc.villain}</p>
-                    </div>
-                  </div>
-                )}
-                {arc.characters && arc.characters.length > 0 && (
-                  <div className="glass flex items-center gap-2 rounded-xl px-4 py-2.5">
-                    <Users className="h-4 w-4 text-sea" />
-                    <div>
-                      <p className="text-xs text-pirate-muted">Öne Çıkan Karakterler</p>
-                      <div className="mt-0.5 flex flex-wrap gap-1.5">
-                        {arc.characters.map((slug) => (
-                          <Link
-                            key={slug}
-                            href={`/characters/${slug}`}
-                            className="rounded-md bg-ocean-surface px-2 py-0.5 text-xs font-medium text-pirate-muted transition-colors hover:bg-sea/10 hover:text-sea"
-                          >
-                            {slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-                <div className="flex-1" />
-                <Link href={`/quiz/${arc.slug}`} className="btn-ghost">
-                  <BrainCircuit className="h-4 w-4" />
-                  Arc Quiz
-                </Link>
-              </div>
-            </motion.div>
-
-            {/* Summary */}
-            <motion.p
-              variants={fadeUp}
-              className="mb-4 text-base leading-relaxed text-pirate-muted"
-            >
-              {arc.summary}
-            </motion.p>
-
-            {/* Detailed Summary */}
-            {arc.detailedSummary && (
-              <motion.div variants={fadeUp} className="glass mb-6 rounded-xl p-5">
-                <h3 className="mb-3 flex items-center gap-2 text-sm font-bold text-pirate-text">
-                  <BookOpen className="h-4 w-4 text-gold" />
-                  Detaylı Özet
-                </h3>
-                <p className="text-sm leading-relaxed text-pirate-muted">
-                  {arc.detailedSummary}
-                </p>
-              </motion.div>
-            )}
+              <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-1" />
+              Tüm Arc&apos;lar
+            </Link>
           </motion.div>
 
-          {/* ─── Episode List (right after summary) ──────────────── */}
+          {/* Cover with parallax */}
+          <motion.div
+            ref={coverRef}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: EASE }}
+            className="relative mb-8 h-56 overflow-hidden rounded-3xl bg-ocean-surface sm:h-80"
+          >
+            {getArcImage(arc.slug) ? (
+              <motion.div className="absolute inset-0" style={{ scale: coverScale, opacity: coverOpacity }}>
+                <Image
+                  src={getArcImage(arc.slug)}
+                  alt={arc.name}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 100vw, 896px"
+                  priority
+                />
+              </motion.div>
+            ) : (
+              <div className="flex h-full w-full items-center justify-center">
+                <Compass className="h-16 w-16 text-sea/15" />
+              </div>
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep via-ocean-deep/30 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-ocean-deep/30 via-transparent to-ocean-deep/30" />
+          </motion.div>
+
+          {/* Title + meta */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
+            className="mb-6"
+          >
+            <h1 className="mb-3 text-3xl font-extrabold text-pirate-text sm:text-4xl">
+              {arc.name}
+            </h1>
+            <div className="flex flex-wrap items-center gap-4 text-sm text-pirate-muted">
+              <span className="flex items-center gap-1.5">
+                <Film className="h-4 w-4 text-sea" />
+                {arc.episodeCount} Bölüm
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Clock className="h-4 w-4 text-gold" />
+                ~{Math.round(arc.episodeCount * 24 / 60)} saat
+              </span>
+            </div>
+          </motion.div>
+
+          {/* Meta cards */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
+            className="mb-8 flex flex-wrap items-center gap-3"
+          >
+            {arc.location && (
+              <div className="bento-card flex items-center gap-3 px-4 py-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-sea/[0.08]">
+                  <MapPin className="h-4 w-4 text-sea" />
+                </div>
+                <div>
+                  <p className="text-[10px] text-pirate-muted/60">Konum</p>
+                  <p className="text-sm font-semibold text-pirate-text">{arc.location}</p>
+                </div>
+              </div>
+            )}
+            {arc.villain && (
+              <div className="bento-card flex items-center gap-3 px-4 py-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-luffy/[0.08]">
+                  <Skull className="h-4 w-4 text-luffy" />
+                </div>
+                <div>
+                  <p className="text-[10px] text-pirate-muted/60">Ana Düşman</p>
+                  <p className="text-sm font-semibold text-pirate-text">{arc.villain}</p>
+                </div>
+              </div>
+            )}
+            {arc.characters && arc.characters.length > 0 && (
+              <div className="bento-card flex items-center gap-3 px-4 py-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-sea/[0.08]">
+                  <Users className="h-4 w-4 text-sea" />
+                </div>
+                <div>
+                  <p className="text-[10px] text-pirate-muted/60">Öne Çıkan Karakterler</p>
+                  <div className="mt-1 flex flex-wrap gap-1.5">
+                    {arc.characters.map((slug) => (
+                      <Link
+                        key={slug}
+                        href={`/characters/${slug}`}
+                        className="tag transition-colors hover:bg-sea/[0.12] hover:text-sea"
+                      >
+                        {slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+            <div className="flex-1" />
+            <Link href={`/quiz/${arc.slug}`} className="btn-ghost text-sm">
+              <BrainCircuit className="h-4 w-4" />
+              Arc Quiz
+            </Link>
+          </motion.div>
+
+          {/* Summary */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.2 }}
+            className="mb-6 text-base leading-relaxed text-pirate-muted"
+          >
+            {arc.summary}
+          </motion.p>
+
+          {/* Detailed Summary */}
+          {arc.detailedSummary && (
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: EASE, delay: 0.25 }}
+              className="bento-card mb-8 p-6"
+            >
+              <h3 className="mb-3 flex items-center gap-2 text-sm font-bold text-pirate-text">
+                <BookOpen className="h-4 w-4 text-gold" />
+                Detaylı Özet
+              </h3>
+              <p className="text-sm leading-relaxed text-pirate-muted/80">
+                {arc.detailedSummary}
+              </p>
+            </motion.div>
+          )}
+
+          {/* ─── Episode List ──────────────────────────────────────── */}
           <section className="mb-10">
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-5 flex items-center justify-between">
               <h2 className="flex items-center gap-2 text-lg font-bold text-pirate-text">
                 <Film className="h-5 w-5 text-sea" />
                 Bölümler
-                <span className="ml-1 text-sm font-normal text-pirate-muted">({arc.episodeCount})</span>
+                <span className="ml-1 rounded-full bg-sea/[0.06] px-2.5 py-0.5 text-[11px] font-semibold text-sea/70">
+                  {arc.episodeCount}
+                </span>
               </h2>
               <Link
                 href={`/arcs/${arc.slug}/${arc.episodes[0]?.slug}`}
@@ -171,66 +198,66 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                 İzlemeye Başla
               </Link>
             </div>
-            <motion.div
-              variants={staggerContainer(0.04)}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="space-y-2"
-            >
-              {arc.episodes.map((ep) => (
-                <motion.div key={ep.slug} variants={fadeUp}>
+
+            <div className="space-y-2">
+              {arc.episodes.map((ep, i) => (
+                <motion.div
+                  key={ep.slug}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-20px' }}
+                  transition={{ duration: 0.4, ease: EASE, delay: Math.min(i * 0.03, 0.3) }}
+                >
                   <Link
                     href={`/arcs/${arc.slug}/${ep.slug}`}
-                    className="glass glass-lift group flex items-center gap-4 rounded-xl px-4 py-3 hover:border-gold/30"
+                    className="bento-card group flex items-center gap-4 px-4 py-3.5"
                   >
                     {/* Episode number */}
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-ocean-surface border border-pirate-border/50 text-sm font-bold text-sea transition-all group-hover:border-gold/30 group-hover:text-gold">
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-ocean-surface/80 border border-pirate-border/20 text-sm font-bold text-sea transition-all duration-300 group-hover:border-gold/20 group-hover:text-gold">
                       {ep.number}
                     </div>
 
                     {/* Title + summary */}
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-pirate-text transition-colors group-hover:text-gold">
+                      <p className="text-sm font-semibold text-pirate-text transition-colors duration-300 group-hover:text-gold">
                         {ep.title}
                       </p>
                       {ep.summary && (
-                        <p className="mt-0.5 line-clamp-1 text-xs text-pirate-muted/70">
+                        <p className="mt-0.5 line-clamp-1 text-[11px] text-pirate-muted/50">
                           {ep.summary}
                         </p>
                       )}
-                      <p className="mt-0.5 text-xs text-pirate-muted">{ep.duration}</p>
+                      <p className="mt-0.5 text-[11px] text-pirate-muted/40">{ep.duration}</p>
                     </div>
 
                     {/* Play icon */}
-                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-transparent transition-all group-hover:bg-gold/10">
-                      <Play className="h-4 w-4 text-pirate-muted transition-colors group-hover:text-gold" />
+                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full transition-all duration-300 group-hover:bg-gold/[0.08]">
+                      <Play className="h-3.5 w-3.5 text-pirate-muted/30 transition-colors duration-300 group-hover:text-gold" />
                     </div>
                   </Link>
                 </motion.div>
               ))}
-            </motion.div>
+            </div>
           </section>
 
-          {/* ─── Arc Details (after episodes) ────────────────────── */}
-          <motion.div
-            variants={staggerContainer(0.1)}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="mb-10"
-          >
-            {/* Key Events */}
+          {/* ─── Key Events & Themes ──────────────────────────────── */}
+          <div className="mb-10">
             {arc.keyEvents && arc.keyEvents.length > 0 && (
-              <motion.div variants={fadeUp} className="glass mb-6 rounded-xl p-5">
-                <h3 className="mb-3 flex items-center gap-2 text-sm font-bold text-pirate-text">
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: EASE }}
+                className="bento-card mb-6 p-6"
+              >
+                <h3 className="mb-4 flex items-center gap-2 text-sm font-bold text-pirate-text">
                   <Sparkles className="h-4 w-4 text-gold" />
                   Önemli Olaylar
                 </h3>
-                <ul className="space-y-2">
+                <ul className="space-y-3">
                   {arc.keyEvents.map((event) => (
-                    <li key={event} className="flex items-start gap-2 text-sm text-pirate-muted">
-                      <ChevronRight className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-gold" />
+                    <li key={event} className="flex items-start gap-3 text-sm text-pirate-muted/80">
+                      <ChevronRight className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-gold/50" />
                       {event}
                     </li>
                   ))}
@@ -238,9 +265,14 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
               </motion.div>
             )}
 
-            {/* Themes */}
             {arc.themes && arc.themes.length > 0 && (
-              <motion.div variants={fadeUp} className="mb-6 flex flex-wrap gap-2">
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, ease: EASE }}
+                className="mb-6 flex flex-wrap gap-2"
+              >
                 {arc.themes.map((theme) => (
                   <span key={theme} className="chip">
                     {theme}
@@ -248,8 +280,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                 ))}
               </motion.div>
             )}
-
-          </motion.div>
+          </div>
 
           {/* Comments section placeholder */}
           <section className="mb-16">
@@ -257,11 +288,11 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
               <MessageCircle className="h-5 w-5 text-gold" />
               Yorumlar
             </h2>
-            <div className="glass rounded-xl p-8 text-center">
-              <MessageCircle className="mx-auto mb-3 h-8 w-8 text-pirate-muted" />
-              <p className="text-sm text-pirate-muted">
+            <div className="bento-card p-8 text-center">
+              <MessageCircle className="mx-auto mb-3 h-8 w-8 text-pirate-muted/30" />
+              <p className="text-sm text-pirate-muted/60">
                 Yorum yapabilmek için{' '}
-                <Link href="/login" className="text-gold hover:underline">
+                <Link href="/login" className="text-gold transition-colors hover:text-gold-bright">
                   giriş yapın
                 </Link>
               </p>

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Manrope, IBM_Plex_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { AuthProvider } from '@/hooks/useAuth'
+import ScrollProgress from '@/components/layout/ScrollProgress'
 import './globals.css'
 
 const manrope = Manrope({
@@ -55,8 +56,9 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={manrope.className}>
+      <body className={`${manrope.className} bg-ocean-deep`} suppressHydrationWarning>
         <AuthProvider>
+          <ScrollProgress />
           {children}
         </AuthProvider>
         <Analytics />

@@ -58,7 +58,7 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
             {/* Quick stats */}
             <motion.div variants={fadeUp} className="mb-8 flex flex-wrap gap-3">
               {crew.captain && (
-                <div className="glass rounded-xl px-4 py-2.5">
+                <div className="bento-card rounded-xl px-4 py-2.5">
                   <p className="text-xs text-pirate-muted">Lider</p>
                   {crew.captainSlug ? (
                     <Link href={`/characters/${crew.captainSlug}`} className="text-sm font-bold text-gold hover:text-gold-bright">
@@ -70,12 +70,12 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
                 </div>
               )}
               {crew.totalBounty && (
-                <div className="glass rounded-xl px-4 py-2.5">
+                <div className="bento-card rounded-xl px-4 py-2.5">
                   <p className="text-xs text-pirate-muted">Toplam Ödül</p>
                   <p className="text-sm font-bold text-gold">{crew.totalBounty} Berry</p>
                 </div>
               )}
-              <div className="glass rounded-xl px-4 py-2.5">
+              <div className="bento-card rounded-xl px-4 py-2.5">
                 <p className="text-xs text-pirate-muted">Bilinen Üye</p>
                 <p className="text-sm font-bold text-sea">{crew.notableMembers.length}</p>
               </div>
@@ -87,7 +87,7 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
                 <BookOpen className="h-5 w-5 text-gold" />
                 Tarihçe
               </h2>
-              <div className="glass rounded-xl p-5">
+              <div className="bento-card rounded-xl p-5">
                 <p className="text-sm leading-relaxed text-pirate-muted whitespace-pre-line">
                   {crew.history}
                 </p>
@@ -101,7 +101,7 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
                   <MapPin className="h-5 w-5 text-sea" />
                   Topraklar
                 </h2>
-                <div className="glass rounded-xl p-4">
+                <div className="bento-card rounded-xl p-4">
                   <div className="flex flex-wrap gap-2">
                     {crew.territory.map((t) => (
                       <span key={t} className="rounded-lg bg-ocean-surface px-3 py-1.5 text-xs font-medium text-pirate-text">
@@ -119,7 +119,7 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
                 <Users className="h-5 w-5 text-gold" />
                 Önemli Üyeler
               </h2>
-              <div className="glass rounded-xl p-4">
+              <div className="bento-card rounded-xl p-4">
                 <div className="grid gap-2 sm:grid-cols-2">
                   {crew.notableMembers.map((member) => {
                     const content = (
@@ -151,7 +151,7 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
                 <Trophy className="h-5 w-5 text-gold" />
                 Başarılar
               </h2>
-              <div className="glass rounded-xl p-5">
+              <div className="bento-card rounded-xl p-5">
                 <div className="space-y-3">
                   {crew.achievements.map((achievement, i) => (
                     <div key={i} className="flex gap-3 rounded-lg bg-ocean-surface px-4 py-3">
@@ -170,7 +170,7 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
                   <Skull className="h-5 w-5 text-pirate-text" />
                   Jolly Roger
                 </h2>
-                <div className="glass rounded-xl p-5">
+                <div className="bento-card rounded-xl p-5">
                   <p className="text-sm text-pirate-muted">{crew.jollyRoger}</p>
                 </div>
               </motion.div>

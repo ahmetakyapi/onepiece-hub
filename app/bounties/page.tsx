@@ -132,7 +132,7 @@ export default function BountiesPage() {
             orbs={HERO_ORBS}
           >
             <div className="flex flex-wrap items-center gap-4">
-              <div className="glass inline-flex items-center gap-3 rounded-xl px-5 py-3">
+              <div className="bento-card inline-flex items-center gap-3 rounded-xl px-5 py-3">
                 <Trophy className="h-5 w-5 text-gold" />
                 <div>
                   <p className="text-[10px] uppercase tracking-wider text-pirate-muted">Toplam Kayıtlı Ödül</p>
@@ -141,7 +141,7 @@ export default function BountiesPage() {
                   </p>
                 </div>
               </div>
-              <div className="glass inline-flex items-center gap-3 rounded-xl px-5 py-3">
+              <div className="bento-card inline-flex items-center gap-3 rounded-xl px-5 py-3">
                 <Skull className="h-5 w-5 text-sea" />
                 <div>
                   <p className="text-[10px] uppercase tracking-wider text-pirate-muted">Aranan Korsan</p>
@@ -166,7 +166,7 @@ export default function BountiesPage() {
                 placeholder="Karakter veya mürettebat ara..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full rounded-xl border border-pirate-border bg-ocean-surface/50 py-2.5 pl-10 pr-4 text-sm text-pirate-text placeholder:text-pirate-muted focus:border-gold/30 focus:outline-none focus:ring-1 focus:ring-gold/20"
+                className="w-full rounded-2xl border border-pirate-border/50 bg-ocean-surface/40 py-3 pl-11 pr-4 text-sm text-pirate-text placeholder:text-pirate-muted/40 focus:border-gold/20 focus:outline-none focus:ring-2 focus:ring-gold/[0.08] transition-all"
               />
             </div>
 
@@ -356,8 +356,8 @@ export default function BountiesPage() {
                       exit={{ opacity: 0, scale: 0.95 }}
                     >
                       <MaybeLinkWrapper slug={entry.slug}>
-                        <div className={`glass glass-lift group relative flex flex-col items-center overflow-hidden rounded-2xl border p-5 text-center transition-all duration-300 ${
-                          isTop10 ? 'border-gold/20 hover:border-gold/40 hover:shadow-gold-glow' : 'hover:border-pirate-border'
+                        <div className={`bento-card group relative flex flex-col items-center overflow-hidden p-5 text-center transition-all duration-500 ${
+                          isTop10 ? 'hover:border-gold/20 hover:shadow-gold-glow' : ''
                         }`}>
                           {/* Rank badge */}
                           <div className={`absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-lg border ${

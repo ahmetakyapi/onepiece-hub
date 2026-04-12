@@ -14,9 +14,9 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20 hover:bg-indigo-500 hover:shadow-indigo-500/40',
-  ghost:   'glass text-slate-300 hover:text-white',
-  outline: 'border border-slate-600/60 text-slate-300 hover:border-indigo-500/60 hover:text-indigo-300',
+  primary: 'bg-gradient-to-br from-gold to-gold-dim text-ocean-deep font-bold shadow-[0_4px_16px_rgba(244,163,0,0.3)] hover:shadow-[0_8px_32px_rgba(244,163,0,0.4)]',
+  ghost:   'bento-card text-pirate-text hover:text-white hover:border-pirate-border/40',
+  outline: 'border border-pirate-border/40 text-pirate-text hover:border-gold/20 hover:text-gold',
 }
 
 const sizes: Record<Size, string> = {
@@ -43,7 +43,7 @@ export function Button({
         onMouseLeave={onLeave}
         whileTap={{ scale: 0.96 }}
         className={cn(
-          'rounded-xl font-semibold transition-all active:scale-95',
+          'rounded-2xl font-semibold transition-all duration-300 ease-expo-out',
           variants[variant],
           sizes[size],
           className,
@@ -58,7 +58,7 @@ export function Button({
   return (
     <button
       className={cn(
-        'rounded-xl font-semibold transition-all active:scale-95',
+        'rounded-2xl font-semibold transition-all duration-300 ease-expo-out active:scale-[0.97]',
         variants[variant],
         sizes[size],
         className,

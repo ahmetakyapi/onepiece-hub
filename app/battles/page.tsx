@@ -132,7 +132,7 @@ export default function BattlesPage() {
             <motion.button
               variants={scaleIn}
               onClick={() => setActiveCategory(null)}
-              className={`glass group relative flex flex-col items-center gap-2 rounded-xl p-4 transition-all duration-300 ${
+              className={`bento-card group relative flex flex-col items-center gap-2 rounded-xl p-4 transition-all duration-300 ${
                 !activeCategory
                   ? 'border-gold/40 bg-gold/10 shadow-[0_0_20px_rgba(244,163,0,0.15)]'
                   : 'hover:border-gold/20'
@@ -161,7 +161,7 @@ export default function BattlesPage() {
                   key={key}
                   variants={scaleIn}
                   onClick={() => setActiveCategory(isActive ? null : key)}
-                  className={`glass group relative flex flex-col items-center gap-2 rounded-xl p-4 transition-all duration-300 ${
+                  className={`bento-card group relative flex flex-col items-center gap-2 rounded-xl p-4 transition-all duration-300 ${
                     isActive
                       ? `${borderColor} ${bgColor} shadow-lg`
                       : `hover:${borderColor}`
@@ -220,7 +220,7 @@ export default function BattlesPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-60px' }}
                   transition={{ duration: 0.6, ease: EASE, delay: i * 0.04 }}
-                  className="glass group relative overflow-hidden rounded-2xl transition-all duration-300 hover:border-gold/20"
+                  className="bento-card group relative overflow-hidden transition-all duration-500 hover:border-gold/15"
                 >
                   {/* Category gradient top border */}
                   <div className={`h-1 w-full bg-gradient-to-r ${catGradient}`} />
@@ -303,8 +303,8 @@ export default function BattlesPage() {
                           {battle.participantSlugs?.side1.map((slug) => {
                             const img = getCharacterImage(slug)
                             return img ? (
-                              <Link key={slug} href={`/characters/${slug}`} className="relative h-10 w-10 overflow-hidden rounded-lg border border-sea/20 bg-ocean-deep transition-transform hover:scale-110">
-                                <Image src={img} alt={slug} fill className="object-cover object-top" sizes="40px" />
+                              <Link key={slug} href={`/characters/${slug}`} className="relative h-14 w-14 overflow-hidden rounded-xl border border-sea/20 bg-ocean-deep transition-transform hover:scale-110 sm:h-16 sm:w-16">
+                                <Image src={img} alt={slug} fill className="object-cover object-top" sizes="64px" />
                               </Link>
                             ) : null
                           })}
@@ -332,8 +332,8 @@ export default function BattlesPage() {
                           {battle.participantSlugs?.side2.map((slug) => {
                             const img = getCharacterImage(slug)
                             return img ? (
-                              <Link key={slug} href={`/characters/${slug}`} className="relative h-10 w-10 overflow-hidden rounded-lg border border-luffy/20 bg-ocean-deep transition-transform hover:scale-110">
-                                <Image src={img} alt={slug} fill className="object-cover object-top" sizes="40px" />
+                              <Link key={slug} href={`/characters/${slug}`} className="relative h-14 w-14 overflow-hidden rounded-xl border border-luffy/20 bg-ocean-deep transition-transform hover:scale-110 sm:h-16 sm:w-16">
+                                <Image src={img} alt={slug} fill className="object-cover object-top" sizes="64px" />
                               </Link>
                             ) : null
                           })}

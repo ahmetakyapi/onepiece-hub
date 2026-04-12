@@ -272,7 +272,7 @@ export default function WorldPage() {
               </div>
             </div>
 
-            <div className="glass overflow-hidden rounded-2xl">
+            <div className="bento-card overflow-hidden">
               {/* Visual diagram */}
               <div className="border-b border-pirate-border/50 bg-gradient-to-br from-ocean-surface/50 to-transparent p-6 sm:p-8">
                 {/* Four seas grid */}
@@ -382,7 +382,7 @@ export default function WorldPage() {
                           whileInView={{ opacity: 1, y: 0 }}
                           viewport={{ once: true }}
                           transition={{ duration: 0.4, ease: EASE, delay: locIndex * 0.05 }}
-                          className={`glass group rounded-xl border-l-[3px] ${SEA_BORDER_COLORS[sea.slug]} p-5 transition-all hover:border-gold/20`}
+                          className={`bento-card group rounded-xl border-l-[3px] ${SEA_BORDER_COLORS[sea.slug]} p-5 transition-all hover:border-gold/20`}
                         >
                           {/* Header */}
                           <div className="mb-3 flex items-start justify-between">

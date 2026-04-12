@@ -115,7 +115,7 @@ export default function QuizPage() {
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 0.5, ease: EASE }}
-                className="glass rounded-2xl p-8 text-center"
+                className="bento-card p-8 text-center"
               >
                 {percentage >= 70 && <Confetti />}
                 <motion.div
@@ -174,7 +174,7 @@ export default function QuizPage() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.3, ease: EASE }}
-                className="glass rounded-2xl p-6"
+                className="bento-card p-6"
               >
                 <h2 className="mb-6 text-lg font-bold text-pirate-text">
                   {question.question}
