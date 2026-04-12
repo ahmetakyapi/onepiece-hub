@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { Play, Compass, ChevronDown } from 'lucide-react'
+import { Play, Compass, ChevronDown, Cherry, Shield, Globe, Anchor, Swords, Trophy, Clock } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRef } from 'react'
@@ -180,6 +180,68 @@ export default function Home() {
 
         {/* ─── Arc Timeline ──────────────────────────────────────────────── */}
         <ArcTimeline />
+
+        {/* ─── Divider ───────────────────────────────────────────────────── */}
+        <div className="divider-glow" />
+
+        {/* ─── Wiki Section ──────────────────────────────────────────────── */}
+        <section className="relative z-10 px-6 py-20">
+          <div className="mx-auto max-w-6xl">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.6, ease: EASE }}
+              className="mb-12 text-center"
+            >
+              <h2 className="mb-3 text-2xl font-extrabold sm:text-3xl">
+                <span className="text-gold-gradient">Ansiklopedi</span>{' '}
+                <span className="text-pirate-text">& Wiki</span>
+              </h2>
+              <p className="mx-auto max-w-xl text-sm text-pirate-muted">
+                One Piece evreninin derinliklerine dal. Şeytan Meyvelerinden Haki&apos;ye,
+                dünya coğrafyasından efsanevi savaşlara kadar her şey burada.
+              </p>
+            </motion.div>
+
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {([
+                { icon: Cherry, label: 'Şeytan Meyveleri', href: '/devil-fruits', count: '43+', desc: 'Tüm meyveler', color: 'text-purple-400', bg: 'bg-purple-500/10' },
+                { icon: Shield, label: 'Haki Rehberi', href: '/haki', count: '3', desc: 'Haki türleri', color: 'text-gold', bg: 'bg-gold/10' },
+                { icon: Globe, label: 'Dünya Haritası', href: '/world', count: '25+', desc: 'Lokasyonlar', color: 'text-sea', bg: 'bg-sea/10' },
+                { icon: Anchor, label: 'Organizasyonlar', href: '/crews', count: '12', desc: 'Mürettebatlar', color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
+                { icon: Swords, label: 'Efsanevi Savaşlar', href: '/battles', count: '12', desc: 'İkonik dövüşler', color: 'text-luffy', bg: 'bg-luffy/10' },
+                { icon: Trophy, label: 'Ödül Sıralaması', href: '/bounties', count: '30+', desc: 'Bounty listesi', color: 'text-gold-bright', bg: 'bg-gold-bright/10' },
+                { icon: Clock, label: 'Zaman Çizelgesi', href: '/timeline', count: '25+', desc: 'Kronolojik olaylar', color: 'text-cyan-400', bg: 'bg-cyan-400/10' },
+                { icon: Compass, label: 'Tüm Arc\'lar', href: '/arcs', count: '32', desc: 'Arc rehberi', color: 'text-sea-light', bg: 'bg-sea-light/10' },
+              ] as const).map((item, i) => (
+                <motion.div
+                  key={item.href}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-30px' }}
+                  transition={{ duration: 0.4, ease: EASE, delay: i * 0.05 }}
+                >
+                  <Link
+                    href={item.href}
+                    className="glass group flex items-center gap-4 rounded-xl p-4 transition-all hover:border-gold/30 hover:shadow-gold-glow"
+                  >
+                    <div className={`flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl ${item.bg}`}>
+                      <item.icon className={`h-5 w-5 ${item.color} transition-transform group-hover:scale-110`} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-bold text-pirate-text transition-colors group-hover:text-gold">
+                        {item.label}
+                      </p>
+                      <p className="text-[10px] text-pirate-muted">{item.desc}</p>
+                    </div>
+                    <span className={`text-lg font-extrabold ${item.color}`}>{item.count}</span>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
 
       <Footer />

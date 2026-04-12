@@ -36,22 +36,22 @@ const FEATURES = [
   },
   {
     icon: BrainCircuit,
-    title: 'Arc Quizleri',
-    description: 'Her arc için özel hazırlanmış sorularla bilgini test et. Skorlarını kaydet, arkadaşlarınla yarış.',
+    title: 'Şeytan Meyveleri & Haki Wiki',
+    description: '43+ Şeytan Meyvesi ansiklopedisi ve 3 Haki türünün detaylı rehberi. Güçler, kullanıcılar, uyanışlar ve daha fazlası.',
     color: 'text-emerald-400',
     bg: 'bg-emerald-400/10',
   },
   {
     icon: MessageCircle,
-    title: 'Topluluk Yorumları',
-    description: 'Arc ve bölüm sayfalarında diğer hayranlarla tartış, teorilerini paylaş.',
+    title: 'Dünya Haritası & Organizasyonlar',
+    description: '25+ lokasyon, 12 organizasyon, efsanevi savaşlar ve zaman çizelgesi ile eksiksiz One Piece ansiklopedisi.',
     color: 'text-gold-bright',
     bg: 'bg-gold-bright/10',
   },
   {
     icon: Shield,
-    title: 'Spoiler Koruması',
-    description: 'Henüz izlemediğin arc\'ların detayları gizlenir, hikâyenin tadını çıkar.',
+    title: 'Ödül Sıralaması & Savaşlar',
+    description: '30+ karakterin ödül sıralaması ve 12 efsanevi savaşın detaylı analizi ile One Piece bilgini test et.',
     color: 'text-sea-light',
     bg: 'bg-sea-light/10',
   },
@@ -61,7 +61,7 @@ const STATS = [
   { value: '32', label: 'Arc', icon: Map },
   { value: '341', label: 'Bölüm', icon: Film },
   { value: '61', label: 'Karakter', icon: Users },
-  { value: '136', label: 'Saat İçerik', icon: Play },
+  { value: '43', label: 'Şeytan Meyvesi', icon: Play },
 ]
 
 export default function AboutPage() {
