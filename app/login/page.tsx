@@ -61,7 +61,7 @@ export default function LoginPage() {
               alt="One Piece Hub"
               width={320}
               height={128}
-              className="mx-auto mb-4 h-28 w-auto drop-shadow-2xl sm:h-32"
+              className="mx-auto mb-4 h-36 w-auto drop-shadow-2xl sm:h-40"
               priority
             />
             <h1 className="text-2xl font-extrabold text-pirate-text">

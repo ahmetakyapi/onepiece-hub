@@ -68,7 +68,7 @@ export default function Footer() {
                 alt="One Piece Hub"
                 width={220}
                 height={88}
-                className="h-16 w-auto transition-all duration-500 group-hover:drop-shadow-[0_0_24px_rgba(244,163,0,0.2)] sm:h-20"
+                className="h-20 w-auto transition-all duration-500 group-hover:drop-shadow-[0_0_24px_rgba(244,163,0,0.2)] sm:h-24"
               />
             </Link>
             <p className="mb-2 text-sm text-pirate-muted text-center md:text-left">

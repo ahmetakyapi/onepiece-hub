@@ -92,7 +92,7 @@ export default function Header() {
           }}
         />
 
-        <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-6 sm:h-[4.5rem]">
+        <div className="relative mx-auto flex h-24 max-w-7xl items-center justify-between px-6 sm:h-28">
           {/* Logo */}
           <Link href="/" className="relative flex items-center gap-2 group">
             <Image
@@ -100,7 +100,7 @@ export default function Header() {
               alt="One Piece Hub"
               width={180}
               height={72}
-              className="h-12 w-auto drop-shadow-lg transition-all duration-500 ease-expo-out group-hover:drop-shadow-[0_0_20px_rgba(244,163,0,0.25)] sm:h-14"
+              className="h-20 w-auto drop-shadow-lg transition-all duration-500 ease-expo-out group-hover:drop-shadow-[0_0_20px_rgba(244,163,0,0.25)] sm:h-24"
               priority
             />
           </Link>
