@@ -10,6 +10,7 @@ import {
   MapPin, Skull, Sparkles, BookOpen, Users, ArrowRight
 } from 'lucide-react'
 import { getArcImage } from '@/lib/constants/images'
+import { getGlobalEpisodeNumber } from '@/lib/constants/arcs'
 import type { Arc } from '@/types'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
@@ -200,7 +201,9 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
             </div>
 
             <div className="space-y-2">
-              {arc.episodes.map((ep, i) => (
+              {arc.episodes.map((ep, i) => {
+                const globalEp = getGlobalEpisodeNumber(arc.slug, ep.number)
+                return (
                 <motion.div
                   key={ep.slug}
                   initial={{ opacity: 0, y: 12 }}
@@ -214,7 +217,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                   >
                     {/* Episode number */}
                     <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-ocean-surface/80 border border-pirate-border/20 text-sm font-bold text-sea transition-all duration-300 group-hover:border-gold/20 group-hover:text-gold">
-                      {ep.number}
+                      {globalEp}
                     </div>
 
                     {/* Title + summary */}
@@ -236,7 +239,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                     </div>
                   </Link>
                 </motion.div>
-              ))}
+              )})}
             </div>
           </section>
 

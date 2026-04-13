@@ -76,11 +76,11 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
               <div className="mb-3 px-3 sm:px-0">
                 <div className="mb-1 flex items-center gap-2 flex-wrap">
                   <p className="text-xs font-medium text-sea">
-                    Bölüm {episode.number} / {arc.episodeCount}
+                    Bölüm {globalEp}
                   </p>
                   <span className="text-pirate-muted/30">•</span>
-                  <span className="rounded-full bg-gold/[0.08] px-2 py-0.5 text-[10px] font-bold text-gold tabular-nums">
-                    Toplam #{globalEp}
+                  <span className="text-[10px] text-pirate-muted/50 tabular-nums">
+                    {arc.name} — {episode.number}/{arc.episodeCount}
                   </span>
                 </div>
                 <h1 className="text-xl font-extrabold text-pirate-text sm:text-2xl">
@@ -255,19 +255,16 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
                           {epWatched && !isCurrent ? (
                             <Check className="h-3.5 w-3.5" />
                           ) : (
-                            ep.number
+                            epGlobal
                           )}
                         </span>
 
-                        {/* Title + global number */}
+                        {/* Title */}
                         <div className="flex-1 min-w-0">
                           <span className={`block truncate text-sm ${
                             epWatched && !isCurrent ? 'line-through decoration-pirate-muted/30' : ''
                           }`}>
                             {ep.title}
-                          </span>
-                          <span className="text-[10px] tabular-nums text-pirate-muted/40">
-                            #{epGlobal}
                           </span>
                         </div>
 
