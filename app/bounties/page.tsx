@@ -339,7 +339,7 @@ export default function BountiesPage() {
             </motion.div>
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <AnimatePresence mode="popLayout">
+              <AnimatePresence mode="sync">
                 {(isFiltered ? filtered : rest).map((entry, i) => {
                   const rank = isFiltered
                     ? allSorted.findIndex((e) => e.name === entry.name) + 1
@@ -352,8 +352,7 @@ export default function BountiesPage() {
                     <motion.div
                       key={`${entry.name}-${entry.bounty}`}
                       variants={fadeUp}
-                      layout
-                      exit={{ opacity: 0, scale: 0.95 }}
+                      exit={{ opacity: 0 }}
                     >
                       <MaybeLinkWrapper slug={entry.slug}>
                         <div className={`bento-card group relative flex flex-col items-center overflow-hidden p-5 text-center transition-all duration-500 ${

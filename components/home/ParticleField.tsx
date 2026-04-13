@@ -3,9 +3,8 @@
 import { useEffect, useRef } from 'react'
 
 /**
- * Premium particle system — creates depth with organic floating particles
- * that react subtly to scroll position. Bokeh + connecting lines between
- * nearby particles for a constellation effect.
+ * Optimized particle system — reduces particle count on mobile,
+ * pauses when not visible, uses squared distance to avoid sqrt.
  */
 export default function ParticleField() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -14,12 +13,13 @@ export default function ParticleField() {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const ctx = canvas.getContext('2d')
+    const ctx = canvas.getContext('2d', { alpha: true })
     if (!ctx) return
 
     let animId: number
     let width = 0
     let height = 0
+    let isVisible = true
 
     type Particle = {
       x: number
@@ -30,18 +30,21 @@ export default function ParticleField() {
       opacity: number
       opacityDir: number
       color: string
-      hue: number
+      hasBokeh: boolean
     }
 
     const particles: Particle[] = []
 
     const PALETTE = [
-      { str: 'rgba(244,163,0,',  hue: 38 },   // gold
-      { str: 'rgba(30,144,255,', hue: 210 },  // sea
-      { str: 'rgba(251,191,36,', hue: 45 },   // bright gold
-      { str: 'rgba(96,184,255,', hue: 210 },  // sea light
-      { str: 'rgba(168,85,247,', hue: 270 },  // purple accent
+      'rgba(244,163,0,',
+      'rgba(30,144,255,',
+      'rgba(251,191,36,',
+      'rgba(96,184,255,',
+      'rgba(168,85,247,',
     ]
+
+    const CONNECTION_DIST_SQ = 120 * 120
+    const CONNECTION_DIST = 120
 
     function resize() {
       const dpr = Math.min(window.devicePixelRatio, 2)
@@ -51,45 +54,56 @@ export default function ParticleField() {
       canvas!.height = height * dpr
       canvas!.style.width = `${width}px`
       canvas!.style.height = `${height}px`
-      ctx!.scale(dpr, dpr)
+      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0)
     }
 
     function createParticles() {
-      const count = Math.min(Math.floor(width / 30), 50)
+      // Fewer particles on mobile
+      const isMobile = width < 768
+      const maxCount = isMobile ? 20 : 35
+      const count = Math.min(Math.floor(width / 40), maxCount)
       particles.length = 0
       for (let i = 0; i < count; i++) {
-        const pal = PALETTE[Math.floor(Math.random() * PALETTE.length)]
+        const r = Math.random() * 2 + 0.4
         particles.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          r: Math.random() * 2 + 0.4,
+          r,
           dx: (Math.random() - 0.5) * 0.25,
           dy: (Math.random() - 0.5) * 0.15 - 0.08,
           opacity: Math.random() * 0.4 + 0.08,
           opacityDir: (Math.random() - 0.5) * 0.006,
-          color: pal.str,
-          hue: pal.hue,
+          color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
+          hasBokeh: r > 1.2,
         })
       }
     }
 
-    const CONNECTION_DISTANCE = 120
-
     function draw() {
+      if (!isVisible) {
+        animId = requestAnimationFrame(draw)
+        return
+      }
+
       ctx!.clearRect(0, 0, width, height)
 
-      // Draw connections between nearby particles
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x
-          const dy = particles[i].y - particles[j].y
-          const dist = Math.sqrt(dx * dx + dy * dy)
+      const len = particles.length
 
-          if (dist < CONNECTION_DISTANCE) {
-            const alpha = (1 - dist / CONNECTION_DISTANCE) * 0.06 * Math.min(particles[i].opacity, particles[j].opacity)
+      // Connections — use squared distance to avoid sqrt
+      for (let i = 0; i < len; i++) {
+        const pi = particles[i]
+        for (let j = i + 1; j < len; j++) {
+          const pj = particles[j]
+          const dx = pi.x - pj.x
+          const dy = pi.y - pj.y
+          const distSq = dx * dx + dy * dy
+
+          if (distSq < CONNECTION_DIST_SQ) {
+            const dist = Math.sqrt(distSq)
+            const alpha = (1 - dist / CONNECTION_DIST) * 0.06 * Math.min(pi.opacity, pj.opacity)
             ctx!.beginPath()
-            ctx!.moveTo(particles[i].x, particles[i].y)
-            ctx!.lineTo(particles[j].x, particles[j].y)
+            ctx!.moveTo(pi.x, pi.y)
+            ctx!.lineTo(pj.x, pj.y)
             ctx!.strokeStyle = `rgba(96,184,255,${alpha})`
             ctx!.lineWidth = 0.5
             ctx!.stroke()
@@ -97,8 +111,9 @@ export default function ParticleField() {
         }
       }
 
-      // Draw particles
-      for (const p of particles) {
+      // Particles
+      for (let i = 0; i < len; i++) {
+        const p = particles[i]
         p.x += p.dx
         p.y += p.dy
         p.opacity += p.opacityDir
@@ -115,8 +130,8 @@ export default function ParticleField() {
         ctx!.fillStyle = `${p.color}${p.opacity})`
         ctx!.fill()
 
-        // Soft bokeh glow
-        if (p.r > 1) {
+        // Bokeh glow — only for larger particles
+        if (p.hasBokeh) {
           const gradient = ctx!.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 6)
           gradient.addColorStop(0, `${p.color}${p.opacity * 0.2})`)
           gradient.addColorStop(1, `${p.color}0)`)
@@ -130,19 +145,32 @@ export default function ParticleField() {
       animId = requestAnimationFrame(draw)
     }
 
+    // IntersectionObserver — pause when off-screen
+    const observer = new IntersectionObserver(
+      ([entry]) => { isVisible = entry.isIntersecting },
+      { threshold: 0.1 }
+    )
+    observer.observe(canvas)
+
     resize()
     createParticles()
     draw()
 
+    let resizeTimer: ReturnType<typeof setTimeout>
     const onResize = () => {
-      resize()
-      createParticles()
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(() => {
+        resize()
+        createParticles()
+      }, 200)
     }
-    window.addEventListener('resize', onResize)
+    window.addEventListener('resize', onResize, { passive: true })
 
     return () => {
       cancelAnimationFrame(animId)
       window.removeEventListener('resize', onResize)
+      observer.disconnect()
+      clearTimeout(resizeTimer)
     }
   }, [])
 

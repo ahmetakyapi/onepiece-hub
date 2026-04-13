@@ -2,10 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Fonts ──────────────────────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap&subset=latin-ext');
-
 /* ─── Design Tokens: Okyanus Derinligi v2 ─────────────────────────────── */
+/* Fonts loaded via next/font/google in layout.tsx — no external CSS import needed */
 :root {
   --font-sans: 'Manrope';
   --font-mono: 'IBM Plex Mono';
@@ -61,17 +59,18 @@ body {
   overflow-x: hidden;
 }
 
-/* Noise texture overlay on body */
+/* Noise texture overlay on body — lightweight */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background: var(--noise);
-  background-size: 128px 128px;
+  background-size: 200px 200px;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.35;
+  opacity: 0.2;
   mix-blend-mode: overlay;
+  will-change: auto;
 }
 
 /* Ambient gradient orbs — unique to each page scroll position */

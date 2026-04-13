@@ -10,7 +10,9 @@ import {
 } from 'lucide-react'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
-import Confetti from '@/components/ui/Confetti'
+import dynamic from 'next/dynamic'
+
+const Confetti = dynamic(() => import('@/components/ui/Confetti'), { ssr: false })
 import { getQuizByArcSlug } from '@/lib/constants/quizzes'
 import { getArcBySlug } from '@/lib/constants/arcs'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'

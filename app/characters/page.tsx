@@ -148,19 +148,17 @@ export default function CharactersPage() {
           </motion.div>
 
           {/* Character grid */}
-          <motion.div
-            layout
+          <div
             className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
           >
-            <AnimatePresence mode="popLayout">
+            <AnimatePresence mode="sync">
               {filtered.map((char, i) => (
                 <motion.div
                   key={char.slug}
-                  layout
-                  initial={{ opacity: 0, y: 20, scale: 0.97 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.4, ease: EASE, delay: Math.min(i * 0.03, 0.3) }}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3, ease: EASE, delay: Math.min(i * 0.02, 0.2) }}
                 >
                   <Link
                     href={`/characters/${char.slug}`}
@@ -205,7 +203,7 @@ export default function CharactersPage() {
                 </motion.div>
               ))}
             </AnimatePresence>
-          </motion.div>
+          </div>
 
           {filtered.length === 0 && (
             <motion.div

@@ -64,7 +64,7 @@ export default function Footer() {
           >
             <Link href="/" className="group mb-4">
               <Image
-                src="/logo.png"
+                src="/logo.webp"
                 alt="One Piece Hub"
                 width={220}
                 height={88}

@@ -5,12 +5,14 @@ import { Play, Compass, Cherry, Shield, Globe, Anchor, Swords, Trophy, Clock, Ar
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRef } from 'react'
+import dynamic from 'next/dynamic'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
-import WaveBackground from '@/components/home/WaveBackground'
-import StatsBar from '@/components/home/StatsBar'
-import ArcTimeline from '@/components/home/ArcTimeline'
-import ParticleField from '@/components/home/ParticleField'
+
+const ParticleField = dynamic(() => import('@/components/home/ParticleField'), { ssr: false })
+const WaveBackground = dynamic(() => import('@/components/home/WaveBackground'), { ssr: false })
+const StatsBar = dynamic(() => import('@/components/home/StatsBar'), { ssr: false })
+const ArcTimeline = dynamic(() => import('@/components/home/ArcTimeline'), { ssr: false })
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
@@ -74,11 +76,12 @@ export default function Home() {
           {/* Parallax background image */}
           <motion.div className="absolute inset-0" style={{ y: bgY, scale: bgScale }}>
             <Image
-              src="/hero.png"
+              src="/hero.webp"
               alt="One Piece Hero"
               fill
               className="object-cover"
               priority
+              sizes="100vw"
             />
             {/* Cinematic vignette overlays */}
             <div className="absolute inset-0 bg-gradient-to-b from-ocean-deep/60 via-ocean-deep/20 to-ocean-deep" />

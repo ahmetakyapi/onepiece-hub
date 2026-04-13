@@ -88,7 +88,7 @@ export default function AboutPage() {
               {/* Logo */}
               <motion.div variants={fadeUp} className="mb-8 flex justify-center">
                 <Image
-                  src="/logo.png"
+                  src="/logo.webp"
                   alt="One Piece Hub"
                   width={280}
                   height={112}

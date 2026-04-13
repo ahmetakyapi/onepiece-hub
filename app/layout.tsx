@@ -2,7 +2,9 @@ import type { Metadata } from 'next'
 import { Manrope, IBM_Plex_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { AuthProvider } from '@/hooks/useAuth'
-import ScrollProgress from '@/components/layout/ScrollProgress'
+import dynamic from 'next/dynamic'
+
+const ScrollProgress = dynamic(() => import('@/components/layout/ScrollProgress'), { ssr: false })
 import './globals.css'
 
 const manrope = Manrope({

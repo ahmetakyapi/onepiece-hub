@@ -79,6 +79,10 @@ const config: Config = {
         'text-shimmer':    'text-shimmer 3s linear infinite',
         'pulse-ring':      'pulse-ring 2s ease-out infinite',
         'gradient-shift':  'gradient-shift 6s ease-in-out infinite',
+        'ocean-wave-1':    'wave-slide 22s linear infinite',
+        'ocean-wave-2':    'wave-slide-reverse 16s linear infinite',
+        'ocean-wave-3':    'wave-slide 11s linear infinite',
+        'ocean-wave-4':    'wave-slide-reverse 8s linear infinite',
       },
       keyframes: {
         float: {
@@ -98,6 +102,14 @@ const config: Config = {
         ripple: {
           '0%':   { transform: 'scale(1)', opacity: '0.6' },
           '100%': { transform: 'scale(2.5)', opacity: '0' },
+        },
+        'wave-slide': {
+          '0%':   { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+        'wave-slide-reverse': {
+          '0%':   { transform: 'translateX(-50%)' },
+          '100%': { transform: 'translateX(0%)' },
         },
       },
       boxShadow: {

@@ -96,7 +96,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="relative flex items-center gap-2 group">
             <Image
-              src="/logo.png"
+              src="/logo.webp"
               alt="One Piece Hub"
               width={180}
               height={72}

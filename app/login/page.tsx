@@ -57,7 +57,7 @@ export default function LoginPage() {
           {/* Logo */}
           <motion.div variants={fadeUp} className="mb-8 text-center">
             <Image
-              src="/logo.png"
+              src="/logo.webp"
               alt="One Piece Hub"
               width={320}
               height={128}
