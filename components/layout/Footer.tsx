@@ -4,7 +4,7 @@ import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import {
   Anchor, Compass, Users, BookOpen, Cherry, Shield,
-  Globe, Swords, Trophy, Clock, ArrowUpRight
+  Globe, Swords, Trophy, Clock, ArrowUpRight, Map
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -17,8 +17,8 @@ const FOOTER_SECTIONS = [
     links: [
       { label: 'Arc\'lar', href: '/arcs', icon: Compass },
       { label: 'Karakterler', href: '/characters', icon: Users },
+      { label: 'İzleme Rehberi', href: '/guide', icon: Map },
       { label: 'Ödül Sıralaması', href: '/bounties', icon: Trophy },
-      { label: 'Efsanevi Savaşlar', href: '/battles', icon: Swords },
     ],
   },
   {

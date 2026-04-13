@@ -6,7 +6,7 @@ import { motion, AnimatePresence, useMotionValueEvent, useScroll } from 'framer-
 import {
   Menu, X, Compass, Users, BookOpen, LogOut, User,
   ChevronDown, Cherry, Shield, Globe, Anchor, Swords,
-  Trophy, Clock, ArrowRight
+  Trophy, Clock, ArrowRight, Map
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -17,6 +17,7 @@ const EASE = [0.16, 1, 0.3, 1] as const
 const MAIN_LINKS = [
   { label: 'Arc\'lar', href: '/arcs', icon: Compass },
   { label: 'Karakterler', href: '/characters', icon: Users },
+  { label: 'Rehber', href: '/guide', icon: Map },
 ] as const
 
 const WIKI_LINKS = [

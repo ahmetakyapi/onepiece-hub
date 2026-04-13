@@ -60,7 +60,7 @@ export default function CharactersPage() {
   return (
     <>
       <Header />
-      <main className="relative min-h-screen pt-24">
+      <main className="relative min-h-screen pt-28 sm:pt-32">
         <div className="mx-auto max-w-7xl px-6">
           {/* Header */}
           <motion.div
@@ -69,14 +69,6 @@ export default function CharactersPage() {
             transition={{ duration: 0.7, ease: EASE }}
             className="mb-10"
           >
-            <motion.div
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5, ease: EASE }}
-              className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-gold/15 bg-gold/[0.06]"
-            >
-              <Users className="h-6 w-6 text-gold" />
-            </motion.div>
             <motion.h1
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}

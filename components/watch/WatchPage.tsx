@@ -46,10 +46,10 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
   return (
     <>
       <Header />
-      <main className="relative min-h-screen pt-20 pb-16">
-        <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-6">
+      <main className="relative min-h-screen pt-28 sm:pt-32 pb-16">
+        <div className="mx-auto max-w-7xl px-0 sm:px-4 lg:px-6">
           {/* Breadcrumb */}
-          <div className="mb-4 flex items-center gap-2 text-sm">
+          <div className="mb-4 flex items-center gap-2 text-sm px-3 sm:px-0">
             <Link
               href={`/arcs/${arc.slug}`}
               className="inline-flex items-center gap-1.5 text-pirate-muted transition-colors hover:text-gold"
@@ -73,18 +73,24 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
             {/* Left: Video + Controls */}
             <motion.div variants={fadeUp} className="flex-1 min-w-0">
               {/* Episode title */}
-              <div className="mb-3">
-                <p className="mb-1 text-xs font-medium text-sea">
-                  Bölüm {episode.number} / {arc.episodeCount}
-                </p>
+              <div className="mb-3 px-3 sm:px-0">
+                <div className="mb-1 flex items-center gap-2 flex-wrap">
+                  <p className="text-xs font-medium text-sea">
+                    Bölüm {episode.number} / {arc.episodeCount}
+                  </p>
+                  <span className="text-pirate-muted/30">•</span>
+                  <span className="rounded-full bg-gold/[0.08] px-2 py-0.5 text-[10px] font-bold text-gold tabular-nums">
+                    Toplam #{globalEp}
+                  </span>
+                </div>
                 <h1 className="text-xl font-extrabold text-pirate-text sm:text-2xl">
                   {episode.title}
                 </h1>
               </div>
 
               {/* Video player — OnePaceTR iframe zoomed to video area */}
-              <div className="mb-3 overflow-hidden rounded-2xl border border-pirate-border bg-ocean-deep shadow-2xl shadow-black/20 sm:rounded-2xl rounded-xl">
-                <div className="relative w-full overflow-hidden bg-[#0d1b2a]" style={{ aspectRatio: '16 / 11' }}>
+              <div className="mb-3 overflow-hidden rounded-none border-x-0 border-y border-pirate-border bg-ocean-deep shadow-2xl shadow-black/20 sm:rounded-2xl sm:border">
+                <div className="relative w-full overflow-hidden bg-[#0d1b2a] aspect-[4/3] sm:aspect-[16/11]">
                   {!iframeError ? (
                     <iframe
                       src={onePaceTrUrl}
@@ -118,7 +124,7 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
               </div>
 
               {/* Controls row */}
-              <div className="mb-5 flex flex-wrap items-center gap-2">
+              <div className="mb-5 flex flex-wrap items-center gap-2 px-3 sm:px-0">
                 {/* Mark watched */}
                 <button
                   onClick={() => toggle(episode.slug, arc.slug)}
@@ -183,7 +189,7 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
 
               {/* Episode summary — below controls */}
               {episode.summary && (
-                <div className="bento-card rounded-xl p-5">
+                <div className="bento-card rounded-xl p-5 mx-3 sm:mx-0">
                   <h3 className="mb-2 flex items-center gap-2 text-sm font-bold text-pirate-text">
                     <BookOpen className="h-4 w-4 text-gold" />
                     Bölüm Özeti
@@ -196,7 +202,7 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
             </motion.div>
 
             {/* Right: Episode List Sidebar */}
-            <motion.div variants={fadeUp} className="w-full lg:w-[22rem] xl:w-[26rem] flex-shrink-0">
+            <motion.div variants={fadeUp} className="w-full lg:w-[22rem] xl:w-[26rem] flex-shrink-0 px-3 sm:px-0">
               <div className="bento-card sticky top-24 rounded-2xl p-4 sm:p-5">
                 {/* Header */}
                 <div className="mb-3 flex items-center justify-between">
@@ -224,6 +230,7 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
                   {arc.episodes.map((ep) => {
                     const isCurrent = ep.slug === episode.slug
                     const epWatched = isWatched(ep.slug)
+                    const epGlobal = getGlobalEpisodeNumber(arc.slug, ep.number)
                     return (
                       <Link
                         key={ep.slug}
@@ -252,12 +259,17 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
                           )}
                         </span>
 
-                        {/* Title */}
-                        <span className={`flex-1 truncate text-sm ${
-                          epWatched && !isCurrent ? 'line-through decoration-pirate-muted/30' : ''
-                        }`}>
-                          {ep.title}
-                        </span>
+                        {/* Title + global number */}
+                        <div className="flex-1 min-w-0">
+                          <span className={`block truncate text-sm ${
+                            epWatched && !isCurrent ? 'line-through decoration-pirate-muted/30' : ''
+                          }`}>
+                            {ep.title}
+                          </span>
+                          <span className="text-[10px] tabular-nums text-pirate-muted/40">
+                            #{epGlobal}
+                          </span>
+                        </div>
 
                         {/* Duration */}
                         <span className="flex items-center gap-1 text-xs opacity-50 flex-shrink-0">
