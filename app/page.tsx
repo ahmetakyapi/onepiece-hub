@@ -129,7 +129,7 @@ export default function Home() {
             <div className="flex-1" />
 
             {/* Bottom section — title, subtitle, buttons */}
-            <div className="max-w-3xl pb-20 sm:pb-16">
+            <div className="max-w-3xl pb-32 sm:pb-28">
               {/* Title — word-by-word reveal with blur */}
               <h1 className="mb-6 text-4xl font-extrabold leading-[1.1] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] sm:text-5xl md:text-6xl lg:text-7xl">
                 {['One', 'Piece'].map((word, i) => (

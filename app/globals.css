@@ -497,6 +497,29 @@ body::after {
     font-feature-settings: 'tnum';
     letter-spacing: -0.02em;
   }
+
+  /* ── Wanted Poster — One Piece bounty poster style ───────────────── */
+  .wanted-poster {
+    position: relative;
+    background-image:
+      radial-gradient(circle at 30% 20%, rgba(244,163,0,0.06), transparent 60%),
+      radial-gradient(circle at 70% 80%, rgba(244,163,0,0.04), transparent 50%);
+    box-shadow:
+      0 8px 32px rgba(0,0,0,0.5),
+      0 2px 8px rgba(0,0,0,0.3),
+      inset 0 1px 0 rgba(244,163,0,0.08),
+      inset 0 -1px 0 rgba(0,0,0,0.3);
+    transition: all 0.5s var(--ease-out-expo);
+  }
+  .wanted-poster:hover {
+    box-shadow:
+      0 16px 48px rgba(0,0,0,0.6),
+      0 4px 12px rgba(0,0,0,0.4),
+      0 0 40px rgba(244,163,0,0.08),
+      inset 0 1px 0 rgba(244,163,0,0.12),
+      inset 0 -1px 0 rgba(0,0,0,0.3);
+    transform: translateY(-4px);
+  }
 }
 
 /* ─── Wave SVG ──────────────────────────────────────────────────────────── */

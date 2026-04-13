@@ -18,6 +18,7 @@ import Link from 'next/link'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import PageHero from '@/components/wiki/PageHero'
+import WorldMap from '@/components/world/WorldMap'
 import { SEAS, LOCATIONS, getLocationsBySea } from '@/lib/constants/locations'
 import { getArcBySlug } from '@/lib/constants/arcs'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
@@ -175,6 +176,9 @@ export default function WorldPage() {
               </div>
             </div>
           </PageHero>
+
+          {/* Interactive World Map */}
+          <WorldMap />
 
           {/* Sea overview cards */}
           <motion.div
