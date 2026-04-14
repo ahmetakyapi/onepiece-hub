@@ -4,12 +4,12 @@ export const SAGAS: Saga[] = [
   {
     name: 'East Blue',
     slug: 'east-blue',
-    arcs: ['romance-dawn', 'orange-town', 'syrup-village', 'baratie', 'arlong-park', 'loguetown'],
+    arcs: ['romance-dawn', 'orange-town', 'syrup-village', 'gaimon', 'baratie', 'arlong-park', 'buggys-crew', 'loguetown'],
   },
   {
     name: 'Alabasta',
     slug: 'alabasta',
-    arcs: ['reverse-mountain', 'whiskey-peak', 'little-garden', 'drum-island', 'arabasta'],
+    arcs: ['reverse-mountain', 'whiskey-peak', 'koby-meppo', 'little-garden', 'drum-island', 'arabasta'],
   },
   {
     name: 'Sky Island',
@@ -29,7 +29,7 @@ export const SAGAS: Saga[] = [
   {
     name: 'Summit War',
     slug: 'summit-war',
-    arcs: ['sabaody-archipelago', 'amazon-lily', 'impel-down', 'marineford', 'post-war'],
+    arcs: ['sabaody-archipelago', 'amazon-lily', 'impel-down', 'straw-hats-adventures', 'marineford', 'post-war'],
   },
   {
     name: 'Fish-Man Island',

@@ -31,7 +31,7 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
   const globalEp = getGlobalEpisodeNumber(arc.slug, episode.number)
   const onePaceTrUrl = `https://www.onepacetr.net/bolum/${globalEp}`
   const [iframeError, setIframeError] = useState(false)
-  const { isWatched, toggle, watchedCount } = useWatchedEpisodes()
+  const { isWatched, toggle, markWatched, watchedCount, loaded } = useWatchedEpisodes()
   const currentRef = useRef<HTMLAnchorElement>(null)
 
   const allSlugs = arc.episodes.map((ep) => ep.slug)
@@ -42,6 +42,13 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
   useEffect(() => {
     currentRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' })
   }, [episode.slug])
+
+  // Auto-mark episode as watched when opened
+  useEffect(() => {
+    if (loaded) {
+      markWatched(episode.slug, arc.slug)
+    }
+  }, [episode.slug, arc.slug, loaded, markWatched])
 
   return (
     <>

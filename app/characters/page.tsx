@@ -2,30 +2,96 @@
 
 import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, Users, Anchor, ArrowUpDown, ArrowRight } from 'lucide-react'
+import {
+  Search,
+  Users,
+  Anchor,
+  ArrowUpDown,
+  ArrowRight,
+  Skull,
+  Crown,
+  Swords,
+  Shield,
+  Flame,
+  Sparkles,
+  Star,
+} from 'lucide-react'
 import Link from 'next/link'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+import PageHero from '@/components/wiki/PageHero'
 import CharacterAvatar from '@/components/ui/CharacterAvatar'
 import { CHARACTERS, CREW_LABELS } from '@/lib/constants/characters'
+import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
 import type { CrewType } from '@/types'
 
-const EASE = [0.16, 1, 0.3, 1] as const
+/* ─── Constants ──────────────────────────────────────────────── */
 
 const CREW_FILTERS = Object.entries(CREW_LABELS) as [CrewType, string][]
 
 type SortMode = 'default' | 'bounty-desc' | 'bounty-asc'
 
 const SORT_LABELS: Record<SortMode, string> = {
-  'default': 'Varsayılan',
+  default: 'Varsayılan',
   'bounty-desc': 'Ödül: Yüksek → Düşük',
   'bounty-asc': 'Ödül: Düşük → Yüksek',
 }
+
+const CREW_COLORS: Record<string, { border: string; bg: string; text: string; glow: string }> = {
+  'straw-hat': { border: 'border-gold/30', bg: 'bg-gold/[0.06]', text: 'text-gold', glow: 'shadow-gold/10' },
+  marine: { border: 'border-sea/30', bg: 'bg-sea/[0.06]', text: 'text-sea-light', glow: 'shadow-sea/10' },
+  shichibukai: { border: 'border-purple-400/30', bg: 'bg-purple-500/[0.06]', text: 'text-purple-400', glow: 'shadow-purple-500/10' },
+  yonko: { border: 'border-luffy/30', bg: 'bg-luffy/[0.06]', text: 'text-luffy', glow: 'shadow-luffy/10' },
+  revolutionary: { border: 'border-emerald-400/30', bg: 'bg-emerald-500/[0.06]', text: 'text-emerald-400', glow: 'shadow-emerald-500/10' },
+  'baroque-works': { border: 'border-amber-400/30', bg: 'bg-amber-500/[0.06]', text: 'text-amber-400', glow: 'shadow-amber-500/10' },
+  cp9: { border: 'border-slate-400/30', bg: 'bg-slate-500/[0.06]', text: 'text-slate-300', glow: 'shadow-slate-500/10' },
+  supernova: { border: 'border-cyan-400/30', bg: 'bg-cyan-500/[0.06]', text: 'text-cyan-400', glow: 'shadow-cyan-500/10' },
+  'beast-pirates': { border: 'border-violet-400/30', bg: 'bg-violet-500/[0.06]', text: 'text-violet-400', glow: 'shadow-violet-500/10' },
+  'big-mom-pirates': { border: 'border-pink-400/30', bg: 'bg-pink-500/[0.06]', text: 'text-pink-400', glow: 'shadow-pink-500/10' },
+  'roger-pirates': { border: 'border-gold/30', bg: 'bg-gold/[0.06]', text: 'text-gold', glow: 'shadow-gold/10' },
+  'whitebeard-pirates': { border: 'border-sky-400/30', bg: 'bg-sky-500/[0.06]', text: 'text-sky-400', glow: 'shadow-sky-500/10' },
+  'red-hair-pirates': { border: 'border-red-400/30', bg: 'bg-red-500/[0.06]', text: 'text-red-400', glow: 'shadow-red-500/10' },
+  ally: { border: 'border-teal-400/30', bg: 'bg-teal-500/[0.06]', text: 'text-teal-400', glow: 'shadow-teal-500/10' },
+  other: { border: 'border-pirate-border/30', bg: 'bg-pirate-muted/[0.04]', text: 'text-pirate-muted', glow: 'shadow-pirate-border/10' },
+}
+
+const CREW_ICONS: Record<string, typeof Skull> = {
+  'straw-hat': Anchor,
+  marine: Shield,
+  shichibukai: Swords,
+  yonko: Crown,
+  revolutionary: Flame,
+  supernova: Star,
+  'beast-pirates': Skull,
+  'big-mom-pirates': Sparkles,
+}
+
+/* ─── Helpers ────────────────────────────────────────────────── */
 
 function parseBounty(bounty?: string): number {
   if (!bounty) return 0
   return parseInt(bounty.replace(/,/g, ''), 10)
 }
+
+function formatBounty(value: number): string {
+  if (value >= 1_000_000_000) {
+    const b = value / 1_000_000_000
+    return b % 1 === 0 ? `${b.toFixed(0)}B` : `${b.toFixed(1)}B`
+  }
+  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(0)}M`
+  if (value >= 1_000) return `${(value / 1_000).toFixed(0)}K`
+  return value.toLocaleString()
+}
+
+/* ─── Hero Orbs ──────────────────────────────────────────────── */
+
+const HERO_ORBS = [
+  { color: 'radial-gradient(circle, rgba(244,163,0,0.4), transparent 70%)', size: 280, x: '5%', y: '10%', delay: 0 },
+  { color: 'radial-gradient(circle, rgba(30,144,255,0.3), transparent 70%)', size: 220, x: '75%', y: '20%', delay: 1.5 },
+  { color: 'radial-gradient(circle, rgba(231,76,60,0.25), transparent 70%)', size: 180, x: '60%', y: '60%', delay: 3 },
+]
+
+/* ─── Page Component ─────────────────────────────────────────── */
 
 export default function CharactersPage() {
   const [search, setSearch] = useState('')
@@ -34,8 +100,11 @@ export default function CharactersPage() {
 
   const filtered = useMemo(() => {
     let result = CHARACTERS.filter((c) => {
-      const matchesSearch = c.name.toLowerCase().includes(search.toLowerCase()) ||
-        c.description.toLowerCase().includes(search.toLowerCase())
+      const q = search.toLowerCase()
+      const matchesSearch =
+        c.name.toLowerCase().includes(q) ||
+        c.description.toLowerCase().includes(q) ||
+        (c.epithet && c.epithet.toLowerCase().includes(q))
       const matchesCrew = !activeCrew || c.crew === activeCrew
       return matchesSearch && matchesCrew
     })
@@ -57,159 +126,270 @@ export default function CharactersPage() {
     })
   }
 
+  /* Stats */
+  const totalBounty = useMemo(
+    () => CHARACTERS.reduce((sum, c) => sum + parseBounty(c.bounty), 0),
+    [],
+  )
+  const crewCounts = useMemo(() => {
+    const counts: Record<string, number> = {}
+    CHARACTERS.forEach((c) => {
+      counts[c.crew] = (counts[c.crew] || 0) + 1
+    })
+    return counts
+  }, [])
+
   return (
     <>
       <Header />
       <main className="relative min-h-screen pt-28 sm:pt-32">
         <div className="mx-auto max-w-7xl px-6">
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: EASE }}
-            className="mb-10"
+          {/* ─── Hero ─── */}
+          <PageHero
+            icon={Users}
+            title="Karakter"
+            subtitle="Ansiklopedisi"
+            description="One Piece evreninin efsanevi karakterlerini keşfet. Hasır Şapkalar'dan Yonko'lara, Deniz Kuvvetleri'nden Devrimcilere — her birinin hikayesi, güçleri ve kaderleri."
+            accentColor="gold"
+            orbs={HERO_ORBS}
           >
-            <motion.h1
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
-              className="mb-3 text-3xl font-extrabold sm:text-4xl"
-            >
-              <span className="text-gold-gradient">Karakter</span>{' '}
-              <span className="text-pirate-text">Ansiklopedisi</span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
-              className="text-sm text-pirate-muted sm:text-base"
-            >
-              One Piece evreninin efsanevi karakterleri
-            </motion.p>
-          </motion.div>
+            {/* Stat pills */}
+            <div className="flex flex-wrap gap-3">
+              <div className="glass flex items-center gap-2 rounded-xl px-4 py-2">
+                <Users className="h-4 w-4 text-gold" />
+                <span className="text-xs font-semibold text-pirate-text">{CHARACTERS.length}</span>
+                <span className="text-xs text-pirate-muted">Karakter</span>
+              </div>
+              <div className="glass flex items-center gap-2 rounded-xl px-4 py-2">
+                <Anchor className="h-4 w-4 text-sea-light" />
+                <span className="text-xs font-semibold text-pirate-text">{Object.keys(crewCounts).length}</span>
+                <span className="text-xs text-pirate-muted">Mürettebat</span>
+              </div>
+              <div className="glass flex items-center gap-2 rounded-xl px-4 py-2">
+                <Skull className="h-4 w-4 text-luffy" />
+                <span className="text-xs font-semibold text-pirate-text">{formatBounty(totalBounty)}</span>
+                <span className="text-xs text-pirate-muted">Toplam Ödül</span>
+              </div>
+            </div>
+          </PageHero>
 
-          {/* Search + Sort */}
+          {/* ─── Search + Sort ─── */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: EASE, delay: 0.2 }}
-            className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center"
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center"
           >
             <div className="relative flex-1">
               <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-pirate-muted/50" />
               <input
                 type="text"
-                placeholder="Karakter ara..."
+                placeholder="Karakter veya lakap ara..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full rounded-2xl border border-pirate-border/50 bg-ocean-surface/40 py-3 pl-11 pr-4 text-sm text-pirate-text placeholder:text-pirate-muted/40 focus:border-gold/20 focus:outline-none focus:ring-2 focus:ring-gold/[0.08] transition-all"
+                className="w-full rounded-2xl border border-pirate-border/50 bg-ocean-surface/40 py-3 pl-11 pr-4 text-sm text-pirate-text placeholder:text-pirate-muted/40 backdrop-blur-sm focus:border-gold/20 focus:outline-none focus:ring-2 focus:ring-gold/[0.08] transition-all"
               />
             </div>
 
             <button
               onClick={cycleSortMode}
-              className={`chip flex items-center gap-1.5 transition-all duration-300 ${sortMode !== 'default' ? 'border-gold/30 bg-gold/[0.08] text-gold' : ''}`}
+              className={`chip flex items-center gap-1.5 whitespace-nowrap transition-all duration-300 ${
+                sortMode !== 'default' ? 'border-gold/30 bg-gold/[0.08] text-gold' : ''
+              }`}
             >
               <ArrowUpDown className="h-3.5 w-3.5" />
               {SORT_LABELS[sortMode]}
             </button>
           </motion.div>
 
-          {/* Crew Filters */}
+          {/* ─── Crew Filters ─── */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: EASE, delay: 0.25 }}
-            className="mb-8 flex flex-wrap gap-2"
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="mb-10 flex flex-wrap gap-2"
           >
             <button
               onClick={() => setActiveCrew(null)}
-              className={`chip transition-all duration-300 ${!activeCrew ? 'border-gold/30 bg-gold/[0.08] text-gold' : ''}`}
+              className={`chip flex items-center gap-1.5 transition-all duration-300 ${
+                !activeCrew ? 'border-gold/30 bg-gold/[0.08] text-gold' : ''
+              }`}
             >
+              <Users className="h-3 w-3" />
               Tümü
+              <span className="ml-0.5 text-[10px] opacity-60">{CHARACTERS.length}</span>
             </button>
-            {CREW_FILTERS.map(([key, label]) => (
-              <button
-                key={key}
-                onClick={() => setActiveCrew(key === activeCrew ? null : key)}
-                className={`chip transition-all duration-300 ${activeCrew === key ? 'border-gold/30 bg-gold/[0.08] text-gold' : ''}`}
-              >
-                {label}
-              </button>
-            ))}
+            {CREW_FILTERS.map(([key, label]) => {
+              const colors = CREW_COLORS[key] || CREW_COLORS.other
+              const count = crewCounts[key] || 0
+              const Icon = CREW_ICONS[key] || Anchor
+              return (
+                <button
+                  key={key}
+                  onClick={() => setActiveCrew(key === activeCrew ? null : key)}
+                  className={`chip flex items-center gap-1.5 transition-all duration-300 ${
+                    activeCrew === key
+                      ? `${colors.border} ${colors.bg} ${colors.text}`
+                      : ''
+                  }`}
+                >
+                  <Icon className="h-3 w-3" />
+                  {label}
+                  <span className="ml-0.5 text-[10px] opacity-60">{count}</span>
+                </button>
+              )
+            })}
           </motion.div>
 
-          {/* Character grid */}
-          <div
-            className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          {/* ─── Results count ─── */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mb-4 flex items-center justify-between"
+          >
+            <span className="text-xs text-pirate-muted">
+              {filtered.length} karakter gösteriliyor
+            </span>
+          </motion.div>
+
+          {/* ─── Character Grid ─── */}
+          <motion.div
+            variants={staggerContainer(0.04)}
+            initial="hidden"
+            animate="visible"
+            className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
           >
             <AnimatePresence mode="sync">
-              {filtered.map((char, i) => (
-                <motion.div
-                  key={char.slug}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3, ease: EASE, delay: Math.min(i * 0.02, 0.2) }}
-                >
-                  <Link
-                    href={`/characters/${char.slug}`}
-                    className="bento-card group flex h-full flex-col overflow-hidden"
+              {filtered.map((char) => {
+                const colors = CREW_COLORS[char.crew] || CREW_COLORS.other
+                const bountyValue = parseBounty(char.bounty)
+
+                return (
+                  <motion.div
+                    key={char.slug}
+                    variants={fadeUp}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    layout
                   >
-                    {/* Avatar */}
-                    <div className="relative h-44 overflow-hidden bg-ocean-surface">
-                      <CharacterAvatar
-                        slug={char.slug}
-                        name={char.name}
-                        crew={char.crew}
-                        className="transition-transform duration-700 ease-expo-out group-hover:scale-105"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep/70 via-transparent to-transparent" />
-                    </div>
+                    <Link
+                      href={`/characters/${char.slug}`}
+                      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-pirate-border/20 bg-ocean-surface/30 backdrop-blur-sm transition-all duration-500 hover:border-pirate-border/40 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
+                    >
+                      {/* Image area */}
+                      <div className="relative h-52 overflow-hidden">
+                        <CharacterAvatar
+                          slug={char.slug}
+                          name={char.name}
+                          crew={char.crew}
+                          className="transition-transform duration-700 ease-expo-out group-hover:scale-110"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        />
 
-                    {/* Info */}
-                    <div className="flex flex-1 flex-col p-4">
-                      <h3 className="mb-1.5 truncate text-sm font-bold text-pirate-text transition-colors duration-300 group-hover:text-gold">
-                        {char.name}
-                      </h3>
-                      <span className="mb-2 inline-flex items-center gap-1 rounded-md bg-sea/[0.06] px-2 py-0.5 text-[10px] font-semibold text-sea/80">
-                        <Anchor className="h-2.5 w-2.5" />
-                        {CREW_LABELS[char.crew]}
-                      </span>
-                      <p className="line-clamp-2 text-[11px] leading-relaxed text-pirate-muted/60">
-                        {char.description}
-                      </p>
+                        {/* Gradient overlays */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep via-ocean-deep/40 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-ocean-deep/30" />
 
-                      {char.bounty && (
-                        <div className="mt-auto flex items-center justify-between border-t border-pirate-border/20 pt-2.5">
-                          <div>
-                            <span className="text-[10px] text-pirate-muted/50">Ödül </span>
-                            <span className="text-xs font-bold text-gold">{char.bounty} Berry</span>
+                        {/* Hover shine */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.03] to-transparent translate-x-[-200%] transition-transform duration-700 group-hover:translate-x-[200%]" />
+
+                        {/* Epithet badge */}
+                        {char.epithet && (
+                          <div className="absolute left-3 top-3 z-10">
+                            <span className={`inline-flex items-center gap-1 rounded-lg border ${colors.border} ${colors.bg} px-2 py-0.5 text-[10px] font-bold ${colors.text} backdrop-blur-md`}>
+                              {char.epithet}
+                            </span>
                           </div>
-                          <ArrowRight className="h-3.5 w-3.5 text-pirate-muted/20 transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-gold/40" />
-                        </div>
-                      )}
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
+                        )}
 
+                        {/* Bounty badge - top right */}
+                        {char.bounty && (
+                          <div className="absolute right-3 top-3 z-10">
+                            <span className="inline-flex items-center gap-1 rounded-lg border border-gold/20 bg-ocean-deep/60 px-2 py-0.5 text-[10px] font-bold text-gold backdrop-blur-md">
+                              <Skull className="h-2.5 w-2.5" />
+                              {formatBounty(bountyValue)}
+                            </span>
+                          </div>
+                        )}
+
+                        {/* Character name overlay at bottom of image */}
+                        <div className="absolute bottom-0 left-0 right-0 z-10 p-4">
+                          <h3 className="text-base font-extrabold tracking-tight text-pirate-text transition-colors duration-300 group-hover:text-gold drop-shadow-lg">
+                            {char.name}
+                          </h3>
+                        </div>
+                      </div>
+
+                      {/* Info section */}
+                      <div className="flex flex-1 flex-col p-4 pt-2">
+                        {/* Crew badge */}
+                        <div className="mb-2.5">
+                          <span
+                            className={`inline-flex items-center gap-1.5 rounded-md border ${colors.border} ${colors.bg} px-2 py-0.5 text-[10px] font-semibold ${colors.text}`}
+                          >
+                            <Anchor className="h-2.5 w-2.5" />
+                            {CREW_LABELS[char.crew]}
+                          </span>
+                        </div>
+
+                        {/* Description */}
+                        <p className="line-clamp-2 text-[11px] leading-relaxed text-pirate-muted/70">
+                          {char.description}
+                        </p>
+
+                        {/* Devil fruit indicator */}
+                        {char.devilFruit && (
+                          <div className="mt-2 flex items-center gap-1.5">
+                            <Sparkles className="h-3 w-3 text-purple-400/70" />
+                            <span className="truncate text-[10px] text-purple-400/70">
+                              {char.devilFruit.name}
+                            </span>
+                          </div>
+                        )}
+
+                        {/* Footer */}
+                        <div className="mt-auto flex items-center justify-between border-t border-pirate-border/10 pt-3 mt-3">
+                          {char.bounty ? (
+                            <div className="flex items-baseline gap-1">
+                              <span className="text-[10px] text-pirate-muted/40">Ödül</span>
+                              <span className="text-xs font-bold text-gold tabular-nums">
+                                {char.bounty}
+                              </span>
+                            </div>
+                          ) : (
+                            <span className="text-[10px] text-pirate-muted/30">Ödül bilinmiyor</span>
+                          )}
+                          <div className="flex items-center gap-1 text-[10px] text-pirate-muted/30 transition-all duration-300 group-hover:text-gold/50">
+                            <span className="hidden sm:inline">Detay</span>
+                            <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5" />
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                )
+              })}
+            </AnimatePresence>
+          </motion.div>
+
+          {/* ─── Empty State ─── */}
           {filtered.length === 0 && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="py-20 text-center"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="py-24 text-center"
             >
-              <Users className="mx-auto mb-4 h-12 w-12 text-pirate-muted/30" />
-              <p className="text-pirate-muted">Aramanızla eşleşen karakter bulunamadı.</p>
+              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-pirate-border/20 bg-ocean-surface/30">
+                <Users className="h-10 w-10 text-pirate-muted/30" />
+              </div>
+              <h3 className="mb-2 text-lg font-bold text-pirate-text">Karakter Bulunamadı</h3>
+              <p className="text-sm text-pirate-muted">
+                Aramanızla eşleşen karakter bulunamadı. Farklı bir arama deneyin.
+              </p>
             </motion.div>
           )}
         </div>
 
-        <div className="mt-16" />
+        <div className="mt-20" />
       </main>
       <Footer />
     </>

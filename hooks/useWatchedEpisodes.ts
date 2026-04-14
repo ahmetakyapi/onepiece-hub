@@ -68,6 +68,28 @@ export function useWatchedEpisodes() {
     })
   }, [user])
 
+  // Mark as watched without toggling — for auto-marking when episode is opened
+  const markWatched = useCallback((episodeSlug: string, arcSlug: string) => {
+    setWatched((prev) => {
+      if (prev.has(episodeSlug)) return prev // already watched, no-op
+
+      const next = new Set(prev)
+      next.add(episodeSlug)
+
+      if (user) {
+        fetch('/api/progress', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ arcSlug, episodeSlug }),
+        })
+      } else {
+        persistLocal(next)
+      }
+
+      return next
+    })
+  }, [user])
+
   const isWatched = useCallback(
     (episodeSlug: string) => watched.has(episodeSlug),
     [watched],
@@ -78,5 +100,5 @@ export function useWatchedEpisodes() {
     [watched],
   )
 
-  return { watched, toggle, isWatched, watchedCount, loaded }
+  return { watched, toggle, markWatched, isWatched, watchedCount, loaded }
 }
