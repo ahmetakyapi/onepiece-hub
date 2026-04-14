@@ -102,7 +102,7 @@ export const SUMMIT_WAR_ARCS: Arc[] = [
     name: 'Hasır Şapkaların Maceraları',
     slug: 'straw-hats-adventures',
     saga: 'summit-war',
-    cover: '/arcs/straw-hats-adventures.jpg',
+    cover: '/arcs/straw-hats-adventures.webp',
     episodeCount: 1,
     summary: 'Hasır Şapka mürettebatının Kuma tarafından farklı adalara gönderilmesinin ardından yaşadıkları maceralar.',
     detailedSummary: 'Sabaody Takımadası\'nda Kuma tarafından dünyanın dört bir yanına fırlatılan Hasır Şapka mürettebatı üyelerinin her birinin düştüğü adalardaki maceraları anlatılır.',

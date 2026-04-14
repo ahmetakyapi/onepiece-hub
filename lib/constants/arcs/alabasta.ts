@@ -75,7 +75,7 @@ export const ALABASTA_ARCS: Arc[] = [
     name: 'Koby ve Meppo\'nun Sınavı',
     slug: 'koby-meppo',
     saga: 'alabasta',
-    cover: '/arcs/koby-meppo.jpg',
+    cover: '/arcs/koby-meppo.webp',
     episodeCount: 1,
     summary: 'Koby ve Helmeppo\'nun Deniz Kuvvetleri\'ndeki eğitim süreci ve Garp ile tanışmaları.',
     detailedSummary: 'Luffy\'nin East Blue\'da tanıştığı Koby, Deniz Kuvvetleri\'ne katılmış ve Helmeppo ile birlikte Garp\'ın gözetiminde zorlu bir eğitim sürecinden geçmektedir. İkisi de güçlenmek ve ideallerini gerçekleştirmek için çalışır.',
