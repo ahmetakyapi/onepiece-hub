@@ -1,19 +1,4 @@
-export type DevilFruitEntry = {
-  name: string
-  slug: string
-  japaneseName: string
-  type: 'Paramecia' | 'Zoan' | 'Logia' | 'Mythical Zoan' | 'Ancient Zoan' | 'Special Paramecia'
-  meaning: string
-  description: string
-  abilities: string[]
-  weakness?: string
-  awakening?: string
-  user: string
-  userSlug?: string // links to character page
-  status: 'active' | 'deceased' | 'unknown'
-  firstAppearance: string
-  image?: string
-}
+import type { DevilFruitEntry } from '@/types'
 
 export const DEVIL_FRUIT_TYPE_INFO: Record<string, { label: string; description: string; color: string; bg: string }> = {
   'Paramecia': {

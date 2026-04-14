@@ -5,7 +5,7 @@ export const FINAL_ARCS: Arc[] = [
     name: 'Egghead',
     slug: 'egghead',
     saga: 'final',
-    cover: '/arcs/egghead.jpg',
+    cover: '/arcs/egghead.webp',
     episodeCount: 20,
     summary: 'Dünyanın en zeki insanı Vegapunk\'ın gelecek adası. Void Century\'nin sırları ortaya çıkmaya başlar.',
     detailedSummary: 'Final Saga\'nın ilk arcı. Mürettebat, Vegapunk\'ın geleceğin teknolojisiyle dolu adası Egghead\'e ulaşır. Vegapunk, 6 farklı uyduya — Shaka, Lilith, Edison, Pythagoras, Atlas, York — bölünmüştür. Her biri kişiliğinin bir yönünü temsil eder. Vegapunk, Void Century hakkında araştırma yapmıştır ve tüm dünyaya bir mesaj yayınlamak istemektedir. Dünya Hükümeti, bunu engellemek için Egghead\'e büyük bir güç gönderir: CP0, Seraphim (eski Shichibukai\'lerin klonları) ve Amiral Kizaru. Bonney — Kuma\'nın kızı — babasının geçmişini ve fedakarlığını öğrenir. Kuma, bir Buccaneer soyundandır ve Nika efsanesine inanmıştır. Vegapunk\'ın mesajı dünyaya yayınlanır: "800 yıl önce Antik Krallık, 20 kralın ittifakıyla yıkıldı. One Piece..." Mesaj kesilir. Saturn — Gorosei\'nin bir üyesi — Egghead\'e gelir. Luffy, Gear 5 ile Kizaru ve Gorosei ile savaşır. Dev Robot — 200 yıl önce Mariejois\'a saldıran Joy Boy\'un robotu — harekete geçer.',

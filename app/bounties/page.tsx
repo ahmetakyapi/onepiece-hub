@@ -22,6 +22,8 @@ import Footer from '@/components/layout/Footer'
 import PageHero from '@/components/wiki/PageHero'
 import { getCharacterImage } from '@/lib/constants/images'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
+import { BOUNTIES, CREW_FILTERS } from '@/lib/constants/bounties'
+import type { BountyEntry } from '@/types'
 
 /* ─── Helpers ──────────────────────────────────────────────────── */
 
@@ -43,62 +45,6 @@ function formatBounty(value: number): string {
   }
   return value.toLocaleString()
 }
-
-/* ─── Data ─────────────────────────────────────────────────────── */
-
-type BountyEntry = {
-  name: string
-  bounty: string
-  crew: string
-  slug?: string
-  epithet?: string
-}
-
-const EXTRA_BOUNTIES: BountyEntry[] = [
-  { name: 'Gol D. Roger', bounty: '5,564,800,000', crew: 'Korsanlar Kralı', slug: 'roger', epithet: 'Korsanlar Kralı' },
-  { name: 'Edward Newgate', bounty: '5,046,000,000', crew: 'Yonko', slug: 'whitebeard', epithet: 'Beyaz Sakal' },
-  { name: 'Kaido', bounty: '4,611,100,000', crew: 'Yonko', slug: 'kaido', epithet: 'En Güçlü Yaratık' },
-  { name: 'Charlotte Linlin', bounty: '4,388,000,000', crew: 'Yonko', slug: 'bigmom', epithet: 'Big Mom' },
-  { name: 'Shanks', bounty: '4,048,900,000', crew: 'Yonko', slug: 'shanks', epithet: 'Kızıl Saçlı' },
-  { name: 'Marshall D. Teach', bounty: '3,996,000,000', crew: 'Yonko', slug: 'blackbeard', epithet: 'Kara Sakal' },
-  { name: 'Dracule Mihawk', bounty: '3,590,000,000', crew: 'Cross Guild', slug: 'mihawk', epithet: 'Şahin Göz' },
-  { name: 'Buggy', bounty: '3,189,000,000', crew: 'Cross Guild', slug: 'buggy', epithet: 'Palyaço' },
-  { name: 'Monkey D. Luffy', bounty: '3,000,000,000', crew: 'Hasır Şapka', slug: 'luffy', epithet: 'Hasır Şapka' },
-  { name: 'Trafalgar Law', bounty: '3,000,000,000', crew: 'Heart Korsanları', slug: 'law', epithet: 'Ölümün Cerrahı' },
-  { name: 'Eustass Kid', bounty: '3,000,000,000', crew: 'Kid Korsanları', slug: 'kid', epithet: 'Kaptan' },
-  { name: 'Crocodile', bounty: '1,965,000,000', crew: 'Cross Guild', slug: 'crocodile', epithet: 'Mr. 0' },
-  { name: 'Boa Hancock', bounty: '1,659,000,000', crew: 'Kuja Korsanları', slug: 'hancock', epithet: 'Korsan İmparatoriçesi' },
-  { name: 'King', bounty: '1,390,000,000', crew: 'Beast Korsanları', slug: 'king', epithet: 'Wildfire' },
-  { name: 'Marco', bounty: '1,374,000,000', crew: 'Whitebeard Korsanları', slug: 'marco', epithet: 'Anka Kuşu' },
-  { name: 'Queen', bounty: '1,320,000,000', crew: 'Beast Korsanları', slug: 'queen', epithet: 'Plague' },
-  { name: 'Roronoa Zoro', bounty: '1,111,000,000', crew: 'Hasır Şapka', slug: 'zoro', epithet: 'Korsan Avcısı' },
-  { name: 'Jinbe', bounty: '1,100,000,000', crew: 'Hasır Şapka', slug: 'jinbe', epithet: 'Denizlerin Şövalyesi' },
-  { name: 'Charlotte Katakuri', bounty: '1,057,000,000', crew: 'Big Mom Korsanları', slug: 'katakuri', epithet: 'Tatlı Komutan' },
-  { name: 'Vinsmoke Sanji', bounty: '1,032,000,000', crew: 'Hasır Şapka', slug: 'sanji', epithet: 'Kara Bacak' },
-  { name: 'Jack', bounty: '1,000,000,000', crew: 'Beast Korsanları', epithet: 'Drought' },
-  { name: 'Charlotte Smoothie', bounty: '932,000,000', crew: 'Big Mom Korsanları', epithet: 'Tatlı Komutan' },
-  { name: 'Nico Robin', bounty: '930,000,000', crew: 'Hasır Şapka', slug: 'robin', epithet: 'Şeytanın Çocuğu' },
-  { name: 'Charlotte Cracker', bounty: '860,000,000', crew: 'Big Mom Korsanları', epithet: 'Tatlı Komutan' },
-  { name: 'Sabo', bounty: '602,000,000', crew: 'Devrimci Ordu', slug: 'sabo', epithet: 'Alev İmparatoru' },
-  { name: 'Portgas D. Ace', bounty: '550,000,000', crew: 'Whitebeard (eski)', slug: 'ace', epithet: 'Ateş Yumruk' },
-  { name: 'Usopp', bounty: '500,000,000', crew: 'Hasır Şapka', slug: 'usopp', epithet: 'Tanrı' },
-  { name: 'Franky', bounty: '394,000,000', crew: 'Hasır Şapka', slug: 'franky', epithet: 'Cyborg' },
-  { name: 'Brook', bounty: '383,000,000', crew: 'Hasır Şapka', slug: 'brook', epithet: 'Ruh Kralı' },
-  { name: 'Nami', bounty: '366,000,000', crew: 'Hasır Şapka', slug: 'nami', epithet: 'Hırsız Kedi' },
-  { name: 'Donquixote Doflamingo', bounty: '340,000,000', crew: 'Donquixote (eski)', slug: 'doflamingo', epithet: 'Joker' },
-  { name: 'Tony Tony Chopper', bounty: '1,000', crew: 'Hasır Şapka', slug: 'chopper', epithet: 'Pamuk Şeker Sever' },
-]
-
-const CREW_FILTERS = [
-  { label: 'Tümü', value: '' },
-  { label: 'Hasır Şapka', value: 'Hasır Şapka' },
-  { label: 'Yonko', value: 'Yonko' },
-  { label: 'Cross Guild', value: 'Cross Guild' },
-  { label: 'Big Mom', value: 'Big Mom Korsanları' },
-  { label: 'Beast', value: 'Beast Korsanları' },
-  { label: 'Whitebeard', value: 'Whitebeard Korsanları' },
-  { label: 'Devrimci', value: 'Devrimci Ordu' },
-] as const
 
 const HERO_ORBS = [
   { color: 'rgba(244, 163, 0, 0.4)', size: 300, x: '10%', y: '20%', delay: 0 },
@@ -180,7 +126,7 @@ export default function BountiesPage() {
   })
 
   const allSorted = useMemo(() => {
-    return EXTRA_BOUNTIES
+    return BOUNTIES
       .filter((b) => b.bounty !== '---')
       .sort((a, b) => parseBounty(b.bounty) - parseBounty(a.bounty))
   }, [])

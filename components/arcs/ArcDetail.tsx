@@ -7,13 +7,16 @@ import Link from 'next/link'
 import {
   ArrowLeft, Play, Compass, Film, Clock,
   ChevronRight, BrainCircuit, MessageCircle,
-  MapPin, Skull, Sparkles, BookOpen, Users, ArrowRight
+  MapPin, Skull, Sparkles, BookOpen, Users, ArrowRight, Swords
 } from 'lucide-react'
 import { getArcImage } from '@/lib/constants/images'
-import { getGlobalEpisodeNumber } from '@/lib/constants/arcs'
+import { getCharacterImage } from '@/lib/constants/images'
+import { getGlobalEpisodeNumber, ARCS } from '@/lib/constants/arcs'
+import { BATTLES } from '@/lib/constants/battles'
 import type { Arc } from '@/types'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+import CommentSection from '@/components/ui/CommentSection'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
@@ -285,22 +288,99 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
             )}
           </div>
 
-          {/* Comments section placeholder */}
-          <section className="mb-16">
-            <h2 className="mb-6 flex items-center gap-2 text-lg font-bold text-pirate-text">
-              <MessageCircle className="h-5 w-5 text-gold" />
-              Yorumlar
-            </h2>
-            <div className="bento-card p-8 text-center">
-              <MessageCircle className="mx-auto mb-3 h-8 w-8 text-pirate-muted/30" />
-              <p className="text-sm text-pirate-muted/60">
-                Yorum yapabilmek için{' '}
-                <Link href="/login" className="text-gold transition-colors hover:text-gold-bright">
-                  giriş yapın
-                </Link>
-              </p>
-            </div>
-          </section>
+          {/* ─── Related Battles ─────────────────────────────────── */}
+          {(() => {
+            const arcBattles = BATTLES.filter((b) => b.arcSlug === arc.slug)
+            if (arcBattles.length === 0) return null
+            return (
+              <section className="mb-10">
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, ease: EASE }}
+                >
+                  <h2 className="mb-5 flex items-center gap-2 text-lg font-bold text-pirate-text">
+                    <Swords className="h-5 w-5 text-luffy" />
+                    Bu Arc&apos;taki Savaşlar
+                    <span className="ml-1 rounded-full bg-luffy/[0.06] px-2.5 py-0.5 text-[11px] font-semibold text-luffy/70">
+                      {arcBattles.length}
+                    </span>
+                  </h2>
+                  <div className="space-y-3">
+                    {arcBattles.map((battle) => (
+                      <Link
+                        key={battle.slug}
+                        href="/battles"
+                        className="bento-card group flex items-center gap-4 px-5 py-4"
+                      >
+                        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-luffy/[0.06] border border-luffy/10">
+                          <Swords className="h-4 w-4 text-luffy" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
+                            {battle.name}
+                          </p>
+                          <p className="text-[11px] text-pirate-muted/60 line-clamp-1 mt-0.5">
+                            {battle.significance}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-1.5 text-xs text-pirate-muted/50">
+                          {battle.episodes && <span>{battle.episodes}</span>}
+                          <ChevronRight className="h-3.5 w-3.5 group-hover:text-gold group-hover:translate-x-1 transition-all" />
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </motion.div>
+              </section>
+            )
+          })()}
+
+          {/* ─── Prev/Next Arc Navigation ─────────────────────────── */}
+          {(() => {
+            const arcIndex = ARCS.findIndex((a) => a.slug === arc.slug)
+            const prevArc = arcIndex > 0 ? ARCS[arcIndex - 1] : null
+            const nextArc = arcIndex < ARCS.length - 1 ? ARCS[arcIndex + 1] : null
+            if (!prevArc && !nextArc) return null
+            return (
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, ease: EASE }}
+                className="mb-10 grid grid-cols-2 gap-3"
+              >
+                {prevArc ? (
+                  <Link
+                    href={`/arcs/${prevArc.slug}`}
+                    className="bento-card group flex items-center gap-3 px-4 py-3"
+                  >
+                    <ArrowLeft className="h-4 w-4 text-pirate-muted group-hover:text-gold group-hover:-translate-x-1 transition-all" />
+                    <div className="min-w-0">
+                      <p className="text-[10px] text-pirate-muted/50">Önceki Arc</p>
+                      <p className="text-xs font-semibold text-pirate-text group-hover:text-gold transition-colors truncate">{prevArc.name}</p>
+                    </div>
+                  </Link>
+                ) : <div />}
+                {nextArc ? (
+                  <Link
+                    href={`/arcs/${nextArc.slug}`}
+                    className="bento-card group flex items-center justify-end gap-3 px-4 py-3 text-right"
+                  >
+                    <div className="min-w-0">
+                      <p className="text-[10px] text-pirate-muted/50">Sonraki Arc</p>
+                      <p className="text-xs font-semibold text-pirate-text group-hover:text-gold transition-colors truncate">{nextArc.name}</p>
+                    </div>
+                    <ArrowRight className="h-4 w-4 text-pirate-muted group-hover:text-gold group-hover:translate-x-1 transition-all" />
+                  </Link>
+                ) : <div />}
+              </motion.div>
+            )
+          })()}
+
+          {/* Comments */}
+          <CommentSection targetType="arc" targetSlug={arc.slug} />
         </div>
       </main>
       <Footer />

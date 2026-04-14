@@ -33,8 +33,21 @@ export const quizScores = pgTable('quiz_scores', {
   uniqueUserArc: uniqueIndex('unique_user_arc_quiz').on(table.userId, table.arcSlug),
 }))
 
+// ─── Comments ─────────────────────────────────────────────────────────────
+export const comments = pgTable('comments', {
+  id:         uuid('id').primaryKey().defaultRandom(),
+  userId:     uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  username:   text('username').notNull(),
+  targetType: text('target_type').notNull(),  // 'arc' | 'character' | 'episode' | 'battle'
+  targetSlug: text('target_slug').notNull(),
+  content:    text('content').notNull(),
+  createdAt:  timestamp('created_at').defaultNow().notNull(),
+})
+
 // ─── Type Inference ───────────────────────────────────────────────────────
 export type User          = typeof users.$inferSelect
 export type NewUser       = typeof users.$inferInsert
 export type WatchProgress = typeof watchProgress.$inferSelect
 export type QuizScore     = typeof quizScores.$inferSelect
+export type Comment       = typeof comments.$inferSelect
+export type NewComment    = typeof comments.$inferInsert

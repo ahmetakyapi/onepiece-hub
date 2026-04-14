@@ -8,7 +8,7 @@ import {
 } from 'lucide-react'
 import { fadeUp, staggerContainer } from '@/lib/variants'
 import { DEVIL_FRUIT_TYPE_INFO } from '@/lib/constants/devil-fruits'
-import type { DevilFruitEntry } from '@/lib/constants/devil-fruits'
+import type { DevilFruitEntry } from '@/types'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 

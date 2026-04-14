@@ -4,7 +4,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Monkey D. Luffy',
     slug: 'luffy',
-    image: '/characters/luffy.jpg',
+    image: '/characters/luffy.webp',
     crew: 'straw-hat',
     epithet: 'Hasır Şapka',
     bounty: '3,000,000,000',
@@ -34,7 +34,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Roronoa Zoro',
     slug: 'zoro',
-    image: '/characters/zoro.jpg',
+    image: '/characters/zoro.webp',
     crew: 'straw-hat',
     epithet: 'Korsan Avcısı',
     bounty: '1,111,000,000',
@@ -58,7 +58,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Nami',
     slug: 'nami',
-    image: '/characters/nami.jpg',
+    image: '/characters/nami.webp',
     crew: 'straw-hat',
     epithet: 'Hırsız Kedi',
     bounty: '366,000,000',
@@ -80,7 +80,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Usopp',
     slug: 'usopp',
-    image: '/characters/usopp.jpg',
+    image: '/characters/usopp.webp',
     crew: 'straw-hat',
     epithet: 'Tanrı / Sogeking',
     bounty: '500,000,000',
@@ -103,7 +103,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Sanji',
     slug: 'sanji',
-    image: '/characters/sanji.jpg',
+    image: '/characters/sanji.webp',
     crew: 'straw-hat',
     epithet: 'Kara Bacak',
     bounty: '1,032,000,000',
@@ -128,7 +128,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Tony Tony Chopper',
     slug: 'chopper',
-    image: '/characters/chopper.jpg',
+    image: '/characters/chopper.webp',
     crew: 'straw-hat',
     epithet: 'Pamuk Şeker Sever',
     bounty: '1,000',
@@ -155,7 +155,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Nico Robin',
     slug: 'robin',
-    image: '/characters/robin.jpg',
+    image: '/characters/robin.webp',
     crew: 'straw-hat',
     epithet: 'Şeytan Çocuğu',
     bounty: '930,000,000',
@@ -182,7 +182,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Franky',
     slug: 'franky',
-    image: '/characters/franky.jpg',
+    image: '/characters/franky.webp',
     crew: 'straw-hat',
     epithet: 'Cyborg',
     bounty: '394,000,000',
@@ -205,7 +205,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Brook',
     slug: 'brook',
-    image: '/characters/brook.jpg',
+    image: '/characters/brook.webp',
     crew: 'straw-hat',
     epithet: 'Soul King',
     bounty: '383,000,000',
@@ -232,7 +232,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Jinbe',
     slug: 'jinbe',
-    image: '/characters/jinbe.jpg',
+    image: '/characters/jinbe.webp',
     crew: 'straw-hat',
     epithet: 'Denizin Şövalyesi',
     bounty: '1,100,000,000',
@@ -255,7 +255,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Shanks',
     slug: 'shanks',
-    image: '/characters/shanks.jpg',
+    image: '/characters/shanks.webp',
     crew: 'yonko',
     epithet: 'Kızıl Saçlı',
     bounty: '4,048,900,000',
@@ -277,7 +277,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Kaido',
     slug: 'kaido',
-    image: '/characters/kaido.jpg',
+    image: '/characters/kaido.webp',
     crew: 'yonko',
     epithet: 'Yüz Hayvanın Kaido\'su',
     bounty: '4,611,100,000',
@@ -306,7 +306,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Edward Newgate (Whitebeard)',
     slug: 'whitebeard',
-    image: '/characters/whitebeard.jpg',
+    image: '/characters/whitebeard.webp',
     crew: 'yonko',
     epithet: 'Beyaz Sakal',
     bounty: '5,046,000,000',
@@ -333,7 +333,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Marshall D. Teach (Blackbeard)',
     slug: 'blackbeard',
-    image: '/characters/blackbeard.jpg',
+    image: '/characters/blackbeard.webp',
     crew: 'yonko',
     epithet: 'Kara Sakal',
     bounty: '3,996,000,000',
@@ -360,7 +360,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Charlotte Linlin (Big Mom)',
     slug: 'bigmom',
-    image: '/characters/bigmom.jpg',
+    image: '/characters/bigmom.webp',
     crew: 'yonko',
     epithet: 'Big Mom',
     bounty: '4,388,000,000',
@@ -388,7 +388,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Buggy',
     slug: 'buggy',
-    image: '/characters/buggy.jpg',
+    image: '/characters/buggy.webp',
     crew: 'yonko',
     epithet: 'Şanslı Palyaço / Yıldız Palyaço',
     bounty: '3,189,000,000',
@@ -416,7 +416,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Portgas D. Ace',
     slug: 'ace',
-    image: '/characters/ace.jpg',
+    image: '/characters/ace.webp',
     crew: 'other',
     epithet: 'Ateş Yumruk',
     bounty: '550,000,000',
@@ -442,7 +442,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Trafalgar D. Law',
     slug: 'law',
-    image: '/characters/law.jpg',
+    image: '/characters/law.webp',
     crew: 'supernova',
     epithet: 'Ölüm Cerrahı',
     bounty: '3,000,000,000',
@@ -471,7 +471,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Eustass Kid',
     slug: 'kid',
-    image: '/characters/kid.jpg',
+    image: '/characters/kid.webp',
     crew: 'supernova',
     epithet: 'Kaptan',
     bounty: '3,000,000,000',
@@ -499,7 +499,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Boa Hancock',
     slug: 'hancock',
-    image: '/characters/hancock.jpg',
+    image: '/characters/hancock.webp',
     crew: 'shichibukai',
     epithet: 'Yılan Prensesi',
     bounty: '1,659,000,000',
@@ -526,7 +526,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Dracule Mihawk',
     slug: 'mihawk',
-    image: '/characters/mihawk.jpg',
+    image: '/characters/mihawk.webp',
     crew: 'shichibukai',
     epithet: 'Şahin Gözlü',
     bounty: '3,590,000,000',
@@ -548,7 +548,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Crocodile',
     slug: 'crocodile',
-    image: '/characters/crocodile.jpg',
+    image: '/characters/crocodile.webp',
     crew: 'shichibukai',
     epithet: 'Çöl Kralı',
     bounty: '1,965,000,000',
@@ -575,7 +575,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Donquixote Doflamingo',
     slug: 'doflamingo',
-    image: '/characters/doflamingo.jpg',
+    image: '/characters/doflamingo.webp',
     crew: 'shichibukai',
     epithet: 'Göklerin Şeytanı / Joker',
     bounty: '340,000,000',
@@ -603,7 +603,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Bartholomew Kuma',
     slug: 'kuma',
-    image: '/characters/kuma.jpg',
+    image: '/characters/kuma.webp',
     crew: 'revolutionary',
     epithet: 'Tiran',
     bounty: '296,000,000',
@@ -630,7 +630,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Sabo',
     slug: 'sabo',
-    image: '/characters/sabo.jpg',
+    image: '/characters/sabo.webp',
     crew: 'revolutionary',
     epithet: 'Ateş İmparatoru',
     bounty: '602,000,000',
@@ -657,7 +657,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Nefertari Vivi',
     slug: 'vivi',
-    image: '/characters/vivi.jpg',
+    image: '/characters/vivi.webp',
     crew: 'other',
     epithet: 'Arabasta Prensesi',
     description: 'Arabasta Krallığının prensesi. Ruhsal olarak mürettebatın bir parçası.',
@@ -678,7 +678,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Enel',
     slug: 'enel',
-    image: '/characters/enel.jpg',
+    image: '/characters/enel.webp',
     crew: 'other',
     epithet: 'Tanrı',
     bounty: undefined,
@@ -707,7 +707,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Smoker',
     slug: 'smoker',
-    image: '/characters/smoker.jpg',
+    image: '/characters/smoker.webp',
     crew: 'marine',
     epithet: 'Beyaz Avcı',
     bounty: undefined,
@@ -734,7 +734,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Koby',
     slug: 'koby',
-    image: '/characters/koby.jpg',
+    image: '/characters/koby.webp',
     crew: 'marine',
     epithet: 'SWORD Üyesi',
     description: 'Deniz Kuvvetleri yükselen yıldızı. Luffy ile tanışarak hayatı değişen eski kaçak.',
@@ -755,7 +755,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Monkey D. Garp',
     slug: 'garp',
-    image: '/characters/garp.jpg',
+    image: '/characters/garp.webp',
     crew: 'marine',
     epithet: 'Deniz Kahramanı',
     description: 'Efsanevi Tümamiralı. Luffy\'nin dedesi. Gold Roger\'ı köşeye sıkıştıran adam.',
@@ -776,7 +776,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Sakazuki (Akainu)',
     slug: 'akainu',
-    image: '/characters/akainu.jpg',
+    image: '/characters/akainu.webp',
     crew: 'marine',
     epithet: 'Kırmızı Köpek',
     bounty: undefined,
@@ -803,7 +803,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Kuzan (Aokiji)',
     slug: 'aokiji',
-    image: '/characters/aokiji.jpg',
+    image: '/characters/aokiji.webp',
     crew: 'other',
     epithet: 'Mavi Sülün',
     bounty: undefined,
@@ -830,7 +830,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Borsalino (Kizaru)',
     slug: 'kizaru',
-    image: '/characters/kizaru.jpg',
+    image: '/characters/kizaru.webp',
     crew: 'marine',
     epithet: 'Sarı Maymun',
     bounty: undefined,
@@ -858,7 +858,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Yamato',
     slug: 'yamato',
-    image: '/characters/yamato.jpg',
+    image: '/characters/yamato.webp',
     crew: 'other',
     epithet: 'Wano\'nun Koruyucusu',
     bounty: undefined,
@@ -885,7 +885,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Carrot',
     slug: 'carrot',
-    image: '/characters/carrot.jpg',
+    image: '/characters/carrot.webp',
     crew: 'other',
     epithet: 'Garchu!',
     description: 'Zou\'dan gelen Mink kabilesi savaşçısı. Sulong formuna dönüşebilir.',
@@ -906,7 +906,7 @@ export const CHARACTERS: Character[] = [
   {
     name: 'Vegapunk',
     slug: 'vegapunk',
-    image: '/characters/vegapunk.jpg',
+    image: '/characters/vegapunk.webp',
     crew: 'other',
     epithet: 'Dünyanın En Zeki İnsanı',
     bounty: undefined,
@@ -1588,6 +1588,88 @@ export const CHARACTERS: Character[] = [
       { name: 'Distortion Future', description: 'Farklı gelecek olasılıklarına göre formunu değiştiren ileri seviye teknik.', category: 'Şeytan Meyvesi' },
       { name: 'Sapientifikasyon (Uyanış)', description: 'Meyvesinin uyanış formu. Nika\'ya benzer dev bir form alarak güçlü saldırılar yapabilir.', category: 'Şeytan Meyvesi' },
       { name: 'Dövüş Sanatları', description: 'Yaş değiştirme yeteneğiyle birleştirdiği agresif dövüş stili.', category: 'Fiziksel' },
+    ],
+  },
+  {
+    name: 'Tashigi',
+    slug: 'tashigi',
+    image: '/characters/tashigi.webp',
+    crew: 'marine',
+    epithet: 'Kılıç Koleksiyoncusu',
+    bounty: '0',
+    description: 'Deniz Kuvvetleri\'nin kılıç ustası subayı. Smoker\'ın sağ kolu ve adalet duygusu güçlü bir savaşçı.',
+    backstory: 'Tashigi, Deniz Kuvvetleri\'nde Kaptan rütbesinde görev yapan ve Smoker\'ın en güvendiği subayıdır. Kuina\'ya olan fiziksel benzerliği Zoro\'yu derinden etkiler. Dünyadaki tüm "Meito" (isimli kılıçlar) kötü insanların elinden almak en büyük hayalidir. Loguetown\'da Zoro ile ilk karşılaşmasında henüz onun korsan olduğunu bilmiyordu ve kılıçlar hakkında sohbet ettiler. Arabasta\'da Crocodile\'a karşı savaştı ama yenildi. Punk Hazard\'da Smoker ile birlikte Hasır Şapkalarla ittifak kurdu ve çocukları kurtarmak için mücadele etti. Dressrosa ve Reverie olaylarında da aktif görev aldı.',
+    role: 'Deniz Kuvvetleri Kaptanı — Smoker\'ın sağ kolu',
+    age: '23',
+    height: '170 cm',
+    origin: 'East Blue',
+    firstArc: 'loguetown',
+    appearances: ['loguetown', 'arabasta', 'punk-hazard', 'dressrosa', 'reverie'],
+    abilities: [
+      { name: 'Shigure Kılıcı', description: 'Meito sınıfı kılıcı. Yağmur temalı keskin bir katana.', category: 'Kılıç' },
+      { name: 'Kılıç Ustalığı', description: 'Rokushiki seviyesinde olmasa da yetenekli bir kılıç savaşçısı. Sürekli gelişim gösterir.', category: 'Kılıç' },
+      { name: 'Kenbunshoku Haki', description: 'Çevresindeki tehditleri algılayabilen temel düzey Gözlem Haki\'si.', category: 'Haki' },
+    ],
+  },
+  {
+    name: 'Sentomaru',
+    slug: 'sentomaru',
+    image: '/characters/sentomaru.webp',
+    crew: 'marine',
+    epithet: 'Dünyanın En Sağlam Savunması',
+    bounty: '0',
+    description: 'Deniz Bilim Birimi\'nin muhafızı ve Pacifista komutanı. Sumo tarzı savaş stili ile tanınır.',
+    backstory: 'Sentomaru, Dr. Vegapunk\'ın koruması ve Deniz Kuvvetleri\'nin Bilim Birimi\'nin operasyonel komutanıdır. Sabaody Takımadaları\'nda Hasır Şapkalarla ilk kez karşılaştığında Pacifista birliklerini yönetiyordu. Kendini "dünyanın en ağzı sıkı adamı" olarak tanıtmasına rağmen sürekli bilgi verir — ironik bir özellik. Sumo güreşi tarzı savaş tekniğiyle tanınır ve Busoshoku Haki konusunda son derece yeteneklidir. Egghead Arc\'ta Vegapunk\'ı korumak için CP0\'a karşı savaştı ve ağır yaralandı ama görevinden vazgeçmedi.',
+    role: 'Deniz Bilim Birimi Komutanı — Vegapunk\'ın muhafızı',
+    age: '34',
+    height: '210 cm',
+    origin: 'Grand Line',
+    firstArc: 'sabaody-archipelago',
+    appearances: ['sabaody-archipelago', 'marineford', 'return-to-sabaody', 'egghead'],
+    abilities: [
+      { name: 'Busoshoku Haki (İleri Seviye)', description: 'Temas etmeden Haki darbesi yapabilir. Düşmanı itmek ve savurmak için kullanır.', category: 'Haki' },
+      { name: 'Sumo Savaş Stili', description: 'Güçlü avuç içi darbeleri ve itme teknikleri. Rakiplerini tek hamleyle savurabilir.', category: 'Fiziksel' },
+      { name: 'Pacifista Komutanlığı', description: 'Tüm Pacifista birimlerini yönetme yetkisi ve kontrolü.', category: 'Özel' },
+    ],
+  },
+  {
+    name: 'Vergo',
+    slug: 'vergo',
+    image: '/characters/vergo.webp',
+    crew: 'beast-pirates',
+    epithet: 'Yüzbaşı',
+    bounty: '0',
+    description: 'Doflamingo\'nun en eski ve en sadık adamı. Deniz Kuvvetleri\'ne sızmış gizli ajan.',
+    backstory: 'Vergo, Donquixote Doflamingo\'nun en eski ortağı ve Donquixote Ailesi\'nin "Corazón" kod adlı üyesiydi. Yıllar önce Doflamingo\'nun emriyle Deniz Kuvvetleri\'ne sızdı ve Yüzbaşı rütbesine kadar yükseldi — G-5 üssünün komutanı oldu. Askerlerinin saygısını kazandı ama aslında Doflamingo\'ya istihbarat sağlıyordu. Punk Hazard\'da gerçek kimliği ortaya çıktı. Law ile savaştığında tam vücut Busoshoku Haki\'siyle saldırdı ama Law\'un Room-Mes teknikleriyle ikiye bölündü. Yüzüne yiyecek yapışması ile bilinen komik bir özelliği vardır.',
+    role: 'Donquixote Ailesi gizli ajanı — sahte Deniz Kuvvetleri Yüzbaşısı',
+    age: '41',
+    height: '192 cm',
+    origin: 'North Blue',
+    firstArc: 'punk-hazard',
+    appearances: ['punk-hazard'],
+    abilities: [
+      { name: 'Busoshoku Haki (Tam Vücut)', description: 'Tüm vücudunu Haki ile kaplayarak çelik sertliğinde bir zırha dönüştürür. Paramecia ve Logia meyvelerine karşı etkili.', category: 'Haki' },
+      { name: 'Bambu Kamışı', description: 'Haki ile güçlendirilmiş bambu sopasını silah olarak kullanır. Son derece yıkıcı darbeler indirir.', category: 'Silah' },
+      { name: 'Rokushiki (Temel)', description: 'Deniz Kuvvetleri eğitiminden öğrendiği temel Rokushiki teknikleri.', category: 'Fiziksel' },
+    ],
+  },
+  {
+    name: 'Aisa',
+    slug: 'aisa',
+    image: '/characters/aisa.webp',
+    crew: 'other',
+    epithet: 'Mantra Kızı',
+    bounty: '0',
+    description: 'Skypiea\'nın Shandian kabilesinden doğuştan Mantra (Kenbunshoku Haki) yeteneğine sahip küçük kız.',
+    backstory: 'Aisa, Skypiea Arc\'ta karşılaşılan Shandian kabilesinin küçük bir üyesidir. Doğuştan Mantra (Kenbunshoku Haki\'nin Skypiea\'daki adı) yeteneğine sahip nadir insanlardan biridir — çevresindeki tüm canlıların varlığını hissedebilir ve yaşam enerjilerinin sönüşünü algılayabilir. Enel\'in hayatta kalma oyunu sırasında birçok Shandian\'ın ve Skypiea sakininin düşüşünü hissetti ve büyük acı çekti. Cesur ve inatçı bir karakter olarak tehlikelere rağmen arkadaşlarını kurtarmak için mücadele etti. Wiper ve diğer Shandian savaşçılarla birlikte Enel\'e karşı direndi. Skypiea\'nın kurtuluşundan sonra kabilesiyle birlikte barış içinde yaşamaya başladı.',
+    role: 'Shandian kabile üyesi — doğuştan Mantra kullanıcısı',
+    age: '9',
+    height: '120 cm',
+    origin: 'Skypiea, Shandian Köyü',
+    firstArc: 'skypiea',
+    appearances: ['skypiea'],
+    abilities: [
+      { name: 'Mantra (Kenbunshoku Haki)', description: 'Doğuştan gelen Gözlem Haki yeteneği. Çevresindeki tüm canlıları hisseder ve yaşam enerjilerini algılar.', category: 'Haki' },
     ],
   },
 ]

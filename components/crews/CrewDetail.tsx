@@ -8,7 +8,7 @@ import {
 } from 'lucide-react'
 import { fadeUp, staggerContainer } from '@/lib/variants'
 import { CREW_TYPE_LABELS } from '@/lib/constants/crews'
-import type { Crew } from '@/lib/constants/crews'
+import type { Crew } from '@/types'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 

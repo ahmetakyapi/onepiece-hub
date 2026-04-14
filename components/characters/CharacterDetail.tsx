@@ -6,15 +6,17 @@ import Link from 'next/link'
 import {
   ArrowLeft, Users, Anchor, Sword, Sparkles,
   Skull, MapPin, Zap, BookOpen, Film,
-  Ruler, Calendar, Globe, Quote, Cherry, Shield
+  Ruler, Calendar, Globe, Quote, Cherry, Shield, Swords, ChevronRight
 } from 'lucide-react'
 import { fadeUp, staggerContainer } from '@/lib/variants'
 import { CREW_LABELS } from '@/lib/constants/characters'
 import { getArcBySlug } from '@/lib/constants/arcs'
 import { getCharacterImage } from '@/lib/constants/images'
+import { BATTLES } from '@/lib/constants/battles'
 import type { Character, Ability } from '@/types'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+import CommentSection from '@/components/ui/CommentSection'
 
 const DEVIL_FRUIT_TYPE_COLORS: Record<string, string> = {
   'Paramecia': 'bg-purple-500/20 text-purple-300',
@@ -275,10 +277,74 @@ export default function CharacterDetailClient({ character }: { character: Charac
                 </div>
               </motion.div>
             )}
+            {/* Related Battles */}
+            {(() => {
+              const charBattles = BATTLES.filter(
+                (b) =>
+                  b.participantSlugs?.side1.includes(character.slug) ||
+                  b.participantSlugs?.side2.includes(character.slug),
+              )
+              if (charBattles.length === 0) return null
+              return (
+                <motion.div variants={fadeUp} className="mb-8">
+                  <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+                    <Swords className="h-5 w-5 text-luffy" />
+                    Katıldığı Savaşlar
+                    <span className="ml-1 rounded-full bg-luffy/[0.06] px-2.5 py-0.5 text-[11px] font-semibold text-luffy/70">
+                      {charBattles.length}
+                    </span>
+                  </h2>
+                  <div className="space-y-2">
+                    {charBattles.map((battle) => {
+                      const isWinnerSide =
+                        (battle.winner === 'side1' && battle.participantSlugs?.side1.includes(character.slug)) ||
+                        (battle.winner === 'side2' && battle.participantSlugs?.side2.includes(character.slug))
+                      const isLoserSide =
+                        (battle.winner === 'side1' && battle.participantSlugs?.side2.includes(character.slug)) ||
+                        (battle.winner === 'side2' && battle.participantSlugs?.side1.includes(character.slug))
+                      return (
+                        <Link
+                          key={battle.slug}
+                          href="/battles"
+                          className="bento-card group flex items-center gap-4 rounded-xl px-4 py-3"
+                        >
+                          <div className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg ${
+                            isWinnerSide ? 'bg-emerald-500/10' : isLoserSide ? 'bg-luffy/10' : 'bg-gold/10'
+                          }`}>
+                            <Swords className={`h-3.5 w-3.5 ${
+                              isWinnerSide ? 'text-emerald-400' : isLoserSide ? 'text-luffy' : 'text-gold'
+                            }`} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-pirate-text group-hover:text-gold transition-colors">
+                              {battle.name}
+                            </p>
+                            <p className="text-[11px] text-pirate-muted/50">{battle.arc}</p>
+                          </div>
+                          <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                            isWinnerSide
+                              ? 'bg-emerald-500/10 text-emerald-400'
+                              : isLoserSide
+                              ? 'bg-luffy/10 text-luffy'
+                              : 'bg-gold/10 text-gold'
+                          }`}>
+                            {isWinnerSide ? 'Zafer' : isLoserSide ? 'Yenilgi' : 'Berabere'}
+                          </span>
+                          <ChevronRight className="h-3.5 w-3.5 text-pirate-muted/30 group-hover:text-gold transition-colors" />
+                        </Link>
+                      )
+                    })}
+                  </div>
+                </motion.div>
+              )
+            })()}
           </motion.div>
         </div>
 
-        <div className="mt-16" />
+        <div className="mt-10" />
+        <div className="mx-auto max-w-5xl px-6">
+          <CommentSection targetType="character" targetSlug={character.slug} />
+        </div>
       </main>
       <Footer />
     </>

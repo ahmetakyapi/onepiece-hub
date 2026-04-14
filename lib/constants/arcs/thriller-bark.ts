@@ -5,7 +5,7 @@ export const THRILLER_BARK_ARCS: Arc[] = [
     name: 'Thriller Bark',
     slug: 'thriller-bark',
     saga: 'thriller-bark',
-    cover: '/arcs/thriller-bark.jpg',
+    cover: '/arcs/thriller-bark.webp',
     episodeCount: 22,
     summary: 'Devasa gemi-ada Thriller Bark\'ta gölgeleri çalan Shichibukai Gecko Moria ile karşılaşma. Brook mürettebata katılır.',
     detailedSummary: 'Mürettebat, Florian Üçgeni\'nde devasa bir gemi-ada olan Thriller Bark\'a ulaşır. Bu korku temalı ada, Shichibukai Gecko Moria\'nın üssüdür. Moria, Kage Kage meyvesiyle insanların gölgelerini çalıp zombilere yerleştirmektedir. Gölgesi çalınan kişi güneş ışığında yok olur. Mürettebatın gölgeleri de çalınır! Brook — 50 yıldır tek başına denizde dolaşan iskelet müzisyen — ile karşılaşırlar. Brook, Yomi Yomi meyvesiyle ölümden dönen Rumbar Korsanlarının son üyesidir. Laboon\'un onu beklediğini hâlâ bilmektedir. Mürettebat, zombi ordusuyla, Absalom\'un görünmezlik gücüyle ve Perona\'nın negatif hayaletleriyle savaşır. Luffy, Nightmare Luffy formuna girerek Moria\'nın gölge devi Oars ile savaşır. Moria yenildikten sonra, daha büyük bir tehdit belirir: Shichibukai Bartholomew Kuma. Zoro, mürettebatı korumak için Luffy\'nin tüm acısını kendi üstüne alır. "Hiçbir şey olmadı" — Zoro\'nun en ikonik sahnesi.',

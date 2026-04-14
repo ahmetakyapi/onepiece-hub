@@ -87,3 +87,89 @@ export type ArcQuiz = {
   arcSlug: string
   questions: QuizQuestion[]
 }
+
+// ─── Battle ──────────────────────────────────────────────────────────────
+export type Battle = {
+  name: string
+  slug: string
+  arc: string
+  arcSlug: string
+  participants: { side1: string[]; side2: string[] }
+  participantSlugs?: { side1: string[]; side2: string[] }
+  winner: 'side1' | 'side2' | 'draw' | 'interrupted'
+  significance: string
+  description: string
+  keyMoments: string[]
+  emotionalWeight: 1 | 2 | 3 | 4 | 5
+  powerLevel: 1 | 2 | 3 | 4 | 5
+  category: 'epic' | 'emotional' | 'rivalry' | 'war' | 'turning-point'
+  episodes?: string
+}
+
+// ─── Devil Fruit (full entry) ────────────────────────────────────────────
+export type DevilFruitEntry = {
+  name: string
+  slug: string
+  japaneseName: string
+  type: 'Paramecia' | 'Zoan' | 'Logia' | 'Mythical Zoan' | 'Ancient Zoan' | 'Special Paramecia'
+  meaning: string
+  description: string
+  abilities: string[]
+  weakness?: string
+  awakening?: string
+  user: string
+  userSlug?: string
+  status: 'active' | 'deceased' | 'unknown'
+  firstAppearance: string
+  image?: string
+}
+
+// ─── Location ────────────────────────────────────────────────────────────
+export type Sea = {
+  name: string
+  slug: string
+  description: string
+  color: string
+}
+
+export type Location = {
+  name: string
+  slug: string
+  sea: string
+  type: 'island' | 'sea' | 'city' | 'fortress' | 'ship' | 'other'
+  description: string
+  significance: string[]
+  relatedArcs: string[]
+  relatedCharacters: string[]
+  dangerLevel: 1 | 2 | 3 | 4 | 5
+  image?: string
+}
+
+// ─── Crew ────────────────────────────────────────────────────────────────
+export type Crew = {
+  name: string
+  slug: string
+  japaneseName: string
+  type: 'pirate' | 'marine' | 'government' | 'revolutionary' | 'other'
+  captain?: string
+  captainSlug?: string
+  status: 'active' | 'disbanded' | 'defeated' | 'unknown'
+  description: string
+  history: string
+  totalBounty?: string
+  territory?: string[]
+  notableMembers: { name: string; slug?: string; role: string }[]
+  achievements: string[]
+  jollyRoger?: string
+  color: string
+  bg: string
+}
+
+// ─── Bounty ──────────────────────────────────────────────────────────────
+export type BountyEntry = {
+  name: string
+  bounty: string
+  crew: string
+  slug?: string
+  epithet?: string
+}

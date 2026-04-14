@@ -14,7 +14,8 @@ import {
   ChevronRight,
 } from 'lucide-react'
 import Link from 'next/link'
-import { LOCATIONS, SEAS, type Location } from '@/lib/constants/locations'
+import { LOCATIONS, SEAS } from '@/lib/constants/locations'
+import type { Location } from '@/types'
 import { getArcBySlug } from '@/lib/constants/arcs'
 import { EASE } from '@/lib/variants'
 

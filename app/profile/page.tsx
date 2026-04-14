@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import {
   User, Film, Trophy,
-  Compass, ArrowRight, Anchor, Play, Clock, LogOut
+  Compass, ArrowRight, Anchor, Play, Clock, LogOut, BrainCircuit
 } from 'lucide-react'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
@@ -20,6 +20,13 @@ type ProgressEntry = {
   watchedAt: string
 }
 
+type QuizScoreEntry = {
+  arcSlug: string
+  score: number
+  totalQ: number
+  completedAt: string
+}
+
 function getArcForEpisode(episodeSlug: string): { arc: Arc; episodeTitle: string; episodeNumber: number } | null {
   for (const arc of ARCS) {
     const ep = arc.episodes.find((e) => e.slug === episodeSlug)
@@ -31,6 +38,7 @@ function getArcForEpisode(episodeSlug: string): { arc: Arc; episodeTitle: string
 export default function ProfilePage() {
   const { user, loading, logout } = useAuth()
   const [progress, setProgress] = useState<ProgressEntry[]>([])
+  const [quizScores, setQuizScores] = useState<QuizScoreEntry[]>([])
   const [loadingProgress, setLoadingProgress] = useState(true)
 
   useEffect(() => {
@@ -43,6 +51,14 @@ export default function ProfilePage() {
         }
       })
       .finally(() => setLoadingProgress(false))
+
+    fetch('/api/quiz-scores')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (data?.data?.scores) {
+          setQuizScores(data.data.scores)
+        }
+      })
   }, [user])
 
   if (loading) return null
@@ -244,6 +260,61 @@ export default function ProfilePage() {
                       {arc.name}
                     </Link>
                   ))}
+              </div>
+            </motion.section>
+          )}
+
+          {/* Quiz Scores */}
+          {quizScores.length > 0 && (
+            <motion.section
+              variants={staggerContainer(0.08)}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="mb-10"
+            >
+              <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+                <BrainCircuit className="h-5 w-5 text-purple-400" />
+                Quiz Skorları
+                <span className="ml-1 rounded-full bg-purple-500/[0.06] px-2.5 py-0.5 text-[11px] font-semibold text-purple-400/70">
+                  {quizScores.length} tamamlandı
+                </span>
+              </h2>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {quizScores
+                  .sort((a, b) => new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime())
+                  .map((entry) => {
+                    const arc = ARCS.find((a) => a.slug === entry.arcSlug)
+                    const pct = Math.round((entry.score / entry.totalQ) * 100)
+                    const isGood = pct >= 80
+                    return (
+                      <motion.div key={entry.arcSlug} variants={fadeUp}>
+                        <Link
+                          href={`/quiz/${entry.arcSlug}`}
+                          className="bento-card group flex items-center gap-3 px-4 py-3"
+                        >
+                          <div className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border ${
+                            isGood ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-gold/10 border-gold/20'
+                          }`}>
+                            <BrainCircuit className={`h-4 w-4 ${isGood ? 'text-emerald-400' : 'text-gold'}`} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-pirate-text group-hover:text-gold transition-colors truncate">
+                              {arc?.name ?? entry.arcSlug}
+                            </p>
+                            <p className="text-xs text-pirate-muted">
+                              {entry.score}/{entry.totalQ} doğru
+                            </p>
+                          </div>
+                          <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${
+                            isGood ? 'bg-emerald-500/10 text-emerald-400' : 'bg-gold/10 text-gold'
+                          }`}>
+                            %{pct}
+                          </span>
+                        </Link>
+                      </motion.div>
+                    )
+                  })}
               </div>
             </motion.section>
           )}

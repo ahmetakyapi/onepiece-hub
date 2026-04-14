@@ -1,22 +1,4 @@
-export type Sea = {
-  name: string
-  slug: string
-  description: string
-  color: string
-}
-
-export type Location = {
-  name: string
-  slug: string
-  sea: string
-  type: 'island' | 'sea' | 'city' | 'fortress' | 'ship' | 'other'
-  description: string
-  significance: string[]
-  relatedArcs: string[]
-  relatedCharacters: string[]
-  dangerLevel: 1 | 2 | 3 | 4 | 5
-  image?: string
-}
+import type { Sea, Location } from '@/types'
 
 export const SEAS: Sea[] = [
   {

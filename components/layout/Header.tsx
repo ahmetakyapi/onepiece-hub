@@ -6,7 +6,7 @@ import { motion, AnimatePresence, useMotionValueEvent, useScroll } from 'framer-
 import {
   Menu, X, Compass, Users, BookOpen, LogOut, User,
   ChevronDown, Cherry, Shield, Globe, Anchor, Swords,
-  Trophy, Clock, ArrowRight, Map
+  Trophy, Clock, ArrowRight, Map, Search, BrainCircuit
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -17,6 +17,7 @@ const EASE = [0.16, 1, 0.3, 1] as const
 const MAIN_LINKS = [
   { label: 'Arc\'lar', href: '/arcs', icon: Compass },
   { label: 'Karakterler', href: '/characters', icon: Users },
+  { label: 'Quiz', href: '/quiz', icon: BrainCircuit },
   { label: 'Rehber', href: '/guide', icon: Map },
 ] as const
 
@@ -202,8 +203,15 @@ export default function Header() {
             </div>
           </nav>
 
-          {/* Right side — auth + mobile */}
+          {/* Right side — search + auth + mobile */}
           <div className="flex items-center gap-3">
+            <Link
+              href="/search"
+              className="flex h-9 w-9 items-center justify-center rounded-xl text-pirate-muted transition-all duration-200 hover:bg-gold/10 hover:text-gold"
+              title="Ara"
+            >
+              <Search className="h-4 w-4" />
+            </Link>
             {!loading && (
               user ? (
                 <div className="hidden items-center gap-2 sm:flex">

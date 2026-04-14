@@ -1,21 +1,4 @@
-export type Crew = {
-  name: string
-  slug: string
-  japaneseName: string
-  type: 'pirate' | 'marine' | 'government' | 'revolutionary' | 'other'
-  captain?: string
-  captainSlug?: string
-  status: 'active' | 'disbanded' | 'defeated' | 'unknown'
-  description: string
-  history: string
-  totalBounty?: string
-  territory?: string[]
-  notableMembers: { name: string; slug?: string; role: string }[]
-  achievements: string[]
-  jollyRoger?: string // description of flag
-  color: string
-  bg: string
-}
+import type { Crew } from '@/types'
 
 export const CREW_TYPE_LABELS: Record<string, string> = {
   pirate: 'Korsan',
