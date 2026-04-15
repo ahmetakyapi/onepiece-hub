@@ -4,12 +4,12 @@ import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } fr
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, Compass, Film } from 'lucide-react'
-import { useRef, useCallback, useEffect, useState } from 'react'
+import { memo, useRef, useCallback, useEffect, useState } from 'react'
 import { fadeUp } from '@/lib/variants'
 import { getArcImage } from '@/lib/constants/images'
 import type { Arc } from '@/types'
 
-export default function ArcCard({ arc }: { arc: Arc }) {
+function ArcCard({ arc }: { arc: Arc }) {
   const img = getArcImage(arc.slug)
   const ref = useRef<HTMLDivElement>(null)
 
@@ -124,3 +124,5 @@ export default function ArcCard({ arc }: { arc: Arc }) {
     </motion.div>
   )
 }
+
+export default memo(ArcCard)

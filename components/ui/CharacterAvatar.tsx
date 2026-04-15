@@ -1,5 +1,6 @@
 'use client'
 
+import { memo } from 'react'
 import Image from 'next/image'
 import { getCharacterImage } from '@/lib/constants/images'
 
@@ -55,7 +56,7 @@ type Props = {
   sizes?: string
 }
 
-export default function CharacterAvatar({ slug, name, crew = 'other', className = 'h-full w-full', sizes = '(max-width: 640px) 100vw, 25vw' }: Props) {
+function CharacterAvatar({ slug, name, crew = 'other', className = 'h-full w-full', sizes = '(max-width: 640px) 100vw, 25vw' }: Props) {
   const img = getCharacterImage(slug)
   const gradient = CREW_GRADIENTS[crew] || CREW_GRADIENTS.other
   const textColor = CREW_TEXT_COLORS[crew] || CREW_TEXT_COLORS.other
@@ -80,3 +81,5 @@ export default function CharacterAvatar({ slug, name, crew = 'other', className 
     </div>
   )
 }
+
+export default memo(CharacterAvatar)

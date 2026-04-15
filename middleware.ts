@@ -9,10 +9,21 @@ const RATE_LIMIT_MAX = 10 // dakikada max istek
 
 // Basit in-memory rate limiter (Edge runtime uyumlu)
 const requestCounts = new Map<string, { count: number; resetAt: number }>()
+let lastCleanup = Date.now()
+const CLEANUP_INTERVAL = 60_000 // 1 dakikada bir stale entry temizle
 
 function isRateLimited(ip: string, path: string): boolean {
   const key = `${ip}:${path}`
   const now = Date.now()
+
+  // Periyodik temizlik — stale entry'leri kaldır
+  if (now - lastCleanup > CLEANUP_INTERVAL) {
+    lastCleanup = now
+    for (const [k, v] of requestCounts) {
+      if (now > v.resetAt) requestCounts.delete(k)
+    }
+  }
+
   const entry = requestCounts.get(key)
 
   if (!entry || now > entry.resetAt) {

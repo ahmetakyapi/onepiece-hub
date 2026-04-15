@@ -17,3 +17,8 @@ export async function verifyPassword(password: string, stored: string): Promise<
   }
   return bcrypt.compare(password, stored)
 }
+
+/** SHA-256 formatındaysa true döner — auto-migration için */
+export function isLegacyHash(stored: string): boolean {
+  return stored.includes(':')
+}

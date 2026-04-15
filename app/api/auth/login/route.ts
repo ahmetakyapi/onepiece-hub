@@ -3,7 +3,7 @@ import { db } from '@/lib/db'
 import { users } from '@/lib/schema'
 import { err, serverErr } from '@/lib/api'
 import { eq } from 'drizzle-orm'
-import { verifyPassword } from '@/lib/password'
+import { verifyPassword, isLegacyHash, hashPassword } from '@/lib/password'
 import { createToken } from '@/lib/token'
 
 export async function POST(req: NextRequest) {
@@ -27,6 +27,12 @@ export async function POST(req: NextRequest) {
     const valid = await verifyPassword(password, user.password)
     if (!valid) {
       return err('Şifre hatalı', 401)
+    }
+
+    // Eski SHA-256 hash'i bcrypt'e otomatik migrate et
+    if (isLegacyHash(user.password)) {
+      const bcryptHash = await hashPassword(password)
+      await db.update(users).set({ password: bcryptHash }).where(eq(users.id, user.id))
     }
 
     const token = await createToken({ id: user.id, username: user.username })
