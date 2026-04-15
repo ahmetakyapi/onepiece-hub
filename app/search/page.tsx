@@ -8,8 +8,6 @@ import {
   Search, Users, Compass, Swords, Anchor, Cherry,
   MapPin, X, ArrowRight
 } from 'lucide-react'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import { fadeUp, staggerContainer } from '@/lib/variants'
 import { CHARACTERS } from '@/lib/constants/characters'
 import { ARCS } from '@/lib/constants/arcs'
@@ -127,8 +125,6 @@ export default function SearchPage() {
   }, [query, allItems])
 
   return (
-    <>
-      <Header />
       <main className="min-h-screen pt-24 pb-16">
         <div className="mx-auto max-w-3xl px-4 sm:px-6">
           {/* Title */}
@@ -300,7 +296,5 @@ export default function SearchPage() {
           </AnimatePresence>
         </div>
       </main>
-      <Footer />
-    </>
   )
 }

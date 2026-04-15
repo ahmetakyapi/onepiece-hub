@@ -4,8 +4,6 @@ import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Anchor, Users, Crown, Shield, Skull, Swords, Sparkles } from 'lucide-react'
 import Link from 'next/link'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import PageHero from '@/components/wiki/PageHero'
 import { CREWS, CREW_TYPE_LABELS } from '@/lib/constants/crews'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
@@ -99,8 +97,6 @@ export default function CrewsPage() {
   const types = [...new Set(CREWS.map((c) => c.type))]
 
   return (
-    <>
-      <Header />
       <main className="relative min-h-screen pt-24">
         <div className="mx-auto max-w-6xl px-6">
           {/* Hero */}
@@ -299,7 +295,5 @@ export default function CrewsPage() {
 
         <div className="mt-16" />
       </main>
-      <Footer />
-    </>
   )
 }

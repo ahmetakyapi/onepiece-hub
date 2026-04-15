@@ -4,8 +4,6 @@ import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Clock, Star, BookOpen, Compass, Anchor, Flame, Swords, Crown, Globe, Sparkles } from 'lucide-react'
 import Link from 'next/link'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import PageHero from '@/components/wiki/PageHero'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
 
@@ -377,8 +375,6 @@ export default function TimelinePage() {
   }, [filtered])
 
   return (
-    <>
-      <Header />
       <main className="relative min-h-screen pt-24">
         <div className="mx-auto max-w-5xl px-6">
           {/* Hero */}
@@ -618,7 +614,5 @@ export default function TimelinePage() {
 
         <div className="mt-16" />
       </main>
-      <Footer />
-    </>
   )
 }

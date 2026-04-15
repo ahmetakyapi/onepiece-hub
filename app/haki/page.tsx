@@ -8,8 +8,6 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import PageHero from '@/components/wiki/PageHero'
 import { getCharacterImage } from '@/lib/constants/images'
 import { fadeUp, staggerContainer, EASE, scaleIn } from '@/lib/variants'
@@ -344,8 +342,6 @@ export default function HakiPage() {
   const masterCount = HAKI_MASTERS.filter((m) => m.types.length === 3).length
 
   return (
-    <>
-      <Header />
       <main className="relative min-h-screen pt-24">
         <div className="mx-auto max-w-6xl px-6">
           {/* Hero */}
@@ -792,7 +788,5 @@ export default function HakiPage() {
 
         <div className="mt-16" />
       </main>
-      <Footer />
-    </>
   )
 }

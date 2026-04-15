@@ -15,8 +15,6 @@ import {
   Navigation,
 } from 'lucide-react'
 import Link from 'next/link'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import PageHero from '@/components/wiki/PageHero'
 import WorldMap from '@/components/world/WorldMap'
 import { SEAS, LOCATIONS, getLocationsBySea } from '@/lib/constants/locations'
@@ -152,8 +150,6 @@ export default function WorldPage() {
   const totalLocations = LOCATIONS.length
 
   return (
-    <>
-      <Header />
       <main className="relative min-h-screen pt-24">
         <div className="mx-auto max-w-6xl px-6">
           {/* Hero */}
@@ -485,7 +481,5 @@ export default function WorldPage() {
 
         <div className="mt-16" />
       </main>
-      <Footer />
-    </>
   )
 }

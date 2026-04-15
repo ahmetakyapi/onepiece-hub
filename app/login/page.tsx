@@ -3,12 +3,11 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { User, Lock, ArrowRight, Loader2 } from 'lucide-react'
+import { User, Lock, ArrowRight, Loader2, Compass, Anchor } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { fadeUp, staggerContainer } from '@/lib/variants'
 import { useAuth } from '@/hooks/useAuth'
-import Header from '@/components/layout/Header'
 
 export default function LoginPage() {
   const [isRegister, setIsRegister] = useState(false)
@@ -39,139 +38,182 @@ export default function LoginPage() {
   }
 
   return (
-    <>
-      <Header />
-      <main className="relative flex min-h-screen items-center justify-center px-6">
+      <main className="relative flex min-h-screen items-center justify-center px-4 sm:px-6">
         {/* Background accents */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute -left-40 top-20 h-80 w-80 rounded-full bg-gold/5 blur-3xl" />
-          <div className="absolute -right-40 bottom-20 h-96 w-96 rounded-full bg-sea/5 blur-3xl" />
+          <div className="ocean-glow ocean-glow-gold" style={{ width: 500, height: 500, top: -150, left: -200 }} />
+          <div className="ocean-glow ocean-glow-sea" style={{ width: 600, height: 600, bottom: -200, right: -200 }} />
         </div>
 
-        <motion.div
-          variants={staggerContainer(0.1)}
-          initial="hidden"
-          animate="visible"
-          className="relative w-full max-w-sm"
-        >
-          {/* Logo */}
-          <motion.div variants={fadeUp} className="mb-8 text-center">
+        <div className="relative flex w-full max-w-4xl overflow-hidden rounded-3xl border border-pirate-border/30 bg-ocean-surface/20 backdrop-blur-sm">
+          {/* Left side — illustration panel (hidden on mobile) */}
+          <div className="relative hidden w-1/2 overflow-hidden lg:block">
+            <div className="absolute inset-0 bg-gradient-to-br from-sea/10 via-ocean-deep/80 to-gold/5" />
             <Image
-              src="/logo.webp"
-              alt="One Piece Hub"
-              width={320}
-              height={128}
-              className="mx-auto mb-4 h-36 w-auto drop-shadow-2xl sm:h-40"
-              priority
+              src="/hero.webp"
+              alt="One Piece"
+              fill
+              className="object-cover opacity-40"
+              sizes="50vw"
             />
-            <h1 className="text-2xl font-extrabold text-pirate-text">
-              {isRegister ? 'Mürettebata Katıl' : 'Maceraya Devam'}
-            </h1>
-            <p className="mt-2 text-sm text-pirate-muted">
-              {isRegister
-                ? 'Hesap oluştur, izleme geçmişini kaydet'
-                : 'Giriş yap, kaldığın yerden devam et'}
-            </p>
-          </motion.div>
+            <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep via-ocean-deep/60 to-transparent" />
 
-          {/* Form */}
-          <motion.form variants={fadeUp} onSubmit={handleSubmit} className="space-y-4">
-            {isRegister && (
-              <div>
-                <label className="mb-1.5 block text-xs font-semibold text-pirate-muted">
-                  Görünen İsim
-                </label>
-                <div className="relative">
-                  <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-pirate-muted/50" />
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Monkey D. Luffy"
-                    className="w-full rounded-xl border border-pirate-border bg-ocean-surface/50 py-3 pl-10 pr-4 text-sm text-pirate-text placeholder:text-pirate-muted/40 transition-all focus:border-gold/40 focus:outline-none focus:ring-1 focus:ring-gold/20"
-                  />
+            {/* Overlay content */}
+            <div className="relative flex h-full flex-col items-center justify-center p-10 text-center">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-gold/20 bg-gold/10">
+                  <Compass className="h-8 w-8 text-gold animate-[spin_8s_linear_infinite]" />
                 </div>
-              </div>
-            )}
+                <h2 className="mb-3 text-2xl font-extrabold text-pirate-text">
+                  Grand Line&apos;a
+                  <br />
+                  <span className="text-gold-gradient">Hoş Geldin</span>
+                </h2>
+                <p className="mx-auto max-w-xs text-sm leading-relaxed text-pirate-muted/70">
+                  İzleme geçmişini kaydet, quiz&apos;lerde yarış, mürettebatına katıl.
+                </p>
+              </motion.div>
 
-            <div>
-              <label className="mb-1.5 block text-xs font-semibold text-pirate-muted">
-                Kullanıcı Adı
-              </label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-pirate-muted/50" />
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="korsanreis"
-                  required
-                  minLength={3}
-                  maxLength={20}
-                  className="w-full rounded-xl border border-pirate-border bg-ocean-surface/50 py-3 pl-10 pr-4 text-sm text-pirate-text placeholder:text-pirate-muted/40 transition-all focus:border-gold/40 focus:outline-none focus:ring-1 focus:ring-gold/20"
-                />
+              {/* Decorative anchors */}
+              <div className="pointer-events-none absolute bottom-8 left-8 opacity-10">
+                <Anchor className="h-20 w-20 text-sea" />
+              </div>
+              <div className="pointer-events-none absolute right-8 top-8 opacity-10">
+                <Anchor className="h-12 w-12 rotate-45 text-gold" />
               </div>
             </div>
+          </div>
 
-            <div>
-              <label className="mb-1.5 block text-xs font-semibold text-pirate-muted">
-                Şifre
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-pirate-muted/50" />
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  required
-                  minLength={6}
-                  className="w-full rounded-xl border border-pirate-border bg-ocean-surface/50 py-3 pl-10 pr-4 text-sm text-pirate-text placeholder:text-pirate-muted/40 transition-all focus:border-gold/40 focus:outline-none focus:ring-1 focus:ring-gold/20"
+          {/* Right side — form */}
+          <div className="flex w-full flex-col justify-center p-8 sm:p-10 lg:w-1/2">
+            <motion.div
+              variants={staggerContainer(0.1)}
+              initial="hidden"
+              animate="visible"
+            >
+              {/* Logo */}
+              <motion.div variants={fadeUp} className="mb-8 text-center lg:text-left">
+                <Image
+                  src="/logo.webp"
+                  alt="One Piece Hub"
+                  width={280}
+                  height={112}
+                  className="mx-auto mb-5 h-28 w-auto drop-shadow-2xl sm:h-32 lg:mx-0"
+                  priority
                 />
-              </div>
-            </div>
+                <h1 className="text-xl font-extrabold text-pirate-text sm:text-2xl">
+                  {isRegister ? 'Mürettebata Katıl' : 'Maceraya Devam'}
+                </h1>
+                <p className="mt-1.5 text-sm text-pirate-muted">
+                  {isRegister
+                    ? 'Hesap oluştur, izleme geçmişini kaydet'
+                    : 'Giriş yap, kaldığın yerden devam et'}
+                </p>
+              </motion.div>
 
-            {error && (
-              <p className="rounded-lg bg-luffy/10 px-3 py-2 text-xs font-medium text-luffy">
-                {error}
-              </p>
-            )}
+              {/* Form */}
+              <motion.form variants={fadeUp} onSubmit={handleSubmit} className="space-y-4">
+                {isRegister && (
+                  <div>
+                    <label className="mb-1.5 block text-xs font-semibold text-pirate-muted">
+                      Görünen İsim
+                    </label>
+                    <div className="relative">
+                      <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-pirate-muted/50" />
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Monkey D. Luffy"
+                        className="w-full rounded-xl border border-pirate-border bg-ocean-surface/50 py-3 pl-10 pr-4 text-sm text-pirate-text placeholder:text-pirate-muted/40 transition-all focus:border-gold/40 focus:outline-none focus:ring-1 focus:ring-gold/20"
+                      />
+                    </div>
+                  </div>
+                )}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn-gold w-full justify-center py-3 text-sm disabled:opacity-50"
-            >
-              {loading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <>
-                  {isRegister ? 'Hesap Oluştur' : 'Giriş Yap'}
-                  <ArrowRight className="h-4 w-4" />
-                </>
-              )}
-            </button>
-          </motion.form>
+                <div>
+                  <label className="mb-1.5 block text-xs font-semibold text-pirate-muted">
+                    Kullanıcı Adı
+                  </label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-pirate-muted/50" />
+                    <input
+                      type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      placeholder="korsanreis"
+                      required
+                      minLength={3}
+                      maxLength={20}
+                      className="w-full rounded-xl border border-pirate-border bg-ocean-surface/50 py-3 pl-10 pr-4 text-sm text-pirate-text placeholder:text-pirate-muted/40 transition-all focus:border-gold/40 focus:outline-none focus:ring-1 focus:ring-gold/20"
+                    />
+                  </div>
+                </div>
 
-          {/* Toggle */}
-          <motion.div variants={fadeUp} className="mt-6 text-center">
-            <button
-              onClick={() => { setIsRegister((v) => !v); setError('') }}
-              className="text-xs text-pirate-muted transition-colors hover:text-gold"
-            >
-              {isRegister
-                ? 'Zaten hesabın var mı? Giriş yap'
-                : 'Hesabın yok mu? Kayıt ol'}
-            </button>
-          </motion.div>
+                <div>
+                  <label className="mb-1.5 block text-xs font-semibold text-pirate-muted">
+                    Şifre
+                  </label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-pirate-muted/50" />
+                    <input
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="••••••••"
+                      required
+                      minLength={6}
+                      className="w-full rounded-xl border border-pirate-border bg-ocean-surface/50 py-3 pl-10 pr-4 text-sm text-pirate-text placeholder:text-pirate-muted/40 transition-all focus:border-gold/40 focus:outline-none focus:ring-1 focus:ring-gold/20"
+                    />
+                  </div>
+                </div>
 
-          <motion.div variants={fadeUp} className="mt-4 text-center">
-            <Link href="/" className="text-xs text-sea hover:text-gold transition-colors">
-              Ana sayfaya dön
-            </Link>
-          </motion.div>
-        </motion.div>
+                {error && (
+                  <p className="rounded-lg bg-luffy/10 px-3 py-2 text-xs font-medium text-luffy">
+                    {error}
+                  </p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="btn-gold w-full justify-center py-3 text-sm disabled:opacity-50"
+                >
+                  {loading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <>
+                      {isRegister ? 'Hesap Oluştur' : 'Giriş Yap'}
+                      <ArrowRight className="h-4 w-4" />
+                    </>
+                  )}
+                </button>
+              </motion.form>
+
+              {/* Toggle */}
+              <motion.div variants={fadeUp} className="mt-6 text-center lg:text-left">
+                <button
+                  onClick={() => { setIsRegister((v) => !v); setError('') }}
+                  className="text-xs text-pirate-muted transition-colors hover:text-gold"
+                >
+                  {isRegister
+                    ? 'Zaten hesabın var mı? Giriş yap'
+                    : 'Hesabın yok mu? Kayıt ol'}
+                </button>
+              </motion.div>
+
+              <motion.div variants={fadeUp} className="mt-4 text-center lg:text-left">
+                <Link href="/" className="text-xs text-sea hover:text-gold transition-colors">
+                  Ana sayfaya dön
+                </Link>
+              </motion.div>
+            </motion.div>
+          </div>
+        </div>
       </main>
-    </>
   )
 }

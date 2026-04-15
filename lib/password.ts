@@ -1,13 +1,19 @@
-import { createHash, randomBytes } from 'crypto'
+import bcrypt from 'bcryptjs'
+
+const SALT_ROUNDS = 12
 
 export async function hashPassword(password: string): Promise<string> {
-  const salt = randomBytes(16).toString('hex')
-  const hash = createHash('sha256').update(password + salt).digest('hex')
-  return `${salt}:${hash}`
+  return bcrypt.hash(password, SALT_ROUNDS)
 }
 
 export async function verifyPassword(password: string, stored: string): Promise<boolean> {
-  const [salt, hash] = stored.split(':')
-  const attempt = createHash('sha256').update(password + salt).digest('hex')
-  return hash === attempt
+  // Eski SHA-256 formatıyla geriye dönük uyumluluk
+  if (stored.includes(':')) {
+    const { createHash } = await import('crypto')
+    const [salt, hash] = stored.split(':')
+    const attempt = createHash('sha256').update(password + salt).digest('hex')
+    if (attempt === hash) return true
+    return false
+  }
+  return bcrypt.compare(password, stored)
 }

@@ -9,13 +9,9 @@ import {
 import { fadeUp, staggerContainer } from '@/lib/variants'
 import { CREW_TYPE_LABELS } from '@/lib/constants/crews'
 import type { Crew } from '@/types'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 
 export default function CrewDetailClient({ crew }: { crew: Crew }) {
   return (
-    <>
-      <Header />
       <main className="relative min-h-screen pt-24">
         <div className="mx-auto max-w-4xl px-6">
           {/* Back */}
@@ -180,7 +176,5 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
 
         <div className="mt-16" />
       </main>
-      <Footer />
-    </>
   )
 }

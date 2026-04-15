@@ -8,8 +8,6 @@ import {
   ArrowLeft, BrainCircuit, CheckCircle,
   XCircle, Trophy, RotateCcw
 } from 'lucide-react'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import dynamic from 'next/dynamic'
 
 const Confetti = dynamic(() => import('@/components/ui/Confetti'), { ssr: false })
@@ -30,8 +28,6 @@ export default function QuizPage() {
 
   if (!quiz || !arc) {
     return (
-      <>
-        <Header />
         <main className="flex min-h-screen items-center justify-center">
           <div className="text-center">
             <BrainCircuit className="mx-auto mb-4 h-12 w-12 text-pirate-muted" />
@@ -40,7 +36,6 @@ export default function QuizPage() {
             <Link href="/arcs" className="btn-ghost">Arc&apos;lara Dön</Link>
           </div>
         </main>
-      </>
     )
   }
 
@@ -76,8 +71,6 @@ export default function QuizPage() {
   const percentage = Math.round((score / quiz.questions.length) * 100)
 
   return (
-    <>
-      <Header />
       <main className="relative min-h-screen pt-24">
         <div className="mx-auto max-w-2xl px-6">
           {/* Back */}
@@ -240,7 +233,5 @@ export default function QuizPage() {
 
         <div className="mt-16" />
       </main>
-      <Footer />
-    </>
   )
 }

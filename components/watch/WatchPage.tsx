@@ -13,8 +13,6 @@ import { fadeUp, staggerContainer } from '@/lib/variants'
 import { getGlobalEpisodeNumber } from '@/lib/constants/arcs'
 import { useWatchedEpisodes } from '@/hooks/useWatchedEpisodes'
 import type { Arc, Episode } from '@/types'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 
 type ArcLink = { name: string; slug: string; firstEpisodeSlug?: string }
 
@@ -51,8 +49,6 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
   }, [episode.slug, arc.slug, loaded, markWatched])
 
   return (
-    <>
-      <Header />
       <main className="relative min-h-screen pt-28 sm:pt-32 pb-16">
         <div className="mx-auto max-w-7xl px-0 sm:px-4 lg:px-6">
           {/* Breadcrumb */}
@@ -318,7 +314,5 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
           </motion.div>
         </div>
       </main>
-      <Footer />
-    </>
   )
 }

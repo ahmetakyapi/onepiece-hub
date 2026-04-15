@@ -2,42 +2,12 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-import {
-  Anchor, Compass, Users, BookOpen, Cherry, Shield,
-  Globe, Swords, Trophy, Clock, ArrowUpRight, Map
-} from 'lucide-react'
+import { Anchor, ArrowUpRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { FOOTER_SECTIONS } from '@/lib/constants/navigation'
 
 const EASE = [0.16, 1, 0.3, 1] as const
-
-const FOOTER_SECTIONS = [
-  {
-    title: 'Keşfet',
-    links: [
-      { label: 'Arc\'lar', href: '/arcs', icon: Compass },
-      { label: 'Karakterler', href: '/characters', icon: Users },
-      { label: 'İzleme Rehberi', href: '/guide', icon: Map },
-      { label: 'Ödül Sıralaması', href: '/bounties', icon: Trophy },
-    ],
-  },
-  {
-    title: 'Ansiklopedi',
-    links: [
-      { label: 'Şeytan Meyveleri', href: '/devil-fruits', icon: Cherry },
-      { label: 'Haki Rehberi', href: '/haki', icon: Shield },
-      { label: 'Dünya Haritası', href: '/world', icon: Globe },
-      { label: 'Organizasyonlar', href: '/crews', icon: Anchor },
-    ],
-  },
-  {
-    title: 'Daha Fazla',
-    links: [
-      { label: 'Zaman Çizelgesi', href: '/timeline', icon: Clock },
-      { label: 'Hakkında', href: '/about', icon: BookOpen },
-    ],
-  },
-] as const
 
 export default function Footer() {
   const ref = useRef<HTMLDivElement>(null)

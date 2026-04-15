@@ -14,9 +14,8 @@ import { getArcBySlug } from '@/lib/constants/arcs'
 import { getCharacterImage } from '@/lib/constants/images'
 import { BATTLES } from '@/lib/constants/battles'
 import type { Character, Ability } from '@/types'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import CommentSection from '@/components/ui/CommentSection'
+import FavoriteButton from '@/components/ui/FavoriteButton'
 
 const DEVIL_FRUIT_TYPE_COLORS: Record<string, string> = {
   'Paramecia': 'bg-purple-500/20 text-purple-300',
@@ -51,8 +50,6 @@ export default function CharacterDetailClient({ character }: { character: Charac
   const firstArc = getArcBySlug(character.firstArc)
 
   return (
-    <>
-      <Header />
       <main className="relative min-h-screen pt-24">
         <div className="mx-auto max-w-4xl px-6">
           {/* Back */}
@@ -98,9 +95,12 @@ export default function CharacterDetailClient({ character }: { character: Charac
                   <Anchor className="h-3 w-3" />
                   {CREW_LABELS[character.crew]}
                 </span>
-                <h1 className="mb-1 text-3xl font-extrabold text-pirate-text sm:text-4xl">
-                  {character.name}
-                </h1>
+                <div className="mb-1 flex items-center gap-3">
+                  <h1 className="text-3xl font-extrabold text-pirate-text sm:text-4xl">
+                    {character.name}
+                  </h1>
+                  <FavoriteButton targetType="character" targetSlug={character.slug} />
+                </div>
                 {character.epithet && (
                   <p className="mb-3 flex items-center gap-1.5 text-sm italic text-gold">
                     <Quote className="h-3.5 w-3.5" />
@@ -346,7 +346,5 @@ export default function CharacterDetailClient({ character }: { character: Charac
           <CommentSection targetType="character" targetSlug={character.slug} />
         </div>
       </main>
-      <Footer />
-    </>
   )
 }

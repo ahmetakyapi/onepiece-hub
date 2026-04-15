@@ -19,8 +19,6 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import PageHero from '@/components/wiki/PageHero'
 import { BATTLES, BATTLE_CATEGORIES } from '@/lib/constants/battles'
 import { getCharacterImage } from '@/lib/constants/images'
@@ -159,8 +157,6 @@ export default function BattlesPage() {
   const avgEmotion = (BATTLES.reduce((s, b) => s + b.emotionalWeight, 0) / BATTLES.length).toFixed(1)
 
   return (
-    <>
-      <Header />
       <main className="relative min-h-screen pt-24">
         <div className="mx-auto max-w-6xl px-6">
           {/* Hero */}
@@ -757,7 +753,5 @@ export default function BattlesPage() {
 
         <div className="mt-16" />
       </main>
-      <Footer />
-    </>
   )
 }

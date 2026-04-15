@@ -6,8 +6,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRef } from 'react'
 import dynamic from 'next/dynamic'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
+
+import WaveSeparator from '@/components/ui/WaveSeparator'
 
 const ParticleField = dynamic(() => import('@/components/home/ParticleField'), { ssr: false })
 const WaveBackground = dynamic(() => import('@/components/home/WaveBackground'), { ssr: false })
@@ -68,9 +68,6 @@ export default function Home() {
   const wikiInView = useInView(wikiRef, { once: true, margin: '-80px' })
 
   return (
-    <>
-      <Header />
-
       <main className="relative min-h-screen overflow-hidden">
         {/* ─── Hero ───────────────────────────────────────────────── */}
         <section ref={heroRef} className="relative z-10 min-h-screen">
@@ -221,14 +218,14 @@ export default function Home() {
           <StatsBar />
         </section>
 
-        {/* ─── Divider ───────────────────────────────────────────── */}
-        <div className="divider-glow mx-auto max-w-5xl" />
+        {/* ─── Wave separator ──────────────────────────────────── */}
+        <WaveSeparator variant="bold" />
 
         {/* ─── Arc Timeline ──────────────────────────────────────── */}
         <ArcTimeline />
 
-        {/* ─── Divider ───────────────────────────────────────────── */}
-        <div className="divider-glow mx-auto max-w-5xl" />
+        {/* ─── Wave separator ──────────────────────────────────── */}
+        <WaveSeparator variant="gold" />
 
         {/* ─── Wiki / Bento Grid ─────────────────────────────────── */}
         <section ref={wikiRef} className="relative z-10 px-6 py-20 sm:py-24">
@@ -291,8 +288,5 @@ export default function Home() {
           </div>
         </section>
       </main>
-
-      <Footer />
-    </>
   )
 }

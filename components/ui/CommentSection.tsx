@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { MessageCircle, Send, User, Loader2 } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { fadeUp } from '@/lib/variants'
+import { getTimeAgo } from '@/lib/utils'
 
 type Comment = {
   id: string
@@ -17,18 +18,6 @@ type Comment = {
 type Props = {
   targetType: string
   targetSlug: string
-}
-
-function timeAgo(dateStr: string): string {
-  const diff = Date.now() - new Date(dateStr).getTime()
-  const mins = Math.floor(diff / 60000)
-  if (mins < 1) return 'az önce'
-  if (mins < 60) return `${mins} dk önce`
-  const hours = Math.floor(mins / 60)
-  if (hours < 24) return `${hours} saat önce`
-  const days = Math.floor(hours / 24)
-  if (days < 7) return `${days} gün önce`
-  return `${Math.floor(days / 7)} hafta önce`
 }
 
 export default function CommentSection({ targetType, targetSlug }: Props) {
@@ -173,7 +162,7 @@ export default function CommentSection({ targetType, targetSlug }: Props) {
                     @{comment.username}
                   </span>
                   <span className="text-[10px] text-pirate-muted/40">
-                    {timeAgo(comment.createdAt)}
+                    {getTimeAgo(comment.createdAt)}
                   </span>
                 </div>
                 <p className="text-sm text-pirate-muted/80 pl-9">

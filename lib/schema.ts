@@ -44,6 +44,17 @@ export const comments = pgTable('comments', {
   createdAt:  timestamp('created_at').defaultNow().notNull(),
 })
 
+// ─── Favorites ───────────────────────────────────────────────────────────
+export const favorites = pgTable('favorites', {
+  id:         uuid('id').primaryKey().defaultRandom(),
+  userId:     uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  targetType: text('target_type').notNull(),  // 'arc' | 'character' | 'devil-fruit' | 'crew'
+  targetSlug: text('target_slug').notNull(),
+  createdAt:  timestamp('created_at').defaultNow().notNull(),
+}, (table) => ({
+  uniqueUserFav: uniqueIndex('unique_user_fav').on(table.userId, table.targetType, table.targetSlug),
+}))
+
 // ─── Type Inference ───────────────────────────────────────────────────────
 export type User          = typeof users.$inferSelect
 export type NewUser       = typeof users.$inferInsert
@@ -51,3 +62,4 @@ export type WatchProgress = typeof watchProgress.$inferSelect
 export type QuizScore     = typeof quizScores.$inferSelect
 export type Comment       = typeof comments.$inferSelect
 export type NewComment    = typeof comments.$inferInsert
+export type Favorite      = typeof favorites.$inferSelect

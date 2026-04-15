@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Manrope, IBM_Plex_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { AuthProvider } from '@/hooks/useAuth'
+import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
 import dynamic from 'next/dynamic'
 
 const ScrollProgress = dynamic(() => import('@/components/layout/ScrollProgress'), { ssr: false })
@@ -21,13 +23,32 @@ const ibmPlexMono = IBM_Plex_Mono({
   display: 'swap',
 })
 
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://onepiece-hub.vercel.app'
+
 export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
   title: {
     default: 'One Piece Hub — Macera Başlasın',
     template: '%s | One Piece Hub',
   },
   description:
-    'One Piece evrenini keşfet. Arc bazlı bölümler, karakter ansiklopedisi, izleme takibi ve daha fazlası.',
+    'One Piece evrenini keşfet. Arc bazlı filler\'sız bölümler, 65+ karakter ansiklopedisi, izleme takibi, quiz ve daha fazlası.',
+  keywords: ['One Piece', 'anime', 'manga', 'karakter', 'arc', 'filler', 'izleme rehberi', 'OnePaceTR', 'wiki'],
+  authors: [{ name: 'One Piece Hub' }],
+  openGraph: {
+    type: 'website',
+    locale: 'tr_TR',
+    siteName: 'One Piece Hub',
+    title: 'One Piece Hub — Macera Başlasın',
+    description: 'Filler\'sız arc bazlı bölümler, karakter ansiklopedisi, izleme takibi ve daha fazlası.',
+    images: [{ url: '/hero.webp', width: 1200, height: 630, alt: 'One Piece Hub' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'One Piece Hub — Macera Başlasın',
+    description: 'Filler\'sız arc bazlı bölümler, karakter ansiklopedisi, izleme takibi ve daha fazlası.',
+    images: ['/hero.webp'],
+  },
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -51,7 +72,9 @@ export default function RootLayout({
       <body className={`${manrope.className} bg-ocean-deep`} suppressHydrationWarning>
         <AuthProvider>
           <ScrollProgress />
+          <Header />
           {children}
+          <Footer />
         </AuthProvider>
         <Analytics />
       </body>

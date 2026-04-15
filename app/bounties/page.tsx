@@ -17,34 +17,12 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import PageHero from '@/components/wiki/PageHero'
 import { getCharacterImage } from '@/lib/constants/images'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
+import { parseBounty, formatBounty } from '@/lib/utils'
 import { BOUNTIES, CREW_FILTERS } from '@/lib/constants/bounties'
 import type { BountyEntry } from '@/types'
-
-/* ─── Helpers ──────────────────────────────────────────────────── */
-
-function parseBounty(bounty?: string): number {
-  if (!bounty) return 0
-  return parseInt(bounty.replace(/,/g, ''), 10)
-}
-
-function formatBounty(value: number): string {
-  if (value >= 1_000_000_000) {
-    const b = value / 1_000_000_000
-    return b % 1 === 0 ? `${b.toFixed(0)}B` : `${b.toFixed(1)}B`
-  }
-  if (value >= 1_000_000) {
-    return `${(value / 1_000_000).toFixed(0)}M`
-  }
-  if (value >= 1_000) {
-    return `${(value / 1_000).toFixed(0)}K`
-  }
-  return value.toLocaleString()
-}
 
 const HERO_ORBS = [
   { color: 'rgba(244, 163, 0, 0.4)', size: 300, x: '10%', y: '20%', delay: 0 },
@@ -175,8 +153,6 @@ export default function BountiesPage() {
   }
 
   return (
-    <>
-      <Header />
       <main className="relative min-h-screen pt-24">
         <div className="mx-auto max-w-6xl px-6">
           {/* Hero */}
@@ -708,8 +684,6 @@ export default function BountiesPage() {
 
         <div className="mt-16" />
       </main>
-      <Footer />
-    </>
   )
 }
 

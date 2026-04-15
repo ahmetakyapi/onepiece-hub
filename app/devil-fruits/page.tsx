@@ -6,8 +6,6 @@ import { Search, Cherry, Filter, Skull, Sparkles, Zap, ArrowRight } from 'lucide
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRef } from 'react'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import PageHero from '@/components/wiki/PageHero'
 import { DEVIL_FRUITS, DEVIL_FRUIT_TYPE_INFO } from '@/lib/constants/devil-fruits'
 import { getCharacterImage } from '@/lib/constants/images'
@@ -63,8 +61,6 @@ export default function DevilFruitsPage() {
   const isSearching = search !== '' || activeType !== null
 
   return (
-    <>
-      <Header />
       <main className="relative min-h-screen pt-24">
         <div className="mx-auto max-w-7xl px-6">
           {/* Hero Section */}
@@ -348,7 +344,5 @@ export default function DevilFruitsPage() {
 
         <div className="mt-16" />
       </main>
-      <Footer />
-    </>
   )
 }

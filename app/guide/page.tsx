@@ -9,8 +9,6 @@ import {
   CheckCircle2, BookOpen, MapPin
 } from 'lucide-react'
 import Link from 'next/link'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
@@ -353,8 +351,6 @@ export default function GuidePage() {
   const activeSteps = tab === 'scratch' ? FULL_PATH : CONTINUE_AFTER_NETFLIX
 
   return (
-    <>
-      <Header />
       <main className="relative min-h-screen pt-28 sm:pt-32 overflow-hidden">
 
         {/* ─── Ambient Background ─────────────────────────────── */}
@@ -658,7 +654,5 @@ export default function GuidePage() {
           </motion.div>
         </div>
       </main>
-      <Footer />
-    </>
   )
 }

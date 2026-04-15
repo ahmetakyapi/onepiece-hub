@@ -14,9 +14,8 @@ import { getCharacterImage } from '@/lib/constants/images'
 import { getGlobalEpisodeNumber, ARCS } from '@/lib/constants/arcs'
 import { BATTLES } from '@/lib/constants/battles'
 import type { Arc } from '@/types'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import CommentSection from '@/components/ui/CommentSection'
+import FavoriteButton from '@/components/ui/FavoriteButton'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
@@ -30,8 +29,6 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
   const coverOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.3])
 
   return (
-    <>
-      <Header />
       <main className="relative min-h-screen pt-24">
         <div className="mx-auto max-w-5xl px-6">
           {/* Back button */}
@@ -84,9 +81,12 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
             transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
             className="mb-6"
           >
-            <h1 className="mb-3 text-3xl font-extrabold text-pirate-text sm:text-4xl">
-              {arc.name}
-            </h1>
+            <div className="mb-3 flex items-center gap-3">
+              <h1 className="text-3xl font-extrabold text-pirate-text sm:text-4xl">
+                {arc.name}
+              </h1>
+              <FavoriteButton targetType="arc" targetSlug={arc.slug} />
+            </div>
             <div className="flex flex-wrap items-center gap-4 text-sm text-pirate-muted">
               <span className="flex items-center gap-1.5">
                 <Film className="h-4 w-4 text-sea" />
@@ -383,7 +383,5 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
           <CommentSection targetType="arc" targetSlug={arc.slug} />
         </div>
       </main>
-      <Footer />
-    </>
   )
 }

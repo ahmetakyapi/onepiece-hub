@@ -4,32 +4,15 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useMotionValueEvent, useScroll } from 'framer-motion'
 // motion used for dropdown/drawer animations, not header element itself
 import {
-  Menu, X, Compass, Users, BookOpen, LogOut, User,
-  ChevronDown, Cherry, Shield, Globe, Anchor, Swords,
-  Trophy, Clock, ArrowRight, Map, Search, BrainCircuit
+  Menu, X, BookOpen, LogOut, User,
+  ChevronDown, ArrowRight, Search,
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/useAuth'
+import { MAIN_LINKS, WIKI_LINKS } from '@/lib/constants/navigation'
 
 const EASE = [0.16, 1, 0.3, 1] as const
-
-const MAIN_LINKS = [
-  { label: 'Arc\'lar', href: '/arcs', icon: Compass },
-  { label: 'Karakterler', href: '/characters', icon: Users },
-  { label: 'Quiz', href: '/quiz', icon: BrainCircuit },
-  { label: 'Rehber', href: '/guide', icon: Map },
-] as const
-
-const WIKI_LINKS = [
-  { label: 'Şeytan Meyveleri', href: '/devil-fruits', icon: Cherry, desc: 'Tüm meyveler ve güçleri' },
-  { label: 'Haki Rehberi', href: '/haki', icon: Shield, desc: 'Üç Haki türü detaylı' },
-  { label: 'Dünya Haritası', href: '/world', icon: Globe, desc: 'Denizler ve lokasyonlar' },
-  { label: 'Organizasyonlar', href: '/crews', icon: Anchor, desc: 'Mürettebat ve gruplar' },
-  { label: 'Efsanevi Savaşlar', href: '/battles', icon: Swords, desc: 'İkonik dövüşler' },
-  { label: 'Ödül Sıralaması', href: '/bounties', icon: Trophy, desc: 'Bounty leaderboard' },
-  { label: 'Zaman Çizelgesi', href: '/timeline', icon: Clock, desc: 'Kronolojik tarih' },
-] as const
 
 export default function Header() {
   const [mounted, setMounted] = useState(false)

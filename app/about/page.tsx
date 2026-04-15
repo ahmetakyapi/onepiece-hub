@@ -8,8 +8,6 @@ import {
   MessageCircle, Shield, Heart, Sparkles,
   Anchor, Map, Play, Trophy, Swords, Crown, Eye,
 } from 'lucide-react'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
 
 /* ─── Data ───────────────────────────────────────────────────── */
@@ -123,8 +121,6 @@ const QUOTES = [
 
 export default function AboutPage() {
   return (
-    <>
-      <Header />
       <main className="relative min-h-screen overflow-hidden">
         {/* ─── Hero ─────────────────────────────────────────────── */}
         <section className="relative pt-28 pb-24">
@@ -439,7 +435,5 @@ export default function AboutPage() {
 
         <div className="mt-8" />
       </main>
-      <Footer />
-    </>
   )
 }

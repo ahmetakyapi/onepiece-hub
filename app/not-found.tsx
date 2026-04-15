@@ -3,8 +3,6 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Home, Compass, Map, Anchor } from 'lucide-react'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
 
 const QUICK_LINKS = [
@@ -16,8 +14,6 @@ const QUICK_LINKS = [
 
 export default function NotFound() {
   return (
-    <>
-      <Header />
       <main className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
         {/* Decorative orbs */}
         <div className="orb absolute w-[300px] h-[300px] rounded-full blur-[120px] opacity-20" style={{ background: 'rgba(244, 163, 0, 0.4)', top: '10%', left: '10%' }} />
@@ -79,7 +75,5 @@ export default function NotFound() {
           </motion.div>
         </motion.div>
       </main>
-      <Footer />
-    </>
   )
 }

@@ -538,6 +538,35 @@ body::after {
   height: 120px;
 }
 
+/* ─── Ocean decorative elements ──────────────────────────────────────── */
+.ocean-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.06;
+  pointer-events: none;
+}
+.ocean-glow-sea {
+  background: radial-gradient(circle, rgba(30,144,255,0.8), transparent 70%);
+}
+.ocean-glow-gold {
+  background: radial-gradient(circle, rgba(244,163,0,0.6), transparent 70%);
+}
+
+.section-ocean {
+  position: relative;
+  overflow: hidden;
+}
+.section-ocean::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -10%;
+  width: 120%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(30,144,255,0.15), rgba(244,163,0,0.1), transparent);
+}
+
 /* ─── Focus states — premium ring ─────────────────────────────────────── */
 *:focus-visible {
   outline: 2px solid rgba(244,163,0,0.5);

@@ -9,15 +9,11 @@ import {
 import { fadeUp, staggerContainer } from '@/lib/variants'
 import { DEVIL_FRUIT_TYPE_INFO } from '@/lib/constants/devil-fruits'
 import type { DevilFruitEntry } from '@/types'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 
 export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEntry }) {
   const typeInfo = DEVIL_FRUIT_TYPE_INFO[fruit.type]
 
   return (
-    <>
-      <Header />
       <main className="relative min-h-screen pt-24">
         <div className="mx-auto max-w-4xl px-6">
           {/* Back */}
@@ -160,7 +156,5 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
 
         <div className="mt-16" />
       </main>
-      <Footer />
-    </>
   )
 }

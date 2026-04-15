@@ -3,11 +3,10 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Search, Compass, Anchor } from 'lucide-react'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import { SAGAS } from '@/lib/constants/sagas'
 import { ARCS, getArcsBySaga } from '@/lib/constants/arcs'
 import ArcCard from '@/components/arcs/ArcCard'
+import WaveSeparator from '@/components/ui/WaveSeparator'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
@@ -23,9 +22,11 @@ export default function ArcsPage() {
   })
 
   return (
-    <>
-      <Header />
       <main className="relative min-h-screen pt-28 sm:pt-32">
+        {/* Decorative ocean orbs */}
+        <div className="ocean-glow ocean-glow-sea" style={{ width: 400, height: 400, top: -100, right: -150 }} />
+        <div className="ocean-glow ocean-glow-gold" style={{ width: 300, height: 300, bottom: 200, left: -100 }} />
+
         <div className="mx-auto max-w-7xl px-6">
           {/* Page header */}
           <motion.div
@@ -138,6 +139,8 @@ export default function ArcsPage() {
             </div>
           )}
 
+          <WaveSeparator variant="subtle" className="my-8" />
+
           {filteredArcs.length === 0 && (
             <motion.div
               initial={{ opacity: 0 }}
@@ -150,7 +153,5 @@ export default function ArcsPage() {
           )}
         </div>
       </main>
-      <Footer />
-    </>
   )
 }

@@ -11,8 +11,6 @@ import {
   Sparkles,
   ChevronRight,
 } from 'lucide-react'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import PageHero from '@/components/wiki/PageHero'
 import { QUIZZES } from '@/lib/constants/quizzes'
 import { ARCS, getArcBySlug } from '@/lib/constants/arcs'
@@ -40,8 +38,6 @@ export default function QuizHubPage() {
   const totalQuestions = QUIZZES.reduce((acc, q) => acc + q.questions.length, 0)
 
   return (
-    <>
-      <Header />
       <main className="min-h-screen">
         <PageHero
           title="Quiz Arena"
@@ -149,7 +145,5 @@ export default function QuizHubPage() {
           </motion.div>
         </section>
       </main>
-      <Footer />
-    </>
   )
 }
