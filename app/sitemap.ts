@@ -23,6 +23,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/quiz',
     '/search',
     '/about',
+    '/power-ranking',
+    '/wanted-poster',
   ]
 
   const staticEntries: MetadataRoute.Sitemap = staticPages.map((path) => ({

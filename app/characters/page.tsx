@@ -17,13 +17,17 @@ import {
   Star,
 } from 'lucide-react'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import PageHero from '@/components/wiki/PageHero'
 import CharacterAvatar from '@/components/ui/CharacterAvatar'
+import EmptyState from '@/components/ui/EmptyState'
 import { CHARACTERS, CREW_LABELS } from '@/lib/constants/characters'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
 import { parseBounty, formatBounty } from '@/lib/utils'
 import { CREW_COLORS, CREW_ICONS } from '@/lib/constants/crew-styles'
 import type { CrewType } from '@/types'
+
+const RelationshipGraph = dynamic(() => import('@/components/characters/RelationshipGraph'), { ssr: false })
 
 /* ─── Constants ──────────────────────────────────────────────── */
 
@@ -123,6 +127,22 @@ export default function CharactersPage() {
               </div>
             </div>
           </PageHero>
+
+          {/* ─── Relationship Graph ─── */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: EASE }}
+            className="mb-14"
+          >
+            <div className="mb-4 flex items-center gap-2">
+              <Users className="h-5 w-5 text-sea" />
+              <h2 className="text-lg font-bold text-pirate-text">Karakter İlişkileri</h2>
+              <span className="text-xs text-pirate-muted/50">Etkileşimli grafik</span>
+            </div>
+            <RelationshipGraph />
+          </motion.div>
 
           {/* ─── Search + Sort ─── */}
           <motion.div
@@ -325,19 +345,19 @@ export default function CharactersPage() {
 
           {/* ─── Empty State ─── */}
           {filtered.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="py-24 text-center"
-            >
-              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-pirate-border/20 bg-ocean-surface/30">
-                <Users className="h-10 w-10 text-pirate-muted/30" />
-              </div>
-              <h3 className="mb-2 text-lg font-bold text-pirate-text">Karakter Bulunamadı</h3>
-              <p className="text-sm text-pirate-muted">
-                Aramanızla eşleşen karakter bulunamadı. Farklı bir arama deneyin.
-              </p>
-            </motion.div>
+            <EmptyState
+              theme="chopper-searching"
+              title="Karakter Bulunamadı"
+              description="Aramanızla eşleşen karakter bulunamadı. Farklı bir arama veya filtre deneyin."
+              action={
+                <button
+                  onClick={() => { setSearch(''); setActiveCrew(null) }}
+                  className="btn-ghost gap-1.5 text-sm"
+                >
+                  Filtreleri Temizle
+                </button>
+              }
+            />
           )}
         </div>
 

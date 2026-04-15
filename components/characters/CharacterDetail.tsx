@@ -1,14 +1,15 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRef } from 'react'
 import {
   ArrowLeft, Users, Anchor, Sword, Sparkles,
   Skull, MapPin, Zap, BookOpen, Film,
   Ruler, Calendar, Globe, Quote, Cherry, Shield, Swords, ChevronRight
 } from 'lucide-react'
-import { fadeUp, staggerContainer } from '@/lib/variants'
+import { fadeUp, staggerContainer, scrollReveal, EASE } from '@/lib/variants'
 import { CREW_LABELS } from '@/lib/constants/characters'
 import { getArcBySlug } from '@/lib/constants/arcs'
 import { getCharacterImage } from '@/lib/constants/images'
@@ -46,305 +47,380 @@ function groupAbilitiesByCategory(abilities: Ability[]): Record<string, Ability[
   return groups
 }
 
+/* ─── Stat Pill ──────────────────────────────────────────────────────── */
+function StatPill({ icon: Icon, label, value, color = 'text-sea' }: {
+  icon: typeof Zap; label: string; value: string; color?: string
+}) {
+  return (
+    <div className="bento-card group flex items-center gap-3 rounded-2xl px-4 py-3 transition-all duration-500 hover:border-gold/15">
+      <div className={`flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-current/10 to-current/5 ${color}`}>
+        <Icon className="h-4 w-4" />
+      </div>
+      <div>
+        <p className="text-[10px] font-medium uppercase tracking-wider text-pirate-muted/50">{label}</p>
+        <p className="text-sm font-bold text-pirate-text">{value}</p>
+      </div>
+    </div>
+  )
+}
+
+/* ─── Section with scroll reveal ─────────────────────────────────────── */
+function RevealSection({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  return (
+    <motion.div
+      variants={scrollReveal}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: '-60px' }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
 export default function CharacterDetailClient({ character }: { character: Character }) {
   const firstArc = getArcBySlug(character.firstArc)
+  const heroRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  })
+
+  const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '20%'])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0])
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.1])
+
+  const imgSrc = getCharacterImage(character.slug)
 
   return (
-      <main className="relative min-h-screen pt-24">
-        <div className="mx-auto max-w-4xl px-6">
-          {/* Back */}
-          <Link
-            href="/characters"
-            className="mb-6 inline-flex items-center gap-1.5 text-sm text-pirate-muted transition-colors hover:text-gold"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Tüm Karakterler
-          </Link>
-
-          <motion.div
-            variants={staggerContainer(0.1)}
-            initial="hidden"
-            animate="visible"
-          >
-            {/* Hero section */}
-            <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:gap-8">
-              {/* Avatar */}
-              <motion.div
-                variants={fadeUp}
-                className="relative h-48 w-48 flex-shrink-0 self-center overflow-hidden rounded-2xl bg-ocean-surface sm:h-64 sm:w-64"
-              >
-                {getCharacterImage(character.slug) ? (
-                  <Image
-                    src={getCharacterImage(character.slug)}
-                    alt={character.name}
-                    fill
-                    className="object-cover object-top"
-                    sizes="256px"
-                    priority
-                  />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center">
-                    <Users className="h-16 w-16 text-sea/20" />
-                  </div>
-                )}
-              </motion.div>
-
-              {/* Info */}
-              <motion.div variants={fadeUp} className="flex-1">
-                <span className="mb-2 inline-flex items-center gap-1 rounded-full bg-sea/10 px-2.5 py-1 text-xs font-medium text-sea">
-                  <Anchor className="h-3 w-3" />
-                  {CREW_LABELS[character.crew]}
-                </span>
-                <div className="mb-1 flex items-center gap-3">
-                  <h1 className="text-3xl font-extrabold text-pirate-text sm:text-4xl">
-                    {character.name}
-                  </h1>
-                  <FavoriteButton targetType="character" targetSlug={character.slug} />
-                </div>
-                {character.epithet && (
-                  <p className="mb-3 flex items-center gap-1.5 text-sm italic text-gold">
-                    <Quote className="h-3.5 w-3.5" />
-                    &quot;{character.epithet}&quot;
-                  </p>
-                )}
-                {character.role && (
-                  <p className="mb-3 text-xs font-medium text-sea">
-                    {character.role}
-                  </p>
-                )}
-                <p className="mb-4 text-sm leading-relaxed text-pirate-muted">
-                  {character.description}
-                </p>
-
-                {/* Quick stats */}
-                <div className="flex flex-wrap gap-3">
-                  {character.bounty && (
-                    <div className="bento-card rounded-xl px-4 py-2">
-                      <p className="text-xs text-pirate-muted">Ödül</p>
-                      <p className="text-sm font-bold text-gold">{character.bounty} Berry</p>
-                    </div>
-                  )}
-                  {character.devilFruit && (
-                    <div className="bento-card rounded-xl px-4 py-2">
-                      <p className="text-xs text-pirate-muted">Şeytan Meyvesi</p>
-                      <p className="text-sm font-bold text-luffy">{character.devilFruit.name}</p>
-                      <span className={`mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold ${DEVIL_FRUIT_TYPE_COLORS[character.devilFruit.type]}`}>
-                        {character.devilFruit.type}
-                      </span>
-                    </div>
-                  )}
-                  {firstArc && (
-                    <div className="bento-card rounded-xl px-4 py-2">
-                      <p className="text-xs text-pirate-muted">İlk Görünüm</p>
-                      <Link href={`/arcs/${firstArc.slug}`} className="text-sm font-bold text-sea hover:text-gold">
-                        {firstArc.name}
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              </motion.div>
+    <main className="relative min-h-screen">
+      {/* ─── Cinematic Hero ────────────────────────────────────── */}
+      <section ref={heroRef} className="relative h-[70vh] min-h-[500px] overflow-hidden sm:h-[80vh]">
+        {/* Background image with parallax */}
+        <motion.div className="absolute inset-0" style={{ y: heroY, scale: heroScale }}>
+          {imgSrc ? (
+            <Image
+              src={imgSrc}
+              alt={character.name}
+              fill
+              className="object-cover object-top"
+              sizes="100vw"
+              priority
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-ocean-surface">
+              <Users className="h-32 w-32 text-sea/10" />
             </div>
+          )}
+        </motion.div>
 
-            {/* Bio Stats */}
-            {(character.age || character.height || character.origin) && (
-              <motion.div variants={fadeUp} className="mb-8 flex flex-wrap gap-3">
-                {character.age && (
-                  <div className="bento-card flex items-center gap-2 rounded-xl px-4 py-2.5">
-                    <Calendar className="h-4 w-4 text-sea" />
-                    <div>
-                      <p className="text-xs text-pirate-muted">Yaş</p>
-                      <p className="text-sm font-semibold text-pirate-text">{character.age}</p>
-                    </div>
-                  </div>
-                )}
-                {character.height && (
-                  <div className="bento-card flex items-center gap-2 rounded-xl px-4 py-2.5">
-                    <Ruler className="h-4 w-4 text-sea" />
-                    <div>
-                      <p className="text-xs text-pirate-muted">Boy</p>
-                      <p className="text-sm font-semibold text-pirate-text">{character.height}</p>
-                    </div>
-                  </div>
-                )}
-                {character.origin && (
-                  <div className="bento-card flex items-center gap-2 rounded-xl px-4 py-2.5">
-                    <Globe className="h-4 w-4 text-sea" />
-                    <div>
-                      <p className="text-xs text-pirate-muted">Köken</p>
-                      <p className="text-sm font-semibold text-pirate-text">{character.origin}</p>
-                    </div>
-                  </div>
-                )}
-              </motion.div>
-            )}
+        {/* Cinematic overlays */}
+        <div className="absolute inset-0 bg-gradient-to-b from-ocean-deep/40 via-transparent to-ocean-deep" />
+        <div className="absolute inset-0 bg-gradient-to-r from-ocean-deep/60 via-transparent to-ocean-deep/60" />
+        <div className="absolute inset-x-0 bottom-0 h-[50%] bg-gradient-to-t from-ocean-deep via-ocean-deep/90 to-transparent" />
 
-            {/* Backstory — first section */}
-            {character.backstory && (
-              <motion.div variants={fadeUp} className="mb-8">
-                <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
-                  <BookOpen className="h-5 w-5 text-gold" />
-                  Geçmiş Hikayesi
-                </h2>
-                <div className="bento-card rounded-xl p-5">
-                  <p className="text-sm leading-relaxed text-pirate-muted whitespace-pre-line">
-                    {character.backstory}
-                  </p>
-                </div>
-              </motion.div>
-            )}
+        {/* Side vignette */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_40%,transparent_40%,rgba(6,14,26,0.7))]" />
 
-            {/* Devil Fruit Detail */}
-            {character.devilFruit && (
-              <motion.div variants={fadeUp} className="mb-8">
-                <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
-                  <Cherry className="h-5 w-5 text-luffy" />
-                  Şeytan Meyvesi
-                </h2>
-                <div className="bento-card rounded-xl p-5">
-                  <div className="mb-3 flex items-center gap-3">
-                    <p className="text-base font-bold text-pirate-text">{character.devilFruit.name}</p>
-                    <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${DEVIL_FRUIT_TYPE_COLORS[character.devilFruit.type]}`}>
-                      {character.devilFruit.type}
+        {/* Hero content — positioned at bottom */}
+        <motion.div
+          style={{ opacity: heroOpacity }}
+          className="absolute inset-x-0 bottom-0 z-10 px-6 pb-12 sm:pb-16"
+        >
+          <div className="mx-auto max-w-4xl">
+            {/* Back link */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, ease: EASE, delay: 0.1 }}
+            >
+              <Link
+                href="/characters"
+                className="mb-6 inline-flex items-center gap-1.5 text-sm text-white/60 transition-colors hover:text-gold"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Tüm Karakterler
+              </Link>
+            </motion.div>
+
+            {/* Crew badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 16, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.5, ease: EASE, delay: 0.2 }}
+            >
+              <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-sea/20 bg-sea/[0.08] px-3 py-1 text-xs font-semibold text-sea backdrop-blur-sm">
+                <Anchor className="h-3 w-3" />
+                {CREW_LABELS[character.crew]}
+              </span>
+            </motion.div>
+
+            {/* Name + epithet */}
+            <motion.div
+              initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.7, ease: EASE, delay: 0.3 }}
+            >
+              <div className="mb-2 flex items-center gap-3">
+                <h1 className="text-4xl font-extrabold tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.5)] sm:text-5xl md:text-6xl">
+                  {character.name}
+                </h1>
+                <FavoriteButton targetType="character" targetSlug={character.slug} className="mt-1" />
+              </div>
+              {character.epithet && (
+                <p className="mb-1 flex items-center gap-1.5 text-base italic text-gold drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] sm:text-lg">
+                  <Quote className="h-4 w-4" />
+                  &quot;{character.epithet}&quot;
+                </p>
+              )}
+              {character.role && (
+                <p className="text-sm font-medium text-sea/80">{character.role}</p>
+              )}
+            </motion.div>
+
+            {/* Quick stat pills */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: EASE, delay: 0.5 }}
+              className="mt-5 flex flex-wrap gap-2"
+            >
+              {character.bounty && (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/20 bg-gold/[0.08] px-3 py-1.5 text-xs font-bold text-gold backdrop-blur-sm">
+                  <Skull className="h-3 w-3" />
+                  {character.bounty} Berry
+                </span>
+              )}
+              {character.devilFruit && (
+                <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold backdrop-blur-sm ${DEVIL_FRUIT_TYPE_COLORS[character.devilFruit.type]}`}>
+                  <Cherry className="h-3 w-3" />
+                  {character.devilFruit.name}
+                </span>
+              )}
+              {firstArc && (
+                <Link
+                  href={`/arcs/${firstArc.slug}`}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-sea/20 bg-sea/[0.08] px-3 py-1.5 text-xs font-bold text-sea backdrop-blur-sm transition-colors hover:bg-sea/15"
+                >
+                  <MapPin className="h-3 w-3" />
+                  {firstArc.name}
+                </Link>
+              )}
+            </motion.div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ─── Content ───────────────────────────────────────────── */}
+      <div className="relative z-10 mx-auto max-w-4xl px-6 pb-20">
+        {/* Description */}
+        <RevealSection className="mb-10 -mt-6">
+          <div className="bento-card rounded-2xl p-6">
+            <p className="text-sm leading-relaxed text-pirate-muted sm:text-base">
+              {character.description}
+            </p>
+          </div>
+        </RevealSection>
+
+        {/* Bio Stats Row */}
+        {(character.age || character.height || character.origin || character.bounty) && (
+          <RevealSection className="mb-10">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {character.age && (
+                <StatPill icon={Calendar} label="Yaş" value={character.age} color="text-sea" />
+              )}
+              {character.height && (
+                <StatPill icon={Ruler} label="Boy" value={character.height} color="text-sea" />
+              )}
+              {character.origin && (
+                <StatPill icon={Globe} label="Köken" value={character.origin} color="text-sea" />
+              )}
+              {character.bounty && (
+                <StatPill icon={Skull} label="Ödül" value={`${character.bounty} Berry`} color="text-gold" />
+              )}
+            </div>
+          </RevealSection>
+        )}
+
+        {/* Backstory */}
+        {character.backstory && (
+          <RevealSection className="mb-10">
+            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+              <BookOpen className="h-5 w-5 text-gold" />
+              Geçmiş Hikayesi
+            </h2>
+            <div className="bento-card relative overflow-hidden rounded-2xl p-6">
+              {/* Decorative accent line */}
+              <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-gold/30 via-sea/20 to-transparent" />
+              <p className="pl-4 text-sm leading-relaxed text-pirate-muted whitespace-pre-line sm:text-[15px]">
+                {character.backstory}
+              </p>
+            </div>
+          </RevealSection>
+        )}
+
+        {/* Devil Fruit Detail */}
+        {character.devilFruit && (
+          <RevealSection className="mb-10">
+            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+              <Cherry className="h-5 w-5 text-luffy" />
+              Şeytan Meyvesi
+            </h2>
+            <div className="bento-card relative overflow-hidden rounded-2xl p-6">
+              {/* Decorative glow */}
+              <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-luffy/5 blur-[60px]" />
+              <div className="mb-3 flex items-center gap-3">
+                <p className="text-base font-bold text-pirate-text sm:text-lg">{character.devilFruit.name}</p>
+                <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${DEVIL_FRUIT_TYPE_COLORS[character.devilFruit.type]}`}>
+                  {character.devilFruit.type}
+                </span>
+              </div>
+              <p className="text-sm leading-relaxed text-pirate-muted">
+                {character.devilFruit.description}
+              </p>
+            </div>
+          </RevealSection>
+        )}
+
+        {/* Abilities */}
+        <RevealSection className="mb-10">
+          <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+            <Zap className="h-5 w-5 text-gold" />
+            Yetenekler
+          </h2>
+          <div className="space-y-4">
+            {Object.entries(groupAbilitiesByCategory(character.abilities)).map(([category, abilities]) => {
+              const config = ABILITY_CATEGORY_CONFIG[category] ?? ABILITY_CATEGORY_CONFIG['Özel']
+              const CategoryIcon = config.icon
+              return (
+                <div key={category} className="bento-card overflow-hidden rounded-2xl">
+                  {/* Category header */}
+                  <div className="flex items-center gap-2 border-b border-pirate-border/10 px-5 py-3">
+                    <CategoryIcon className={`h-4 w-4 ${config.color}`} />
+                    <h3 className={`text-sm font-bold ${config.color}`}>{category}</h3>
+                    <span className="ml-auto text-[10px] font-semibold text-pirate-muted/40">
+                      {abilities.length} yetenek
                     </span>
                   </div>
-                  <p className="text-sm leading-relaxed text-pirate-muted">
-                    {character.devilFruit.description}
-                  </p>
+                  {/* Abilities grid */}
+                  <div className="grid gap-px bg-pirate-border/5 sm:grid-cols-2">
+                    {abilities.map((ability) => (
+                      <div
+                        key={ability.name}
+                        className="group bg-ocean-deep/50 px-5 py-3.5 transition-colors hover:bg-ocean-surface/40"
+                      >
+                        <p className="mb-0.5 flex items-center gap-1.5 text-sm font-semibold text-pirate-text">
+                          <Sparkles className="h-3 w-3 text-gold transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+                          {ability.name}
+                        </p>
+                        <p className="text-xs leading-relaxed text-pirate-muted">
+                          {ability.description}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </motion.div>
-            )}
+              )
+            })}
+          </div>
+        </RevealSection>
 
-            {/* Abilities */}
-            <motion.div variants={fadeUp} className="mb-8">
-              <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
-                <Zap className="h-5 w-5 text-gold" />
-                Yetenekler
-              </h2>
-              <div className="space-y-5">
-                {Object.entries(groupAbilitiesByCategory(character.abilities)).map(([category, abilities]) => {
-                  const config = ABILITY_CATEGORY_CONFIG[category] ?? ABILITY_CATEGORY_CONFIG['Özel']
-                  const CategoryIcon = config.icon
+        {/* Appearances */}
+        {character.appearances && character.appearances.length > 0 && (
+          <RevealSection className="mb-10">
+            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+              <Film className="h-5 w-5 text-sea" />
+              Göründüğü Arc&apos;lar
+              <span className="ml-1 rounded-full bg-sea/[0.06] px-2.5 py-0.5 text-[11px] font-semibold text-sea/70">
+                {character.appearances.length}
+              </span>
+            </h2>
+            <div className="bento-card rounded-2xl p-5">
+              <div className="flex flex-wrap gap-2">
+                {character.appearances.map((arcSlug) => {
+                  const arcData = getArcBySlug(arcSlug)
                   return (
-                    <div key={category} className="bento-card rounded-xl p-4">
-                      <div className="mb-3 flex items-center gap-2">
-                        <CategoryIcon className={`h-4 w-4 ${config.color}`} />
-                        <h3 className={`text-sm font-bold ${config.color}`}>{category}</h3>
-                      </div>
-                      <div className="grid gap-2 sm:grid-cols-2">
-                        {abilities.map((ability) => (
-                          <div
-                            key={ability.name}
-                            className="rounded-lg bg-ocean-surface px-3.5 py-2.5 transition-colors hover:bg-ocean-surface/80"
-                          >
-                            <p className="mb-0.5 flex items-center gap-1.5 text-sm font-semibold text-pirate-text">
-                              <Sparkles className="h-3 w-3 text-gold" />
-                              {ability.name}
-                            </p>
-                            <p className="text-xs leading-relaxed text-pirate-muted">
-                              {ability.description}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                    <Link
+                      key={arcSlug}
+                      href={`/arcs/${arcSlug}`}
+                      className="group rounded-lg border border-transparent bg-ocean-surface px-3 py-1.5 text-xs font-medium text-pirate-muted transition-all duration-300 hover:border-sea/20 hover:bg-sea/10 hover:text-sea"
+                    >
+                      {arcData?.name ?? arcSlug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
+                    </Link>
                   )
                 })}
               </div>
-            </motion.div>
+            </div>
+          </RevealSection>
+        )}
 
-            {/* Appearances */}
-            {character.appearances && character.appearances.length > 0 && (
-              <motion.div variants={fadeUp} className="mb-8">
-                <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
-                  <Film className="h-5 w-5 text-sea" />
-                  Göründüğü Arc&apos;lar
-                </h2>
-                <div className="bento-card rounded-xl p-4">
-                  <div className="flex flex-wrap gap-2">
-                    {character.appearances.map((arcSlug) => {
-                      const arcData = getArcBySlug(arcSlug)
-                      return (
-                        <Link
-                          key={arcSlug}
-                          href={`/arcs/${arcSlug}`}
-                          className="rounded-lg bg-ocean-surface px-3 py-1.5 text-xs font-medium text-pirate-muted transition-colors hover:bg-sea/10 hover:text-sea"
-                        >
-                          {arcData?.name ?? arcSlug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
-                        </Link>
-                      )
-                    })}
-                  </div>
-                </div>
-              </motion.div>
-            )}
-            {/* Related Battles */}
-            {(() => {
-              const charBattles = BATTLES.filter(
-                (b) =>
-                  b.participantSlugs?.side1.includes(character.slug) ||
-                  b.participantSlugs?.side2.includes(character.slug),
-              )
-              if (charBattles.length === 0) return null
-              return (
-                <motion.div variants={fadeUp} className="mb-8">
-                  <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
-                    <Swords className="h-5 w-5 text-luffy" />
-                    Katıldığı Savaşlar
-                    <span className="ml-1 rounded-full bg-luffy/[0.06] px-2.5 py-0.5 text-[11px] font-semibold text-luffy/70">
-                      {charBattles.length}
-                    </span>
-                  </h2>
-                  <div className="space-y-2">
-                    {charBattles.map((battle) => {
-                      const isWinnerSide =
-                        (battle.winner === 'side1' && battle.participantSlugs?.side1.includes(character.slug)) ||
-                        (battle.winner === 'side2' && battle.participantSlugs?.side2.includes(character.slug))
-                      const isLoserSide =
-                        (battle.winner === 'side1' && battle.participantSlugs?.side2.includes(character.slug)) ||
-                        (battle.winner === 'side2' && battle.participantSlugs?.side1.includes(character.slug))
-                      return (
-                        <Link
-                          key={battle.slug}
-                          href="/battles"
-                          className="bento-card group flex items-center gap-4 rounded-xl px-4 py-3"
-                        >
-                          <div className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg ${
-                            isWinnerSide ? 'bg-emerald-500/10' : isLoserSide ? 'bg-luffy/10' : 'bg-gold/10'
-                          }`}>
-                            <Swords className={`h-3.5 w-3.5 ${
-                              isWinnerSide ? 'text-emerald-400' : isLoserSide ? 'text-luffy' : 'text-gold'
-                            }`} />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-pirate-text group-hover:text-gold transition-colors">
-                              {battle.name}
-                            </p>
-                            <p className="text-[11px] text-pirate-muted/50">{battle.arc}</p>
-                          </div>
-                          <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${
-                            isWinnerSide
-                              ? 'bg-emerald-500/10 text-emerald-400'
-                              : isLoserSide
-                              ? 'bg-luffy/10 text-luffy'
-                              : 'bg-gold/10 text-gold'
-                          }`}>
-                            {isWinnerSide ? 'Zafer' : isLoserSide ? 'Yenilgi' : 'Berabere'}
-                          </span>
-                          <ChevronRight className="h-3.5 w-3.5 text-pirate-muted/30 group-hover:text-gold transition-colors" />
-                        </Link>
-                      )
-                    })}
-                  </div>
-                </motion.div>
-              )
-            })()}
-          </motion.div>
-        </div>
+        {/* Related Battles */}
+        {(() => {
+          const charBattles = BATTLES.filter(
+            (b) =>
+              b.participantSlugs?.side1.includes(character.slug) ||
+              b.participantSlugs?.side2.includes(character.slug),
+          )
+          if (charBattles.length === 0) return null
+          return (
+            <RevealSection className="mb-10">
+              <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+                <Swords className="h-5 w-5 text-luffy" />
+                Katıldığı Savaşlar
+                <span className="ml-1 rounded-full bg-luffy/[0.06] px-2.5 py-0.5 text-[11px] font-semibold text-luffy/70">
+                  {charBattles.length}
+                </span>
+              </h2>
+              <div className="space-y-2">
+                {charBattles.map((battle) => {
+                  const isWinnerSide =
+                    (battle.winner === 'side1' && battle.participantSlugs?.side1.includes(character.slug)) ||
+                    (battle.winner === 'side2' && battle.participantSlugs?.side2.includes(character.slug))
+                  const isLoserSide =
+                    (battle.winner === 'side1' && battle.participantSlugs?.side2.includes(character.slug)) ||
+                    (battle.winner === 'side2' && battle.participantSlugs?.side1.includes(character.slug))
+                  return (
+                    <Link
+                      key={battle.slug}
+                      href="/battles"
+                      className="bento-card group flex items-center gap-4 rounded-2xl px-5 py-3.5"
+                    >
+                      <div className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl ${
+                        isWinnerSide ? 'bg-emerald-500/10' : isLoserSide ? 'bg-luffy/10' : 'bg-gold/10'
+                      }`}>
+                        <Swords className={`h-4 w-4 ${
+                          isWinnerSide ? 'text-emerald-400' : isLoserSide ? 'text-luffy' : 'text-gold'
+                        }`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold text-pirate-text group-hover:text-gold transition-colors">
+                          {battle.name}
+                        </p>
+                        <p className="text-[11px] text-pirate-muted/50">{battle.arc}</p>
+                      </div>
+                      <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold ${
+                        isWinnerSide
+                          ? 'bg-emerald-500/10 text-emerald-400'
+                          : isLoserSide
+                          ? 'bg-luffy/10 text-luffy'
+                          : 'bg-gold/10 text-gold'
+                      }`}>
+                        {isWinnerSide ? 'Zafer' : isLoserSide ? 'Yenilgi' : 'Berabere'}
+                      </span>
+                      <ChevronRight className="h-3.5 w-3.5 text-pirate-muted/30 transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-gold" />
+                    </Link>
+                  )
+                })}
+              </div>
+            </RevealSection>
+          )
+        })()}
+      </div>
 
-        <div className="mt-10" />
-        <div className="mx-auto max-w-5xl px-6">
-          <CommentSection targetType="character" targetSlug={character.slug} />
-        </div>
-      </main>
+      <div className="mx-auto max-w-5xl px-6">
+        <CommentSection targetType="character" targetSlug={character.slug} />
+      </div>
+    </main>
   )
 }

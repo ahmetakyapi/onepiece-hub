@@ -20,6 +20,7 @@ import {
 import Link from 'next/link'
 import Image from 'next/image'
 import PageHero from '@/components/wiki/PageHero'
+import EmptyState from '@/components/ui/EmptyState'
 import { BATTLES, BATTLE_CATEGORIES } from '@/lib/constants/battles'
 import { getCharacterImage } from '@/lib/constants/images'
 import { fadeUp, staggerContainer, EASE, scaleIn } from '@/lib/variants'
@@ -740,14 +741,11 @@ export default function BattlesPage() {
 
           {/* Empty state */}
           {filtered.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="py-20 text-center"
-            >
-              <Swords className="mx-auto mb-4 h-12 w-12 text-pirate-muted/30" />
-              <p className="text-sm text-pirate-muted">Arama kriterlerine uygun savaş bulunamadı.</p>
-            </motion.div>
+            <EmptyState
+              theme="zoro-lost"
+              title="Savaş Bulunamadı"
+              description="Arama kriterlerine uygun savaş bulunamadı. Farklı bir filtre deneyin."
+            />
           )}
         </div>
 

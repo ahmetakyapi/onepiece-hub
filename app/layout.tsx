@@ -7,6 +7,7 @@ import Footer from '@/components/layout/Footer'
 import dynamic from 'next/dynamic'
 
 const ScrollProgress = dynamic(() => import('@/components/layout/ScrollProgress'), { ssr: false })
+const PageTransition = dynamic(() => import('@/components/ui/PageTransition'), { ssr: false })
 import './globals.css'
 
 const manrope = Manrope({
@@ -79,7 +80,7 @@ export default function RootLayout({
           </a>
           <ScrollProgress />
           <Header />
-          {children}
+          <PageTransition>{children}</PageTransition>
           <Footer />
         </AuthProvider>
         <Analytics />

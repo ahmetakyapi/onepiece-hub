@@ -6,7 +6,7 @@ import Link from 'next/link'
 import {
   Compass, Film, Users, BrainCircuit,
   MessageCircle, Shield, Heart, Sparkles,
-  Anchor, Map, Play, Trophy, Swords, Crown, Eye,
+  Anchor, Map, Play, Trophy, Swords, Crown, Eye, Github, Code,
 } from 'lucide-react'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
 import { ARCS } from '@/lib/constants/arcs'
@@ -397,6 +397,38 @@ export default function AboutPage() {
                 </motion.div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* ─── Geliştirici ──────────────────────────────────────── */}
+        <section className="relative py-16">
+          <div className="mx-auto max-w-3xl px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: EASE }}
+              className="bento-card overflow-hidden rounded-2xl p-6 text-center sm:p-8"
+            >
+              <div className="mb-4 flex justify-center">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-pirate-border/20 bg-ocean-surface/50">
+                  <Code className="h-6 w-6 text-gold" />
+                </div>
+              </div>
+              <h3 className="mb-2 text-lg font-bold text-pirate-text">Geliştirici</h3>
+              <p className="mb-4 text-sm text-pirate-muted">
+                Bu proje <span className="font-semibold text-pirate-text">Ahmet Akyapı</span> tarafından One Piece sevgisiyle geliştirilmiştir.
+              </p>
+              <a
+                href="https://github.com/ahmetakyapi"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-ghost inline-flex items-center gap-2"
+              >
+                <Github className="h-4 w-4" />
+                github.com/ahmetakyapi
+              </a>
+            </motion.div>
           </div>
         </section>
 

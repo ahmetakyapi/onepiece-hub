@@ -18,6 +18,7 @@ import {
 import Link from 'next/link'
 import Image from 'next/image'
 import PageHero from '@/components/wiki/PageHero'
+import EmptyState from '@/components/ui/EmptyState'
 import { getCharacterImage } from '@/lib/constants/images'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
 import { parseBounty, formatBounty } from '@/lib/utils'
@@ -620,25 +621,19 @@ export default function BountiesPage() {
             </div>
 
             {filtered.length === 0 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="mt-8 flex flex-col items-center gap-3 py-16 text-center"
-              >
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-pirate-border/20 bg-ocean-surface/40">
-                  <Search className="h-7 w-7 text-pirate-muted/40" />
-                </div>
-                <p className="text-pirate-muted">Aramanızla eşleşen korsan bulunamadı.</p>
-                <button
-                  onClick={() => {
-                    setSearch('')
-                    setCrewFilter('')
-                  }}
-                  className="btn-ghost mt-2 px-4 py-2 text-xs"
-                >
-                  Filtreleri Temizle
-                </button>
-              </motion.div>
+              <EmptyState
+                theme="chopper-searching"
+                title="Korsan Bulunamadı"
+                description="Aramanızla eşleşen korsan bulunamadı. Farklı bir arama deneyin."
+                action={
+                  <button
+                    onClick={() => { setSearch(''); setCrewFilter('') }}
+                    className="btn-ghost text-sm"
+                  >
+                    Filtreleri Temizle
+                  </button>
+                }
+              />
             )}
           </motion.section>
 

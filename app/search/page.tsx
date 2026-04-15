@@ -9,6 +9,7 @@ import {
   MapPin, X, ArrowRight
 } from 'lucide-react'
 import { fadeUp, staggerContainer } from '@/lib/variants'
+import EmptyState from '@/components/ui/EmptyState'
 import { CHARACTERS } from '@/lib/constants/characters'
 import { ARCS } from '@/lib/constants/arcs'
 import { BATTLES } from '@/lib/constants/battles'
@@ -265,34 +266,21 @@ export default function SearchPage() {
             )}
 
             {query.trim() && results.length === 0 && (
-              <motion.div
+              <EmptyState
                 key="empty"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="py-16 text-center"
-              >
-                <Search className="mx-auto mb-4 h-10 w-10 text-pirate-muted/20" />
-                <p className="text-pirate-muted mb-1">
-                  &ldquo;{query}&rdquo; için sonuç bulunamadı
-                </p>
-                <p className="text-sm text-pirate-muted/50">
-                  Farklı bir anahtar kelime deneyin
-                </p>
-              </motion.div>
+                theme="chopper-searching"
+                title={`"${query}" için sonuç bulunamadı`}
+                description="Farklı bir anahtar kelime deneyin."
+              />
             )}
 
             {!query.trim() && (
-              <motion.div
+              <EmptyState
                 key="idle"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="py-16 text-center"
-              >
-                <Search className="mx-auto mb-4 h-10 w-10 text-pirate-muted/15" />
-                <p className="text-sm text-pirate-muted/50">
-                  Grand Line&apos;da ne arıyorsun?
-                </p>
-              </motion.div>
+                theme="luffy-sleeping"
+                title="Grand Line'da ne arıyorsun?"
+                description="Karakter, arc, şeytan meyvesi ve daha fazlasını ara."
+              />
             )}
           </AnimatePresence>
         </div>

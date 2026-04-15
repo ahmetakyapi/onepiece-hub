@@ -8,13 +8,13 @@ import { useRef } from 'react'
 import dynamic from 'next/dynamic'
 
 import WaveSeparator from '@/components/ui/WaveSeparator'
+import { EASE } from '@/lib/variants'
 
 const ParticleField = dynamic(() => import('@/components/home/ParticleField'), { ssr: false })
 const WaveBackground = dynamic(() => import('@/components/home/WaveBackground'), { ssr: false })
 const StatsBar = dynamic(() => import('@/components/home/StatsBar'), { ssr: false })
 const ArcTimeline = dynamic(() => import('@/components/home/ArcTimeline'), { ssr: false })
-
-const EASE = [0.16, 1, 0.3, 1] as const
+const JourneyScroll = dynamic(() => import('@/components/home/JourneyScroll'), { ssr: false })
 
 /* ─── Hero Text Animations ────────────────────────────────────────────── */
 const wordVariants = {
@@ -226,6 +226,12 @@ export default function Home() {
 
         {/* ─── Wave separator ──────────────────────────────────── */}
         <WaveSeparator variant="gold" />
+
+        {/* ─── Journey Scroll Storytelling ────────────────────────── */}
+        <JourneyScroll />
+
+        {/* ─── Wave separator ──────────────────────────────────── */}
+        <WaveSeparator variant="subtle" />
 
         {/* ─── Wiki / Bento Grid ─────────────────────────────────── */}
         <section ref={wikiRef} className="relative z-10 px-6 py-20 sm:py-24">

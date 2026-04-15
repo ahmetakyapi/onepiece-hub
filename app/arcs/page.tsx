@@ -8,6 +8,7 @@ import { ARCS, getArcsBySaga } from '@/lib/constants/arcs'
 import ArcCard from '@/components/arcs/ArcCard'
 import PageHero from '@/components/wiki/PageHero'
 import WaveSeparator from '@/components/ui/WaveSeparator'
+import EmptyState from '@/components/ui/EmptyState'
 import { EASE } from '@/lib/variants'
 
 const HERO_ORBS = [
@@ -149,14 +150,11 @@ export default function ArcsPage() {
           <WaveSeparator variant="subtle" className="my-8" />
 
           {filteredArcs.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="py-20 text-center"
-            >
-              <Compass className="mx-auto mb-4 h-12 w-12 text-pirate-muted/30" />
-              <p className="text-pirate-muted">Aramanızla eşleşen arc bulunamadı.</p>
-            </motion.div>
+            <EmptyState
+              theme="zoro-lost"
+              title="Arc Bulunamadı"
+              description="Aramanızla eşleşen arc bulunamadı. Farklı bir arama deneyin."
+            />
           )}
         </div>
       </main>

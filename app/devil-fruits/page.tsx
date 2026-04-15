@@ -6,6 +6,7 @@ import { Search, Cherry, Filter, Skull, Sparkles, Zap, ArrowRight } from 'lucide
 import Link from 'next/link'
 import Image from 'next/image'
 import PageHero from '@/components/wiki/PageHero'
+import EmptyState from '@/components/ui/EmptyState'
 import { DEVIL_FRUITS, DEVIL_FRUIT_TYPE_INFO } from '@/lib/constants/devil-fruits'
 import { getCharacterImage } from '@/lib/constants/images'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
@@ -325,16 +326,11 @@ export default function DevilFruitsPage() {
           </div>
 
           {filtered.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="py-20 text-center"
-            >
-              <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-2xl bg-ocean-surface">
-                <Cherry className="h-10 w-10 text-pirate-muted/50" />
-              </div>
-              <p className="text-pirate-muted">Aramanızla eşleşen Şeytan Meyvesi bulunamadı.</p>
-            </motion.div>
+            <EmptyState
+              theme="chopper-searching"
+              title="Şeytan Meyvesi Bulunamadı"
+              description="Aramanızla eşleşen Şeytan Meyvesi bulunamadı. Farklı bir filtre deneyin."
+            />
           )}
         </div>
 

@@ -8,12 +8,16 @@ import {
   Compass, ArrowRight, Anchor, Play, Clock, LogOut, BrainCircuit,
   Sparkles, Calendar, Heart
 } from 'lucide-react'
-import { fadeUp, staggerContainer } from '@/lib/variants'
+import dynamic from 'next/dynamic'
+import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
 import { getTimeAgo } from '@/lib/utils'
 import { useAuth } from '@/hooks/useAuth'
 import { ARCS } from '@/lib/constants/arcs'
 import WaveSeparator from '@/components/ui/WaveSeparator'
 import type { Arc } from '@/types'
+
+const WatchingDashboard = dynamic(() => import('@/components/profile/WatchingDashboard'), { ssr: false })
+const AchievementShowcase = dynamic(() => import('@/components/achievements/AchievementShowcase'), { ssr: false })
 
 type ProgressEntry = {
   arcSlug: string
@@ -241,6 +245,22 @@ export default function ProfilePage() {
             ))}
           </motion.div>
 
+          {/* Watching Dashboard */}
+          {totalWatched > 0 && (
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: EASE }}
+              className="mb-10"
+            >
+              <WatchingDashboard
+                watchedEpisodes={[...watchedSlugs]}
+                watchedDates={progress.map((p) => p.watchedAt)}
+              />
+            </motion.section>
+          )}
+
           {/* Continue watching */}
           {arcProgress.filter((a) => !a.isComplete && a.nextEpisode).length > 0 && (
             <motion.section
@@ -412,6 +432,27 @@ export default function ProfilePage() {
               </div>
             </motion.section>
           )}
+
+          {/* Achievements */}
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: EASE }}
+            className="mb-10"
+          >
+            <AchievementShowcase
+              stats={{
+                totalWatched,
+                totalArcsCompleted: completedArcs,
+                quizzesTaken: quizScores.length,
+                perfectQuizzes: quizScores.filter((q) => q.score === q.totalQ).length,
+                totalQuizScore: quizScores.reduce((sum, q) => sum + q.score, 0),
+                favoritesCount: favs.length,
+                commentsCount: 0,
+              }}
+            />
+          </motion.section>
 
           {/* Recent activity */}
           <motion.section

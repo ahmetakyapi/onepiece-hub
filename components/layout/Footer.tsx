@@ -2,12 +2,11 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-import { Anchor, ArrowUpRight } from 'lucide-react'
+import { Anchor, ArrowUpRight, Github } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FOOTER_SECTIONS } from '@/lib/constants/navigation'
-
-const EASE = [0.16, 1, 0.3, 1] as const
+import { EASE } from '@/lib/variants'
 
 export default function Footer() {
   const ref = useRef<HTMLDivElement>(null)
@@ -90,6 +89,16 @@ export default function Footer() {
               <Anchor className="h-3 w-3 text-gold/30" />
               Macera ruhuyla yapıldı
             </p>
+            <a
+              href="https://github.com/ahmetakyapi"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 rounded-lg border border-pirate-border/20 bg-ocean-surface/30 px-3 py-1.5 text-[11px] font-medium text-pirate-muted/60 transition-all duration-300 hover:border-gold/20 hover:text-gold"
+              aria-label="GitHub profili"
+            >
+              <Github className="h-3 w-3" />
+              ahmetakyapi
+            </a>
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="flex items-center gap-1.5 rounded-lg border border-pirate-border/20 bg-ocean-surface/30 px-3 py-1.5 text-[11px] font-medium text-pirate-muted/60 transition-all duration-300 hover:border-gold/20 hover:text-gold"
