@@ -26,7 +26,6 @@ export type Episode = {
   slug: string
   duration: string // e.g. "24:30"
   summary: string
-  pixeldrainId?: string
 }
 
 export type DevilFruit = {

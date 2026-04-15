@@ -85,10 +85,20 @@ export default function Footer() {
           <p className="text-[11px] text-pirate-muted/50" suppressHydrationWarning>
             &copy; {new Date().getFullYear()} One Piece Hub &mdash; Fan projesi. One Piece, Eiichiro Oda&apos;ya aittir.
           </p>
-          <p className="flex items-center gap-1.5 text-[11px] text-pirate-muted/40">
-            <Anchor className="h-3 w-3 text-gold/30" />
-            Macera ruhuyla yapıldı
-          </p>
+          <div className="flex items-center gap-4">
+            <p className="flex items-center gap-1.5 text-[11px] text-pirate-muted/40">
+              <Anchor className="h-3 w-3 text-gold/30" />
+              Macera ruhuyla yapıldı
+            </p>
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="flex items-center gap-1.5 rounded-lg border border-pirate-border/20 bg-ocean-surface/30 px-3 py-1.5 text-[11px] font-medium text-pirate-muted/60 transition-all duration-300 hover:border-gold/20 hover:text-gold"
+              aria-label="Sayfanın başına dön"
+            >
+              <ArrowUpRight className="h-3 w-3 -rotate-45" />
+              Başa Dön
+            </button>
+          </div>
         </div>
       </div>
     </footer>
