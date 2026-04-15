@@ -4,7 +4,7 @@ import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } fr
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, Compass, Film } from 'lucide-react'
-import { useRef, useCallback } from 'react'
+import { useRef, useCallback, useEffect, useState } from 'react'
 import { fadeUp } from '@/lib/variants'
 import { getArcImage } from '@/lib/constants/images'
 import type { Arc } from '@/types'
@@ -13,6 +13,16 @@ export default function ArcCard({ arc }: { arc: Arc }) {
   const img = getArcImage(arc.slug)
   const ref = useRef<HTMLDivElement>(null)
 
+  // Respect prefers-reduced-motion
+  const [reducedMotion, setReducedMotion] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setReducedMotion(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+
   // 3D tilt — subtle and premium
   const rx = useSpring(useMotionValue(0), { stiffness: 250, damping: 25 })
   const ry = useSpring(useMotionValue(0), { stiffness: 250, damping: 25 })
@@ -20,13 +30,13 @@ export default function ArcCard({ arc }: { arc: Arc }) {
   const mouseY = useMotionValue(0.5)
 
   const onMove = useCallback((e: React.MouseEvent) => {
-    if (!ref.current) return
+    if (!ref.current || reducedMotion) return
     const r = ref.current.getBoundingClientRect()
     rx.set(-((e.clientY - r.top) / r.height - 0.5) * 5)
     ry.set(((e.clientX - r.left) / r.width - 0.5) * 5)
     mouseX.set((e.clientX - r.left) / r.width)
     mouseY.set((e.clientY - r.top) / r.height)
-  }, [rx, ry, mouseX, mouseY])
+  }, [rx, ry, mouseX, mouseY, reducedMotion])
 
   const onLeave = useCallback(() => {
     rx.set(0)

@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils'
 import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from 'framer-motion'
-import { useRef, useCallback } from 'react'
+import { useRef, useCallback, useEffect, useState } from 'react'
 
 interface GlassCardProps {
   children: React.ReactNode
@@ -11,19 +11,31 @@ interface GlassCardProps {
 
 export function GlassCard({ children, className, tilt = false, glow = false }: GlassCardProps) {
   const ref = useRef<HTMLDivElement>(null)
+
+  const [reducedMotion, setReducedMotion] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setReducedMotion(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+
+  const effectiveTilt = tilt && !reducedMotion
+
   const rx = useSpring(useMotionValue(0), { stiffness: 250, damping: 25 })
   const ry = useSpring(useMotionValue(0), { stiffness: 250, damping: 25 })
   const mouseX = useMotionValue(0.5)
   const mouseY = useMotionValue(0.5)
 
   const onMove = useCallback((e: React.MouseEvent) => {
-    if (!tilt || !ref.current) return
+    if (!effectiveTilt || !ref.current) return
     const r = ref.current.getBoundingClientRect()
     rx.set(-((e.clientY - r.top) / r.height - 0.5) * 6)
     ry.set(((e.clientX - r.left) / r.width - 0.5) * 6)
     mouseX.set((e.clientX - r.left) / r.width)
     mouseY.set((e.clientY - r.top) / r.height)
-  }, [tilt, rx, ry, mouseX, mouseY])
+  }, [effectiveTilt, rx, ry, mouseX, mouseY])
 
   const onLeave = useCallback(() => {
     rx.set(0); ry.set(0)
@@ -37,7 +49,7 @@ export function GlassCard({ children, className, tilt = false, glow = false }: G
   return (
     <motion.div
       ref={ref}
-      style={tilt ? { rotateX: rx, rotateY: ry, transformStyle: 'preserve-3d' } : undefined}
+      style={effectiveTilt ? { rotateX: rx, rotateY: ry, transformStyle: 'preserve-3d' } : undefined}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
       className={cn('bento-card relative overflow-hidden', className)}

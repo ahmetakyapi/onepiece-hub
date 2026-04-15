@@ -1,18 +1,27 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { Search, Compass, Anchor } from 'lucide-react'
+import { Search, Compass, Anchor, Film } from 'lucide-react'
 import { SAGAS } from '@/lib/constants/sagas'
 import { ARCS, getArcsBySaga } from '@/lib/constants/arcs'
 import ArcCard from '@/components/arcs/ArcCard'
+import PageHero from '@/components/wiki/PageHero'
 import WaveSeparator from '@/components/ui/WaveSeparator'
+import { EASE } from '@/lib/variants'
 
-const EASE = [0.16, 1, 0.3, 1] as const
+const HERO_ORBS = [
+  { color: 'rgba(30, 144, 255, 0.4)', size: 300, x: '70%', y: '10%', delay: 0 },
+  { color: 'rgba(244, 163, 0, 0.3)', size: 200, x: '10%', y: '60%', delay: 2 },
+  { color: 'rgba(30, 144, 255, 0.2)', size: 250, x: '85%', y: '70%', delay: 4 },
+  { color: 'rgba(231, 76, 60, 0.15)', size: 180, x: '40%', y: '20%', delay: 1 },
+]
 
 export default function ArcsPage() {
   const [search, setSearch] = useState('')
   const [activeSaga, setActiveSaga] = useState<string | null>(null)
+
+  const totalEpisodes = useMemo(() => ARCS.reduce((sum, arc) => sum + arc.episodes.length, 0), [])
 
   const filteredArcs = ARCS.filter((arc) => {
     const matchesSearch = arc.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -22,37 +31,35 @@ export default function ArcsPage() {
   })
 
   return (
-      <main className="relative min-h-screen pt-28 sm:pt-32">
-        {/* Decorative ocean orbs */}
-        <div className="ocean-glow ocean-glow-sea" style={{ width: 400, height: 400, top: -100, right: -150 }} />
-        <div className="ocean-glow ocean-glow-gold" style={{ width: 300, height: 300, bottom: 200, left: -100 }} />
-
+      <main className="relative min-h-screen pt-24">
         <div className="mx-auto max-w-7xl px-6">
-          {/* Page header */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: EASE }}
-            className="mb-10"
+          {/* Hero Section */}
+          <PageHero
+            icon={Compass}
+            title="Arc"
+            subtitle="Haritası"
+            description="East Blue'dan Egghead'e kadar tüm maceralar. Her arc, Hasır Şapka mürettebatının Grand Line'daki yeni bir durağını anlatır."
+            accentColor="sea"
+            orbs={HERO_ORBS}
           >
-            <motion.h1
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
-              className="mb-3 text-3xl font-extrabold sm:text-4xl"
-            >
-              <span className="text-gold-gradient">Arc</span>{' '}
-              <span className="text-pirate-text">Haritası</span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
-              className="text-sm text-pirate-muted sm:text-base"
-            >
-              East Blue&apos;dan Egghead&apos;e kadar tüm maceralar
-            </motion.p>
-          </motion.div>
+            <div className="flex flex-wrap gap-3">
+              <div className="flex items-center gap-2 rounded-xl border border-sea/20 bg-sea/10 px-4 py-2">
+                <Compass className="h-4 w-4 text-sea" />
+                <span className="text-sm font-bold text-sea">{ARCS.length}</span>
+                <span className="text-xs text-pirate-muted">Arc</span>
+              </div>
+              <div className="flex items-center gap-2 rounded-xl border border-gold/20 bg-gold/10 px-4 py-2">
+                <Film className="h-4 w-4 text-gold" />
+                <span className="text-sm font-bold text-gold">{totalEpisodes}</span>
+                <span className="text-xs text-pirate-muted">Bölüm</span>
+              </div>
+              <div className="flex items-center gap-2 rounded-xl border border-luffy/20 bg-luffy/10 px-4 py-2">
+                <Anchor className="h-4 w-4 text-luffy" />
+                <span className="text-sm font-bold text-luffy">{SAGAS.length}</span>
+                <span className="text-xs text-pirate-muted">Saga</span>
+              </div>
+            </div>
+          </PageHero>
 
           {/* Search + Filters */}
           <motion.div
