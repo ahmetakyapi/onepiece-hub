@@ -19,7 +19,7 @@ import PageHero from '@/components/wiki/PageHero'
 import WorldMap from '@/components/world/WorldMap'
 import { SEAS, LOCATIONS, getLocationsBySea } from '@/lib/constants/locations'
 import { getArcBySlug } from '@/lib/constants/arcs'
-import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
+import { EASE } from '@/lib/variants'
 
 const DANGER_COLORS = [
   '',
@@ -42,54 +42,31 @@ const DANGER_BAR_COLORS = [
 const DANGER_LABELS = ['', 'Güvenli', 'Düşük', 'Orta', 'Yüksek', 'Ölümcül'] as const
 
 const TYPE_LABELS: Record<string, string> = {
-  island: 'Ada',
-  sea: 'Deniz',
-  city: 'Şehir',
-  fortress: 'Kale',
-  ship: 'Gemi',
-  other: 'Diger',
+  island: 'Ada', sea: 'Deniz', city: 'Şehir', fortress: 'Kale', ship: 'Gemi', other: 'Diger',
 }
 
 const TYPE_ICONS: Record<string, typeof MapPin> = {
-  island: MapPin,
-  sea: Waves,
-  city: Map,
-  fortress: Shield,
-  ship: Anchor,
-  other: Navigation,
+  island: MapPin, sea: Waves, city: Map, fortress: Shield, ship: Anchor, other: Navigation,
 }
 
 const SEA_BORDER_COLORS: Record<string, string> = {
-  'east-blue': 'border-l-blue-400',
-  'west-blue': 'border-l-orange-400',
-  'north-blue': 'border-l-cyan-400',
-  'south-blue': 'border-l-green-400',
-  'grand-line': 'border-l-gold',
-  'new-world': 'border-l-luffy',
-  'calm-belt': 'border-l-pirate-muted',
-  'red-line': 'border-l-luffy',
+  'east-blue': 'border-l-blue-400', 'west-blue': 'border-l-orange-400', 'north-blue': 'border-l-cyan-400',
+  'south-blue': 'border-l-green-400', 'grand-line': 'border-l-gold', 'new-world': 'border-l-luffy',
+  'calm-belt': 'border-l-pirate-muted', 'red-line': 'border-l-luffy',
 }
 
 const SEA_GRADIENT_BG: Record<string, string> = {
-  'east-blue': 'from-blue-500/20 via-blue-600/10 to-transparent',
-  'west-blue': 'from-orange-500/20 via-orange-600/10 to-transparent',
-  'north-blue': 'from-cyan-500/20 via-cyan-600/10 to-transparent',
-  'south-blue': 'from-green-500/20 via-green-600/10 to-transparent',
-  'grand-line': 'from-gold/20 via-gold/10 to-transparent',
-  'new-world': 'from-luffy/20 via-luffy/10 to-transparent',
-  'calm-belt': 'from-slate-500/15 via-slate-600/10 to-transparent',
-  'red-line': 'from-red-500/20 via-red-600/10 to-transparent',
+  'east-blue': 'from-blue-500/20 via-blue-600/10 to-transparent', 'west-blue': 'from-orange-500/20 via-orange-600/10 to-transparent',
+  'north-blue': 'from-cyan-500/20 via-cyan-600/10 to-transparent', 'south-blue': 'from-green-500/20 via-green-600/10 to-transparent',
+  'grand-line': 'from-gold/20 via-gold/10 to-transparent', 'new-world': 'from-luffy/20 via-luffy/10 to-transparent',
+  'calm-belt': 'from-slate-500/15 via-slate-600/10 to-transparent', 'red-line': 'from-red-500/20 via-red-600/10 to-transparent',
 }
 
 const SEA_ACCENT_BG: Record<string, string> = {
-  'east-blue': 'bg-blue-400/10 border-blue-400/20',
-  'west-blue': 'bg-orange-400/10 border-orange-400/20',
-  'north-blue': 'bg-cyan-400/10 border-cyan-400/20',
-  'south-blue': 'bg-green-400/10 border-green-400/20',
-  'grand-line': 'bg-gold/10 border-gold/20',
-  'new-world': 'bg-luffy/10 border-luffy/20',
-  'calm-belt': 'bg-slate-400/10 border-slate-400/20',
-  'red-line': 'bg-red-400/10 border-red-400/20',
+  'east-blue': 'bg-blue-400/10 border-blue-400/20', 'west-blue': 'bg-orange-400/10 border-orange-400/20',
+  'north-blue': 'bg-cyan-400/10 border-cyan-400/20', 'south-blue': 'bg-green-400/10 border-green-400/20',
+  'grand-line': 'bg-gold/10 border-gold/20', 'new-world': 'bg-luffy/10 border-luffy/20',
+  'calm-belt': 'bg-slate-400/10 border-slate-400/20', 'red-line': 'bg-red-400/10 border-red-400/20',
 }
 
 const HERO_ORBS = [
@@ -100,41 +77,11 @@ const HERO_ORBS = [
 ]
 
 const WORLD_STRUCTURE_ITEMS = [
-  {
-    label: 'Red Line',
-    color: 'text-luffy',
-    bgColor: 'bg-luffy/10 border-luffy/30',
-    icon: '|',
-    description: 'Dünyayı dikey olarak ikiye bölen devasa kırmızı kıta. Mary Geoise üzerindedir.',
-  },
-  {
-    label: 'Grand Line',
-    color: 'text-gold',
-    bgColor: 'bg-gold/10 border-gold/30',
-    icon: '--',
-    description: 'Dünyayı yatay ikiye ayıran "Korsan Mezarlığı". Paradise ve New World olarak iki yarıya ayrılır.',
-  },
-  {
-    label: 'Calm Belt',
-    color: 'text-pirate-muted',
-    bgColor: 'bg-slate-400/10 border-slate-400/30',
-    icon: '~~',
-    description: 'Grand Line\'in iki yanındaki rüzgarsız kuşak. Dev Deniz Kralları\'nın yaşadığı alan.',
-  },
-  {
-    label: 'Paradise',
-    color: 'text-sea',
-    bgColor: 'bg-sea/10 border-sea/30',
-    icon: null,
-    description: 'Grand Line\'in ilk yarısı. New World\'e kıyasla cennet gibi kaldığı için bu isim verilmiştir.',
-  },
-  {
-    label: 'New World',
-    color: 'text-luffy',
-    bgColor: 'bg-luffy/10 border-luffy/30',
-    icon: null,
-    description: 'Dört İmparator\'un hüküm sürdüğü, dünyanın en tehlikeli bölgesi.',
-  },
+  { label: 'Red Line', color: 'text-luffy', bgColor: 'bg-luffy/10 border-luffy/30', description: 'Dünyayı dikey olarak ikiye bölen devasa kırmızı kıta. Mary Geoise üzerindedir.' },
+  { label: 'Grand Line', color: 'text-gold', bgColor: 'bg-gold/10 border-gold/30', description: 'Dünyayı yatay ikiye ayıran "Korsan Mezarlığı". Paradise ve New World olarak iki yarıya ayrılır.' },
+  { label: 'Calm Belt', color: 'text-pirate-muted', bgColor: 'bg-slate-400/10 border-slate-400/30', description: 'Grand Line\'in iki yanındaki rüzgarsız kuşak. Dev Deniz Kralları\'nın yaşadığı alan.' },
+  { label: 'Paradise', color: 'text-sea', bgColor: 'bg-sea/10 border-sea/30', description: 'Grand Line\'in ilk yarısı. New World\'e kıyasla cennet gibi kaldığı için bu isim verilmiştir.' },
+  { label: 'New World', color: 'text-luffy', bgColor: 'bg-luffy/10 border-luffy/30', description: 'Dört İmparator\'un hüküm sürdüğü, dünyanın en tehlikeli bölgesi.' },
 ]
 
 const FOUR_SEAS = [
@@ -176,20 +123,14 @@ export default function WorldPage() {
           <WorldMap />
 
           {/* Sea overview cards */}
-          <motion.div
-            variants={staggerContainer(0.06)}
-            initial="hidden"
-            animate="visible"
-            className="mb-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
-          >
+          <div className="mb-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 animate-fade-in-up">
             {SEAS.map((sea) => {
               const locationCount = getLocationsBySea(sea.slug).length
               const isActive = activeSea === sea.slug
 
               return (
-                <motion.button
+                <button
                   key={sea.slug}
-                  variants={fadeUp}
                   onClick={() => setActiveSea(isActive ? null : sea.slug)}
                   className={`group relative overflow-hidden rounded-2xl border text-left transition-all duration-300 ${
                     isActive
@@ -197,12 +138,10 @@ export default function WorldPage() {
                       : 'border-pirate-border/50 bg-ocean-surface/30 hover:border-pirate-border'
                   }`}
                 >
-                  {/* Gradient background */}
                   <div
                     className={`absolute inset-0 bg-gradient-to-br ${SEA_GRADIENT_BG[sea.slug]} opacity-60 transition-opacity group-hover:opacity-100`}
                   />
 
-                  {/* Wave pattern at bottom */}
                   <div className="absolute inset-x-0 bottom-0 h-12 opacity-10">
                     <svg viewBox="0 0 400 50" className="h-full w-full" preserveAspectRatio="none">
                       <path
@@ -214,7 +153,6 @@ export default function WorldPage() {
                   </div>
 
                   <div className="relative z-10 p-5">
-                    {/* Top row: icon + count */}
                     <div className="mb-4 flex items-start justify-between">
                       <div className={`flex h-10 w-10 items-center justify-center rounded-xl border ${SEA_ACCENT_BG[sea.slug]}`}>
                         <Compass className={`h-5 w-5 ${sea.color}`} />
@@ -231,16 +169,12 @@ export default function WorldPage() {
                       )}
                     </div>
 
-                    {/* Name */}
                     <h3 className={`mb-1.5 text-base font-bold ${sea.color}`}>{sea.name}</h3>
-
-                    {/* Description */}
                     <p className="text-xs leading-relaxed text-pirate-muted line-clamp-2">
                       {sea.description}
                     </p>
                   </div>
 
-                  {/* Active indicator */}
                   {isActive && (
                     <motion.div
                       layoutId="seaIndicator"
@@ -248,19 +182,13 @@ export default function WorldPage() {
                       transition={{ duration: 0.3, ease: EASE }}
                     />
                   )}
-                </motion.button>
+                </button>
               )
             })}
-          </motion.div>
+          </div>
 
           {/* World structure - visual infographic */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: EASE }}
-            className="mb-14"
-          >
+          <div className="mb-14">
             <div className="mb-6 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-sea/30 bg-sea/10">
                 <Globe className="h-5 w-5 text-sea" />
@@ -272,9 +200,7 @@ export default function WorldPage() {
             </div>
 
             <div className="bento-card overflow-hidden">
-              {/* Visual diagram */}
               <div className="border-b border-pirate-border/50 bg-gradient-to-br from-ocean-surface/50 to-transparent p-6 sm:p-8">
-                {/* Four seas grid */}
                 <div className="mb-6">
                   <p className="mb-3 text-[11px] font-bold uppercase tracking-widest text-pirate-muted">
                     Dört Deniz
@@ -292,7 +218,6 @@ export default function WorldPage() {
                   </div>
                 </div>
 
-                {/* Structure badges */}
                 <div className="space-y-3">
                   {WORLD_STRUCTURE_ITEMS.map((item) => (
                     <div
@@ -312,7 +237,6 @@ export default function WorldPage() {
                 </div>
               </div>
 
-              {/* Summary text */}
               <div className="p-6 sm:p-8">
                 <p className="text-sm leading-relaxed text-pirate-muted">
                   <span className="font-semibold text-luffy">Red Line</span> ve{' '}
@@ -324,7 +248,7 @@ export default function WorldPage() {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Locations grouped by sea */}
           <AnimatePresence mode="wait">
@@ -333,12 +257,8 @@ export default function WorldPage() {
               if (locations.length === 0) return null
 
               return (
-                <motion.section
+                <section
                   key={sea.slug}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-40px' }}
-                  transition={{ duration: 0.5, ease: EASE }}
                   className="mb-14"
                 >
                   {/* Section banner */}
@@ -358,7 +278,6 @@ export default function WorldPage() {
                         </p>
                       </div>
                     </div>
-                    {/* Subtle wave at bottom */}
                     <div className="absolute inset-x-0 bottom-0 h-8 opacity-5">
                       <svg viewBox="0 0 800 30" className="h-full w-full" preserveAspectRatio="none">
                         <path
@@ -371,19 +290,14 @@ export default function WorldPage() {
                   </div>
 
                   <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {locations.map((loc, locIndex) => {
+                    {locations.map((loc) => {
                       const TypeIcon = TYPE_ICONS[loc.type] ?? MapPin
 
                       return (
-                        <motion.div
+                        <div
                           key={loc.slug}
-                          initial={{ opacity: 0, y: 16 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.4, ease: EASE, delay: locIndex * 0.05 }}
                           className={`bento-card group rounded-xl border-l-[3px] ${SEA_BORDER_COLORS[sea.slug]} p-5 transition-all hover:border-gold/20`}
                         >
-                          {/* Header */}
                           <div className="mb-3 flex items-start justify-between">
                             <div className="flex items-center gap-2.5">
                               <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${SEA_ACCENT_BG[sea.slug]}`}>
@@ -398,12 +312,11 @@ export default function WorldPage() {
                             </div>
                           </div>
 
-                          {/* Description */}
                           <p className="mb-3 text-xs leading-relaxed text-pirate-muted line-clamp-3">
                             {loc.description}
                           </p>
 
-                          {/* Danger level bar */}
+                          {/* Danger level bar — CSS only */}
                           <div className="mb-3">
                             <div className="mb-1 flex items-center justify-between">
                               <div className="flex items-center gap-1.5">
@@ -417,17 +330,13 @@ export default function WorldPage() {
                               </span>
                             </div>
                             <div className="h-1.5 w-full overflow-hidden rounded-full bg-ocean-surface">
-                              <motion.div
-                                className={`h-full rounded-full bg-gradient-to-r ${DANGER_BAR_COLORS[loc.dangerLevel]}`}
-                                initial={{ width: 0 }}
-                                whileInView={{ width: `${(loc.dangerLevel / 5) * 100}%` }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.8, ease: EASE, delay: 0.2 }}
+                              <div
+                                className={`h-full rounded-full bg-gradient-to-r ${DANGER_BAR_COLORS[loc.dangerLevel]} transition-[width] duration-700 ease-out`}
+                                style={{ width: `${(loc.dangerLevel / 5) * 100}%` }}
                               />
                             </div>
                           </div>
 
-                          {/* Significance */}
                           <div className="mb-3">
                             <p className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-pirate-muted">
                               Önemli Olaylar
@@ -451,7 +360,6 @@ export default function WorldPage() {
                             </ul>
                           </div>
 
-                          {/* Related arcs */}
                           {loc.relatedArcs.length > 0 && (
                             <div className="flex flex-wrap gap-1 border-t border-pirate-border/50 pt-3">
                               {loc.relatedArcs.map((arcSlug) => {
@@ -468,11 +376,11 @@ export default function WorldPage() {
                               })}
                             </div>
                           )}
-                        </motion.div>
+                        </div>
                       )
                     })}
                   </div>
-                </motion.section>
+                </section>
               )
             })}
           </AnimatePresence>

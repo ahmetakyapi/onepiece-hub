@@ -7,10 +7,10 @@ import { Compass, Film, Users, Clock } from 'lucide-react'
 const EASE = [0.16, 1, 0.3, 1] as const
 
 const STATS = [
-  { label: 'Arc', value: 32, suffix: '', icon: Compass, color: '#f4a300', max: 40 },
-  { label: 'Bölüm', value: 341, suffix: '', icon: Film, color: '#1e90ff', max: 400 },
-  { label: 'Karakter', value: 61, suffix: '', icon: Users, color: '#f4a300', max: 80 },
-  { label: 'Saat İçerik', value: 136, suffix: '+', icon: Clock, color: '#1e90ff', max: 200 },
+  { label: 'Arc', value: 36, suffix: '', icon: Compass, color: '#f4a300' },
+  { label: 'Bölüm', value: 463, suffix: '', icon: Film, color: '#1e90ff' },
+  { label: 'Karakter', value: 65, suffix: '', icon: Users, color: '#f4a300' },
+  { label: 'Saat İçerik', value: 189, suffix: '+', icon: Clock, color: '#1e90ff' },
 ] as const
 
 function AnimatedNumber({ value, suffix, inView }: { value: number; suffix: string; inView: boolean }) {
@@ -33,7 +33,7 @@ function AnimatedNumber({ value, suffix, inView }: { value: number; suffix: stri
   return <span className="stat-number">{current.toLocaleString()}{suffix}</span>
 }
 
-function RingProgress({ percent, color, inView, delay }: { percent: number; color: string; inView: boolean; delay: number }) {
+function RingProgress({ color, inView, delay }: { color: string; inView: boolean; delay: number }) {
   const r = 38
   const circumference = 2 * Math.PI * r
 
@@ -46,7 +46,7 @@ function RingProgress({ percent, color, inView, delay }: { percent: number; colo
         stroke="rgba(30,144,255,0.06)"
         strokeWidth="3"
       />
-      {/* Progress */}
+      {/* Full ring */}
       <motion.circle
         cx="46" cy="46" r={r}
         fill="none"
@@ -55,25 +55,11 @@ function RingProgress({ percent, color, inView, delay }: { percent: number; colo
         strokeLinecap="round"
         strokeDasharray={circumference}
         initial={{ strokeDashoffset: circumference }}
-        animate={inView ? { strokeDashoffset: circumference * (1 - percent) } : {}}
+        animate={inView ? { strokeDashoffset: 0 } : {}}
         transition={{ duration: 1.8, ease: EASE, delay }}
         style={{ transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }}
         opacity={0.5}
       />
-      {/* Glow dot at end */}
-      {inView && (
-        <motion.circle
-          cx="46" cy="46" r="2"
-          fill={color}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 0.8, 0.3] }}
-          transition={{ duration: 1.5, delay: delay + 1 }}
-          style={{
-            transform: `rotate(${percent * 360 - 90}deg) translateX(${r}px)`,
-            transformOrigin: '46px 46px',
-          }}
-        />
-      )}
     </svg>
   )
 }
@@ -107,7 +93,6 @@ export default function StatsBar() {
             {/* Ring + Icon */}
             <div className="relative flex h-[92px] w-[92px] items-center justify-center">
               <RingProgress
-                percent={stat.value / stat.max}
                 color={stat.color}
                 inView={inView}
                 delay={0.2 + i * 0.15}

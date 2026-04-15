@@ -10,7 +10,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import PageHero from '@/components/wiki/PageHero'
 import { getCharacterImage } from '@/lib/constants/images'
-import { fadeUp, staggerContainer, EASE, scaleIn } from '@/lib/variants'
+import { EASE } from '@/lib/variants'
 
 /* ─── Types ──────────────────────────────────────────────────── */
 
@@ -63,21 +63,9 @@ const HAKI_TYPES: HakiType[] = [
     description: 'Çevredeki canlıların varlığını, duygularını ve niyetlerini hissetme yeteneği. İleri seviyede birkaç saniye geleceği görebilir. "Mantra" olarak da bilinir (Skypiea\'da).',
     howItWorks: 'Kullanıcının zihinsel farkındalığını genişleterek çevresindeki yaşam enerjilerini (aura) algılamasını sağlar. Her canlının benzersiz bir aurası vardır ve deneyimli kullanıcılar bu auraları uzak mesafelerden bile algılayabilir. Duygusal durum, niyet ve hatta düşünceler bile ileri seviye kullanıcılar tarafından okunabilir.',
     advancedForms: [
-      {
-        name: 'Gelecek Görüşü (Future Sight)',
-        icon: Eye,
-        description: 'En ileri seviye Kenbunshoku. Kullanıcı birkaç saniye ilerisini görebilir — düşmanın saldırısını gerçekleşmeden önce görerek kaçınır. Charlotte Katakuri bu formun ustasıdır. Luffy, Whole Cake Island\'da bu seviyeye ulaştı.',
-      },
-      {
-        name: 'Geniş Alan Taraması',
-        icon: Radio,
-        description: 'Büyük bir alanı tarayarak tüm canlıları algılama. Enel, Goro Goro meyvesiyle kombine ederek tüm Skypiea\'yı tarayabiliyordu. Aisa ve Koby doğastan bu yeteneğe sahip.',
-      },
-      {
-        name: 'Duygu Okuma',
-        icon: Sparkles,
-        description: 'Canlıların duygusal durumunu ve niyetini okuma. Otohime bu konuda ustaydı. Luffy, hayvanlarla bile iletişim kurabilecek seviyeye ulaştı.',
-      },
+      { name: 'Gelecek Görüşü (Future Sight)', icon: Eye, description: 'En ileri seviye Kenbunshoku. Kullanıcı birkaç saniye ilerisini görebilir — düşmanın saldırısını gerçekleşmeden önce görerek kaçınır. Charlotte Katakuri bu formun ustasıdır. Luffy, Whole Cake Island\'da bu seviyeye ulaştı.' },
+      { name: 'Geniş Alan Taraması', icon: Radio, description: 'Büyük bir alanı tarayarak tüm canlıları algılama. Enel, Goro Goro meyvesiyle kombine ederek tüm Skypiea\'yı tarayabiliyordu. Aisa ve Koby doğastan bu yeteneğe sahip.' },
+      { name: 'Duygu Okuma', icon: Sparkles, description: 'Canlıların duygusal durumunu ve niyetini okuma. Otohime bu konuda ustaydı. Luffy, hayvanlarla bile iletişim kurabilecek seviyeye ulaştı.' },
     ],
     users: [
       { name: 'Monkey D. Luffy', slug: 'luffy', level: 'advanced', note: 'Gelecek görüşü' },
@@ -107,21 +95,9 @@ const HAKI_TYPES: HakiType[] = [
     description: 'Vücudu veya silahları görünmez bir zırhla kaplama yeteneği. Saldırı gücünü ve savunmayı artırır. En önemlisi, Logia tipi Şeytan Meyvesi kullanıcılarının gerçek vücuduna dokunabilmeyi sağlar.',
     howItWorks: 'Kullanıcının irade gücünü fiziksel bir zırha dönüştürür. Bu zırh genellikle görünmezdir ancak ileri seviyede vücudu siyah metalik bir katmanla kaplar (Hardening). Haki kaplı saldırılar Logia kullanıcılarının elementel formunu bypass ederek gerçek vücutlarına ulaşır.',
     advancedForms: [
-      {
-        name: 'Sertleştirme (Hardening / Koka)',
-        icon: Shield,
-        description: 'Busoshoku\'nun görünür formu. Vücut veya silah siyah metalik bir katmanla kaplanır. Hem saldırı hem savunma gücünü dramatik olarak artırır. Vergo, Luffy ve Zoro bu tekniği sıklıkla kullanır.',
-      },
-      {
-        name: 'Emisyon (Ryuo)',
-        icon: Target,
-        description: 'Wano\'da "Ryuo" olarak bilinen ileri seviye. Haki\'yi vücuttan dışarı yayarak dokunmadan hasar verme. Rayleigh bunu Luffy\'ye öğretti. Sentomaru bu tekniğin erken bir örneğiydi.',
-      },
-      {
-        name: 'İç Yıkım',
-        icon: Flame,
-        description: 'En ileri seviye Busoshoku. Haki\'yi düşmanın vücudunun içine göndererek içeriden hasar verme. Luffy bunu Wano\'da Kaido\'ya karşı kullandı.',
-      },
+      { name: 'Sertleştirme (Hardening / Koka)', icon: Shield, description: 'Busoshoku\'nun görünür formu. Vücut veya silah siyah metalik bir katmanla kaplanır. Hem saldırı hem savunma gücünü dramatik olarak artırır. Vergo, Luffy ve Zoro bu tekniği sıklıkla kullanır.' },
+      { name: 'Emisyon (Ryuo)', icon: Target, description: 'Wano\'da "Ryuo" olarak bilinen ileri seviye. Haki\'yi vücuttan dışarı yayarak dokunmadan hasar verme. Rayleigh bunu Luffy\'ye öğretti. Sentomaru bu tekniğin erken bir örneğiydi.' },
+      { name: 'İç Yıkım', icon: Flame, description: 'En ileri seviye Busoshoku. Haki\'yi düşmanın vücudunun içine göndererek içeriden hasar verme. Luffy bunu Wano\'da Kaido\'ya karşı kullandı.' },
     ],
     users: [
       { name: 'Monkey D. Luffy', slug: 'luffy', level: 'master', note: 'İç yıkım + Gear 4' },
@@ -152,21 +128,9 @@ const HAKI_TYPES: HakiType[] = [
     description: 'Milyonda bir kişide bulunan en nadir Haki türü. Kullanıcının iradesini başkalarına dayatmasını sağlar. Zayıf iradeli kişiler bayılır. İleri seviyede saldırılara Haki akıtılarak yıkıcı güç elde edilir.',
     howItWorks: 'Haoshoku Haki, kullanıcının ruhani iradesinin fiziksel bir güç olarak dışa vurumudur. Eğitimle öğrenilemez — ya doğastan sahipsinizdir ya da değilsinizdir. Temel formda iradenizi dalgalar halinde yayarak zayıf iradeliyi bayıltırsınız. İleri seviyede fiziksel temas olmadan saldırı yapılabilir.',
     advancedForms: [
-      {
-        name: 'Haoshoku İnfüzyonu (Coating)',
-        icon: Crown,
-        description: 'En ileri seviye. Saldırılara Haoshoku Haki akıtarak fiziksel temas olmadan yıkıcı hasar verme. Gök ikiye bölünür. Luffy, Kaido\'ya karşı bu seviyeye ulaştı. Zoro da Enma ile kılıcına Haoshoku akıttı.',
-      },
-      {
-        name: 'İrade Dalgası',
-        icon: Zap,
-        description: 'Geniş alana irade dalgası yayarak zayıf iradeliyi bayıltma. Luffy, Fish-Man Island\'da 50.000 Balık-Adam\'ı tek seferde bayılttı. Shanks, Whitebeard\'in gemisinde yürürken mürettebatı bayılttı.',
-      },
-      {
-        name: 'Hayvan Evcilleştirme',
-        icon: Sparkles,
-        description: 'Dev ve vahşi hayvanları tek bakışla evcilleştirme. Luffy bunu Amazon Lily\'de ve Fish-Man Island\'da gösterdi.',
-      },
+      { name: 'Haoshoku İnfüzyonu (Coating)', icon: Crown, description: 'En ileri seviye. Saldırılara Haoshoku Haki akıtarak fiziksel temas olmadan yıkıcı hasar verme. Gök ikiye bölünür. Luffy, Kaido\'ya karşı bu seviyeye ulaştı. Zoro da Enma ile kılıcına Haoshoku akıttı.' },
+      { name: 'İrade Dalgası', icon: Zap, description: 'Geniş alana irade dalgası yayarak zayıf iradeliyi bayıltma. Luffy, Fish-Man Island\'da 50.000 Balık-Adam\'ı tek seferde bayılttı. Shanks, Whitebeard\'in gemisinde yürürken mürettebatı bayılttı.' },
+      { name: 'Hayvan Evcilleştirme', icon: Sparkles, description: 'Dev ve vahşi hayvanları tek bakışla evcilleştirme. Luffy bunu Amazon Lily\'de ve Fish-Man Island\'da gösterdi.' },
     ],
     users: [
       { name: 'Monkey D. Luffy', slug: 'luffy', level: 'master', note: 'İnfüzyon, 50k bayıltma' },
@@ -197,7 +161,6 @@ const LEVEL_CONFIG: Record<string, { label: string; color: string; percent: numb
   master: { label: 'Usta', color: 'text-gold', percent: 100 },
 }
 
-/* Haki masters — characters who possess multiple types */
 type HakiMaster = {
   name: string
   slug?: string
@@ -206,26 +169,16 @@ type HakiMaster = {
 }
 
 const HAKI_MASTERS: HakiMaster[] = [
-  { name: 'Monkey D. Luffy', slug: 'luffy', title: 'Beşinci Yonko',
-    types: [{ id: 'kenbunshoku', level: 'advanced' }, { id: 'busoshoku', level: 'master' }, { id: 'haoshoku', level: 'master' }] },
-  { name: 'Silvers Rayleigh', slug: 'rayleigh', title: 'Karanlık Kral',
-    types: [{ id: 'kenbunshoku', level: 'master' }, { id: 'busoshoku', level: 'master' }, { id: 'haoshoku', level: 'master' }] },
-  { name: 'Gol D. Roger', slug: 'roger', title: 'Korsanlar Kralı',
-    types: [{ id: 'kenbunshoku', level: 'master' }, { id: 'busoshoku', level: 'master' }, { id: 'haoshoku', level: 'master' }] },
-  { name: 'Shanks', slug: 'shanks', title: 'Kızıl Saçlı Yonko',
-    types: [{ id: 'kenbunshoku', level: 'master' }, { id: 'busoshoku', level: 'master' }, { id: 'haoshoku', level: 'master' }] },
-  { name: 'Edward Newgate', slug: 'whitebeard', title: 'En Güçlü Adam',
-    types: [{ id: 'kenbunshoku', level: 'advanced' }, { id: 'busoshoku', level: 'master' }, { id: 'haoshoku', level: 'master' }] },
-  { name: 'Kaido', slug: 'kaido', title: 'En Güçlü Yaratık',
-    types: [{ id: 'kenbunshoku', level: 'advanced' }, { id: 'busoshoku', level: 'master' }, { id: 'haoshoku', level: 'master' }] },
-  { name: 'Charlotte Linlin', slug: 'bigmom', title: 'Big Mom',
-    types: [{ id: 'kenbunshoku', level: 'advanced' }, { id: 'busoshoku', level: 'master' }, { id: 'haoshoku', level: 'master' }] },
-  { name: 'Roronoa Zoro', slug: 'zoro', title: 'Korsan Avcısı',
-    types: [{ id: 'busoshoku', level: 'master' }, { id: 'haoshoku', level: 'advanced' }] },
-  { name: 'Vinsmoke Sanji', slug: 'sanji', title: 'Kara Bacak',
-    types: [{ id: 'kenbunshoku', level: 'advanced' }, { id: 'busoshoku', level: 'advanced' }] },
-  { name: 'Monkey D. Garp', slug: 'garp', title: 'Denizlerin Kahramanı',
-    types: [{ id: 'busoshoku', level: 'master' }, { id: 'haoshoku', level: 'master' }] },
+  { name: 'Monkey D. Luffy', slug: 'luffy', title: 'Beşinci Yonko', types: [{ id: 'kenbunshoku', level: 'advanced' }, { id: 'busoshoku', level: 'master' }, { id: 'haoshoku', level: 'master' }] },
+  { name: 'Silvers Rayleigh', slug: 'rayleigh', title: 'Karanlık Kral', types: [{ id: 'kenbunshoku', level: 'master' }, { id: 'busoshoku', level: 'master' }, { id: 'haoshoku', level: 'master' }] },
+  { name: 'Gol D. Roger', slug: 'roger', title: 'Korsanlar Kralı', types: [{ id: 'kenbunshoku', level: 'master' }, { id: 'busoshoku', level: 'master' }, { id: 'haoshoku', level: 'master' }] },
+  { name: 'Shanks', slug: 'shanks', title: 'Kızıl Saçlı Yonko', types: [{ id: 'kenbunshoku', level: 'master' }, { id: 'busoshoku', level: 'master' }, { id: 'haoshoku', level: 'master' }] },
+  { name: 'Edward Newgate', slug: 'whitebeard', title: 'En Güçlü Adam', types: [{ id: 'kenbunshoku', level: 'advanced' }, { id: 'busoshoku', level: 'master' }, { id: 'haoshoku', level: 'master' }] },
+  { name: 'Kaido', slug: 'kaido', title: 'En Güçlü Yaratık', types: [{ id: 'kenbunshoku', level: 'advanced' }, { id: 'busoshoku', level: 'master' }, { id: 'haoshoku', level: 'master' }] },
+  { name: 'Charlotte Linlin', slug: 'bigmom', title: 'Big Mom', types: [{ id: 'kenbunshoku', level: 'advanced' }, { id: 'busoshoku', level: 'master' }, { id: 'haoshoku', level: 'master' }] },
+  { name: 'Roronoa Zoro', slug: 'zoro', title: 'Korsan Avcısı', types: [{ id: 'busoshoku', level: 'master' }, { id: 'haoshoku', level: 'advanced' }] },
+  { name: 'Vinsmoke Sanji', slug: 'sanji', title: 'Kara Bacak', types: [{ id: 'kenbunshoku', level: 'advanced' }, { id: 'busoshoku', level: 'advanced' }] },
+  { name: 'Monkey D. Garp', slug: 'garp', title: 'Denizlerin Kahramanı', types: [{ id: 'busoshoku', level: 'master' }, { id: 'haoshoku', level: 'master' }] },
 ]
 
 type HakiFact = {
@@ -269,13 +222,9 @@ function LevelBadge({ level, colorHex }: { level: string; colorHex: string }) {
   return (
     <div className="flex items-center gap-2.5">
       <div className="h-2 w-20 overflow-hidden rounded-full bg-ocean-surface">
-        <motion.div
-          className="h-full rounded-full"
-          style={{ background: colorHex }}
-          initial={{ width: 0 }}
-          whileInView={{ width: `${config.percent}%` }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: EASE, delay: 0.2 }}
+        <div
+          className="h-full rounded-full transition-[width] duration-700 ease-out"
+          style={{ background: colorHex, width: `${config.percent}%` }}
         />
       </div>
       <span className={`text-xs font-bold uppercase tracking-wider ${config.color}`}>
@@ -289,11 +238,7 @@ function UserCard({ user, colorHex }: { user: HakiUser; colorHex: string }) {
   const img = user.slug ? getCharacterImage(user.slug) : ''
 
   const content = (
-    <motion.div
-      variants={fadeUp}
-      className="group flex items-center gap-4 rounded-2xl border border-pirate-border/30 bg-ocean-surface/50 px-5 py-4 transition-all duration-300 hover:border-pirate-border/60 hover:bg-ocean-surface"
-    >
-      {/* Character image */}
+    <div className="group flex items-center gap-4 rounded-2xl border border-pirate-border/30 bg-ocean-surface/50 px-5 py-4 transition-all duration-300 hover:border-pirate-border/60 hover:bg-ocean-surface">
       {img ? (
         <div className="relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-xl border border-pirate-border/40 bg-ocean-deep">
           <Image src={img} alt={user.name} fill className="object-cover object-top" sizes="56px" />
@@ -308,8 +253,6 @@ function UserCard({ user, colorHex }: { user: HakiUser; colorHex: string }) {
           </span>
         </div>
       )}
-
-      {/* Info */}
       <div className="min-w-0 flex-1">
         <p className="truncate text-base font-bold text-pirate-text transition-colors group-hover:text-white">
           {user.name}
@@ -318,10 +261,8 @@ function UserCard({ user, colorHex }: { user: HakiUser; colorHex: string }) {
           <p className="mt-1 truncate text-sm text-pirate-muted">{user.note}</p>
         )}
       </div>
-
-      {/* Level */}
       <LevelBadge level={user.level} colorHex={colorHex} />
-    </motion.div>
+    </div>
   )
 
   return user.slug ? (
@@ -378,13 +319,7 @@ export default function HakiPage() {
           </PageHero>
 
           {/* ── Haki Nedir? Summary ─────────────────────────────────── */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: EASE }}
-            className="bento-card mb-10 p-6 sm:p-8"
-          >
+          <div className="bento-card mb-10 p-6 sm:p-8 animate-fade-in-up">
             <div className="mb-4 flex items-center gap-2">
               <BookOpen className="h-5 w-5 text-gold" />
               <h2 className="text-base font-bold text-pirate-text">Haki Nedir?</h2>
@@ -396,15 +331,10 @@ export default function HakiPage() {
               özellikle New World&apos;de Haki kullanmak hayatta kalmak için zorunludur.
               Silvers Rayleigh, Luffy&apos;ye 2 yıllık zaman atlama süresinde Rusukaina Adası&apos;nda Haki eğitimi vermiştir.
             </p>
-          </motion.div>
+          </div>
 
           {/* ── Tab Navigation ──────────────────────────────────────── */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: EASE, delay: 0.2 }}
-            className="mb-8 grid grid-cols-3 gap-3"
-          >
+          <div className="mb-8 grid grid-cols-3 gap-3 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
             {HAKI_TYPES.map((haki, idx) => {
               const TabIcon = haki.icon
               const isActive = activeTab === idx
@@ -451,7 +381,6 @@ export default function HakiPage() {
                     </p>
                   </div>
 
-                  {/* Bottom accent line */}
                   <div
                     className="absolute inset-x-0 bottom-0 h-0.5 transition-opacity duration-500"
                     style={{
@@ -462,16 +391,16 @@ export default function HakiPage() {
                 </button>
               )
             })}
-          </motion.div>
+          </div>
 
           {/* ── Active Haki Content ─────────────────────────────────── */}
           <AnimatePresence mode="wait">
             <motion.div
               key={activeHaki.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.4, ease: EASE }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.3, ease: EASE }}
               className="relative mb-16"
             >
               {/* Background glow */}
@@ -529,22 +458,14 @@ export default function HakiPage() {
                   <Star className={`h-4 w-4 ${activeHaki.color}`} />
                   İleri Seviye Formlar
                 </h3>
-                <motion.div
-                  className="grid gap-4 sm:grid-cols-3"
-                  variants={staggerContainer(0.1)}
-                  initial="hidden"
-                  animate="visible"
-                  key={`forms-${activeHaki.id}`}
-                >
+                <div className="grid gap-4 sm:grid-cols-3">
                   {activeHaki.advancedForms.map((form) => {
                     const FormIcon = form.icon
                     return (
-                      <motion.div
+                      <div
                         key={form.name}
-                        variants={scaleIn}
                         className="bento-card group relative overflow-hidden p-5"
                       >
-                        {/* Colored top border */}
                         <div
                           className="absolute inset-x-0 top-0 h-0.5"
                           style={{ background: `linear-gradient(90deg, ${activeHaki.colorHex}, transparent)` }}
@@ -559,10 +480,10 @@ export default function HakiPage() {
                           <h4 className={`text-sm font-bold ${activeHaki.color}`}>{form.name}</h4>
                         </div>
                         <p className="text-xs leading-relaxed text-pirate-muted">{form.description}</p>
-                      </motion.div>
+                      </div>
                     )
                   })}
-                </motion.div>
+                </div>
               </div>
 
               {/* Known Users */}
@@ -571,30 +492,17 @@ export default function HakiPage() {
                   <Users className={`h-5 w-5 ${activeHaki.color}`} />
                   Bilinen Kullanıcılar
                 </h3>
-                <motion.div
-                  className="grid gap-3 sm:grid-cols-2"
-                  variants={staggerContainer(0.04)}
-                  initial="hidden"
-                  animate="visible"
-                  key={`users-${activeHaki.id}`}
-                >
+                <div className="grid gap-3 sm:grid-cols-2">
                   {activeHaki.users.map((user) => (
                     <UserCard key={user.name} user={user} colorHex={activeHaki.colorHex} />
                   ))}
-                </motion.div>
+                </div>
               </div>
             </motion.div>
           </AnimatePresence>
 
           {/* ── Haki Ustaları ───────────────────────────────────────── */}
-          <motion.section
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: EASE }}
-            className="mb-16"
-          >
-            {/* Section divider */}
+          <section className="mb-16">
             <div className="relative mb-10 flex items-center justify-center">
               <div className="h-px w-full bg-gradient-to-r from-transparent via-gold/25 to-transparent" />
               <div className="absolute flex h-10 w-10 items-center justify-center rounded-full border border-gold/30 bg-ocean-deep">
@@ -609,93 +517,70 @@ export default function HakiPage() {
               Birden fazla Haki türüne hükmeden efsanevi savaşçılar. Üç türde de usta olanlar tarihin en güçlüleridir.
             </p>
 
-            <motion.div
-              className="grid gap-4 sm:grid-cols-2"
-              variants={staggerContainer(0.06)}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
+            <div className="grid gap-4 sm:grid-cols-2">
               {HAKI_MASTERS.map((master) => {
                 const img = master.slug ? getCharacterImage(master.slug) : ''
                 const isTriple = master.types.length === 3
 
                 return (
-                  <motion.div key={master.name} variants={fadeUp}>
-                    <Link
-                      href={master.slug ? `/characters/${master.slug}` : '#'}
-                      className={`group flex items-center gap-4 rounded-2xl border p-4 transition-all duration-300 ${
-                        isTriple
-                          ? 'border-gold/25 bg-gradient-to-r from-gold/[0.04] to-transparent hover:border-gold/40 hover:shadow-[0_0_30px_rgba(244,163,0,0.08)]'
-                          : 'border-pirate-border/30 bg-ocean-surface/40 hover:border-pirate-border/60 hover:bg-ocean-surface/60'
-                      }`}
-                    >
-                      {/* Character portrait */}
-                      {img ? (
-                        <div className={`relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-xl border ${
-                          isTriple ? 'border-gold/30' : 'border-pirate-border/40'
-                        } bg-ocean-deep`}>
-                          <Image src={img} alt={master.name} fill className="object-cover object-top" sizes="56px" />
-                        </div>
-                      ) : (
-                        <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl border border-pirate-border/40 bg-ocean-surface">
-                          <Crown className="h-6 w-6 text-gold/40" />
-                        </div>
-                      )}
-
-                      {/* Info */}
-                      <div className="min-w-0 flex-1">
-                        <p className="text-sm font-bold text-pirate-text transition-colors group-hover:text-white">
-                          {master.name}
-                        </p>
-                        <p className={`text-[11px] ${isTriple ? 'text-gold/70' : 'text-pirate-muted/70'}`}>
-                          {master.title}
-                        </p>
-                        {/* Haki type dots */}
-                        <div className="mt-2 flex items-center gap-2">
-                          {master.types.map((t) => {
-                            const hakiInfo = HAKI_COLOR_MAP[t.id]
-                            return (
-                              <div key={t.id} className="flex items-center gap-1">
-                                <div
-                                  className="h-2 w-2 rounded-full"
-                                  style={{ background: hakiInfo.hex }}
-                                />
-                                <span className="text-[9px] font-semibold text-pirate-muted">
-                                  {hakiInfo.label}
-                                </span>
-                              </div>
-                            )
-                          })}
-                        </div>
+                  <Link
+                    key={master.name}
+                    href={master.slug ? `/characters/${master.slug}` : '#'}
+                    className={`group flex items-center gap-4 rounded-2xl border p-4 transition-all duration-300 ${
+                      isTriple
+                        ? 'border-gold/25 bg-gradient-to-r from-gold/[0.04] to-transparent hover:border-gold/40 hover:shadow-[0_0_30px_rgba(244,163,0,0.08)]'
+                        : 'border-pirate-border/30 bg-ocean-surface/40 hover:border-pirate-border/60 hover:bg-ocean-surface/60'
+                    }`}
+                  >
+                    {img ? (
+                      <div className={`relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-xl border ${
+                        isTriple ? 'border-gold/30' : 'border-pirate-border/40'
+                      } bg-ocean-deep`}>
+                        <Image src={img} alt={master.name} fill className="object-cover object-top" sizes="56px" />
                       </div>
-
-                      {/* Badge */}
-                      <div className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg ${
-                        isTriple ? 'bg-gold/15' : 'bg-ocean-surface'
-                      }`}>
-                        <span className={`text-xs font-extrabold ${isTriple ? 'text-gold' : 'text-pirate-muted'}`}>
-                          {master.types.length}
-                        </span>
+                    ) : (
+                      <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl border border-pirate-border/40 bg-ocean-surface">
+                        <Crown className="h-6 w-6 text-gold/40" />
                       </div>
+                    )}
 
-                      <ChevronRight className="h-4 w-4 flex-shrink-0 text-pirate-muted/40 transition-transform group-hover:translate-x-0.5 group-hover:text-pirate-muted" />
-                    </Link>
-                  </motion.div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-bold text-pirate-text transition-colors group-hover:text-white">
+                        {master.name}
+                      </p>
+                      <p className={`text-[11px] ${isTriple ? 'text-gold/70' : 'text-pirate-muted/70'}`}>
+                        {master.title}
+                      </p>
+                      <div className="mt-2 flex items-center gap-2">
+                        {master.types.map((t) => {
+                          const hakiInfo = HAKI_COLOR_MAP[t.id]
+                          return (
+                            <div key={t.id} className="flex items-center gap-1">
+                              <div className="h-2 w-2 rounded-full" style={{ background: hakiInfo.hex }} />
+                              <span className="text-[9px] font-semibold text-pirate-muted">{hakiInfo.label}</span>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+
+                    <div className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg ${
+                      isTriple ? 'bg-gold/15' : 'bg-ocean-surface'
+                    }`}>
+                      <span className={`text-xs font-extrabold ${isTriple ? 'text-gold' : 'text-pirate-muted'}`}>
+                        {master.types.length}
+                      </span>
+                    </div>
+
+                    <ChevronRight className="h-4 w-4 flex-shrink-0 text-pirate-muted/40 transition-transform group-hover:translate-x-0.5 group-hover:text-pirate-muted" />
+                  </Link>
                 )
               })}
-            </motion.div>
-          </motion.section>
+            </div>
+          </section>
 
           {/* ── Fun Facts ───────────────────────────────────────────── */}
-          <motion.section
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: EASE }}
-            className="mb-8"
-          >
-            {/* Section divider */}
+          <section className="mb-8">
             <div className="relative mb-10 flex items-center justify-center">
               <div className="h-px w-full bg-gradient-to-r from-transparent via-sea/25 to-transparent" />
               <div className="absolute flex h-10 w-10 items-center justify-center rounded-full border border-sea/30 bg-ocean-deep">
@@ -710,43 +595,29 @@ export default function HakiPage() {
               One Piece tarihinde Haki ile yazılmış unutulmaz anlar.
             </p>
 
-            <motion.div
-              className="grid gap-4 sm:grid-cols-2"
-              variants={staggerContainer(0.06)}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
+            <div className="grid gap-4 sm:grid-cols-2">
               {FUN_FACTS.map((fact, i) => {
                 const hakiInfo = HAKI_COLOR_MAP[fact.hakiType] ?? { hex: '#f4a300', label: 'Haki' }
                 const colorHex = fact.hakiType === 'all' ? '#f4a300' : hakiInfo.hex
                 const img = fact.slug ? getCharacterImage(fact.slug) : ''
 
                 return (
-                  <motion.div
+                  <div
                     key={i}
-                    variants={fadeUp}
                     className="group relative overflow-hidden rounded-2xl border border-pirate-border/30 bg-ocean-surface/40 transition-all duration-500 hover:border-pirate-border/50 hover:bg-ocean-surface/60"
                   >
-                    {/* Haki type accent top */}
                     <div
                       className="h-0.5 w-full"
                       style={{ background: `linear-gradient(90deg, ${colorHex}, transparent)` }}
                     />
 
                     <div className="flex items-center gap-4 p-5">
-                      {/* Character portrait */}
                       {img ? (
                         <div
                           className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-xl border bg-ocean-deep"
                           style={{ borderColor: `${colorHex}30` }}
                         >
                           <Image src={img} alt={fact.character} fill className="object-cover object-top" sizes="64px" />
-                          {/* Haki type glow */}
-                          <div
-                            className="absolute inset-0 rounded-xl opacity-0 transition-opacity group-hover:opacity-100"
-                            style={{ boxShadow: `inset 0 0 20px ${colorHex}20` }}
-                          />
                         </div>
                       ) : (
                         <div
@@ -757,7 +628,6 @@ export default function HakiPage() {
                         </div>
                       )}
 
-                      {/* Content */}
                       <div className="min-w-0 flex-1">
                         <div className="mb-1.5 flex items-center gap-2">
                           <span className="text-sm font-bold text-pirate-text">{fact.character}</span>
@@ -778,11 +648,11 @@ export default function HakiPage() {
                         </p>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 )
               })}
-            </motion.div>
-          </motion.section>
+            </div>
+          </section>
         </div>
 
         <div className="mt-16" />

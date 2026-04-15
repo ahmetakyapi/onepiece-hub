@@ -23,7 +23,7 @@ import PageHero from '@/components/wiki/PageHero'
 import EmptyState from '@/components/ui/EmptyState'
 import { BATTLES, BATTLE_CATEGORIES } from '@/lib/constants/battles'
 import { getCharacterImage } from '@/lib/constants/images'
-import { fadeUp, staggerContainer, EASE, scaleIn } from '@/lib/variants'
+import { EASE } from '@/lib/variants'
 
 /* ─── Constants ──────────────────────────────────────────────── */
 
@@ -101,6 +101,18 @@ const FEATURED_BATTLE = BATTLES.reduce((best, b) =>
   b.powerLevel + b.emotionalWeight > best.powerLevel + best.emotionalWeight ? b : best
 , BATTLES[0])
 
+/* ─── Static progress bar ──────────────────────────────────────── */
+function StaticBar({ percent, gradient }: { percent: number; gradient: string }) {
+  return (
+    <div className="h-2 w-full overflow-hidden rounded-full bg-ocean-surface">
+      <div
+        className={`h-full rounded-full bg-gradient-to-r ${gradient} animate-grow-bar`}
+        style={{ width: `${percent}%` }}
+      />
+    </div>
+  )
+}
+
 /* ─── Page Component ─────────────────────────────────────────── */
 
 export default function BattlesPage() {
@@ -122,12 +134,10 @@ export default function BattlesPage() {
   const filtered = useMemo(() => {
     let result = [...BATTLES]
 
-    // Category filter
     if (activeCategory) {
       result = result.filter((b) => b.category === activeCategory)
     }
 
-    // Search
     if (search) {
       const q = search.toLowerCase()
       result = result.filter(
@@ -139,7 +149,6 @@ export default function BattlesPage() {
       )
     }
 
-    // Sort
     if (sortBy === 'power') {
       result.sort((a, b) => b.powerLevel - a.powerLevel)
     } else if (sortBy === 'emotion') {
@@ -194,13 +203,7 @@ export default function BattlesPage() {
           </PageHero>
 
           {/* ── Featured Battle Spotlight ────────────────────────── */}
-          <motion.section
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: EASE }}
-            className="mb-12"
-          >
+          <section className="mb-12 animate-fade-in-up">
             <div className="mb-6 flex items-center gap-2">
               <Trophy className="h-5 w-5 text-gold" />
               <h2 className="text-lg font-extrabold text-pirate-text">Destansı Düello</h2>
@@ -266,13 +269,7 @@ export default function BattlesPage() {
                             <span className="ml-auto text-sm font-bold text-gold">{battle.powerLevel}/5</span>
                           </div>
                           <div className="h-2.5 w-full overflow-hidden rounded-full bg-ocean-surface">
-                            <motion.div
-                              className="h-full rounded-full bg-gradient-to-r from-gold/80 to-gold-bright"
-                              initial={{ width: 0 }}
-                              whileInView={{ width: `${(battle.powerLevel / 5) * 100}%` }}
-                              viewport={{ once: true }}
-                              transition={{ duration: 1, ease: EASE, delay: 0.3 }}
-                            />
+                            <StaticBar percent={(battle.powerLevel / 5) * 100} gradient="from-gold/80 to-gold-bright" />
                           </div>
                         </div>
                         <div className="min-w-[100px]">
@@ -282,13 +279,7 @@ export default function BattlesPage() {
                             <span className="ml-auto text-sm font-bold text-luffy">{battle.emotionalWeight}/5</span>
                           </div>
                           <div className="h-2.5 w-full overflow-hidden rounded-full bg-ocean-surface">
-                            <motion.div
-                              className="h-full rounded-full bg-gradient-to-r from-luffy/80 to-red-400"
-                              initial={{ width: 0 }}
-                              whileInView={{ width: `${(battle.emotionalWeight / 5) * 100}%` }}
-                              viewport={{ once: true }}
-                              transition={{ duration: 1, ease: EASE, delay: 0.4 }}
-                            />
+                            <StaticBar percent={(battle.emotionalWeight / 5) * 100} gradient="from-luffy/80 to-red-400" />
                           </div>
                         </div>
                       </div>
@@ -385,15 +376,10 @@ export default function BattlesPage() {
                 </div>
               )
             })()}
-          </motion.section>
+          </section>
 
           {/* ── Filters + Search + Sort ──────────────────────────── */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: EASE, delay: 0.2 }}
-            className="mb-8 space-y-4"
-          >
+          <div className="mb-8 space-y-4 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
             {/* Search + Sort row */}
             <div className="flex flex-wrap items-center gap-3">
               <div className="relative flex-1 sm:max-w-sm">
@@ -428,14 +414,8 @@ export default function BattlesPage() {
             </div>
 
             {/* Category filter */}
-            <motion.div
-              variants={staggerContainer(0.06)}
-              initial="hidden"
-              animate="visible"
-              className="flex flex-wrap gap-2"
-            >
-              <motion.button
-                variants={scaleIn}
+            <div className="flex flex-wrap gap-2">
+              <button
                 onClick={() => setActiveCategory(null)}
                 className={`chip transition-all duration-200 ${
                   !activeCategory
@@ -446,16 +426,15 @@ export default function BattlesPage() {
                 <Sparkles className="h-3.5 w-3.5" />
                 Tümü
                 <span className="ml-1 text-[10px] opacity-60">{BATTLES.length}</span>
-              </motion.button>
+              </button>
 
               {categories.map(([key, { label, color }]) => {
                 const IconComp = CATEGORY_ICONS[key] || Swords
                 const isActive = activeCategory === key
                 const catColors = CATEGORY_COLORS[key]
                 return (
-                  <motion.button
+                  <button
                     key={key}
-                    variants={scaleIn}
                     onClick={() => setActiveCategory(isActive ? null : key)}
                     className={`chip transition-all duration-200 ${
                       isActive
@@ -466,11 +445,11 @@ export default function BattlesPage() {
                     <IconComp className="h-3.5 w-3.5" />
                     {label}
                     <span className="ml-1 text-[10px] opacity-60">{categoryCounts[key] || 0}</span>
-                  </motion.button>
+                  </button>
                 )
               })}
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
           {/* Results count */}
           <div className="mb-6 flex items-center gap-2">
@@ -483,7 +462,7 @@ export default function BattlesPage() {
 
           {/* ── Battle Cards ─────────────────────────────────────── */}
           <div className="space-y-6">
-            {filtered.map((battle, i) => {
+            {filtered.map((battle) => {
               const catInfo = BATTLE_CATEGORIES[battle.category]
               const catColors = CATEGORY_COLORS[battle.category]
               const momentsOpen = expandedMoments[battle.slug] ?? false
@@ -502,12 +481,8 @@ export default function BattlesPage() {
               }
 
               return (
-                <motion.article
+                <article
                   key={battle.slug}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-60px' }}
-                  transition={{ duration: 0.5, ease: EASE }}
                   className="bento-card group relative overflow-hidden transition-all duration-500 hover:border-pirate-border/30"
                 >
                   {/* Category gradient top border */}
@@ -552,12 +527,9 @@ export default function BattlesPage() {
                             <span className="ml-auto text-[11px] font-bold text-gold">{battle.powerLevel}/5</span>
                           </div>
                           <div className="h-2 w-full overflow-hidden rounded-full bg-ocean-surface">
-                            <motion.div
-                              className="h-full rounded-full bg-gradient-to-r from-gold/80 to-gold-bright"
-                              initial={{ width: 0 }}
-                              whileInView={{ width: `${(battle.powerLevel / 5) * 100}%` }}
-                              viewport={{ once: true }}
-                              transition={{ duration: 0.8, ease: EASE, delay: 0.3 }}
+                            <div
+                              className="h-full rounded-full bg-gradient-to-r from-gold/80 to-gold-bright animate-grow-bar"
+                              style={{ width: `${(battle.powerLevel / 5) * 100}%` }}
                             />
                           </div>
                         </div>
@@ -568,12 +540,9 @@ export default function BattlesPage() {
                             <span className="ml-auto text-[11px] font-bold text-luffy">{battle.emotionalWeight}/5</span>
                           </div>
                           <div className="h-2 w-full overflow-hidden rounded-full bg-ocean-surface">
-                            <motion.div
-                              className="h-full rounded-full bg-gradient-to-r from-luffy/80 to-red-400"
-                              initial={{ width: 0 }}
-                              whileInView={{ width: `${(battle.emotionalWeight / 5) * 100}%` }}
-                              viewport={{ once: true }}
-                              transition={{ duration: 0.8, ease: EASE, delay: 0.4 }}
+                            <div
+                              className="h-full rounded-full bg-gradient-to-r from-luffy/80 to-red-400 animate-grow-bar"
+                              style={{ width: `${(battle.emotionalWeight / 5) * 100}%` }}
                             />
                           </div>
                         </div>
@@ -703,11 +672,8 @@ export default function BattlesPage() {
 
                               <div className="space-y-3">
                                 {battle.keyMoments.map((moment, j) => (
-                                  <motion.div
+                                  <div
                                     key={j}
-                                    initial={{ opacity: 0, x: -12 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ duration: 0.3, ease: EASE, delay: j * 0.06 }}
                                     className="flex gap-3"
                                   >
                                     <div
@@ -725,7 +691,7 @@ export default function BattlesPage() {
                                     <p className="text-sm leading-relaxed text-pirate-muted pt-0.5">
                                       {moment}
                                     </p>
-                                  </motion.div>
+                                  </div>
                                 ))}
                               </div>
                             </div>
@@ -734,7 +700,7 @@ export default function BattlesPage() {
                       </AnimatePresence>
                     </div>
                   </div>
-                </motion.article>
+                </article>
               )
             })}
           </div>

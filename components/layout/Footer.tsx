@@ -1,19 +1,13 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
-import { Anchor, ArrowUpRight, Github } from 'lucide-react'
+import { ArrowUpRight, Github } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FOOTER_SECTIONS } from '@/lib/constants/navigation'
-import { EASE } from '@/lib/variants'
 
 export default function Footer() {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-40px' })
-
   return (
-    <footer ref={ref} className="relative border-t border-pirate-border/20 overflow-hidden">
+    <footer className="relative border-t border-pirate-border/20 overflow-hidden">
       {/* Top gradient line */}
       <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
       <div className="absolute -top-[2px] left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/10 to-transparent blur-sm" />
@@ -25,12 +19,7 @@ export default function Footer() {
       <div className="relative mx-auto max-w-7xl px-6 py-16 sm:py-20">
         <div className="grid gap-12 md:grid-cols-5">
           {/* Logo + tagline — spans 2 cols */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease: EASE }}
-            className="md:col-span-2 flex flex-col items-center md:items-start"
-          >
+          <div className="md:col-span-2 flex flex-col items-center md:items-start animate-fade-in-up">
             <Link href="/" className="group mb-4">
               <Image
                 src="/logo.webp"
@@ -46,15 +35,14 @@ export default function Footer() {
             <p className="text-[11px] text-pirate-muted/40 text-center md:text-left">
               Kapsamlı One Piece wiki & izleme platformu
             </p>
-          </motion.div>
+          </div>
 
           {/* Link sections */}
           {FOOTER_SECTIONS.map((section, sectionIdx) => (
-            <motion.div
+            <div
               key={section.title}
-              initial={{ opacity: 0, y: 16 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, ease: EASE, delay: 0.1 + sectionIdx * 0.08 }}
+              className="animate-fade-in-up"
+              style={{ animationDelay: `${0.1 + sectionIdx * 0.08}s` }}
             >
               <h3 className="mb-4 text-[11px] font-bold uppercase tracking-[0.12em] text-pirate-text/80">
                 {section.title}
@@ -72,7 +60,7 @@ export default function Footer() {
                   </Link>
                 ))}
               </nav>
-            </motion.div>
+            </div>
           ))}
         </div>
 
@@ -85,10 +73,6 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} One Piece Hub &mdash; Fan projesi. One Piece, Eiichiro Oda&apos;ya aittir.
           </p>
           <div className="flex items-center gap-4">
-            <p className="flex items-center gap-1.5 text-[11px] text-pirate-muted/40">
-              <Anchor className="h-3 w-3 text-gold/30" />
-              Macera ruhuyla yapıldı
-            </p>
             <a
               href="https://github.com/ahmetakyapi"
               target="_blank"

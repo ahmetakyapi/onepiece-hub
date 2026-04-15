@@ -20,7 +20,7 @@ import Image from 'next/image'
 import PageHero from '@/components/wiki/PageHero'
 import EmptyState from '@/components/ui/EmptyState'
 import { getCharacterImage } from '@/lib/constants/images'
-import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
+import { EASE } from '@/lib/variants'
 import { parseBounty, formatBounty } from '@/lib/utils'
 import { BOUNTIES, CREW_FILTERS } from '@/lib/constants/bounties'
 import type { BountyEntry } from '@/types'
@@ -194,12 +194,7 @@ export default function BountiesPage() {
           </PageHero>
 
           {/* Search + Crew Filters */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: EASE, delay: 0.2 }}
-            className="mb-10 space-y-4"
-          >
+          <div className="mb-10 space-y-4 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
             <div className="relative max-w-md">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-pirate-muted" />
               <input
@@ -226,16 +221,11 @@ export default function BountiesPage() {
                 </button>
               ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* ═══ WANTED POSTERS — Top 3 ═══ */}
           {!isFiltered && top3.length >= 3 && (
-            <motion.section
-              initial={{ opacity: 0, y: 32 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: EASE, delay: 0.3 }}
-              className="relative mb-16"
-            >
+            <section className="relative mb-16 animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
               {/* Section header */}
               <div className="mb-8 flex items-center gap-3">
                 <Crown className="h-5 w-5 text-gold" />
@@ -253,19 +243,11 @@ export default function BountiesPage() {
                 {[top3[1], top3[0], top3[2]].map((entry, podiumIdx) => {
                   const actualRank = podiumIdx === 0 ? 2 : podiumIdx === 1 ? 1 : 3
                   const isFirst = actualRank === 1
-                  const bountyValue = parseBounty(entry.bounty)
                   const characterImage = entry.slug ? getCharacterImage(entry.slug) : ''
 
                   return (
-                    <motion.div
+                    <div
                       key={entry.name}
-                      initial={{ opacity: 0, y: 50, scale: 0.9 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      transition={{
-                        duration: 0.7,
-                        ease: EASE,
-                        delay: 0.4 + podiumIdx * 0.15,
-                      }}
                       className="flex flex-col items-center"
                     >
                       <MaybeLinkWrapper slug={entry.slug}>
@@ -318,7 +300,6 @@ export default function BountiesPage() {
                             >
                               WANTED
                             </p>
-                            {/* Decorative line */}
                             <div className={`mx-auto mt-1 bg-gradient-to-r from-transparent via-gold/40 to-transparent ${
                               isFirst ? 'h-[2px] w-3/4' : 'h-px w-2/3'
                             }`} />
@@ -343,7 +324,6 @@ export default function BountiesPage() {
                                 <Skull className="h-6 w-6 text-gold/30" />
                               </div>
                             )}
-                            {/* Vignette overlay */}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10" />
                           </div>
 
@@ -382,7 +362,6 @@ export default function BountiesPage() {
                           <div className={`relative z-10 mt-auto w-full text-center ${
                             isFirst ? 'pb-5 sm:pb-8 pt-3 sm:pt-5' : 'pb-3 sm:pb-5 pt-2 sm:pt-3'
                           }`}>
-                            {/* Decorative line above bounty */}
                             <div className={`mx-auto mb-2 sm:mb-3 bg-gradient-to-r from-transparent via-gold/30 to-transparent ${
                               isFirst ? 'h-px w-3/4' : 'h-px w-2/3'
                             }`} />
@@ -433,20 +412,15 @@ export default function BountiesPage() {
                           </span>
                         )}
                       </div>
-                    </motion.div>
+                    </div>
                   )
                 })}
               </div>
-            </motion.section>
+            </section>
           )}
 
           {/* ═══ TIER-BASED LEADERBOARD ═══ */}
-          <motion.section
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, ease: EASE, delay: 0.5 }}
-            className="mb-12"
-          >
+          <section className="mb-12 animate-fade-in" style={{ animationDelay: '0.2s' }}>
             {/* Section header */}
             <div className="mb-6 flex items-center gap-3">
               <Star className="h-4 w-4 text-sea" />
@@ -466,11 +440,8 @@ export default function BountiesPage() {
                 const isExpanded = expandedTiers[tier.id]
 
                 return (
-                  <motion.div
+                  <div
                     key={tier.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, ease: EASE }}
                     className="overflow-hidden rounded-2xl border border-pirate-border/20 bg-ocean-deep/40"
                   >
                     {/* Tier header — clickable */}
@@ -506,22 +477,13 @@ export default function BountiesPage() {
                           className="overflow-hidden"
                         >
                           <div className="divide-y divide-pirate-border/10">
-                            {entries.map(({ entry, globalRank }, i) => {
+                            {entries.map(({ entry, globalRank }) => {
                               const bountyValue = parseBounty(entry.bounty)
                               const barPercent = Math.max((bountyValue / highestBounty) * 100, 2)
                               const characterImage = entry.slug ? getCharacterImage(entry.slug) : ''
 
                               return (
-                                <motion.div
-                                  key={entry.name}
-                                  initial={{ opacity: 0, x: -12 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  transition={{
-                                    duration: 0.4,
-                                    ease: EASE,
-                                    delay: i * 0.03,
-                                  }}
-                                >
+                                <div key={entry.name}>
                                   <MaybeLinkWrapper slug={entry.slug}>
                                     <div className="group relative flex items-center gap-3 px-4 py-3 sm:gap-4 sm:px-5 sm:py-4 transition-all duration-300 hover:bg-gold/[0.03]">
                                       {/* Hover glow line */}
@@ -571,18 +533,12 @@ export default function BountiesPage() {
                                             </span>
                                           )}
                                         </div>
-                                        {/* Bounty bar */}
+                                        {/* Bounty bar — CSS only */}
                                         <div className="mt-1.5 flex items-center gap-2">
                                           <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-ocean-surface/60">
-                                            <motion.div
-                                              initial={{ width: 0 }}
-                                              animate={{ width: `${barPercent}%` }}
-                                              transition={{
-                                                duration: 1,
-                                                ease: EASE,
-                                                delay: 0.6 + i * 0.04,
-                                              }}
-                                              className={`h-full rounded-full bg-gradient-to-r ${tier.barColor}`}
+                                            <div
+                                              className={`h-full rounded-full bg-gradient-to-r ${tier.barColor} transition-[width] duration-700 ease-out`}
+                                              style={{ width: `${barPercent}%` }}
                                             />
                                           </div>
                                           <span className="hidden text-[10px] text-pirate-muted sm:inline">
@@ -608,14 +564,14 @@ export default function BountiesPage() {
                                       </div>
                                     </div>
                                   </MaybeLinkWrapper>
-                                </motion.div>
+                                </div>
                               )
                             })}
                           </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
-                  </motion.div>
+                  </div>
                 )
               })}
             </div>
@@ -635,14 +591,12 @@ export default function BountiesPage() {
                 }
               />
             )}
-          </motion.section>
+          </section>
 
           {/* ═══ CHOPPER FUN FACT ═══ */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.6, ease: EASE }}
-            className="relative mb-8 overflow-hidden rounded-2xl border border-gold/20 bg-gradient-to-br from-gold/[0.06] via-ocean-surface/60 to-ocean-surface/30"
+          <div
+            className="relative mb-8 overflow-hidden rounded-2xl border border-gold/20 bg-gradient-to-br from-gold/[0.06] via-ocean-surface/60 to-ocean-surface/30 animate-fade-in-up"
+            style={{ animationDelay: '0.3s' }}
           >
             {/* Background sparkle */}
             <div className="absolute right-4 top-4 opacity-20">
@@ -674,7 +628,7 @@ export default function BountiesPage() {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
 
         <div className="mt-16" />

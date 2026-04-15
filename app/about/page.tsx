@@ -5,8 +5,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {
   Compass, Film, Users, BrainCircuit,
-  MessageCircle, Shield, Heart, Sparkles,
-  Anchor, Map, Play, Trophy, Swords, Crown, Eye, Github, Code,
+  MessageCircle, Shield, Sparkles,
+  Map, Play, Trophy, Swords, Crown, Eye, Github,
 } from 'lucide-react'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
 import { ARCS } from '@/lib/constants/arcs'
@@ -19,7 +19,7 @@ const FEATURES = [
   {
     icon: Film,
     title: 'Arc Bazlı İzleme',
-    description: 'One Pace düzeniyle filler bölümler çıkarılmış, saf hikâye deneyimi. 32 arc, 341 bölüm — derli toplu.',
+    description: 'One Pace düzeniyle filler bölümler çıkarılmış, saf hikâye deneyimi. 36 arc, 463 bölüm — derli toplu.',
     color: 'text-sea',
     bg: 'bg-sea/10',
     borderColor: 'border-sea/20',
@@ -85,7 +85,7 @@ const STEPS = [
   {
     step: '01',
     title: 'Arc Seç',
-    desc: 'East Blue\'dan Egghead\'e kadar 32 arc arasından birini seç. Her arcın detaylı özeti ve bölüm listesi seni bekliyor.',
+    desc: 'East Blue\'dan Egghead\'e kadar 36 arc arasından birini seç. Her arcın detaylı özeti ve bölüm listesi seni bekliyor.',
     icon: Map,
     color: 'text-gold',
     hex: '#f4a300',
@@ -403,70 +403,40 @@ export default function AboutPage() {
         {/* ─── Geliştirici ──────────────────────────────────────── */}
         <section className="relative py-16">
           <div className="mx-auto max-w-3xl px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: EASE }}
-              className="bento-card overflow-hidden rounded-2xl p-6 text-center sm:p-8"
-            >
-              <div className="mb-4 flex justify-center">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-pirate-border/20 bg-ocean-surface/50">
-                  <Code className="h-6 w-6 text-gold" />
-                </div>
-              </div>
-              <h3 className="mb-2 text-lg font-bold text-pirate-text">Geliştirici</h3>
-              <p className="mb-4 text-sm text-pirate-muted">
-                Bu proje <span className="font-semibold text-pirate-text">Ahmet Akyapı</span> tarafından One Piece sevgisiyle geliştirilmiştir.
-              </p>
+            <div className="flex items-center justify-center gap-3">
+              <span className="text-sm text-pirate-muted">Geliştirici</span>
               <a
                 href="https://github.com/ahmetakyapi"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-ghost inline-flex items-center gap-2"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-pirate-text transition-colors hover:text-gold"
               >
                 <Github className="h-4 w-4" />
-                github.com/ahmetakyapi
+                ahmetakyapi
               </a>
-            </motion.div>
+            </div>
           </div>
         </section>
 
         {/* ─── Footer CTA ───────────────────────────────────────── */}
         <section className="relative py-24">
-          <div className="mx-auto max-w-3xl px-6 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: EASE }}
-            >
-              <motion.div
-                animate={{ scale: [1, 1.1, 1] }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-luffy/20 bg-luffy/[0.06]"
-              >
-                <Heart className="h-8 w-8 text-luffy" />
-              </motion.div>
-
-              <h2 className="mb-4 text-2xl font-extrabold text-pirate-text sm:text-3xl">
-                <span className="text-gold-gradient">Macera</span> seni bekliyor
-              </h2>
-              <p className="mx-auto mb-8 max-w-lg text-base leading-relaxed text-pirate-muted">
-                One Piece hayranlarının hayranları tarafından, sevgiyle yapıldı.
-                Grand Line&apos;da görüşmek üzere!
-              </p>
-              <div className="flex flex-wrap items-center justify-center gap-4">
-                <Link href="/arcs" className="btn-gold">
-                  <Anchor className="h-4 w-4" />
-                  Maceraya Başla
-                </Link>
-                <Link href="/bounties" className="btn-ghost">
-                  <Eye className="h-4 w-4" />
-                  Ödül Sıralaması
-                </Link>
-              </div>
-            </motion.div>
+          <div className="mx-auto max-w-3xl px-6 text-center animate-fade-in-up">
+            <h2 className="mb-4 text-2xl font-extrabold text-pirate-text sm:text-3xl">
+              Keşfetmeye Devam Et
+            </h2>
+            <p className="mx-auto mb-8 max-w-lg text-base leading-relaxed text-pirate-muted">
+              Arc&apos;ları izle, karakterleri keşfet, quizlere katıl.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <Link href="/arcs" className="btn-gold">
+                <Play className="h-4 w-4" />
+                İzlemeye Başla
+              </Link>
+              <Link href="/bounties" className="btn-ghost">
+                <Eye className="h-4 w-4" />
+                Ödül Sıralaması
+              </Link>
+            </div>
           </div>
         </section>
 
