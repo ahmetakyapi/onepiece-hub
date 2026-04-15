@@ -29,6 +29,11 @@ export async function POST(req: NextRequest) {
       return ok({ synced: 0 })
     }
 
+    // Aşırı büyük istekleri engelle
+    if (episodes.length > 500) {
+      return err('En fazla 500 bölüm senkronize edilebilir', 400)
+    }
+
     // Mevcut DB kayıtlarını al
     const existing = await db
       .select({ episodeSlug: watchProgress.episodeSlug })

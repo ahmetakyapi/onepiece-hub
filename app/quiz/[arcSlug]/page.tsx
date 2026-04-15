@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -25,6 +25,22 @@ export default function QuizPage() {
   const [selected, setSelected] = useState<number | null>(null)
   const [showResult, setShowResult] = useState(false)
   const [finished, setFinished] = useState(false)
+  const scoreSaved = useRef(false)
+
+  // Quiz bittiğinde skoru DB'ye kaydet
+  useEffect(() => {
+    if (!finished || scoreSaved.current || !quiz) return
+    scoreSaved.current = true
+    fetch('/api/quiz-scores', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        arcSlug,
+        score,
+        totalQ: quiz.questions.length,
+      }),
+    }).catch(() => {}) // Sessizce başarısız ol — login olmayan kullanıcılar için
+  }, [finished, arcSlug, score, quiz])
 
   if (!quiz || !arc) {
     return (

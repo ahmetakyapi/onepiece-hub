@@ -76,7 +76,34 @@ export default function ProfilePage() {
       })
   }, [user])
 
-  if (loading) return null
+  if (loading) {
+    return (
+      <main className="relative min-h-screen pb-16">
+        <div className="pt-24 pb-8">
+          <div className="mx-auto max-w-4xl px-4 sm:px-6">
+            <div className="flex items-center gap-5">
+              <div className="h-20 w-20 animate-pulse rounded-2xl bg-ocean-surface" />
+              <div className="flex-1 space-y-2">
+                <div className="h-7 w-40 animate-pulse rounded-lg bg-ocean-surface" />
+                <div className="h-4 w-24 animate-pulse rounded-lg bg-ocean-surface" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mx-auto max-w-4xl px-4 sm:px-6">
+          <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="bento-card rounded-xl p-5 text-center">
+                <div className="mx-auto mb-3 h-10 w-10 animate-pulse rounded-xl bg-ocean-surface" />
+                <div className="mx-auto h-7 w-12 animate-pulse rounded-lg bg-ocean-surface" />
+                <div className="mx-auto mt-2 h-3 w-20 animate-pulse rounded bg-ocean-surface" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </main>
+    )
+  }
 
   if (!user) {
     return (

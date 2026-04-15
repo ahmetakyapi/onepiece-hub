@@ -3,6 +3,7 @@ import { ARCS } from '@/lib/constants/arcs'
 import { CHARACTERS } from '@/lib/constants/characters'
 import { DEVIL_FRUITS } from '@/lib/constants/devil-fruits'
 import { CREWS } from '@/lib/constants/crews'
+import { QUIZZES } from '@/lib/constants/quizzes'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://onepiece-hub.vercel.app'
@@ -68,6 +69,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }))
 
+  const quizEntries: MetadataRoute.Sitemap = QUIZZES.map((quiz) => ({
+    url: `${baseUrl}/quiz/${quiz.arcSlug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.5,
+  }))
+
   return [
     ...staticEntries,
     ...arcEntries,
@@ -75,5 +83,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...characterEntries,
     ...devilFruitEntries,
     ...crewEntries,
+    ...quizEntries,
   ]
 }

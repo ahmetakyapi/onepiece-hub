@@ -3,13 +3,14 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { MessageCircle, Send, User, Loader2 } from 'lucide-react'
+import { MessageCircle, Send, User, Loader2, Trash2 } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { fadeUp } from '@/lib/variants'
 import { getTimeAgo } from '@/lib/utils'
 
 type Comment = {
   id: string
+  userId: string
   username: string
   content: string
   createdAt: string
@@ -59,8 +60,11 @@ export default function CommentSection({ targetType, targetSlug }: Props) {
         return
       }
 
+      // Optimistic: yeni yorumu hemen göster
+      if (data.data?.comment) {
+        setComments((prev) => [data.data.comment, ...prev])
+      }
       setContent('')
-      fetchComments()
     } catch {
       setError('Bağlantı hatası')
     } finally {
@@ -68,8 +72,24 @@ export default function CommentSection({ targetType, targetSlug }: Props) {
     }
   }
 
+  const handleDelete = async (commentId: string) => {
+    // Optimistic: hemen kaldır
+    const removed = comments.find((c) => c.id === commentId)
+    setComments((prev) => prev.filter((c) => c.id !== commentId))
+
+    try {
+      const res = await fetch(`/api/comments?id=${commentId}`, { method: 'DELETE' })
+      if (!res.ok && removed) {
+        // Hata — geri ekle
+        setComments((prev) => [removed, ...prev])
+      }
+    } catch {
+      if (removed) setComments((prev) => [removed, ...prev])
+    }
+  }
+
   return (
-    <section className="mb-16">
+    <section className="mb-16" aria-label="Yorumlar">
       <h2 className="mb-5 flex items-center gap-2 text-lg font-bold text-pirate-text">
         <MessageCircle className="h-5 w-5 text-gold" />
         Yorumlar
@@ -92,6 +112,7 @@ export default function CommentSection({ targetType, targetSlug }: Props) {
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="Düşüncelerini paylaş..."
+                aria-label="Yorum yaz"
                 maxLength={500}
                 rows={3}
                 className="w-full resize-none rounded-xl border border-pirate-border/20 bg-ocean-surface/50 px-4 py-3 text-sm text-pirate-text placeholder-pirate-muted/40 outline-none transition-all focus:border-gold/30 focus:ring-2 focus:ring-gold/10"
@@ -100,7 +121,7 @@ export default function CommentSection({ targetType, targetSlug }: Props) {
                 }}
               />
               <div className="mt-2 flex items-center justify-between">
-                <span className="text-[11px] text-pirate-muted/40">
+                <span className="text-[11px] text-pirate-muted/40" aria-live="polite">
                   {content.length}/500
                 </span>
                 <button
@@ -117,7 +138,7 @@ export default function CommentSection({ targetType, targetSlug }: Props) {
                 </button>
               </div>
               {error && (
-                <p className="mt-2 text-xs text-luffy">{error}</p>
+                <p className="mt-2 text-xs text-luffy" role="alert">{error}</p>
               )}
             </div>
           </div>
@@ -136,8 +157,9 @@ export default function CommentSection({ targetType, targetSlug }: Props) {
 
       {/* Comment list */}
       {loading ? (
-        <div className="flex justify-center py-8">
+        <div className="flex justify-center py-8" role="status">
           <Loader2 className="h-5 w-5 animate-spin text-pirate-muted/30" />
+          <span className="sr-only">Yorumlar yükleniyor</span>
         </div>
       ) : comments.length === 0 ? (
         <div className="py-8 text-center">
@@ -152,6 +174,7 @@ export default function CommentSection({ targetType, targetSlug }: Props) {
                 variants={fadeUp}
                 initial="hidden"
                 animate="visible"
+                exit={{ opacity: 0, height: 0 }}
                 className="bento-card px-4 py-3"
               >
                 <div className="flex items-center gap-2 mb-2">
@@ -164,6 +187,16 @@ export default function CommentSection({ targetType, targetSlug }: Props) {
                   <span className="text-[10px] text-pirate-muted/40">
                     {getTimeAgo(comment.createdAt)}
                   </span>
+                  <div className="flex-1" />
+                  {user && user.id === comment.userId && (
+                    <button
+                      onClick={() => handleDelete(comment.id)}
+                      className="flex h-6 w-6 items-center justify-center rounded-lg text-pirate-muted/30 transition-colors hover:bg-luffy/10 hover:text-luffy"
+                      aria-label="Yorumu sil"
+                    >
+                      <Trash2 className="h-3 w-3" />
+                    </button>
+                  )}
                 </div>
                 <p className="text-sm text-pirate-muted/80 pl-9">
                   {comment.content}

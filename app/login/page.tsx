@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { User, Lock, ArrowRight, Loader2, Compass, Anchor } from 'lucide-react'
 import Image from 'next/image'
@@ -16,8 +16,17 @@ export default function LoginPage() {
   const [name, setName] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const { login, register } = useAuth()
+  const { user, loading: authLoading, login, register } = useAuth()
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const from = searchParams.get('from') || '/'
+
+  // Zaten giriş yapmışsa yönlendir
+  useEffect(() => {
+    if (!authLoading && user) {
+      router.replace(from)
+    }
+  }, [authLoading, user, router, from])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -33,9 +42,12 @@ export default function LoginPage() {
     if (result.error) {
       setError(result.error)
     } else {
-      router.push('/')
+      router.push(from)
     }
   }
+
+  if (authLoading) return null
+  if (user) return null
 
   return (
       <main className="relative flex min-h-screen items-center justify-center px-4 sm:px-6">

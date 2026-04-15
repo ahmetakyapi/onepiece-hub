@@ -5,7 +5,6 @@ import { motion } from 'framer-motion'
 import { Search, Cherry, Filter, Skull, Sparkles, Zap, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useRef } from 'react'
 import PageHero from '@/components/wiki/PageHero'
 import { DEVIL_FRUITS, DEVIL_FRUIT_TYPE_INFO } from '@/lib/constants/devil-fruits'
 import { getCharacterImage } from '@/lib/constants/images'
@@ -26,7 +25,6 @@ const HERO_ORBS = [
 export default function DevilFruitsPage() {
   const [search, setSearch] = useState('')
   const [activeType, setActiveType] = useState<string | null>(null)
-  const gridRef = useRef<HTMLDivElement>(null)
 
   const filtered = useMemo(() => {
     return DEVIL_FRUITS.filter((df) => {
@@ -57,8 +55,6 @@ export default function DevilFruitsPage() {
     }
     return groups
   }, [filtered])
-
-  const isSearching = search !== '' || activeType !== null
 
   return (
       <main className="relative min-h-screen pt-24">
@@ -189,7 +185,7 @@ export default function DevilFruitsPage() {
           )}
 
           {/* Fruit Cards — grouped by type */}
-          <div ref={gridRef}>
+          <div>
             {TYPE_ORDER.filter((type) => groupedByType[type]?.length).map((type) => {
               const typeInfo = DEVIL_FRUIT_TYPE_INFO[type]
               const fruits = groupedByType[type]

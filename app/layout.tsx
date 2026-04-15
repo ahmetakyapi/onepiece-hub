@@ -71,6 +71,12 @@ export default function RootLayout({
       <head />
       <body className={`${manrope.className} bg-ocean-deep`} suppressHydrationWarning>
         <AuthProvider>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-lg focus:bg-gold focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-ocean-deep"
+          >
+            İçeriğe atla
+          </a>
           <ScrollProgress />
           <Header />
           {children}

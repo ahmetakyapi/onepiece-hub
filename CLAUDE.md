@@ -26,12 +26,17 @@ One Piece hayranları için kapsamlı Türkçe platform. Arc bazlı filler'sız 
 ## Dosya Yapısı Haritası
 
 ```
+middleware.ts             # Rate limiting (auth, 10/dk) + route koruması (/profile)
 app/
-  layout.tsx              # Root layout — Manrope + IBM Plex Mono fontlar, AuthProvider, ScrollProgress
+  layout.tsx              # Root layout — Manrope + IBM Plex Mono, AuthProvider, Header, Footer, ScrollProgress, skip-to-content
   page.tsx                # Ana sayfa — hero, stats, arc timeline, wiki bento grid
-  globals.css             # Tüm CSS: design tokens, glass, butonlar, animasyonlar
-  login/page.tsx          # Giriş/kayıt sayfası
-  profile/page.tsx        # Kullanıcı profili
+  globals.css             # Tüm CSS: design tokens, glass, butonlar, animasyonlar, ocean dekoratif
+  error.tsx               # One Piece temalı hata sınırı
+  loading.tsx             # Pusula animasyonlu yükleme ekranı
+  robots.ts               # SEO robot yapılandırması
+  sitemap.ts              # Dinamik sitemap — arcs, characters, devil-fruits, crews, quizzes
+  login/page.tsx          # Giriş/kayıt sayfası (split-layout, ?from= redirect)
+  profile/page.tsx        # Kullanıcı profili (izleme, quiz, favoriler)
   arcs/
     page.tsx              # Tüm arc'lar listesi (saga bazlı gruplu)
     [slug]/page.tsx       # Tek arc detay sayfası
@@ -59,7 +64,10 @@ app/
     auth/logout/route.ts  # POST: cookie sil
     auth/me/route.ts      # GET: session kontrol (cookie'den JWT verify)
     progress/route.ts     # GET/POST: izleme takibi toggle
-    comments/route.ts     # GET/POST: yorumlar (TODO — henüz DB bağlantısı yok)
+    comments/route.ts     # GET/POST/DELETE: yorumlar (kullanıcı kendi yorumunu silebilir)
+    favorites/route.ts    # GET/POST: favoriler (toggle mantığı)
+    progress/sync/route.ts # POST: localStorage → DB senkronizasyonu
+    quiz-scores/route.ts  # GET/POST: quiz skorları (upsert — daha yüksek skor güncellenir)
     health/route.ts       # Sağlık kontrolü
 
 components/
@@ -93,6 +101,9 @@ components/
     CharacterAvatar.tsx   # Karakter avatar
     Chip.tsx              # Pill chip/badge
     Confetti.tsx          # Konfeti efekti (quiz sonucu)
+    CommentSection.tsx    # Yorum bileşeni — fetch, submit, delete, optimistic update
+    FavoriteButton.tsx    # Favori toggle butonu — aria-pressed, optimistic
+    WaveSeparator.tsx     # Dalga ayırıcı bileşen — subtle/bold/gold varyantları
   CustomCursor.tsx        # KULLANMA — feedback'e göre eklenmemeli
   PageTransition.tsx      # Sayfa geçiş animasyonu
 
@@ -104,12 +115,12 @@ hooks/
 
 lib/
   db.ts                   # Neon serverless bağlantısı (drizzle + neon-http)
-  schema.ts               # Drizzle şema: users, watchProgress, quizScores
+  schema.ts               # Drizzle şema: users, watchProgress, quizScores, comments, favorites
   auth.ts                 # next-auth v5 config (Google + Discord) — YEDEKTEKİ SİSTEM
-  token.ts                # JWT oluşturma/doğrulama (jose, HS256, 30d)
-  password.ts             # SHA-256 + salt hash/verify
+  token.ts                # JWT oluşturma/doğrulama (jose, HS256, 30d) — AUTH_SECRET zorunlu
+  password.ts             # bcryptjs (12 rounds) + eski SHA-256 geriye uyumluluk
   api.ts                  # API response helpers: ok(), err(), serverErr()
-  utils.ts                # cn(), formatDate(), truncate()
+  utils.ts                # cn(), formatDate(), truncate(), parseBounty(), formatBounty(), getTimeAgo()
   variants.ts             # Framer Motion standart varyantlar (fadeUp, scaleIn, staggerContainer...)
   constants/
     arcs.ts               # Legacy — arcs/index.ts'e yönlendirir
@@ -132,6 +143,8 @@ lib/
     quizzes.ts            # Arc bazlı quiz soruları
     images.ts             # Görsel yol eşlemeleri (ARC_IMAGES, CHARACTER_IMAGES)
     sagas.ts              # 10 saga tanımı (arc slug dizileri)
+    navigation.ts         # Merkezi nav linkleri (MAIN_LINKS, WIKI_LINKS, FOOTER_SECTIONS)
+    crew-styles.ts        # Mürettebat renk/ikon yapılandırması (CREW_COLORS, CREW_ICONS)
 
 types/
   index.ts                # Tüm tipler: Arc, Episode, Character, DevilFruit, Ability, CrewType, QuizQuestion, ArcQuiz, Saga
@@ -259,10 +272,12 @@ Sayfalarda kullanım: `variants={staggerContainer(0.08)}` + `variants={fadeUp}`
 
 ## Veritabanı Şeması
 
-3 tablo:
+5 tablo:
 1. **users**: `id` (uuid), `username` (unique), `password`, `name`, `image`, `createdAt`
 2. **watchProgress**: `id`, `userId` (FK cascade), `arcSlug`, `episodeSlug` (unique per user), `watchedAt`
 3. **quizScores**: `id`, `userId` (FK cascade), `arcSlug`, `score`, `totalQ`, `completedAt` (unique per user+arc)
+4. **comments**: `id`, `userId` (FK cascade), `username`, `targetType`, `targetSlug`, `content`, `createdAt`
+5. **favorites**: `id`, `userId` (FK cascade), `targetType`, `targetSlug`, `createdAt` (unique per user+type+slug)
 
 Scripts: `npm run db:push` (Drizzle Kit push), `db:generate`, `db:migrate`, `db:studio`
 
@@ -305,15 +320,18 @@ NEXT_PUBLIC_APP_NAME  # One Piece Hub
 
 ## Bilinen Eksiklikler / TODO'lar
 
-1. **Yorum sistemi**: `api/comments/route.ts` — DB bağlantısı yok, TODO olarak işaretli. Schema'da `comments` tablosu yok.
-2. **next-auth vs custom JWT**: İki auth sistemi var, temizlenmeli veya birleştirilmeli
+1. ~~**Yorum sistemi**~~: ✅ Tamamlandı — `comments` tablosu, GET/POST/DELETE API, `CommentSection` UI bileşeni
+2. **next-auth vs custom JWT**: İki auth sistemi var. `lib/auth.ts` (next-auth v5) pasif, custom JWT aktif. İleride birleştirilmeli veya next-auth kaldırılmalı
 3. **CustomCursor.tsx**: Dosya mevcut ama KULLANILMAMALI (feedback: generic AI pattern)
 4. **useMagnetic.ts**: Dosya mevcut ama KULLANILMAMALI (feedback: generic AI pattern)
-5. **Middleware**: Middleware.ts dosyası YOK — korumalı route'lar API seviyesinde kontrol ediliyor
-6. **Fallback secret**: `lib/token.ts:3` — `AUTH_SECRET || 'fallback-secret'` kullanılıyor, production'da eksik env var sessizce bypass ediliyor
-7. **Password hashing**: SHA-256 + salt — bcrypt/argon2'ye geçilmeli (GPU kırılmaya açık)
+5. ~~**Middleware**~~: ✅ `middleware.ts` mevcut — rate limiting (auth endpoints) + route koruması (/profile → /login redirect)
+6. ~~**Fallback secret**~~: ✅ Düzeltildi — `AUTH_SECRET` yoksa hata fırlatılıyor
+7. ~~**Password hashing**~~: ✅ bcryptjs'e geçildi (12 rounds), eski SHA-256 ile geriye uyumluluk var
 8. **pixeldrainId**: `Episode` tipinde tanımlı ama hiçbir yerde kullanılmıyor — eski video stratejisinden kalma
-9. **localStorage-DB senkronizasyonu**: Login olan kullanıcı anonim izleme verisini kaybediyor — migration yok
+9. ~~**localStorage-DB senkronizasyonu**~~: ✅ Login sonrası otomatik sync (`/api/progress/sync`)
+10. **In-memory rate limiter**: Serverless cold start'larda sıfırlanıyor — Upstash Redis'e taşınmalı
+11. **Email alanı yok**: Users tablosunda email yok — şifre sıfırlama yapılamıyor
+12. **Legacy SHA-256 migration**: Eski SHA-256 hesaplar login'de bcrypt'e otomatik migrate edilmeli
 
 ---
 
@@ -331,8 +349,8 @@ WatchPage'deki iframe `width: 200%, height: 255%, left: -55%, top: -38%` ile sad
 ### 4. İki Auth Sistemi
 `lib/auth.ts` (next-auth v5) ve `lib/token.ts` + `hooks/useAuth.tsx` (custom JWT) birlikte var. Aktif olan custom JWT sistemi. next-auth config'i ileride entegrasyon için saklanıyor.
 
-### 5. Header/Footer Sayfada, Layout'ta Değil
-`app/layout.tsx` sadece `AuthProvider` + `ScrollProgress` wrapper. Header ve Footer her sayfada ayrı import edilir. Bu yüzden yeni sayfa eklerken `<Header />` ve `<Footer />` eklemeyi unutma.
+### 5. Header/Footer Layout'ta
+`app/layout.tsx` Header, Footer, AuthProvider, ScrollProgress ve skip-to-content linkini içerir. Yeni sayfa eklerken Header/Footer import etmeye gerek yok — layout otomatik sağlar.
 
 ### 6. Dynamic Import Kuralı
 Canvas/ağır bileşenler (ParticleField, WaveBackground, StatsBar, ArcTimeline, ScrollProgress) `dynamic(() => import(...), { ssr: false })` ile yüklenmeli. SSR'da window/document erişimi patlar.

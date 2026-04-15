@@ -69,30 +69,43 @@ export function useWatchedEpisodes() {
   }, [user])
 
   const toggle = useCallback((episodeSlug: string, arcSlug: string) => {
+    const wasWatched = watched.has(episodeSlug)
+
+    // Optimistic update
     setWatched((prev) => {
       const next = new Set(prev)
-      const adding = !next.has(episodeSlug)
-
-      if (adding) {
-        next.add(episodeSlug)
-      } else {
+      if (wasWatched) {
         next.delete(episodeSlug)
+      } else {
+        next.add(episodeSlug)
       }
 
-      if (user) {
-        // Sync to DB
-        fetch('/api/progress', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ arcSlug, episodeSlug }),
-        })
-      } else {
+      if (!user) {
         persistLocal(next)
       }
 
       return next
     })
-  }, [user])
+
+    if (user) {
+      fetch('/api/progress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ arcSlug, episodeSlug }),
+      }).catch(() => {
+        // Hata durumunda geri al
+        setWatched((prev) => {
+          const reverted = new Set(prev)
+          if (wasWatched) {
+            reverted.add(episodeSlug)
+          } else {
+            reverted.delete(episodeSlug)
+          }
+          return reverted
+        })
+      })
+    }
+  }, [user, watched])
 
   // Mark as watched without toggling — for auto-marking when episode is opened
   const markWatched = useCallback((episodeSlug: string, arcSlug: string) => {

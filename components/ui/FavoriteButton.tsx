@@ -70,6 +70,8 @@ export default function FavoriteButton({ targetType, targetSlug, className = '' 
           : 'border-pirate-border/30 bg-ocean-surface/30 text-pirate-muted/50 hover:border-luffy/20 hover:text-luffy/70'
       } ${className}`}
       title={favorited ? 'Favorilerden kaldır' : 'Favorilere ekle'}
+      aria-pressed={favorited}
+      aria-label={favorited ? 'Favorilerden kaldır' : 'Favorilere ekle'}
     >
       <Heart
         className={`h-4 w-4 transition-all duration-300 ${favorited ? 'fill-luffy' : ''}`}

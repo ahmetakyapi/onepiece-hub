@@ -9,6 +9,9 @@ import {
   Anchor, Map, Play, Trophy, Swords, Crown, Eye,
 } from 'lucide-react'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
+import { ARCS } from '@/lib/constants/arcs'
+import { CHARACTERS } from '@/lib/constants/characters'
+import { DEVIL_FRUITS } from '@/lib/constants/devil-fruits'
 
 /* ─── Data ───────────────────────────────────────────────────── */
 
@@ -69,11 +72,13 @@ const FEATURES = [
   },
 ]
 
+const totalEpisodes = ARCS.reduce((sum, arc) => sum + arc.episodes.length, 0)
+
 const STATS = [
-  { value: '32', label: 'Arc', icon: Map, color: 'text-gold' },
-  { value: '341', label: 'Bölüm', icon: Film, color: 'text-sea' },
-  { value: '61', label: 'Karakter', icon: Users, color: 'text-luffy' },
-  { value: '43', label: 'Şeytan Meyvesi', icon: BrainCircuit, color: 'text-emerald-400' },
+  { value: String(ARCS.length), label: 'Arc', icon: Map, color: 'text-gold' },
+  { value: String(totalEpisodes), label: 'Bölüm', icon: Film, color: 'text-sea' },
+  { value: String(CHARACTERS.length), label: 'Karakter', icon: Users, color: 'text-luffy' },
+  { value: String(DEVIL_FRUITS.length), label: 'Şeytan Meyvesi', icon: BrainCircuit, color: 'text-emerald-400' },
 ]
 
 const STEPS = [

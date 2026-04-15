@@ -268,7 +268,7 @@ export default function WorldPage() {
               </div>
               <div>
                 <h2 className="text-xl font-bold text-pirate-text">Dünya Yapısı</h2>
-                <p className="text-xs text-pirate-muted">One Piece evreninin cografyasi</p>
+                <p className="text-xs text-pirate-muted">One Piece evreninin coğrafyası</p>
               </div>
             </div>
 
@@ -278,7 +278,7 @@ export default function WorldPage() {
                 {/* Four seas grid */}
                 <div className="mb-6">
                   <p className="mb-3 text-[11px] font-bold uppercase tracking-widest text-pirate-muted">
-                    Dort Deniz
+                    Dört Deniz
                   </p>
                   <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                     {FOUR_SEAS.map((s) => (
@@ -317,7 +317,7 @@ export default function WorldPage() {
               <div className="p-6 sm:p-8">
                 <p className="text-sm leading-relaxed text-pirate-muted">
                   <span className="font-semibold text-luffy">Red Line</span> ve{' '}
-                  <span className="font-semibold text-gold">Grand Line</span> dunyayi dort denize boler.
+                  <span className="font-semibold text-gold">Grand Line</span> dünyayı dört denize böler.
                   Grand Line&apos;in ilk yarısı <span className="font-semibold text-sea">Paradise</span>,
                   ikinci yarısı <span className="font-semibold text-luffy">New World</span> olarak bilinir.
                   Dört Road Poneglyph&apos;in işaret ettiği koordinatların kesişim noktasında ise efsanevi{' '}
