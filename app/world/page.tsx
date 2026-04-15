@@ -157,7 +157,6 @@ export default function WorldPage() {
             icon={Globe}
             title="Dünya"
             subtitle="Haritası"
-            description="One Piece dünyası dört deniz, Grand Line, New World, Red Line ve Calm Belt'ten oluşur. Her bölge kendine özgü tehlikeleri ve hikayeleri barındırır."
             accentColor="sea"
             orbs={HERO_ORBS}
           >

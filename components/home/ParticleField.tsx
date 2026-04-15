@@ -58,9 +58,9 @@ export default function ParticleField() {
     }
 
     function createParticles() {
-      // Fewer particles on mobile
+      // Fewer particles on mobile — 12 is plenty for ambience
       const isMobile = width < 768
-      const maxCount = isMobile ? 20 : 35
+      const maxCount = isMobile ? 12 : 30
       const count = Math.min(Math.floor(width / 40), maxCount)
       particles.length = 0
       for (let i = 0; i < count; i++) {
@@ -79,9 +79,16 @@ export default function ParticleField() {
       }
     }
 
+    // Skip connections on mobile — O(n²) is too expensive
+    const isMobileDevice = typeof window !== 'undefined' && window.innerWidth < 768
+
+    function scheduleNext() {
+      animId = requestAnimationFrame(draw)
+    }
+
     function draw() {
       if (!isVisible) {
-        animId = requestAnimationFrame(draw)
+        // Actually stop the loop when not visible, restart via observer
         return
       }
 
@@ -89,24 +96,26 @@ export default function ParticleField() {
 
       const len = particles.length
 
-      // Connections — use squared distance to avoid sqrt
-      for (let i = 0; i < len; i++) {
-        const pi = particles[i]
-        for (let j = i + 1; j < len; j++) {
-          const pj = particles[j]
-          const dx = pi.x - pj.x
-          const dy = pi.y - pj.y
-          const distSq = dx * dx + dy * dy
+      // Connections — skip on mobile to save CPU
+      if (!isMobileDevice) {
+        ctx!.lineWidth = 0.5
+        for (let i = 0; i < len; i++) {
+          const pi = particles[i]
+          for (let j = i + 1; j < len; j++) {
+            const pj = particles[j]
+            const dx = pi.x - pj.x
+            const dy = pi.y - pj.y
+            const distSq = dx * dx + dy * dy
 
-          if (distSq < CONNECTION_DIST_SQ) {
-            const dist = Math.sqrt(distSq)
-            const alpha = (1 - dist / CONNECTION_DIST) * 0.06 * Math.min(pi.opacity, pj.opacity)
-            ctx!.beginPath()
-            ctx!.moveTo(pi.x, pi.y)
-            ctx!.lineTo(pj.x, pj.y)
-            ctx!.strokeStyle = `rgba(96,184,255,${alpha})`
-            ctx!.lineWidth = 0.5
-            ctx!.stroke()
+            if (distSq < CONNECTION_DIST_SQ) {
+              // Use inverse square root approximation instead of sqrt
+              const alpha = (1 - distSq / CONNECTION_DIST_SQ) * 0.06 * Math.min(pi.opacity, pj.opacity)
+              ctx!.beginPath()
+              ctx!.moveTo(pi.x, pi.y)
+              ctx!.lineTo(pj.x, pj.y)
+              ctx!.strokeStyle = `rgba(96,184,255,${alpha})`
+              ctx!.stroke()
+            }
           }
         }
       }
@@ -130,8 +139,8 @@ export default function ParticleField() {
         ctx!.fillStyle = `${p.color}${p.opacity})`
         ctx!.fill()
 
-        // Bokeh glow — only for larger particles
-        if (p.hasBokeh) {
+        // Bokeh glow — only on desktop for larger particles
+        if (p.hasBokeh && !isMobileDevice) {
           const gradient = ctx!.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 6)
           gradient.addColorStop(0, `${p.color}${p.opacity * 0.2})`)
           gradient.addColorStop(1, `${p.color}0)`)
@@ -142,12 +151,19 @@ export default function ParticleField() {
         }
       }
 
-      animId = requestAnimationFrame(draw)
+      scheduleNext()
     }
 
-    // IntersectionObserver — pause when off-screen
+    // IntersectionObserver — fully stop/start RAF when off-screen
     const observer = new IntersectionObserver(
-      ([entry]) => { isVisible = entry.isIntersecting },
+      ([entry]) => {
+        const wasVisible = isVisible
+        isVisible = entry.isIntersecting
+        // Restart the loop when becoming visible again
+        if (isVisible && !wasVisible) {
+          draw()
+        }
+      },
       { threshold: 0.1 }
     )
     observer.observe(canvas)

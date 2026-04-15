@@ -204,17 +204,11 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
             </div>
 
             <div className="space-y-2">
-              {arc.episodes.map((ep, i) => {
+              {arc.episodes.map((ep) => {
                 const globalEp = getGlobalEpisodeNumber(arc.slug, ep.number)
                 return (
-                <motion.div
-                  key={ep.slug}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-20px' }}
-                  transition={{ duration: 0.4, ease: EASE, delay: Math.min(i * 0.03, 0.3) }}
-                >
                   <Link
+                    key={ep.slug}
                     href={`/arcs/${arc.slug}/${ep.slug}`}
                     className="bento-card group flex items-center gap-4 px-4 py-3.5"
                   >
@@ -241,7 +235,6 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                       <Play className="h-3.5 w-3.5 text-pirate-muted/30 transition-colors duration-300 group-hover:text-gold" />
                     </div>
                   </Link>
-                </motion.div>
               )})}
             </div>
           </section>

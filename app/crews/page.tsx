@@ -104,7 +104,6 @@ export default function CrewsPage() {
             icon={Anchor}
             title="Mürettebat"
             subtitle="& Organizasyonlar"
-            description="Yonko mürettebatlarından Deniz Kuvvetleri'ne, Devrimci Ordu'dan Dünya Hükümeti'ne kadar One Piece evreninin tüm büyük güçleri."
             accentColor="gold"
             orbs={[
               { color: 'rgba(244,163,0,0.4)', size: 280, x: '5%', y: '10%', delay: 0 },

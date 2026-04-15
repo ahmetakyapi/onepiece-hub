@@ -101,7 +101,6 @@ export default function CharactersPage() {
             icon={Users}
             title="Karakter"
             subtitle="Ansiklopedisi"
-            description="One Piece evreninin efsanevi karakterlerini keşfet. Hasır Şapkalar'dan Yonko'lara, Deniz Kuvvetleri'nden Devrimcilere — her birinin hikayesi, güçleri ve kaderleri."
             accentColor="gold"
             orbs={HERO_ORBS}
           >

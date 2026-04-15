@@ -382,7 +382,6 @@ export default function TimelinePage() {
             icon={Clock}
             title="Zaman"
             subtitle="Çizelgesi"
-            description="One Piece evreninin kronolojik tarihçesi. Void Century'den günümüze, dünyayı şekillendiren olaylar."
             accentColor="gold"
             orbs={[
               { color: 'rgba(244,163,0,0.35)', size: 280, x: '70%', y: '10%', delay: 0 },

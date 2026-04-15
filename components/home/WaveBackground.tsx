@@ -1,17 +1,28 @@
 'use client'
 
+import { memo } from 'react'
+
+// Pre-allocated style objects to avoid re-creation on every render
+const CONTAINER_STYLE = { height: 140 } as const
+const LAYER_STYLES = [
+  { height: 140 },
+  { height: 100 },
+  { height: 60 },
+  { height: 35 },
+] as const
+
 /**
  * Multi-layered wave transition — pure CSS animations.
  * No Framer Motion overhead, GPU-accelerated via will-change: transform.
  */
-export default function WaveBackground() {
+export default memo(function WaveBackground() {
   return (
-    <div className="pointer-events-none absolute inset-x-0 bottom-0 overflow-hidden" style={{ height: 140 }}>
+    <div className="pointer-events-none absolute inset-x-0 bottom-0 overflow-hidden" style={CONTAINER_STYLE}>
       {/* Layer 1 — deep, slowest */}
       <svg
         viewBox="0 0 1440 200"
         className="absolute bottom-0 left-0 w-[200%] animate-ocean-wave-1 will-change-transform"
-        style={{ height: 140 }}
+        style={LAYER_STYLES[0]}
         preserveAspectRatio="none"
       >
         <path
@@ -24,7 +35,7 @@ export default function WaveBackground() {
       <svg
         viewBox="0 0 1440 200"
         className="absolute bottom-0 left-0 w-[200%] animate-ocean-wave-2 will-change-transform"
-        style={{ height: 100 }}
+        style={LAYER_STYLES[1]}
         preserveAspectRatio="none"
       >
         <path
@@ -37,7 +48,7 @@ export default function WaveBackground() {
       <svg
         viewBox="0 0 1440 200"
         className="absolute bottom-0 left-0 w-[200%] animate-ocean-wave-3 will-change-transform"
-        style={{ height: 60 }}
+        style={LAYER_STYLES[2]}
         preserveAspectRatio="none"
       >
         <path
@@ -50,7 +61,7 @@ export default function WaveBackground() {
       <svg
         viewBox="0 0 1440 200"
         className="absolute bottom-0 left-0 w-[200%] animate-ocean-wave-4 will-change-transform"
-        style={{ height: 35 }}
+        style={LAYER_STYLES[3]}
         preserveAspectRatio="none"
       >
         <path
@@ -60,4 +71,4 @@ export default function WaveBackground() {
       </svg>
     </div>
   )
-}
+})

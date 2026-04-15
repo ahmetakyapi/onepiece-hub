@@ -1,7 +1,7 @@
 'use client'
 
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef } from 'react'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
+import { useRef, useEffect, useState } from 'react'
 import type { LucideIcon } from 'lucide-react'
 
 const EASE = [0.16, 1, 0.3, 1] as const
@@ -28,7 +28,7 @@ type PageHeroProps = {
   title: string
   titleGradient?: string
   subtitle: string
-  description: string
+  description?: string
   accentColor: string
   orbs: Orb[]
   children?: React.ReactNode
@@ -47,6 +47,15 @@ export default function PageHero({
   gridOverlay = true,
 }: PageHeroProps) {
   const heroRef = useRef<HTMLDivElement>(null)
+  const prefersReducedMotion = useReducedMotion()
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768)
+  }, [])
+
+  // Only track scroll on desktop — saves scroll event overhead on mobile
+  const shouldParallax = !isMobile && !prefersReducedMotion
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ['start start', 'end start'],
@@ -57,16 +66,16 @@ export default function PageHero({
   return (
     <motion.section
       ref={heroRef}
-      style={{ opacity }}
+      style={shouldParallax ? { opacity } : undefined}
       className="relative mb-12 overflow-hidden rounded-3xl border border-pirate-border/20"
     >
       {/* Background */}
       <motion.div
-        style={{ y: bgY }}
+        style={shouldParallax ? { y: bgY } : undefined}
         className="absolute inset-0 -top-20 -bottom-20"
       >
-        {/* Animated gradient orbs */}
-        {orbs.map((orb, i) => (
+        {/* Animated gradient orbs — fewer on mobile */}
+        {(isMobile ? orbs.slice(0, 2) : orbs).map((orb, i) => (
           <motion.div
             key={i}
             className="orb"
@@ -77,7 +86,7 @@ export default function PageHero({
               top: orb.y,
               background: orb.color,
             }}
-            animate={{
+            animate={prefersReducedMotion ? undefined : {
               scale: [1, 1.3, 1],
               opacity: [0.25, 0.5, 0.25],
             }}
@@ -120,14 +129,16 @@ export default function PageHero({
         </motion.h1>
 
         {/* Description */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: EASE, delay: 0.2 }}
-          className="max-w-2xl text-sm leading-relaxed text-pirate-muted sm:text-base"
-        >
-          {description}
-        </motion.p>
+        {description && (
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.2 }}
+            className="max-w-2xl text-sm leading-relaxed text-pirate-muted sm:text-base"
+          >
+            {description}
+          </motion.p>
+        )}
 
         {/* Extra content */}
         {children && (

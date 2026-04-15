@@ -49,7 +49,7 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
   }, [episode.slug, arc.slug, loaded, markWatched])
 
   return (
-      <main className="relative min-h-screen pt-28 sm:pt-32 pb-16">
+      <main className="relative min-h-screen pt-24 sm:pt-32 pb-16">
         <div className="mx-auto max-w-7xl px-0 sm:px-4 lg:px-6">
           {/* Breadcrumb */}
           <div className="mb-4 flex items-center gap-2 text-sm px-3 sm:px-0">
@@ -92,22 +92,26 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
               </div>
 
               {/* Video player — OnePaceTR iframe zoomed to video area */}
-              <div className="mb-3 overflow-hidden rounded-none border-x-0 border-y border-pirate-border bg-ocean-deep shadow-2xl shadow-black/20 sm:rounded-2xl sm:border">
-                <div className="relative w-full overflow-hidden bg-[#0d1b2a] aspect-[4/3] sm:aspect-[16/11]">
+              <div className="mb-3 overflow-hidden rounded-xl mx-2 border border-pirate-border/60 bg-ocean-deep shadow-2xl shadow-black/30 ring-1 ring-sea/5 sm:mx-0 sm:rounded-2xl sm:border sm:ring-sea/10">
+                <div className="relative w-full overflow-hidden bg-[#0d1b2a] aspect-[16/11] sm:aspect-[16/11]">
                   {!iframeError ? (
-                    <iframe
-                      src={onePaceTrUrl}
-                      className="absolute border-0"
-                      style={{
-                        width: '200%',
-                        height: '255%',
-                        left: '-55%',
-                        top: '-38%',
-                      }}
-                      allowFullScreen
-                      allow="autoplay; fullscreen; encrypted-media"
-                      onError={() => setIframeError(true)}
-                    />
+                    <>
+                      <iframe
+                        src={onePaceTrUrl}
+                        className="absolute border-0"
+                        style={{
+                          width: '200%',
+                          height: '255%',
+                          left: '-55%',
+                          top: '-38%',
+                        }}
+                        allowFullScreen
+                        allow="autoplay; fullscreen; encrypted-media"
+                        onError={() => setIframeError(true)}
+                      />
+                      {/* Top/bottom vignette for visual polish */}
+                      <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-white/[0.03]" />
+                    </>
                   ) : (
                     <div className="flex h-full w-full flex-col items-center justify-center gap-4">
                       <AlertTriangle className="h-12 w-12 text-gold/40" />
@@ -124,6 +128,8 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
                     </div>
                   )}
                 </div>
+                {/* Bottom glow accent */}
+                <div className="h-[2px] bg-gradient-to-r from-transparent via-sea/30 to-transparent" />
               </div>
 
               {/* Controls row */}

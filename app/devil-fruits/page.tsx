@@ -64,7 +64,6 @@ export default function DevilFruitsPage() {
             icon={Cherry}
             title="Şeytan Meyveleri"
             subtitle="Ansiklopedisi"
-            description="Denizlerin lanetli meyveleri. Her biri benzersiz güçler bahşeden ama yüzme yeteneğini sonsuza dek alan gizemli meyveler. One Piece evrenindeki tüm Şeytan Meyvelerini keşfet."
             accentColor="purple-400"
             orbs={HERO_ORBS}
           >

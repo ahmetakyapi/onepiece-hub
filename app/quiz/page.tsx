@@ -42,7 +42,6 @@ export default function QuizHubPage() {
         <PageHero
           title="Quiz Arena"
           subtitle="One Piece bilgini test et!"
-          description="Her arc için 5 soruluk quiz. Bilgini sına, skorunu gör ve gerçek bir nakama olduğunu kanıtla!"
           icon={BrainCircuit}
           accentColor="purple"
           orbs={[

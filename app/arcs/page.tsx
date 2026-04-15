@@ -38,7 +38,6 @@ export default function ArcsPage() {
             icon={Compass}
             title="Arc"
             subtitle="Haritası"
-            description="East Blue'dan Egghead'e kadar tüm maceralar. Her arc, Hasır Şapka mürettebatının Grand Line'daki yeni bir durağını anlatır."
             accentColor="sea"
             orbs={HERO_ORBS}
           >

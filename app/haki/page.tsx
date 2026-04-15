@@ -350,7 +350,6 @@ export default function HakiPage() {
             title="Haki"
             subtitle="Rehberi"
             accentColor="gold"
-            description="Haki, One Piece evrenindeki tüm canlılarda potansiyel olarak var olan ruhani güçtür. 'İrade', 'ambisyon' ve 'ruh' anlamlarına gelir. Yalnızca en güçlü savaşçıların üçü de kullanabilir."
             orbs={HERO_ORBS}
           >
             <div className="flex flex-wrap items-center gap-4">

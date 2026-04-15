@@ -160,7 +160,6 @@ export default function BountiesPage() {
             icon={Trophy}
             title="Ödül"
             subtitle="Sıralaması"
-            description="One Piece evrenindeki en yüksek ödüllü korsanlar ve suçlular. Dünya Hükümeti tarafından belirlenen ödüller, bir kişinin tehlike seviyesini gösterir."
             accentColor="gold"
             orbs={HERO_ORBS}
           >

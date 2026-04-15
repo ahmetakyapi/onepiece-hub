@@ -19,6 +19,21 @@ const nextConfig = {
   },
   async headers() {
     return [
+      // Immutable cache for hashed static assets (JS, CSS, fonts)
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+      // Long cache for public images
+      {
+        source: '/:path(characters|arcs|images)/:file*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=2592000, stale-while-revalidate=86400' },
+        ],
+      },
+      // Security headers for all routes
       {
         source: '/(.*)',
         headers: [

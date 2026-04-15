@@ -164,7 +164,6 @@ export default function BattlesPage() {
             icon={Swords}
             title="Efsanevi"
             subtitle="Savaşlar"
-            description="One Piece tarihinin en ikonik dövüşleri ve savaşları. Destansı çatışmalardan duygusal düellolara, her savaş hikayenin gidişatını değiştirdi."
             accentColor="luffy"
             orbs={HERO_ORBS}
           >
@@ -306,9 +305,9 @@ export default function BattlesPage() {
                               <Link
                                 key={slug}
                                 href={`/characters/${slug}`}
-                                className="relative h-16 w-16 overflow-hidden rounded-xl border-2 border-sea/20 bg-ocean-deep transition-all hover:scale-105 hover:border-sea/50 sm:h-20 sm:w-20"
+                                className="relative h-20 w-20 overflow-hidden rounded-xl border-2 border-sea/20 bg-ocean-deep transition-all hover:scale-105 hover:border-sea/50 sm:h-24 sm:w-24"
                               >
-                                <Image src={img} alt={slug} fill className="object-cover object-top" sizes="80px" />
+                                <Image src={img} alt={slug} fill className="object-cover object-top" sizes="96px" />
                               </Link>
                             ) : null
                           })}
@@ -337,9 +336,9 @@ export default function BattlesPage() {
                               <Link
                                 key={slug}
                                 href={`/characters/${slug}`}
-                                className="relative h-16 w-16 overflow-hidden rounded-xl border-2 border-luffy/20 bg-ocean-deep transition-all hover:scale-105 hover:border-luffy/50 sm:h-20 sm:w-20"
+                                className="relative h-20 w-20 overflow-hidden rounded-xl border-2 border-luffy/20 bg-ocean-deep transition-all hover:scale-105 hover:border-luffy/50 sm:h-24 sm:w-24"
                               >
-                                <Image src={img} alt={slug} fill className="object-cover object-top" sizes="80px" />
+                                <Image src={img} alt={slug} fill className="object-cover object-top" sizes="96px" />
                               </Link>
                             ) : null
                           })}
@@ -507,7 +506,7 @@ export default function BattlesPage() {
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-60px' }}
-                  transition={{ duration: 0.6, ease: EASE, delay: i * 0.03 }}
+                  transition={{ duration: 0.5, ease: EASE }}
                   className="bento-card group relative overflow-hidden transition-all duration-500 hover:border-pirate-border/30"
                 >
                   {/* Category gradient top border */}
@@ -589,8 +588,8 @@ export default function BattlesPage() {
                           {battle.participantSlugs?.side1.map((slug) => {
                             const img = getCharacterImage(slug)
                             return img ? (
-                              <Link key={slug} href={`/characters/${slug}`} className="relative h-14 w-14 overflow-hidden rounded-xl border border-sea/20 bg-ocean-deep transition-transform hover:scale-110 sm:h-16 sm:w-16">
-                                <Image src={img} alt={slug} fill className="object-cover object-top" sizes="64px" />
+                              <Link key={slug} href={`/characters/${slug}`} className="relative h-16 w-16 overflow-hidden rounded-xl border border-sea/20 bg-ocean-deep transition-transform hover:scale-110 sm:h-20 sm:w-20">
+                                <Image src={img} alt={slug} fill className="object-cover object-top" sizes="80px" />
                               </Link>
                             ) : null
                           })}
@@ -616,8 +615,8 @@ export default function BattlesPage() {
                           {battle.participantSlugs?.side2.map((slug) => {
                             const img = getCharacterImage(slug)
                             return img ? (
-                              <Link key={slug} href={`/characters/${slug}`} className="relative h-14 w-14 overflow-hidden rounded-xl border border-luffy/20 bg-ocean-deep transition-transform hover:scale-110 sm:h-16 sm:w-16">
-                                <Image src={img} alt={slug} fill className="object-cover object-top" sizes="64px" />
+                              <Link key={slug} href={`/characters/${slug}`} className="relative h-16 w-16 overflow-hidden rounded-xl border border-luffy/20 bg-ocean-deep transition-transform hover:scale-110 sm:h-20 sm:w-20">
+                                <Image src={img} alt={slug} fill className="object-cover object-top" sizes="80px" />
                               </Link>
                             ) : null
                           })}
