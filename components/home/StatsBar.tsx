@@ -8,7 +8,7 @@ const EASE = [0.16, 1, 0.3, 1] as const
 
 const STATS = [
   { label: 'Arc', value: 32, suffix: '', icon: Compass, color: '#f4a300', max: 40 },
-  { label: 'B��lüm', value: 341, suffix: '', icon: Film, color: '#1e90ff', max: 400 },
+  { label: 'Bölüm', value: 341, suffix: '', icon: Film, color: '#1e90ff', max: 400 },
   { label: 'Karakter', value: 61, suffix: '', icon: Users, color: '#f4a300', max: 80 },
   { label: 'Saat İçerik', value: 136, suffix: '+', icon: Clock, color: '#1e90ff', max: 200 },
 ] as const

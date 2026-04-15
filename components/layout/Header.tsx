@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { MAIN_LINKS, WIKI_LINKS } from '@/lib/constants/navigation'
 
@@ -22,6 +23,9 @@ export default function Header() {
   const wikiRef = useRef<HTMLDivElement>(null)
   const { user, logout, loading } = useAuth()
   const { scrollY } = useScroll()
+  const pathname = usePathname()
+
+  const isWikiActive = WIKI_LINKS.some((link) => pathname.startsWith(link.href))
 
   useEffect(() => { setMounted(true) }, [])
 
@@ -94,16 +98,23 @@ export default function Header() {
           <nav className="hidden items-center md:flex">
             {/* Nav pill container */}
             <div className="flex items-center gap-0.5 rounded-full border border-white/[0.06] bg-white/[0.03] px-1 py-1 backdrop-blur-sm">
-              {MAIN_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="group flex items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-semibold text-pirate-text/80 transition-all duration-300 hover:bg-white/[0.06] hover:text-white"
-                >
-                  <link.icon className="h-3.5 w-3.5 opacity-60 transition-all group-hover:opacity-100 group-hover:text-gold" />
-                  {link.label}
-                </Link>
-              ))}
+              {MAIN_LINKS.map((link) => {
+                const isActive = pathname.startsWith(link.href)
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`group flex items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-semibold transition-all duration-300 ${
+                      isActive
+                        ? 'bg-gold/[0.1] text-gold'
+                        : 'text-pirate-text/80 hover:bg-white/[0.06] hover:text-white'
+                    }`}
+                  >
+                    <link.icon className={`h-3.5 w-3.5 transition-all ${isActive ? 'text-gold opacity-100' : 'opacity-60 group-hover:opacity-100 group-hover:text-gold'}`} />
+                    {link.label}
+                  </Link>
+                )
+              })}
 
               {/* Wiki dropdown */}
               <div ref={wikiRef} className="relative">
@@ -112,10 +123,12 @@ export default function Header() {
                   className={`group flex items-center gap-1 rounded-full px-4 py-2 text-[13px] font-semibold transition-all duration-300 ${
                     wikiOpen
                       ? 'bg-white/[0.08] text-white'
-                      : 'text-pirate-text/80 hover:bg-white/[0.06] hover:text-white'
+                      : isWikiActive
+                        ? 'bg-gold/[0.1] text-gold'
+                        : 'text-pirate-text/80 hover:bg-white/[0.06] hover:text-white'
                   }`}
                 >
-                  <BookOpen className="h-3.5 w-3.5 opacity-60 transition-all group-hover:opacity-100 group-hover:text-gold" />
+                  <BookOpen className={`h-3.5 w-3.5 transition-all ${isWikiActive ? 'text-gold opacity-100' : 'opacity-60 group-hover:opacity-100 group-hover:text-gold'}`} />
                   Wiki
                   <ChevronDown className={`h-3 w-3 opacity-50 transition-transform duration-300 ${wikiOpen ? 'rotate-180' : ''}`} />
                 </button>
@@ -266,25 +279,28 @@ export default function Header() {
             >
               {/* Main links */}
               <div className="mb-2 space-y-0.5">
-                {MAIN_LINKS.map((link, i) => (
-                  <motion.div
-                    key={link.href}
-                    initial={{ opacity: 0, x: -12 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05, duration: 0.3, ease: EASE }}
-                  >
-                    <Link
-                      href={link.href}
-                      onClick={() => setMenuOpen(false)}
-                      className="group flex items-center gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-white/[0.04]"
+                {MAIN_LINKS.map((link, i) => {
+                  const isActive = pathname.startsWith(link.href)
+                  return (
+                    <motion.div
+                      key={link.href}
+                      initial={{ opacity: 0, x: -12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.05, duration: 0.3, ease: EASE }}
                     >
-                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-sea/[0.08]">
-                        <link.icon className="h-4 w-4 text-sea" />
-                      </div>
-                      <span className="text-sm font-semibold text-pirate-text">{link.label}</span>
-                    </Link>
-                  </motion.div>
-                ))}
+                      <Link
+                        href={link.href}
+                        onClick={() => setMenuOpen(false)}
+                        className={`group flex items-center gap-3 rounded-xl px-4 py-3 transition-colors ${isActive ? 'bg-gold/[0.08]' : 'hover:bg-white/[0.04]'}`}
+                      >
+                        <div className={`flex h-9 w-9 items-center justify-center rounded-lg ${isActive ? 'bg-gold/15' : 'bg-sea/[0.08]'}`}>
+                          <link.icon className={`h-4 w-4 ${isActive ? 'text-gold' : 'text-sea'}`} />
+                        </div>
+                        <span className={`text-sm font-semibold ${isActive ? 'text-gold' : 'text-pirate-text'}`}>{link.label}</span>
+                      </Link>
+                    </motion.div>
+                  )
+                })}
               </div>
 
               {/* Divider */}
