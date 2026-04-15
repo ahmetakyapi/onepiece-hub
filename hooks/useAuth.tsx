@@ -58,9 +58,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })
     const data = await res.json()
     if (!res.ok) return { error: data.error || 'Kayıt başarısız' }
-    // Auto-login after register
-    return login(username, password)
-  }, [login])
+    // Server sets session cookie on register — just set user state
+    setUser(data.data.user)
+    return {}
+  }, [])
 
   const logout = useCallback(async () => {
     await fetch('/api/auth/logout', { method: 'POST' })

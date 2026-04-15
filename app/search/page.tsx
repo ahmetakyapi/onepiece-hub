@@ -155,6 +155,7 @@ export default function SearchPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Luffy, Marineford, Gomu Gomu..."
+              aria-label="Karakter, arc, savaş veya şeytan meyvesi ara"
               autoFocus
               className="w-full rounded-2xl border border-pirate-border/30 bg-ocean-surface/50 py-4 pl-12 pr-12 text-base text-pirate-text placeholder-pirate-muted/40 outline-none transition-all focus:border-gold/30 focus:ring-2 focus:ring-gold/10"
             />

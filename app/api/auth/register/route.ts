@@ -1,9 +1,10 @@
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { users } from '@/lib/schema'
-import { ok, err, serverErr } from '@/lib/api'
+import { err, serverErr } from '@/lib/api'
 import { eq } from 'drizzle-orm'
 import { hashPassword } from '@/lib/password'
+import { createToken } from '@/lib/token'
 
 export async function POST(req: NextRequest) {
   try {
@@ -43,7 +44,20 @@ export async function POST(req: NextRequest) {
       })
       .returning({ id: users.id, username: users.username, name: users.name })
 
-    return ok({ user }, 201)
+    // Auto-login: set session cookie after registration
+    const token = await createToken({ id: user.id, username: user.username })
+
+    const res = NextResponse.json({ data: { user } }, { status: 201 })
+
+    res.cookies.set('session', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 30, // 30 days
+    })
+
+    return res
   } catch (e) {
     return serverErr(e)
   }

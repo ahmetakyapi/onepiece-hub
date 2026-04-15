@@ -73,6 +73,7 @@ export default function ArcsPage() {
               <input
                 type="text"
                 placeholder="Arc ara..."
+                aria-label="Arc ara"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full rounded-2xl border border-pirate-border/50 bg-ocean-surface/40 py-3 pl-11 pr-4 text-sm text-pirate-text placeholder:text-pirate-muted/40 focus:border-gold/20 focus:outline-none focus:ring-2 focus:ring-gold/[0.08] transition-all"
