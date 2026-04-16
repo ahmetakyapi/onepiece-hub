@@ -254,9 +254,9 @@ export default function RelationshipGraph() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.3, ease: EASE }}
-            className="glass-elevated overflow-hidden rounded-2xl p-6 border border-gold/10"
+            className="glass-elevated overflow-hidden rounded-3xl p-8 border border-gold/15 shadow-card-hover"
           >
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-6 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold/10 border border-gold/20">
                   <Users className="h-5 w-5 text-gold" />
@@ -270,29 +270,34 @@ export default function RelationshipGraph() {
               </div>
               <button
                 onClick={() => setSelected(null)}
-                className="flex h-6 w-6 items-center justify-center rounded-lg text-pirate-muted/40 hover:text-pirate-text"
+                className="flex h-8 w-8 items-center justify-center rounded-lg border border-pirate-border/20 bg-ocean-surface/30 text-pirate-muted/60 hover:bg-ocean-surface/60 hover:text-pirate-text hover:border-gold/40 transition-all"
               >
-                <X className="h-3 w-3" />
+                <X className="h-4 w-4" />
               </button>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               {selected.relations.map((rel) => {
                 const config = RELATION_CONFIG[rel.type]
                 return (
                   <Link
                     key={`${rel.slug}-${rel.type}`}
                     href={`/characters/${rel.slug}`}
-                    className="group flex items-center gap-3 rounded-xl bg-ocean-surface/40 px-4 py-3 border border-pirate-border/20 transition-all hover:bg-ocean-surface/70 hover:border-gold/20 hover:shadow-gold-glow"
+                    className="group flex items-center gap-3 rounded-xl bg-gradient-to-r from-ocean-surface/50 to-ocean-surface/30 px-4 py-3.5 border border-pirate-border/30 transition-all hover:from-ocean-surface/80 hover:to-ocean-surface/60 hover:border-gold/40 hover:shadow-gold-glow"
                   >
-                    <span className="h-3 w-3 rounded-full flex-shrink-0" style={{ background: config.color }} />
-                    <span className="text-sm font-semibold text-pirate-text group-hover:text-gold transition-colors flex-1">
-                      {rel.name}
-                    </span>
-                    <span className="text-xs font-bold px-2 py-1 rounded-full flex-shrink-0" style={{ background: `${config.color}20`, color: config.color }}>
-                      {rel.label ?? config.label}
-                    </span>
-                    <ChevronRight className="ml-1 h-4 w-4 text-pirate-muted/40 group-hover:text-gold transition-colors" />
+                    <span className="h-3.5 w-3.5 rounded-full flex-shrink-0 ring-2" style={{ background: config.color, ringColor: `${config.color}40` }} />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-base font-bold text-pirate-text group-hover:text-gold transition-colors">
+                        {rel.name}
+                      </p>
+                      <p className="text-xs text-pirate-muted/60 mt-0.5">{config.label}</p>
+                    </div>
+                    {rel.label && (
+                      <span className="text-xs font-bold px-2.5 py-1 rounded-full flex-shrink-0 whitespace-nowrap" style={{ background: `${config.color}25`, color: config.color, border: `1px solid ${config.color}40` }}>
+                        {rel.label}
+                      </span>
+                    )}
+                    <ChevronRight className="ml-1 h-5 w-5 text-pirate-muted/40 group-hover:text-gold group-hover:translate-x-1 transition-all" />
                   </Link>
                 )
               })}
