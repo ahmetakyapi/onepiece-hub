@@ -96,15 +96,15 @@ export default function CharacterDetailClient({ character }: { character: Charac
   return (
     <main className="relative min-h-screen">
       {/* ─── Cinematic Hero ────────────────────────────────────── */}
-      <section ref={heroRef} className="relative h-[70vh] min-h-[500px] overflow-hidden sm:h-[80vh]">
+      <section ref={heroRef} className="relative h-[70vh] min-h-[500px] overflow-hidden bg-gradient-to-b from-ocean-surface to-ocean-deep sm:h-[80vh]">
         {/* Background image with parallax */}
-        <motion.div className="absolute inset-0" style={{ y: heroY, scale: heroScale }}>
+        <motion.div className="absolute inset-0 flex items-center justify-center" style={{ y: heroY, scale: heroScale }}>
           {imgSrc ? (
             <Image
               src={imgSrc}
               alt={character.name}
               fill
-              className="object-cover object-top"
+              className="object-contain object-center"
               sizes="100vw"
               priority
             />
