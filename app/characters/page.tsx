@@ -107,26 +107,7 @@ export default function CharactersPage() {
             subtitle="Ansiklopedisi"
             accentColor="gold"
             orbs={HERO_ORBS}
-          >
-            {/* Stat pills */}
-            <div className="flex flex-wrap gap-3">
-              <div className="glass flex items-center gap-2 rounded-xl px-4 py-2">
-                <Users className="h-4 w-4 text-gold" />
-                <span className="text-xs font-semibold text-pirate-text">{CHARACTERS.length}</span>
-                <span className="text-xs text-pirate-muted">Karakter</span>
-              </div>
-              <div className="glass flex items-center gap-2 rounded-xl px-4 py-2">
-                <Anchor className="h-4 w-4 text-sea-light" />
-                <span className="text-xs font-semibold text-pirate-text">{Object.keys(crewCounts).length}</span>
-                <span className="text-xs text-pirate-muted">Mürettebat</span>
-              </div>
-              <div className="glass flex items-center gap-2 rounded-xl px-4 py-2">
-                <Skull className="h-4 w-4 text-luffy" />
-                <span className="text-xs font-semibold text-pirate-text">{formatBounty(totalBounty)}</span>
-                <span className="text-xs text-pirate-muted">Toplam Ödül</span>
-              </div>
-            </div>
-          </PageHero>
+          />
 
           {/* ─── Relationship Graph ─── */}
           <motion.div

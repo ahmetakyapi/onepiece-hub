@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import { ok, err, serverErr } from '@/lib/api'
+import { ok, err, serverErr, parseJSON } from '@/lib/api'
 import { db } from '@/lib/db'
 import { quizScores } from '@/lib/schema'
 import { verifyToken } from '@/lib/token'
@@ -34,7 +34,8 @@ export async function POST(req: NextRequest) {
     const user = await verifyToken(token)
     if (!user) return err('Geçersiz oturum', 401)
 
-    const body = await req.json()
+    const body = await parseJSON<{ arcSlug: string; score: number; totalQ: number }>(req)
+    if (!body) return err('Geçersiz JSON', 400)
     const { arcSlug, score, totalQ } = body
 
     if (!arcSlug || score == null || !totalQ) {

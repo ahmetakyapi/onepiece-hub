@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server'
-import { ok, err, serverErr } from '@/lib/api'
+import { ok, err, serverErr, parseJSON } from '@/lib/api'
+import { stripHTML } from '@/lib/sanitize'
 import { db } from '@/lib/db'
 import { comments } from '@/lib/schema'
 import { verifyToken } from '@/lib/token'
@@ -44,7 +45,8 @@ export async function POST(req: NextRequest) {
     const user = await verifyToken(token)
     if (!user) return err('Geçersiz oturum', 401)
 
-    const body = await req.json()
+    const body = await parseJSON<{ targetType: string; targetSlug: string; content: string }>(req)
+    if (!body) return err('Geçersiz JSON', 400)
     const { targetType, targetSlug, content } = body
 
     if (!targetType || !targetSlug || !content) {
@@ -66,7 +68,7 @@ export async function POST(req: NextRequest) {
         username: user.username,
         targetType,
         targetSlug,
-        content: content.trim(),
+        content: stripHTML(content.trim()),
       })
       .returning()
 

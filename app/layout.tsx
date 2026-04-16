@@ -5,6 +5,7 @@ import { AuthProvider } from '@/hooks/useAuth'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import dynamic from 'next/dynamic'
+import '@/lib/env'
 
 const ScrollProgress = dynamic(() => import('@/components/layout/ScrollProgress'), { ssr: false })
 import './globals.css'

@@ -25,37 +25,16 @@ export function useWatchedEpisodes() {
   const [loaded, setLoaded] = useState(false)
 
   // Load watched episodes — from DB if logged in, localStorage if not
-  // Login sonrası localStorage verilerini DB'ye senkronize et
+  // Sync is now handled in useAuth hook (login/register), so just fetch DB
   useEffect(() => {
     if (user) {
-      const localEpisodes = getLocal()
-
       fetch('/api/progress')
         .then((r) => (r.ok ? r.json() : null))
-        .then(async (data) => {
+        .then((data) => {
           const dbSlugs: string[] = data?.data?.progress
             ? data.data.progress.map((p: { episodeSlug: string }) => p.episodeSlug)
             : []
-
-          // localStorage'da olup DB'de olmayan bölümleri sync et
-          if (localEpisodes.size > 0) {
-            const onlyLocal = [...localEpisodes].filter((s) => !dbSlugs.includes(s))
-            if (onlyLocal.length > 0) {
-              try {
-                await fetch('/api/progress/sync', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ episodes: onlyLocal }),
-                })
-              } catch { /* sync başarısız olsa da devam et */ }
-            }
-            // Sync tamamlandı, localStorage'ı temizle
-            localStorage.removeItem(STORAGE_KEY)
-          }
-
-          // Birleşik set: DB + localStorage
-          const merged = new Set([...dbSlugs, ...localEpisodes])
-          setWatched(merged)
+          setWatched(new Set(dbSlugs))
         })
         .catch(() => {
           // API hatası — localStorage'a fallback

@@ -15,7 +15,6 @@ One Piece hayranları için kapsamlı Türkçe platform. Arc bazlı filler'sız 
 | Animasyon | Framer Motion 11 | Standart varyantlar `lib/variants.ts` |
 | DB | Drizzle ORM + Neon | `@neondatabase/serverless` (pg kullanma!) |
 | Auth | Custom JWT (jose) | `httpOnly` cookie, 30 gün TTL |
-| Auth (eski) | next-auth v5 | Google + Discord — `lib/auth.ts`'de config var ama aktif kullanım custom JWT |
 | Video | OnePaceTR iframe | `onepacetr.net/bolum/{globalEp}` embed, fallback harici link |
 | İkonlar | lucide-react | |
 | Analytics | @vercel/analytics | |
@@ -116,8 +115,9 @@ hooks/
 lib/
   db.ts                   # Neon serverless bağlantısı (drizzle + neon-http)
   schema.ts               # Drizzle şema: users, watchProgress, quizScores, comments, favorites
-  auth.ts                 # next-auth v5 config (Google + Discord) — YEDEKTEKİ SİSTEM
+  env.ts                  # Environment variables validation (startup'da çalışır)
   token.ts                # JWT oluşturma/doğrulama (jose, HS256, 30d) — AUTH_SECRET zorunlu
+  sanitize.ts             # Comment sanitization (DOMPurify)
   password.ts             # bcryptjs (12 rounds) + eski SHA-256 geriye uyumluluk
   api.ts                  # API response helpers: ok(), err(), serverErr()
   utils.ts                # cn(), formatDate(), truncate(), parseBounty(), formatBounty(), getTimeAgo()
@@ -231,13 +231,11 @@ types/
 - **Dinamik veri (DB)**: Sadece kullanıcı etkileşimleri — `users`, `watchProgress`, `quizScores`
 - **İzleme takibi**: Login → DB (`/api/progress`), anonim → `localStorage` (`onepiece-watched` key)
 
-### Auth Sistemi (İKİLİ — dikkat)
-Projede iki auth sistemi mevcut:
-1. **Aktif**: Custom JWT — `lib/token.ts` (jose), `lib/password.ts` (SHA-256+salt), cookie-based
-   - API routes: `/api/auth/login`, `/api/auth/register`, `/api/auth/logout`, `/api/auth/me`
-   - Client: `hooks/useAuth.tsx` (React Context)
-2. **Pasif**: next-auth v5 — `lib/auth.ts`, Google + Discord providers
-   - Mevcut ama aktif kullanılmıyor, ileride entegre edilebilir
+### Auth Sistemi
+- **Custom JWT**: `lib/token.ts` (jose), `lib/password.ts` (bcryptjs), cookie-based
+- **API routes**: `/api/auth/login`, `/api/auth/register`, `/api/auth/logout`, `/api/auth/me`
+- **Client**: `hooks/useAuth.tsx` (React Context)
+- **Cookie**: `httpOnly`, `secure` (prod), `sameSite: lax`, 30 gün TTL
 
 ### Video Oynatma (OnePaceTR)
 - URL pattern: `https://www.onepacetr.net/bolum/{globalEpisodeNumber}`
@@ -305,15 +303,12 @@ return ok({ data })
 ## Environment Variables
 
 ```
-DATABASE_URL          # Neon Postgres bağlantı string'i
-AUTH_SECRET           # JWT secret — openssl rand -base64 32
-NEXTAUTH_URL          # http://localhost:3000
-GOOGLE_CLIENT_ID      # Google OAuth
-GOOGLE_CLIENT_SECRET
-DISCORD_CLIENT_ID     # Discord OAuth
-DISCORD_CLIENT_SECRET
-NEXT_PUBLIC_APP_URL   # http://localhost:3000
-NEXT_PUBLIC_APP_NAME  # One Piece Hub
+DATABASE_URL                  # Neon Postgres bağlantı string'i
+AUTH_SECRET                   # JWT secret — openssl rand -base64 32
+NEXT_PUBLIC_APP_URL           # http://localhost:3000
+NEXT_PUBLIC_APP_NAME          # One Piece Hub
+UPSTASH_REDIS_REST_URL        # (Optional, for production rate limiting)
+UPSTASH_REDIS_REST_TOKEN      # (Optional, for production rate limiting)
 ```
 
 ---
@@ -321,17 +316,17 @@ NEXT_PUBLIC_APP_NAME  # One Piece Hub
 ## Bilinen Eksiklikler / TODO'lar
 
 1. ~~**Yorum sistemi**~~: ✅ Tamamlandı — `comments` tablosu, GET/POST/DELETE API, `CommentSection` UI bileşeni
-2. **next-auth vs custom JWT**: İki auth sistemi var. `lib/auth.ts` (next-auth v5) pasif, custom JWT aktif. İleride birleştirilmeli veya next-auth kaldırılmalı
+2. ~~**next-auth sistemi**~~: ✅ Kaldırıldı — custom JWT sistemi kullanılıyor
 3. **CustomCursor.tsx**: Dosya mevcut ama KULLANILMAMALI (feedback: generic AI pattern)
 4. **useMagnetic.ts**: Dosya mevcut ama KULLANILMAMALI (feedback: generic AI pattern)
-5. ~~**Middleware**~~: ✅ `middleware.ts` mevcut — rate limiting (auth endpoints) + route koruması (/profile → /login redirect)
-6. ~~**Fallback secret**~~: ✅ Düzeltildi — `AUTH_SECRET` yoksa hata fırlatılıyor
-7. ~~**Password hashing**~~: ✅ bcryptjs'e geçildi (12 rounds), eski SHA-256 ile geriye uyumluluk var
-8. **pixeldrainId**: `Episode` tipinde tanımlı ama hiçbir yerde kullanılmıyor — eski video stratejisinden kalma
-9. ~~**localStorage-DB senkronizasyonu**~~: ✅ Login sonrası otomatik sync (`/api/progress/sync`)
-10. **In-memory rate limiter**: Serverless cold start'larda sıfırlanıyor — Upstash Redis'e taşınmalı
-11. **Email alanı yok**: Users tablosunda email yok — şifre sıfırlama yapılamıyor
-12. **Legacy SHA-256 migration**: Eski SHA-256 hesaplar login'de bcrypt'e otomatik migrate edilmeli
+5. ~~**Middleware**~~: ✅ Rate limiting (Upstash Redis + fallback in-memory) + route koruması
+6. ~~**Fallback secret**~~: ✅ `AUTH_SECRET` yoksa hata fırlatılıyor (`lib/env.ts`)
+7. ~~**Password hashing**~~: ✅ bcryptjs (12 rounds), eski SHA-256 ile geriye uyumluluk
+8. ~~**Comment sanitization**~~: ✅ DOMPurify ile HTML injection koruması
+9. ~~**localStorage-DB senkronizasyonu**~~: ✅ Login/register sırasında otomatik sync (`useAuth.tsx`)
+10. **pixeldrainId**: `Episode` tipinde tanımlı ama kullanılmıyor — eski video stratejisinden kalma
+11. **Email alanı yok**: Users tablosunda email yok — şifre sıfırlama özelliği eklenemez
+12. **Unit tests**: 0% coverage — Jest/Vitest setup gerekli
 
 ---
 
@@ -346,8 +341,8 @@ WatchPage'deki iframe `width: 200%, height: 255%, left: -55%, top: -38%` ile sad
 ### 3. Neon Serverless
 `lib/db.ts`'de `@neondatabase/serverless` kullanılıyor, `pg` DEĞİL. Vercel serverless ortamında `pg` çalışmaz.
 
-### 4. İki Auth Sistemi
-`lib/auth.ts` (next-auth v5) ve `lib/token.ts` + `hooks/useAuth.tsx` (custom JWT) birlikte var. Aktif olan custom JWT sistemi. next-auth config'i ileride entegrasyon için saklanıyor.
+### 4. Custom JWT Auth
+`lib/token.ts` (jose) + `lib/password.ts` (bcryptjs) ile cookie-based JWT. 30 gün TTL, `httpOnly`, production'da `secure`.
 
 ### 5. Header/Footer Layout'ta
 `app/layout.tsx` Header, Footer, AuthProvider, ScrollProgress ve skip-to-content linkini içerir. Yeni sayfa eklerken Header/Footer import etmeye gerek yok — layout otomatik sağlar.
@@ -355,23 +350,23 @@ WatchPage'deki iframe `width: 200%, height: 255%, left: -55%, top: -38%` ile sad
 ### 6. Dynamic Import Kuralı
 Canvas/ağır bileşenler (ParticleField, WaveBackground, StatsBar, ArcTimeline, ScrollProgress) `dynamic(() => import(...), { ssr: false })` ile yüklenmeli. SSR'da window/document erişimi patlar.
 
-### 7. Statik Veri Tipleri
+### 7. Comment Sanitization
+Yorum API'si `DOMPurify.sanitize()` ile HTML injection'dan korunur. Sadece güvenli tag'ler (b, i, em, strong, a, br, p) allowed.
+
+### 8. Statik Veri Tipleri
 `types/index.ts`'deki `Episode.pixeldrainId?` alanı opsiyonel — bazı bölümlerde var, çoğunda yok. Video oynatmada `getGlobalEpisodeNumber` kullanılıyor, `pixeldrainId` değil.
 
-### 8. CSS Custom Properties vs Tailwind
+### 9. CSS Custom Properties vs Tailwind
 Bazı renkler hem CSS variable (`--color-gold`) hem Tailwind (`text-gold`) olarak tanımlı. **Tailwind class'larını tercih et**, CSS variable'ları sadece `globals.css` içindeki bileşen class'larında kullan.
 
-### 9. Body Pseudo-elements
+### 10. Body Pseudo-elements
 `body::before` noise texture overlay, `body::after` ambient gradient orbs. `z-index: 9999` (noise) ve `z-index: 0` (orbs). İçerik `z-index: 10+` olmalı.
 
-### 10. Scroll Progress Bileşeni
+### 11. Scroll Progress Bileşeni
 `dynamic(() => import('@/components/layout/ScrollProgress'), { ssr: false })` — layout.tsx'de. Tüm sayfalarda otomatik çalışır.
 
-### 11. Cookie Auth
-Login response `Set-Cookie: session=JWT` ile cookie atar. `httpOnly`, `secure` (prod), `sameSite: lax`, 30 gün. Tüm API auth kontrolleri `req.cookies.get('session')` ile yapar.
-
-### 12. LocalStorage Fallback
-`useWatchedEpisodes` hook'u: login yoksa `localStorage('onepiece-watched')` kullanır. Login sonrası DB'ye geçer. İki sistem arası senkronizasyon YOK — login olan kullanıcı localStorage verilerini kaybeder.
+### 12. localStorage → DB Sync
+`useAuth.tsx`'de login/register sırasında `localStorage('onepiece-watched')` → `/api/progress/sync` otomatik taşıması. Sync await edilir, localStorage temizlenir.
 
 ### 13. Next.js Image Config
 `next.config.mjs`'de izin verilen remote host'lar: `avatars.githubusercontent.com`, `static.wikia.nocookie.net`, `i.imgur.com`, `cdn.myanimelist.net`. Yeni dış görsel kaynağı eklenirken `remotePatterns`'e eklenmeli. Format: AVIF > WebP.

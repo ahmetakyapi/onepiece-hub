@@ -1,14 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { users } from '@/lib/schema'
-import { err, serverErr } from '@/lib/api'
+import { err, serverErr, parseJSON } from '@/lib/api'
 import { eq } from 'drizzle-orm'
 import { hashPassword } from '@/lib/password'
 import { createToken } from '@/lib/token'
 
 export async function POST(req: NextRequest) {
   try {
-    const { username, password, name } = await req.json()
+    const body = await parseJSON<{ username: string; password: string; name?: string }>(req)
+    if (!body) {
+      return err('Geçersiz JSON', 400)
+    }
+    const { username, password, name } = body
 
     if (!username || !password) {
       return err('Kullanıcı adı ve şifre gerekli', 400)

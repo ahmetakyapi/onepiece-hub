@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 import { db } from '@/lib/db'
 import { watchProgress } from '@/lib/schema'
-import { ok, err, serverErr } from '@/lib/api'
+import { ok, err, serverErr, parseJSON } from '@/lib/api'
 import { verifyToken } from '@/lib/token'
 import { eq } from 'drizzle-orm'
 import { ARCS } from '@/lib/constants/arcs'
@@ -24,7 +24,9 @@ export async function POST(req: NextRequest) {
     const user = await verifyToken(token)
     if (!user) return err('Geçersiz oturum', 401)
 
-    const { episodes } = (await req.json()) as { episodes: string[] }
+    const body = await parseJSON<{ episodes: string[] }>(req)
+    if (!body) return err('Geçersiz JSON', 400)
+    const { episodes } = body
     if (!Array.isArray(episodes) || episodes.length === 0) {
       return ok({ synced: 0 })
     }

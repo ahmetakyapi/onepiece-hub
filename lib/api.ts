@@ -15,3 +15,12 @@ export function serverErr(e: unknown) {
   console.error(e)
   return err('Sunucu hatası', 500)
 }
+
+/** Request body JSON parse helper */
+export async function parseJSON<T>(req: Request): Promise<T | null> {
+  try {
+    return (await req.json()) as T
+  } catch {
+    return null
+  }
+}

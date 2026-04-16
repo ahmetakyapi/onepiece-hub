@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 import { db } from '@/lib/db'
 import { watchProgress } from '@/lib/schema'
-import { ok, err, serverErr } from '@/lib/api'
+import { ok, err, serverErr, parseJSON } from '@/lib/api'
 import { verifyToken } from '@/lib/token'
 import { eq, and } from 'drizzle-orm'
 
@@ -38,7 +38,9 @@ export async function POST(req: NextRequest) {
     const user = await verifyToken(token)
     if (!user) return err('Geçersiz oturum', 401)
 
-    const { arcSlug, episodeSlug } = await req.json()
+    const body = await parseJSON<{ arcSlug: string; episodeSlug: string }>(req)
+    if (!body) return err('Geçersiz JSON', 400)
+    const { arcSlug, episodeSlug } = body
     if (!arcSlug || !episodeSlug) {
       return err('arcSlug ve episodeSlug gerekli', 400)
     }

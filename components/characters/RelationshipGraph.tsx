@@ -32,9 +32,9 @@ export default function RelationshipGraph() {
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null)
   const [filterType, setFilterType] = useState<RelationType | null>(null)
 
-  const svgSize = 900
+  const svgSize = 1200
   const center = svgSize / 2
-  const radius = 340
+  const radius = 450
 
   const positions = useMemo(() => {
     const layout = getCircularLayout(GRAPH_CHARACTERS.length, center, center, radius)
@@ -106,7 +106,7 @@ export default function RelationshipGraph() {
                 if (!pos) return null
                 return (
                   <clipPath key={`clip-${slug}`} id={`clip-${slug}`}>
-                    <circle cx={pos.x} cy={pos.y} r="21" />
+                    <circle cx={pos.x} cy={pos.y} r="28" />
                   </clipPath>
                 )
               })}
@@ -166,7 +166,7 @@ export default function RelationshipGraph() {
                     <circle
                       cx={pos.x}
                       cy={pos.y}
-                      r="33"
+                      r="44"
                       fill={slug === 'luffy' ? 'rgba(231,76,60,0.15)' : 'rgba(30,144,255,0.15)'}
                     />
                   )}
@@ -175,10 +175,10 @@ export default function RelationshipGraph() {
                   {CHARACTER_IMAGES[slug] && (
                     <image
                       href={CHARACTER_IMAGES[slug]}
-                      x={pos.x - 21}
-                      y={pos.y - 21}
-                      width="42"
-                      height="42"
+                      x={pos.x - 28}
+                      y={pos.y - 28}
+                      width="56"
+                      height="56"
                       clipPath={`url(#clip-${slug})`}
                       preserveAspectRatio="xMidYMin slice"
                       opacity={selected && !isConnected && !isSelected ? 0.2 : 1}
@@ -192,7 +192,7 @@ export default function RelationshipGraph() {
                       <circle
                         cx={pos.x}
                         cy={pos.y}
-                        r={isHovered || isSelected ? 24 : 21}
+                        r={isHovered || isSelected ? 32 : 28}
                         fill={isSelected ? '#f4a300' : 'rgba(12,24,41,0.9)'}
                         stroke={isSelected ? '#f4a300' : isHovered ? '#60b8ff' : 'rgba(30,144,255,0.25)'}
                         strokeWidth={isSelected ? 2.5 : 1.5}
@@ -201,10 +201,10 @@ export default function RelationshipGraph() {
                       />
                       <text
                         x={pos.x}
-                        y={pos.y + 5}
+                        y={pos.y + 7}
                         textAnchor="middle"
                         fill={isSelected ? '#060e1a' : '#e8eaf0'}
-                        fontSize="12"
+                        fontSize="16"
                         fontWeight="bold"
                         className="pointer-events-none select-none"
                         opacity={selected && !isConnected && !isSelected ? 0.2 : 1}
@@ -218,7 +218,7 @@ export default function RelationshipGraph() {
                   <circle
                     cx={pos.x}
                     cy={pos.y}
-                    r={isHovered || isSelected ? 24 : 21}
+                    r={isHovered || isSelected ? 32 : 28}
                     fill="none"
                     stroke={isSelected ? '#f4a300' : isHovered ? '#60b8ff' : 'rgba(30,144,255,0.25)'}
                     strokeWidth={isSelected ? 2.5 : 1.5}
@@ -229,10 +229,10 @@ export default function RelationshipGraph() {
                   {(isHovered || isSelected || (selected && isConnected)) && (
                     <text
                       x={pos.x}
-                      y={pos.y - 22}
+                      y={pos.y - 32}
                       textAnchor="middle"
                       fill="#e8eaf0"
-                      fontSize="10"
+                      fontSize="11"
                       fontWeight="600"
                       className="pointer-events-none"
                     >
@@ -285,7 +285,7 @@ export default function RelationshipGraph() {
                     href={`/characters/${rel.slug}`}
                     className="group flex items-center gap-3 rounded-xl bg-gradient-to-r from-ocean-surface/50 to-ocean-surface/30 px-4 py-3.5 border border-pirate-border/30 transition-all hover:from-ocean-surface/80 hover:to-ocean-surface/60 hover:border-gold/40 hover:shadow-gold-glow"
                   >
-                    <span className="h-3.5 w-3.5 rounded-full flex-shrink-0 ring-2" style={{ background: config.color, ringColor: `${config.color}40` }} />
+                    <span className="h-3.5 w-3.5 rounded-full flex-shrink-0 ring-2" style={{ background: config.color, boxShadow: `0 0 0 2px ${config.color}40` }} />
                     <div className="flex-1 min-w-0">
                       <p className="text-base font-bold text-pirate-text group-hover:text-gold transition-colors">
                         {rel.name}

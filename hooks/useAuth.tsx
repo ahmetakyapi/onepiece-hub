@@ -47,6 +47,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const data = await res.json()
     if (!res.ok) return { error: data.error || 'Giriş başarısız' }
     setUser(data.data.user)
+
+    // localStorage → DB sync after successful login
+    if (typeof window !== 'undefined') {
+      try {
+        const localData = localStorage.getItem('onepiece-watched')
+        if (localData) {
+          const episodes = JSON.parse(localData)
+          await fetch('/api/progress/sync', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ episodes }),
+          })
+          localStorage.removeItem('onepiece-watched')
+        }
+      } catch (e) {
+        console.error('Failed to sync watch progress:', e)
+      }
+    }
+
     return {}
   }, [])
 
@@ -58,8 +77,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })
     const data = await res.json()
     if (!res.ok) return { error: data.error || 'Kayıt başarısız' }
-    // Server sets session cookie on register — just set user state
     setUser(data.data.user)
+
+    // localStorage → DB sync after successful registration
+    if (typeof window !== 'undefined') {
+      try {
+        const localData = localStorage.getItem('onepiece-watched')
+        if (localData) {
+          const episodes = JSON.parse(localData)
+          await fetch('/api/progress/sync', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ episodes }),
+          })
+          localStorage.removeItem('onepiece-watched')
+        }
+      } catch (e) {
+        console.error('Failed to sync watch progress:', e)
+      }
+    }
+
     return {}
   }, [])
 
