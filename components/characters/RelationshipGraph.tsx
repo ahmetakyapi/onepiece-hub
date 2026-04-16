@@ -32,9 +32,9 @@ export default function RelationshipGraph() {
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null)
   const [filterType, setFilterType] = useState<RelationType | null>(null)
 
-  const svgSize = 600
+  const svgSize = 900
   const center = svgSize / 2
-  const radius = 230
+  const radius = 340
 
   const positions = useMemo(() => {
     const layout = getCircularLayout(GRAPH_CHARACTERS.length, center, center, radius)
@@ -93,7 +93,7 @@ export default function RelationshipGraph() {
 
       {/* Graph container */}
       <div className="bento-card overflow-hidden rounded-2xl">
-        <div className="relative aspect-square w-full max-w-[600px] mx-auto">
+        <div className="relative w-full" style={{ aspectRatio: '1 / 1' }}>
           <svg viewBox={`0 0 ${svgSize} ${svgSize}`} className="h-full w-full">
             {/* Background */}
             <defs>
@@ -106,7 +106,7 @@ export default function RelationshipGraph() {
                 if (!pos) return null
                 return (
                   <clipPath key={`clip-${slug}`} id={`clip-${slug}`}>
-                    <circle cx={pos.x} cy={pos.y} r="14" />
+                    <circle cx={pos.x} cy={pos.y} r="21" />
                   </clipPath>
                 )
               })}
@@ -166,7 +166,7 @@ export default function RelationshipGraph() {
                     <circle
                       cx={pos.x}
                       cy={pos.y}
-                      r="22"
+                      r="33"
                       fill={slug === 'luffy' ? 'rgba(231,76,60,0.15)' : 'rgba(30,144,255,0.15)'}
                     />
                   )}
@@ -175,10 +175,10 @@ export default function RelationshipGraph() {
                   {CHARACTER_IMAGES[slug] && (
                     <image
                       href={CHARACTER_IMAGES[slug]}
-                      x={pos.x - 14}
-                      y={pos.y - 14}
-                      width="28"
-                      height="28"
+                      x={pos.x - 21}
+                      y={pos.y - 21}
+                      width="42"
+                      height="42"
                       clipPath={`url(#clip-${slug})`}
                       preserveAspectRatio="xMidYMin slice"
                       opacity={selected && !isConnected && !isSelected ? 0.2 : 1}
@@ -192,7 +192,7 @@ export default function RelationshipGraph() {
                       <circle
                         cx={pos.x}
                         cy={pos.y}
-                        r={isHovered || isSelected ? 16 : 14}
+                        r={isHovered || isSelected ? 24 : 21}
                         fill={isSelected ? '#f4a300' : 'rgba(12,24,41,0.9)'}
                         stroke={isSelected ? '#f4a300' : isHovered ? '#60b8ff' : 'rgba(30,144,255,0.25)'}
                         strokeWidth={isSelected ? 2.5 : 1.5}
@@ -218,7 +218,7 @@ export default function RelationshipGraph() {
                   <circle
                     cx={pos.x}
                     cy={pos.y}
-                    r={isHovered || isSelected ? 16 : 14}
+                    r={isHovered || isSelected ? 24 : 21}
                     fill="none"
                     stroke={isSelected ? '#f4a300' : isHovered ? '#60b8ff' : 'rgba(30,144,255,0.25)'}
                     strokeWidth={isSelected ? 2.5 : 1.5}
@@ -254,15 +254,19 @@ export default function RelationshipGraph() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.3, ease: EASE }}
-            className="bento-card overflow-hidden rounded-2xl p-5"
+            className="glass-elevated overflow-hidden rounded-2xl p-6 border border-gold/10"
           >
-            <div className="mb-3 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Users className="h-4 w-4 text-gold" />
-                <h3 className="text-base font-bold text-pirate-text">{selected.name}</h3>
-                <span className="text-xs text-pirate-muted/50">
-                  {selected.relations.length} ilişki
-                </span>
+            <div className="mb-4 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold/10 border border-gold/20">
+                  <Users className="h-5 w-5 text-gold" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-pirate-text">{selected.name}</h3>
+                  <span className="text-xs text-pirate-muted/60">
+                    {selected.relations.length} ilişki bağlantısı
+                  </span>
+                </div>
               </div>
               <button
                 onClick={() => setSelected(null)}
@@ -272,23 +276,23 @@ export default function RelationshipGraph() {
               </button>
             </div>
 
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               {selected.relations.map((rel) => {
                 const config = RELATION_CONFIG[rel.type]
                 return (
                   <Link
                     key={`${rel.slug}-${rel.type}`}
                     href={`/characters/${rel.slug}`}
-                    className="group flex items-center gap-3 rounded-xl bg-ocean-surface/30 px-3 py-2 transition-colors hover:bg-ocean-surface/60"
+                    className="group flex items-center gap-3 rounded-xl bg-ocean-surface/40 px-4 py-3 border border-pirate-border/20 transition-all hover:bg-ocean-surface/70 hover:border-gold/20 hover:shadow-gold-glow"
                   >
-                    <span className="h-2 w-2 rounded-full" style={{ background: config.color }} />
-                    <span className="text-sm font-semibold text-pirate-text group-hover:text-gold transition-colors">
+                    <span className="h-3 w-3 rounded-full flex-shrink-0" style={{ background: config.color }} />
+                    <span className="text-sm font-semibold text-pirate-text group-hover:text-gold transition-colors flex-1">
                       {rel.name}
                     </span>
-                    <span className="text-[10px] font-medium" style={{ color: config.color }}>
+                    <span className="text-xs font-bold px-2 py-1 rounded-full flex-shrink-0" style={{ background: `${config.color}20`, color: config.color }}>
                       {rel.label ?? config.label}
                     </span>
-                    <ChevronRight className="ml-auto h-3 w-3 text-pirate-muted/30 group-hover:text-gold transition-colors" />
+                    <ChevronRight className="ml-1 h-4 w-4 text-pirate-muted/40 group-hover:text-gold transition-colors" />
                   </Link>
                 )
               })}
