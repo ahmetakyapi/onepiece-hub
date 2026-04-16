@@ -109,8 +109,17 @@ export default function CharacterDetailClient({ character }: { character: Charac
               priority
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-ocean-surface">
-              <Users className="h-32 w-32 text-sea/10" />
+            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-ocean-surface to-ocean-deep relative overflow-hidden">
+              <div className="orb absolute w-80 h-80 bg-sea/[0.07] animate-morph" />
+              <div className="orb absolute w-64 h-64 bg-gold/[0.05] animate-float-delayed" style={{ top: '30%', left: '40%' }} />
+              <div className="relative z-10 flex flex-col items-center gap-3">
+                <div className="h-24 w-24 rounded-full border border-sea/20 bg-ocean-surface flex items-center justify-center shadow-sea-glow">
+                  <span className="text-4xl font-extrabold text-gold/60 select-none">{character.name.charAt(0)}</span>
+                </div>
+                {character.epithet && (
+                  <p className="text-xs font-semibold tracking-widest text-pirate-muted/40 uppercase">{character.epithet}</p>
+                )}
+              </div>
             </div>
           )}
         </motion.div>
@@ -311,7 +320,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
                         className="group bg-ocean-deep/50 px-5 py-3.5 transition-colors hover:bg-ocean-surface/40"
                       >
                         <p className="mb-0.5 flex items-center gap-1.5 text-sm font-semibold text-pirate-text">
-                          <Sparkles className="h-3 w-3 text-gold transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+                          <CategoryIcon className={`h-3 w-3 ${config.color} transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110`} />
                           {ability.name}
                         </p>
                         <p className="text-xs leading-relaxed text-pirate-muted">

@@ -44,7 +44,7 @@ export function GlassCard({ children, className, tilt = false, glow = false }: G
 
   const shineX = useTransform(mouseX, [0, 1], ['0%', '100%'])
   const shineY = useTransform(mouseY, [0, 1], ['0%', '100%'])
-  const shine  = useMotionTemplate`radial-gradient(400px circle at ${shineX} ${shineY}, rgba(244,163,0,0.07), rgba(30,144,255,0.04), transparent 70%)`
+  const shine  = useMotionTemplate`radial-gradient(400px circle at ${shineX} ${shineY}, rgba(244,163,0,0.20), rgba(30,144,255,0.12), transparent 70%)`
 
   return (
     <motion.div

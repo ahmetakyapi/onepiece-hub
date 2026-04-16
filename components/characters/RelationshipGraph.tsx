@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { EASE } from '@/lib/variants'
 import { CHARACTERS } from '@/lib/constants/characters'
+import { CHARACTER_IMAGES } from '@/lib/constants/images'
 import { CHARACTER_RELATIONS, GRAPH_CHARACTERS, RELATION_CONFIG, type RelationType } from '@/lib/constants/relationships'
 
 /* ─── Circular layout for character nodes ─────────────────────────────── */
@@ -100,6 +101,15 @@ export default function RelationshipGraph() {
                 <stop offset="0%" stopColor="rgba(12,24,41,0.5)" />
                 <stop offset="100%" stopColor="rgba(6,14,26,0.8)" />
               </radialGradient>
+              {GRAPH_CHARACTERS.map((slug) => {
+                const pos = positions[slug]
+                if (!pos) return null
+                return (
+                  <clipPath key={`clip-${slug}`} id={`clip-${slug}`}>
+                    <circle cx={pos.x} cy={pos.y} r="14" />
+                  </clipPath>
+                )
+              })}
             </defs>
             <rect width={svgSize} height={svgSize} fill="url(#graph-bg)" />
 
@@ -160,32 +170,63 @@ export default function RelationshipGraph() {
                       fill={slug === 'luffy' ? 'rgba(231,76,60,0.15)' : 'rgba(30,144,255,0.15)'}
                     />
                   )}
-                  {/* Node circle */}
+
+                  {/* Avatar image */}
+                  {CHARACTER_IMAGES[slug] && (
+                    <image
+                      href={CHARACTER_IMAGES[slug]}
+                      x={pos.x - 14}
+                      y={pos.y - 14}
+                      width="28"
+                      height="28"
+                      clipPath={`url(#clip-${slug})`}
+                      preserveAspectRatio="xMidYMin slice"
+                      opacity={selected && !isConnected && !isSelected ? 0.2 : 1}
+                      style={{ transition: 'opacity 0.3s ease-out' }}
+                    />
+                  )}
+
+                  {/* Fallback circle + text if no image */}
+                  {!CHARACTER_IMAGES[slug] && (
+                    <>
+                      <circle
+                        cx={pos.x}
+                        cy={pos.y}
+                        r={isHovered || isSelected ? 16 : 14}
+                        fill={isSelected ? '#f4a300' : 'rgba(12,24,41,0.9)'}
+                        stroke={isSelected ? '#f4a300' : isHovered ? '#60b8ff' : 'rgba(30,144,255,0.25)'}
+                        strokeWidth={isSelected ? 2.5 : 1.5}
+                        opacity={selected && !isConnected && !isSelected ? 0.2 : 1}
+                        className="transition-all duration-300"
+                      />
+                      <text
+                        x={pos.x}
+                        y={pos.y + 5}
+                        textAnchor="middle"
+                        fill={isSelected ? '#060e1a' : '#e8eaf0'}
+                        fontSize="12"
+                        fontWeight="bold"
+                        className="pointer-events-none select-none"
+                        opacity={selected && !isConnected && !isSelected ? 0.2 : 1}
+                      >
+                        {(char?.name ?? slug).charAt(0).toUpperCase()}
+                      </text>
+                    </>
+                  )}
+
+                  {/* Ring on top (always visible) */}
                   <circle
                     cx={pos.x}
                     cy={pos.y}
                     r={isHovered || isSelected ? 16 : 14}
-                    fill={isSelected ? '#f4a300' : 'rgba(12,24,41,0.9)'}
+                    fill="none"
                     stroke={isSelected ? '#f4a300' : isHovered ? '#60b8ff' : 'rgba(30,144,255,0.25)'}
                     strokeWidth={isSelected ? 2.5 : 1.5}
                     opacity={selected && !isConnected && !isSelected ? 0.2 : 1}
                     className="transition-all duration-300"
                   />
-                  {/* First letter */}
-                  <text
-                    x={pos.x}
-                    y={pos.y + 5}
-                    textAnchor="middle"
-                    fill={isSelected ? '#060e1a' : '#e8eaf0'}
-                    fontSize="12"
-                    fontWeight="bold"
-                    className="pointer-events-none select-none"
-                    opacity={selected && !isConnected && !isSelected ? 0.2 : 1}
-                  >
-                    {(char?.name ?? slug).charAt(0).toUpperCase()}
-                  </text>
                   {/* Name label */}
-                  {(isHovered || isSelected) && (
+                  {(isHovered || isSelected || (selected && isConnected)) && (
                     <text
                       x={pos.x}
                       y={pos.y - 22}

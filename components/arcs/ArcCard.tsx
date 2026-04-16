@@ -47,7 +47,7 @@ function ArcCard({ arc }: { arc: Arc }) {
 
   const shineX = useTransform(mouseX, [0, 1], ['0%', '100%'])
   const shineY = useTransform(mouseY, [0, 1], ['0%', '100%'])
-  const shine = useMotionTemplate`radial-gradient(400px circle at ${shineX} ${shineY}, rgba(244,163,0,0.06), rgba(30,144,255,0.03), transparent 70%)`
+  const shine = useMotionTemplate`radial-gradient(400px circle at ${shineX} ${shineY}, rgba(244,163,0,0.18), rgba(30,144,255,0.10), transparent 70%)`
 
   return (
     <motion.div variants={fadeUp} style={{ perspective: '900px' }}>
@@ -78,13 +78,19 @@ function ArcCard({ arc }: { arc: Arc }) {
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
             ) : (
-              <div className="flex h-full w-full items-center justify-center">
-                <Compass className="h-10 w-10 text-sea/15" />
+              <div className="flex h-full w-full items-center justify-center bg-grid-dot bg-grid">
+                <Compass className="h-12 w-12 text-sea/40 animate-float" />
               </div>
             )}
             {/* Gradient overlays */}
             <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep via-ocean-deep/30 to-transparent" />
 
+            {/* Saga badge */}
+            {arc.saga && (
+              <span className="absolute left-3 top-3 tag border-gold/15 bg-gold/[0.08] text-gold/70">
+                {arc.saga.toUpperCase()}
+              </span>
+            )}
             {/* Episode badge */}
             <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-ocean-deep/70 px-2.5 py-1 text-[10px] font-bold text-sea backdrop-blur-md border border-sea/10">
               <Film className="h-2.5 w-2.5" />

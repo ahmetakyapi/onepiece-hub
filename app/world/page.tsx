@@ -17,6 +17,7 @@ import {
 import Link from 'next/link'
 import PageHero from '@/components/wiki/PageHero'
 import WorldMap from '@/components/world/WorldMap'
+import { GlassCard } from '@/components/ui/GlassCard'
 import { SEAS, LOCATIONS, getLocationsBySea } from '@/lib/constants/locations'
 import { getArcBySlug } from '@/lib/constants/arcs'
 import { EASE } from '@/lib/variants'
@@ -263,18 +264,21 @@ export default function WorldPage() {
                 >
                   {/* Section banner */}
                   <div
-                    className={`relative mb-6 overflow-hidden rounded-2xl border border-pirate-border/50 bg-gradient-to-r ${SEA_GRADIENT_BG[sea.slug]}`}
+                    className={`glass-lift relative mb-6 overflow-hidden rounded-2xl border ${SEA_ACCENT_BG[sea.slug]} bg-gradient-to-r ${SEA_GRADIENT_BG[sea.slug]} p-6 sm:p-8 shadow-card-hover`}
                   >
-                    <div className="relative z-10 flex items-center gap-4 px-6 py-5 sm:px-8">
-                      <div className={`flex h-12 w-12 items-center justify-center rounded-xl border ${SEA_ACCENT_BG[sea.slug]}`}>
-                        <Compass className={`h-6 w-6 ${sea.color}`} />
+                    {/* Ambient glow behind */}
+                    <div className="pointer-events-none absolute -right-20 -top-20 h-40 w-40 rounded-full blur-3xl" style={{ background: `${sea.color}20` }} />
+
+                    <div className="relative z-10 flex items-center gap-4">
+                      <div className={`flex h-14 w-14 items-center justify-center rounded-xl border-2 ${SEA_ACCENT_BG[sea.slug]} shadow-gold-glow`}>
+                        <Compass className={`h-7 w-7 ${sea.color}`} />
                       </div>
-                      <div>
-                        <h2 className={`text-xl font-extrabold sm:text-2xl ${sea.color}`}>
+                      <div className="flex-1">
+                        <h2 className={`text-2xl font-extrabold sm:text-3xl bg-gradient-to-r from-current to-current/60 bg-clip-text text-transparent ${sea.color}`}>
                           {sea.name}
                         </h2>
-                        <p className="text-xs text-pirate-muted">
-                          {locations.length} lokasyon
+                        <p className="mt-1 text-sm font-medium text-pirate-muted/70">
+                          {locations.length} lokasyon • {sea.slug === 'east-blue' ? 'Başlangıç' : 'Keşfet'}
                         </p>
                       </div>
                     </div>
@@ -294,10 +298,8 @@ export default function WorldPage() {
                       const TypeIcon = TYPE_ICONS[loc.type] ?? MapPin
 
                       return (
-                        <div
-                          key={loc.slug}
-                          className={`bento-card group rounded-xl border-l-[3px] ${SEA_BORDER_COLORS[sea.slug]} p-5 transition-all hover:border-gold/20`}
-                        >
+                        <GlassCard key={loc.slug} tilt glow className={`border-l-[3px] ${SEA_BORDER_COLORS[sea.slug]} group rounded-xl p-5`}>
+                          <div>
                           <div className="mb-3 flex items-start justify-between">
                             <div className="flex items-center gap-2.5">
                               <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${SEA_ACCENT_BG[sea.slug]}`}>
@@ -376,7 +378,8 @@ export default function WorldPage() {
                               })}
                             </div>
                           )}
-                        </div>
+                          </div>
+                        </GlassCard>
                       )
                     })}
                   </div>

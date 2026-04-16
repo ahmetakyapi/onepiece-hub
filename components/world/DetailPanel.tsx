@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { X, Shield, ChevronRight, MapPin } from 'lucide-react'
 import Link from 'next/link'
 import { SEAS } from '@/lib/constants/locations'
@@ -7,6 +8,7 @@ import { getArcBySlug } from '@/lib/constants/arcs'
 import { EASE } from '@/lib/variants'
 import {
   SEA_MARKER_COLORS,
+  SEA_MARKER_GLOW,
   TYPE_ICONS,
   TYPE_LABELS,
   DANGER_COLORS,
@@ -44,6 +46,20 @@ export default function DetailPanel({
         className="m-3 sm:m-4"
       >
       <div className="glass-elevated scrollbar-thin max-h-[calc(100vh-200px)] w-[calc(100vw-24px)] overflow-y-auto rounded-2xl sm:w-[360px]">
+        {/* Image */}
+        {location.image && (
+          <div className="relative h-28 w-full overflow-hidden rounded-t-2xl bg-ocean-surface/50">
+            <Image
+              src={location.image}
+              alt={location.name}
+              fill
+              className="object-cover object-center"
+              sizes="360px"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-ocean-deep" />
+          </div>
+        )}
+
         {/* Header */}
         <div className="relative border-b border-pirate-border/30 p-5">
           <div
@@ -79,7 +95,7 @@ export default function DetailPanel({
                     <span className="text-pirate-muted/30">·</span>
                     <span
                       className="text-[10px] font-semibold"
-                      style={{ color: sea?.color.replace('text-', '') }}
+                      style={{ color: SEA_MARKER_COLORS[location.sea] ?? '#e8eaf0' }}
                     >
                       {sea?.name}
                     </span>

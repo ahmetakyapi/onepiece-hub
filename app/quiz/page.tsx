@@ -38,21 +38,22 @@ export default function QuizHubPage() {
   const totalQuestions = QUIZZES.reduce((acc, q) => acc + q.questions.length, 0)
 
   return (
-      <main className="min-h-screen">
-        <PageHero
-          title="Quiz Arena"
-          subtitle="One Piece bilgini test et!"
-          icon={BrainCircuit}
-          accentColor="purple"
-          orbs={[
-            { color: 'rgba(168, 85, 247, 0.4)', size: 280, x: '15%', y: '25%', delay: 0 },
-            { color: 'rgba(244, 163, 0, 0.2)', size: 200, x: '75%', y: '15%', delay: 1.5 },
-            { color: 'rgba(168, 85, 247, 0.15)', size: 220, x: '85%', y: '65%', delay: 3 },
-          ]}
-        />
+      <main className="relative min-h-screen">
+        <div className="mx-auto max-w-6xl px-6">
+          <PageHero
+            title="Quiz Arena"
+            subtitle="One Piece bilgini test et!"
+            icon={BrainCircuit}
+            accentColor="purple"
+            orbs={[
+              { color: 'rgba(168, 85, 247, 0.4)', size: 280, x: '15%', y: '25%', delay: 0 },
+              { color: 'rgba(244, 163, 0, 0.2)', size: 200, x: '75%', y: '15%', delay: 1.5 },
+              { color: 'rgba(168, 85, 247, 0.15)', size: 220, x: '85%', y: '65%', delay: 3 },
+            ]}
+          />
 
-        {/* Stats */}
-        <section className="max-w-6xl mx-auto px-4 -mt-6 mb-12 relative z-10">
+          {/* Stats */}
+          <section className="max-w-6xl mx-auto px-4 -mt-6 mb-12 relative z-10">
           <motion.div
             variants={staggerContainer(0.1)}
             initial="hidden"
@@ -143,6 +144,7 @@ export default function QuizHubPage() {
             ))}
           </motion.div>
         </section>
+        </div>
       </main>
   )
 }

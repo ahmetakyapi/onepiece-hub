@@ -31,7 +31,7 @@ function LocationMarkerInner({
       onMouseLeave={onLeave}
     >
       {/* Pulse ring — always visible, slower for selected */}
-      <circle cx={position.x} cy={position.y} r="12" fill="none" opacity="0">
+      <circle cx={position.x} cy={position.y} r="12" fill="none" stroke={color} opacity="0">
         <animate
           attributeName="r"
           values="6;16;6"

@@ -209,14 +209,30 @@ export function Decorations() {
 export function JourneyRoute({ path }: { path: string }) {
   if (!path) return null
   return (
-    <g filter="url(#routeGlow)">
+    <g>
+      {/* Glow halo */}
       <path
         d={path}
         fill="none"
-        stroke="rgba(244,163,0,0.12)"
+        stroke="rgba(244,163,0,0.20)"
+        strokeWidth="6"
+        strokeDasharray="8,5"
+        strokeLinecap="round"
+        filter="url(#routeGlow)"
+      />
+      {/* Crisp line with animation */}
+      <path
+        d={path}
+        fill="none"
+        stroke="rgba(244,163,0,0.65)"
         strokeWidth="2"
         strokeDasharray="8,5"
         strokeLinecap="round"
+        style={{
+          '--line-length': '3000',
+          strokeDashoffset: 0,
+          animation: 'draw-line 3s cubic-bezier(0.22,1,0.36,1) both',
+        } as React.CSSProperties}
       />
     </g>
   )
