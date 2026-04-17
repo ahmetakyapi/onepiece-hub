@@ -1672,6 +1672,27 @@ export const CHARACTERS: Character[] = [
       { name: 'Mantra (Kenbunshoku Haki)', description: 'Doğuştan gelen Gözlem Haki yeteneği. Çevresindeki tüm canlıları hisseder ve yaşam enerjilerini algılar.', category: 'Haki' },
     ],
   },
+  {
+    name: 'Zeff',
+    slug: 'zeff',
+    image: '/characters/zeff.webp',
+    crew: 'other',
+    epithet: 'Kırmızı Bacak',
+    bounty: 'Eski — Bilinmiyor',
+    description: 'Eski Cocobouni Korsanları\'nın kaptanı, efsanevi "Kırmızı Bacak" Zeff. Sanji\'nin akıl hocası ve Baratie\'nin baş aşçısı.',
+    backstory: 'Zeff, gençliğinde North Blue\'nun korkulan korsan aşçısıydı. "Kırmızı Bacak" lakabını, bacak dövüş stiliyle düşmanlarını parçalayarak kazandı — kolları her zaman yemek hazırlamak için temiz kalmalıydı. All Blue\'yu aramak için yıllarca denizlerde dolaştı ve onun varlığına kesin olarak inandı. Bir fırtınada küçük Sanji ile aynı adaya düştüler. 85 gün boyunca aç kaldılar; Zeff tüm yemeği Sanji\'ye verdi ve kendi bacağını yiyerek hayatta kaldı. Kurtarıldıktan sonra korsanlığı bırakıp yüzen restoran Baratie\'yi açtı ve Sanji\'yi büyüttü — aşçı olmayı ve "her misafire yemek vermeyi" öğretti. "Bir aşçının kalbi yemekte, yumruğu değil bacağı konuşmalı" felsefesini Sanji\'ye aktardı.',
+    role: 'Baratie\'nin baş aşçısı — Sanji\'nin akıl hocası ve ikinci babası',
+    age: '64',
+    height: '210 cm',
+    origin: 'North Blue',
+    firstArc: 'baratie',
+    appearances: ['baratie'],
+    abilities: [
+      { name: 'Kırmızı Bacak Stili', description: 'Elleri yemek pişirmek için temiz kalsın diye geliştirdiği efsanevi bacak dövüş stili. Sanji\'nin Black Leg tekniğinin kökeni.', category: 'Fiziksel' },
+      { name: 'Usta Aşçılık', description: 'Grand Line seviyesinde aşçılık becerisi. Herhangi bir malzemeden yüksek kalitede yemek çıkarabilir. All Blue hayalinin kurucusu.', category: 'Özel' },
+      { name: 'Deniz Navigasyonu', description: 'Eski korsanlık günlerinden kalma deneyim. North Blue ve Grand Line sularında yılların tecrübesi.', category: 'Özel' },
+    ],
+  },
 ]
 
 export function getCharacterBySlug(slug: string): Character | undefined {

@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useScroll, useTransform, useInView, useMotionTemplate } from 'framer-motion'
+import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import { Play, Compass, Cherry, Shield, Globe, Anchor, Swords, Trophy, Clock, ArrowRight, Sparkles, Map, Skull, ChevronDown } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -16,8 +16,8 @@ const WaveBackground = dynamic(() => import('@/components/home/WaveBackground'),
 const StatsBar = dynamic(() => import('@/components/home/StatsBar'), { ssr: false })
 const ArcTimeline = dynamic(() => import('@/components/home/ArcTimeline'), { ssr: false })
 const JourneyScroll = dynamic(() => import('@/components/home/JourneyScroll'), { ssr: false })
-const PoneglyphOverlay = dynamic(() => import('@/components/home/PoneglyphOverlay'), { ssr: false })
 const FeaturedArcSpotlight = dynamic(() => import('@/components/home/FeaturedArcSpotlight'), { ssr: false })
+const VoidCenturySection = dynamic(() => import('@/components/home/VoidCenturySection'), { ssr: false })
 
 /* ─── Hero Text Animations ────────────────────────────────────────────── */
 const wordVariants = {
@@ -58,265 +58,182 @@ const WIKI_ITEMS = [
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
+
+  // Subtle parallax on the hero background as the user scrolls past it
+  const { scrollYProgress: heroProgress } = useScroll({
     target: heroRef,
-    offset: ['start start', 'end end'],
+    offset: ['start start', 'end start'],
   })
-
-  // Scene 1 (intro) — visible during first 40% of the sticky sequence
-  const scene1Opacity = useTransform(scrollYProgress, [0, 0.25, 0.4], [1, 1, 0])
-  const scene1Y = useTransform(scrollYProgress, [0, 0.4], [0, -60])
-
-  // Scene 2 (poneglyph reveal) — takes over mid-scroll, stays until the end (no dead space)
-  const scene2Opacity = useTransform(scrollYProgress, [0.32, 0.5, 0.95, 1], [0, 1, 1, 0])
-  const scene2Y = useTransform(scrollYProgress, [0.32, 0.5], [40, 0])
-
-  // Scroll hint in scene 2 — appears once scene 2 is settled, pulses to invite continuation
-  const scene2HintOpacity = useTransform(scrollYProgress, [0.55, 0.7, 0.9, 0.96], [0, 1, 1, 0])
-
-  // Background parallax / zoom across full sequence
-  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '14%'])
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1.08, 1.28])
-  const bgBlur = useTransform(scrollYProgress, [0, 0.5, 1], ['0px', '0px', '5px'])
-  const bgBrightness = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.78, 0.58])
-  const bgFilter = useMotionTemplate`blur(${bgBlur}) brightness(${bgBrightness})`
-
-  // Poneglyph overlay intensity — follows scene 2
-  const poneglyphOpacity = useTransform(scrollYProgress, [0.35, 0.6, 0.95, 1], [0, 0.6, 0.7, 0])
-
-  // Exit fade — tight window at the very end, no dead scroll
-  const heroExitOpacity = useTransform(scrollYProgress, [0.96, 1], [1, 0])
+  const bgY = useTransform(heroProgress, [0, 1], ['0%', '20%'])
+  const bgScale = useTransform(heroProgress, [0, 1], [1.08, 1.18])
+  const heroContentOpacity = useTransform(heroProgress, [0, 0.6, 1], [1, 1, 0.2])
 
   const wikiRef = useRef<HTMLDivElement>(null)
   const wikiInView = useInView(wikiRef, { once: true, margin: '-80px' })
 
   return (
       <main className="relative min-h-screen overflow-hidden">
-        {/* ─── Hero — Sticky multi-scene sequence ─────────────────── */}
+        {/* ─── Hero — Single-screen, normal scroll ────────────────── */}
         <section
           ref={heroRef}
-          className="relative z-10 h-[130vh] sm:h-[160vh]"
+          className="relative z-10 h-screen min-h-[640px] overflow-hidden"
         >
+          {/* Parallax background image */}
           <motion.div
-            style={{ opacity: heroExitOpacity }}
-            className="sticky top-0 h-screen overflow-hidden"
+            className="absolute inset-0"
+            style={{ y: bgY, scale: bgScale }}
           >
-            {/* Parallax background image */}
+            <Image
+              src="/hero.webp"
+              alt="One Piece Hero"
+              fill
+              className="object-cover"
+              priority
+              sizes="100vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-ocean-deep/60 via-ocean-deep/20 to-ocean-deep" />
+            <div className="absolute inset-0 bg-gradient-to-r from-ocean-deep/50 via-transparent to-ocean-deep/50" />
+            <div className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-ocean-deep via-ocean-deep/80 to-transparent" />
+            <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-ocean-deep/60 to-transparent" />
+          </motion.div>
+
+          {/* Particles */}
+          <ParticleField />
+
+          {/* Morphing decorative shape */}
+          <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <motion.div
-              className="absolute inset-0"
-              style={{ y: bgY, scale: bgScale, filter: bgFilter }}
+              className="h-[500px] w-[500px] animate-morph opacity-[0.04]"
+              style={{
+                background: 'radial-gradient(circle, rgba(244,163,0,0.6), rgba(30,144,255,0.4), transparent 70%)',
+              }}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 40, ease: 'linear', repeat: Infinity }}
+            />
+          </div>
+
+          {/* Hero content — positioned center-bottom */}
+          <motion.div
+            style={{ opacity: heroContentOpacity }}
+            className="relative z-10 flex h-full flex-col items-center px-6 pt-[12vh] text-center sm:pt-[16vh]"
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 16, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
+              className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/[0.06] px-4 py-1.5 backdrop-blur-md"
             >
-              <Image
-                src="/hero.webp"
-                alt="One Piece Hero"
-                fill
-                className="object-cover"
-                priority
-                sizes="100vw"
-              />
-              {/* Cinematic vignette overlays */}
-              <div className="absolute inset-0 bg-gradient-to-b from-ocean-deep/60 via-ocean-deep/20 to-ocean-deep" />
-              <div className="absolute inset-0 bg-gradient-to-r from-ocean-deep/50 via-transparent to-ocean-deep/50" />
-              <div className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-ocean-deep via-ocean-deep/80 to-transparent" />
-              <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-ocean-deep/60 to-transparent" />
+              <Sparkles className="h-3 w-3 text-gold" />
+              <span className="text-[11px] font-semibold tracking-wide text-gold">
+                FILLER&apos;SIZ ARC BAZLI
+              </span>
             </motion.div>
 
-            {/* Particles */}
-            <ParticleField />
+            <div className="flex-1" />
 
-            {/* Poneglyph overlay — emerges in scene 2 */}
-            <motion.div className="absolute inset-0" style={{ opacity: poneglyphOpacity }}>
-              <PoneglyphOverlay />
-            </motion.div>
-
-            {/* Morphing decorative shape */}
-            <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-              <motion.div
-                className="h-[500px] w-[500px] animate-morph opacity-[0.04]"
-                style={{
-                  background: 'radial-gradient(circle, rgba(244,163,0,0.6), rgba(30,144,255,0.4), transparent 70%)',
-                }}
-                animate={{ rotate: 360 }}
-                transition={{ duration: 40, ease: 'linear', repeat: Infinity }}
-              />
-            </div>
-
-            {/* Scene 1 — Brand hero */}
-            <motion.div
-              style={{ opacity: scene1Opacity, y: scene1Y }}
-              className="absolute inset-0 z-10 flex flex-col items-center px-6 text-center"
-            >
-              <motion.div
-                initial={{ opacity: 0, y: 16, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
-                className="mt-[14vh] inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/[0.06] px-4 py-1.5 backdrop-blur-md sm:mt-[20vh]"
-              >
-                <Sparkles className="h-3 w-3 text-gold" />
-                <span className="text-[11px] font-semibold tracking-wide text-gold">
-                  FILLER&apos;SIZ ARC BAZLI
-                </span>
-              </motion.div>
-
-              <div className="flex-1" />
-
-              <div className="max-w-3xl pb-16 sm:pb-28">
-                <h1 className="mb-6 text-4xl font-extrabold leading-[1.1] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] sm:text-5xl md:text-6xl lg:text-7xl">
-                  {['One', 'Piece'].map((word, i) => (
-                    <motion.span
-                      key={word}
-                      custom={i}
-                      variants={wordVariants}
-                      initial="hidden"
-                      animate="visible"
-                      className="inline-block text-gold-gradient mr-3"
-                    >
-                      {word}
-                    </motion.span>
-                  ))}
-                  <br className="sm:hidden" />
-                  {['Evrenine', 'Dalmaya'].map((word, i) => (
-                    <motion.span
-                      key={word}
-                      custom={i + 2}
-                      variants={wordVariants}
-                      initial="hidden"
-                      animate="visible"
-                      className="inline-block text-white mr-3 drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)]"
-                    >
-                      {word}
-                    </motion.span>
-                  ))}
-                  <br className="hidden sm:block" />
+            <div className="max-w-3xl pb-10 sm:pb-16">
+              <h1 className="mb-6 text-4xl font-extrabold leading-[1.1] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] sm:text-5xl md:text-6xl lg:text-7xl">
+                {['One', 'Piece'].map((word, i) => (
                   <motion.span
-                    custom={4}
+                    key={word}
+                    custom={i}
                     variants={wordVariants}
                     initial="hidden"
                     animate="visible"
-                    className="inline-block text-gold-gradient"
+                    className="inline-block text-gold-gradient mr-3"
                   >
-                    Hazır Mısın?
+                    {word}
                   </motion.span>
-                </h1>
-
-                <motion.div
-                  variants={lineReveal}
+                ))}
+                <br className="sm:hidden" />
+                {['Evrenine', 'Dalmaya'].map((word, i) => (
+                  <motion.span
+                    key={word}
+                    custom={i + 2}
+                    variants={wordVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="inline-block text-white mr-3 drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)]"
+                  >
+                    {word}
+                  </motion.span>
+                ))}
+                <br className="hidden sm:block" />
+                <motion.span
+                  custom={4}
+                  variants={wordVariants}
                   initial="hidden"
                   animate="visible"
-                  className="mx-auto mb-6 h-px w-32 origin-left"
-                  style={{
-                    background: 'linear-gradient(90deg, transparent, rgba(244,163,0,0.5), rgba(30,144,255,0.5), transparent)',
-                  }}
-                />
-
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1, duration: 0.7, ease: EASE }}
-                  className="mx-auto mb-8 max-w-lg text-sm leading-relaxed text-white/80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] sm:text-base"
+                  className="inline-block text-gold-gradient"
                 >
-                  Filler&apos;sız arc bazlı bölümler, karakter ansiklopedisi,
-                  izleme takibi ve daha fazlası.
-                </motion.p>
+                  Hazır Mısın?
+                </motion.span>
+              </h1>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.15, duration: 0.7, ease: EASE }}
-                  className="flex flex-wrap items-center justify-center gap-4"
-                >
-                  <Link href="/arcs" className="btn-gold group text-sm sm:text-base">
-                    <Play className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
-                    İzlemeye Başla
-                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </Link>
-                  <Link href="/characters" className="btn-ghost border-white/10 text-white text-sm sm:text-base group">
-                    <Compass className="h-4 w-4 transition-transform duration-500 group-hover:rotate-90" />
-                    Karakterleri Keşfet
-                  </Link>
-                </motion.div>
-
-                {/* Scroll hint — only visible in scene 1 */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.5, duration: 0.8 }}
-                  className="mt-10 flex flex-col items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/40"
-                >
-                  <span>Scroll — Poneglyph&apos;in sırrı</span>
-                  <span className="block h-6 w-px animate-pulse bg-gradient-to-b from-gold/60 to-transparent" />
-                </motion.div>
-              </div>
-            </motion.div>
-
-            {/* Scene 2 — Poneglyph reveal */}
-            <motion.div
-              style={{ opacity: scene2Opacity, y: scene2Y }}
-              className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 pt-20 text-center sm:pt-0"
-            >
-              <div className="max-w-3xl">
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-sea/25 bg-ocean-deep/60 px-4 py-1.5 backdrop-blur-md sm:mb-6">
-                  <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold/60" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
-                  </span>
-                  <span className="text-[10px] font-semibold tracking-[0.18em] text-sea-light sm:text-[11px]">
-                    POSEIDON&apos;UN SESİ
-                  </span>
-                </div>
-
-                <h2 className="mb-4 text-[26px] font-extrabold leading-[1.05] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.75)] sm:mb-5 sm:text-5xl md:text-6xl">
-                  <span className="block text-white/90">Void Century&apos;nin</span>
-                  <span className="block text-gold-gradient">sırları burada.</span>
-                </h2>
-
-                <p className="mx-auto mb-6 max-w-xl text-[13px] leading-relaxed text-white/75 drop-shadow-[0_2px_8px_rgba(0,0,0,0.65)] sm:mb-8 sm:text-base">
-                  800 yıl önce kaybolan bir çağ. 32 arc&apos;lık destansı yolculuk.
-                  <span className="text-gold"> 61 karakter, 12 mürettebat, 43 Şeytan Meyvesi </span>
-                  ve henüz söylenmemiş binlerce hikaye.
-                </p>
-
-                <div className="flex flex-wrap items-center justify-center gap-2 text-xs sm:gap-3 sm:text-sm">
-                  <Link href="/timeline" className="btn-ghost border-gold/20 bg-gold/[0.06] text-gold group !py-2 !px-3 sm:!py-2.5 sm:!px-4">
-                    <Sparkles className="h-3.5 w-3.5 transition-transform duration-500 group-hover:rotate-12 sm:h-4 sm:w-4" />
-                    Zaman Çizelgesi
-                  </Link>
-                  <Link href="/world" className="btn-ghost border-sea/20 bg-sea/[0.06] text-sea group !py-2 !px-3 sm:!py-2.5 sm:!px-4">
-                    <Map className="h-3.5 w-3.5 transition-transform duration-500 group-hover:scale-110 sm:h-4 sm:w-4" />
-                    Dünya Haritası
-                  </Link>
-                  <Link href="/devil-fruits" className="btn-ghost border-purple-400/20 bg-purple-400/[0.06] text-purple-300 group !py-2 !px-3 sm:!py-2.5 sm:!px-4">
-                    <Cherry className="h-3.5 w-3.5 transition-transform duration-500 group-hover:rotate-12 sm:h-4 sm:w-4" />
-                    Şeytan Meyveleri
-                  </Link>
-                </div>
-              </div>
-
-              {/* Scroll-down hint — appears when scene 2 has settled */}
               <motion.div
-                style={{ opacity: scene2HintOpacity }}
-                className="pointer-events-none absolute inset-x-0 bottom-8 flex flex-col items-center gap-1.5 sm:bottom-10"
-              >
-                <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/50 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
-                  Devam et
-                </span>
-                <motion.div
-                  animate={{ y: [0, 6, 0] }}
-                  transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-                  className="flex h-7 w-7 items-center justify-center rounded-full border border-gold/30 bg-ocean-deep/60 backdrop-blur-md"
-                >
-                  <ChevronDown className="h-3.5 w-3.5 text-gold" />
-                </motion.div>
-              </motion.div>
-            </motion.div>
+                variants={lineReveal}
+                initial="hidden"
+                animate="visible"
+                className="mx-auto mb-6 h-px w-32 origin-left"
+                style={{
+                  background: 'linear-gradient(90deg, transparent, rgba(244,163,0,0.5), rgba(30,144,255,0.5), transparent)',
+                }}
+              />
 
-            {/* Wave transition — persists across scenes */}
-            <WaveBackground />
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1, duration: 0.7, ease: EASE }}
+                className="mx-auto mb-8 max-w-lg text-sm leading-relaxed text-white/80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] sm:text-base"
+              >
+                Filler&apos;sız arc bazlı bölümler, karakter ansiklopedisi,
+                izleme takibi ve daha fazlası.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.15, duration: 0.7, ease: EASE }}
+                className="flex flex-wrap items-center justify-center gap-4"
+              >
+                <Link href="/arcs" className="btn-gold group text-sm sm:text-base">
+                  <Play className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+                  İzlemeye Başla
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+                <Link href="/characters" className="btn-ghost border-white/10 text-white text-sm sm:text-base group">
+                  <Compass className="h-4 w-4 transition-transform duration-500 group-hover:rotate-90" />
+                  Karakterleri Keşfet
+                </Link>
+              </motion.div>
+            </div>
           </motion.div>
+
+          {/* Bottom scroll hint — bounces gently */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.6, duration: 0.8 }}
+            className="pointer-events-none absolute inset-x-0 bottom-6 z-20 flex flex-col items-center gap-1.5 sm:bottom-8"
+          >
+            <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/50 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
+              Keşfetmeye başla
+            </span>
+            <motion.div
+              animate={{ y: [0, 6, 0] }}
+              transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+              className="flex h-7 w-7 items-center justify-center rounded-full border border-gold/30 bg-ocean-deep/60 backdrop-blur-md"
+            >
+              <ChevronDown className="h-3.5 w-3.5 text-gold" />
+            </motion.div>
+          </motion.div>
+
+          {/* Wave transition at bottom */}
+          <WaveBackground />
         </section>
 
-        {/* ─── Stats ─────────────────────────────────────────────── */}
-        <section className="relative z-10 px-6 pt-6 pb-12 sm:py-20">
+        {/* ─── Stats — tight-to-hero ─────────────────────────────── */}
+        <section className="relative z-10 -mt-4 px-6 pt-2 pb-12 sm:mt-0 sm:pt-10 sm:pb-20">
           <StatsBar />
         </section>
 
@@ -331,6 +248,9 @@ export default function Home() {
 
         {/* ─── Featured Arc Spotlight ─────────────────────────── */}
         <FeaturedArcSpotlight />
+
+        {/* ─── Void Century Section (Scene 2 reborn as chapter break) ─── */}
+        <VoidCenturySection />
 
         {/* ─── Journey Scroll Storytelling ────────────────────────── */}
         <JourneyScroll />

@@ -88,7 +88,7 @@ export default function RootLayout({
           <ToastContainer />
           <Header />
           <main id="main-content">{children}</main>
-          <div className="pb-16 md:pb-0">
+          <div style={{ paddingBottom: 'calc(max(env(safe-area-inset-bottom), 0px) + 72px)' }} className="md:!pb-0">
             <Footer />
           </div>
           <MobileBottomNav />

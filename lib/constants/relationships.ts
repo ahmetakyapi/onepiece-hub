@@ -43,7 +43,7 @@ export const CHARACTER_RELATIONS: CharacterRelation[] = [
   // Rivalries & Enemies
   { from: 'luffy', to: 'blackbeard', type: 'enemy' },
   { from: 'luffy', to: 'kaido', type: 'enemy' },
-  { from: 'luffy', to: 'big-mom', type: 'enemy' },
+  { from: 'luffy', to: 'bigmom', type: 'enemy' },
   { from: 'luffy', to: 'akainu', type: 'enemy' },
   { from: 'luffy', to: 'law', type: 'ally', label: 'İttifak' },
 
@@ -61,12 +61,12 @@ export const CHARACTER_RELATIONS: CharacterRelation[] = [
   { from: 'ace', to: 'whitebeard', type: 'family', label: 'Oğul-Baba' },
   { from: 'robin', to: 'aokiji', type: 'enemy' },
   { from: 'law', to: 'doflamingo', type: 'enemy', label: 'Kan Davası' },
-  { from: 'law', to: 'corazon', type: 'mentor', label: 'Kurtarıcı' },
+  { from: 'law', to: 'rosinante', type: 'mentor', label: 'Kurtarıcı' },
 ]
 
 /** Character nodes for the graph */
 export const GRAPH_CHARACTERS = [
   'luffy', 'zoro', 'nami', 'usopp', 'sanji', 'chopper', 'robin', 'franky', 'brook', 'jinbe',
-  'shanks', 'ace', 'sabo', 'garp', 'mihawk', 'blackbeard', 'law', 'kaido', 'big-mom',
-  'whitebeard', 'akainu', 'aokiji', 'doflamingo', 'corazon', 'zeff',
+  'shanks', 'ace', 'sabo', 'garp', 'mihawk', 'blackbeard', 'law', 'kaido', 'bigmom',
+  'whitebeard', 'akainu', 'aokiji', 'doflamingo', 'rosinante', 'zeff',
 ] as const

@@ -105,6 +105,7 @@ export const CHARACTER_IMAGES: Record<string, string> = {
   'tashigi': '/characters/tashigi.webp',
   'sentomaru': '/characters/sentomaru.webp',
   'vergo': '/characters/vergo.webp',
+  'zeff': '/characters/zeff.webp',
 }
 
 export function getArcImage(slug: string): string {

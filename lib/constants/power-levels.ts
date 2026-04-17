@@ -38,7 +38,7 @@ export const POWER_LEVELS: PowerStats[] = [
   { slug: 'chopper', overall: 65, stats: { strength: 75, speed: 60, haki: 30, devilFruit: 70, intelligence: 90, endurance: 65 } },
   { slug: 'shanks', overall: 98, stats: { strength: 96, speed: 95, haki: 100, devilFruit: 0, intelligence: 92, endurance: 95 } },
   { slug: 'kaido', overall: 99, stats: { strength: 100, speed: 85, haki: 97, devilFruit: 98, intelligence: 70, endurance: 100 } },
-  { slug: 'big-mom', overall: 96, stats: { strength: 98, speed: 75, haki: 95, devilFruit: 96, intelligence: 78, endurance: 98 } },
+  { slug: 'bigmom', overall: 96, stats: { strength: 98, speed: 75, haki: 95, devilFruit: 96, intelligence: 78, endurance: 98 } },
   { slug: 'blackbeard', overall: 95, stats: { strength: 92, speed: 72, haki: 88, devilFruit: 100, intelligence: 90, endurance: 90 } },
   { slug: 'mihawk', overall: 95, stats: { strength: 97, speed: 92, haki: 94, devilFruit: 0, intelligence: 85, endurance: 92 } },
   { slug: 'akainu', overall: 94, stats: { strength: 92, speed: 80, haki: 90, devilFruit: 98, intelligence: 85, endurance: 95 } },

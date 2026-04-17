@@ -201,26 +201,36 @@ export default function CommandPalette() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.97 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="surface fixed left-1/2 top-24 z-[101] w-[92vw] max-w-2xl -translate-x-1/2 overflow-hidden rounded-2xl"
+            className="surface fixed inset-x-3 top-4 z-[101] overflow-hidden rounded-2xl sm:inset-x-auto sm:left-1/2 sm:top-24 sm:w-[92vw] sm:max-w-2xl sm:-translate-x-1/2"
           >
-            <div className="flex items-center gap-3 border-b border-pirate-border/20 px-5 py-4">
-              <Search className="h-5 w-5 text-gold/70" />
+            <div className="flex items-center gap-3 border-b border-pirate-border/20 px-4 py-3.5 sm:px-5 sm:py-4">
+              <Search className="h-4 w-4 flex-shrink-0 text-gold/70 sm:h-5 sm:w-5" />
               <input
                 ref={inputRef}
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={onInputKey}
-                placeholder="Karakter, arc, şeytan meyvesi veya sayfa ara..."
+                placeholder="Ara..."
                 className="flex-1 bg-transparent text-sm text-pirate-text placeholder:text-pirate-muted/50 focus:outline-none sm:text-base"
                 aria-label="Arama"
               />
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                aria-label="Kapat"
+                className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg border border-pirate-border/40 bg-ocean-surface/60 text-pirate-muted transition-colors hover:text-pirate-text sm:hidden"
+              >
+                <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+              </button>
               <kbd className="hidden items-center gap-1 rounded border border-pirate-border/40 bg-ocean-surface/60 px-2 py-0.5 text-[10px] font-bold text-pirate-muted sm:inline-flex">
                 ESC
               </kbd>
             </div>
 
-            <div ref={listRef} className="max-h-[50vh] overflow-y-auto scrollbar-thin">
+            <div ref={listRef} className="max-h-[calc(100vh-12rem)] overflow-y-auto scrollbar-thin sm:max-h-[50vh]">
               {results.length === 0 ? (
                 <div className="px-5 py-10 text-center">
                   <Search className="mx-auto mb-3 h-10 w-10 text-pirate-muted/30" />

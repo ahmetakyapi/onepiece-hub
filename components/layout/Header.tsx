@@ -20,6 +20,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [wikiOpen, setWikiOpen] = useState(false)
+  const [isMac, setIsMac] = useState(true)
   const wikiRef = useRef<HTMLDivElement>(null)
   const { user, logout, loading } = useAuth()
   const { scrollY } = useScroll()
@@ -27,7 +28,10 @@ export default function Header() {
 
   const isWikiActive = WIKI_LINKS.some((link) => pathname.startsWith(link.href))
 
-  useEffect(() => { setMounted(true) }, [])
+  useEffect(() => {
+    setMounted(true)
+    setIsMac(/Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent))
+  }, [])
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     setScrolled(latest > 20)
@@ -205,12 +209,12 @@ export default function Header() {
               type="button"
               onClick={() => window.dispatchEvent(new Event('open-command-palette'))}
               className="group hidden h-9 items-center gap-2 rounded-xl border border-pirate-border/30 bg-ocean-surface/40 pl-3 pr-2 text-[12px] text-pirate-muted transition-all duration-200 hover:border-gold/25 hover:bg-gold/[0.06] hover:text-gold sm:flex"
-              title="Ara (Ctrl+K)"
+              title={isMac ? 'Ara (⌘K)' : 'Ara (Ctrl+K)'}
             >
               <Search className="h-3.5 w-3.5" />
               <span>Ara</span>
               <kbd className="ml-1 rounded border border-pirate-border/40 bg-ocean-deep/50 px-1.5 py-0.5 text-[9px] font-bold tracking-wider">
-                ⌘K
+                {isMac ? '⌘K' : 'Ctrl+K'}
               </kbd>
             </button>
             <button
