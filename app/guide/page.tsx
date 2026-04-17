@@ -355,9 +355,9 @@ export default function GuidePage() {
 
         {/* ─── Ambient Background ─────────────────────────────── */}
         <div className="pointer-events-none fixed inset-0">
-          <div className="absolute -top-32 left-[15%] h-[600px] w-[600px] animate-float-slow rounded-full bg-gold/[0.025] blur-[150px]" />
-          <div className="absolute top-[50%] right-[5%] h-[500px] w-[500px] animate-float-delayed rounded-full bg-sea/[0.025] blur-[150px]" />
-          <div className="absolute bottom-[5%] left-[5%] h-[400px] w-[400px] rounded-full bg-luffy/[0.015] blur-[120px]" />
+          <div className="absolute -top-32 left-[15%] h-[600px] w-[600px] animate-float-slow rounded-full bg-gold/[0.025] blur-[100px]" />
+          <div className="absolute top-[50%] right-[5%] h-[500px] w-[500px] animate-float-delayed rounded-full bg-sea/[0.025] blur-[100px]" />
+          <div className="absolute bottom-[5%] left-[5%] h-[400px] w-[400px] rounded-full bg-luffy/[0.015] blur-[80px]" />
         </div>
 
         <div className="relative mx-auto max-w-4xl px-5 sm:px-6">

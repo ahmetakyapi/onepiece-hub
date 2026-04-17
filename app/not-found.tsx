@@ -16,8 +16,8 @@ const QUICK_LINKS = [
 export default function NotFound() {
   return (
     <main className="relative min-h-screen flex items-center justify-center px-4 py-24 overflow-hidden">
-      <div className="orb absolute w-[360px] h-[360px] rounded-full blur-[140px] opacity-25" style={{ background: 'rgba(244, 163, 0, 0.5)', top: '6%', left: '8%' }} />
-      <div className="orb absolute w-[280px] h-[280px] rounded-full blur-[120px] opacity-20" style={{ background: 'rgba(231, 76, 60, 0.35)', bottom: '12%', right: '10%' }} />
+      <div className="orb absolute w-[360px] h-[360px] rounded-full blur-[100px] opacity-25" style={{ background: 'rgba(244, 163, 0, 0.5)', top: '6%', left: '8%' }} />
+      <div className="orb absolute w-[280px] h-[280px] rounded-full blur-[80px] opacity-20" style={{ background: 'rgba(231, 76, 60, 0.35)', bottom: '12%', right: '10%' }} />
 
       <motion.div
         variants={staggerContainer(0.1)}

@@ -52,8 +52,8 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
         <div className="absolute inset-0 bg-gradient-to-r from-ocean-deep/60 via-transparent to-ocean-deep/40" />
         <div className="absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-ocean-deep via-ocean-deep/80 to-transparent" />
 
-        <div className="pointer-events-none absolute -right-32 -top-24 h-80 w-80 rounded-full bg-purple-500/[0.08] blur-[120px]" />
-        <div className="pointer-events-none absolute -left-24 -bottom-24 h-72 w-72 rounded-full bg-gold/[0.06] blur-[120px]" />
+        <div className="pointer-events-none absolute -right-32 -top-24 h-80 w-80 rounded-full bg-purple-500/[0.08] blur-[80px]" />
+        <div className="pointer-events-none absolute -left-24 -bottom-24 h-72 w-72 rounded-full bg-gold/[0.06] blur-[80px]" />
 
         <motion.div
           initial={{ opacity: 0, x: -12 }}

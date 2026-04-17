@@ -132,8 +132,8 @@ export default function ExplorePage() {
                 )}
                 <div className="absolute inset-0 bg-gradient-to-b from-ocean-deep/25 via-ocean-deep/45 to-ocean-deep" />
                 <div className="absolute inset-0 bg-gradient-to-r from-ocean-deep/60 via-transparent to-ocean-deep/40" />
-                <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-gold/[0.1] blur-[120px]" />
-                <div className="pointer-events-none absolute -left-20 -bottom-20 h-72 w-72 rounded-full bg-luffy/[0.06] blur-[120px]" />
+                <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-gold/[0.1] blur-[80px]" />
+                <div className="pointer-events-none absolute -left-20 -bottom-20 h-72 w-72 rounded-full bg-luffy/[0.06] blur-[80px]" />
 
                 <div className="absolute inset-0 flex flex-col justify-end p-5 sm:p-10">
                   <div className="max-w-2xl">

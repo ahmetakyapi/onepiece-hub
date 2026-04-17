@@ -85,8 +85,8 @@ export default function FeaturedArcSpotlight() {
             <div className="absolute inset-0 bg-gradient-to-b from-ocean-deep/25 via-ocean-deep/45 to-ocean-deep" />
             <div className="absolute inset-0 bg-gradient-to-r from-ocean-deep/70 via-transparent to-ocean-deep/40" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_35%_55%,transparent_30%,rgba(6,14,26,0.65))]" />
-            <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-luffy/[0.12] blur-[120px]" />
-            <div className="pointer-events-none absolute -left-20 -bottom-20 h-72 w-72 rounded-full bg-gold/[0.08] blur-[120px]" />
+            <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-luffy/[0.12] blur-[80px]" />
+            <div className="pointer-events-none absolute -left-20 -bottom-20 h-72 w-72 rounded-full bg-gold/[0.08] blur-[80px]" />
 
             <div className="absolute inset-0 flex flex-col justify-end p-5 sm:p-10">
               <motion.div

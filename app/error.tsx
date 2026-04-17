@@ -17,7 +17,7 @@ export default function Error({
 
   return (
     <main className="relative flex min-h-screen items-center justify-center px-4">
-      <div className="orb absolute w-[300px] h-[300px] rounded-full blur-[120px] opacity-20" style={{ background: 'rgba(231, 76, 60, 0.4)', top: '20%', left: '15%' }} />
+      <div className="orb absolute w-[300px] h-[300px] rounded-full blur-[80px] opacity-20" style={{ background: 'rgba(231, 76, 60, 0.4)', top: '20%', left: '15%' }} />
 
       <div className="text-center max-w-md mx-auto relative z-10">
         <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-luffy/20 bg-luffy/[0.06]">

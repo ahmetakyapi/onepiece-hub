@@ -51,8 +51,8 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
         <div className="absolute inset-0 bg-gradient-to-r from-ocean-deep/65 via-transparent to-ocean-deep/45" />
         <div className="absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-ocean-deep via-ocean-deep/85 to-transparent" />
 
-        <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-gold/[0.08] blur-[120px]" />
-        <div className="pointer-events-none absolute -left-28 -bottom-28 h-80 w-80 rounded-full bg-sea/[0.05] blur-[120px]" />
+        <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-gold/[0.08] blur-[80px]" />
+        <div className="pointer-events-none absolute -left-28 -bottom-28 h-80 w-80 rounded-full bg-sea/[0.05] blur-[80px]" />
 
         <motion.div
           initial={{ opacity: 0, x: -12 }}

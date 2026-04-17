@@ -45,8 +45,8 @@ export default function VoidCenturySection() {
       </motion.div>
 
       {/* Ambient orbs */}
-      <div className="pointer-events-none absolute -left-40 top-10 h-80 w-80 rounded-full bg-gold/[0.06] blur-[120px]" />
-      <div className="pointer-events-none absolute -right-40 bottom-10 h-72 w-72 rounded-full bg-sea/[0.08] blur-[120px]" />
+      <div className="pointer-events-none absolute -left-40 top-10 h-80 w-80 rounded-full bg-gold/[0.06] blur-[80px]" />
+      <div className="pointer-events-none absolute -right-40 bottom-10 h-72 w-72 rounded-full bg-sea/[0.08] blur-[80px]" />
 
       <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
         {/* Pulsing lore badge */}

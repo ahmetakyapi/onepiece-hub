@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import { Play, Compass, Cherry, Shield, Globe, Anchor, Swords, Trophy, Clock, ArrowRight, Sparkles, Map, Skull, ChevronDown } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 
 import WaveSeparator from '@/components/ui/WaveSeparator'
@@ -68,6 +68,18 @@ export default function Home() {
   const bgScale = useTransform(heroProgress, [0, 1], [1.08, 1.18])
   const heroContentOpacity = useTransform(heroProgress, [0, 0.6, 1], [1, 1, 0.2])
 
+  // On mobile the Ken-burns animation already provides motion for the hero
+  // image, and scroll-driven transforms add noticeable jank. Gate parallax so
+  // the style prop doesn't subscribe to the motion values on small screens.
+  const [parallaxEnabled, setParallaxEnabled] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)')
+    const apply = () => setParallaxEnabled(mq.matches)
+    apply()
+    mq.addEventListener('change', apply)
+    return () => mq.removeEventListener('change', apply)
+  }, [])
+
   const wikiRef = useRef<HTMLDivElement>(null)
   const wikiInView = useInView(wikiRef, { once: true, margin: '-80px' })
 
@@ -78,10 +90,10 @@ export default function Home() {
           ref={heroRef}
           className="relative z-10 h-screen min-h-[640px] overflow-hidden"
         >
-          {/* Parallax background image */}
+          {/* Single full-bleed background image with Ken Burns */}
           <motion.div
             className="absolute inset-0"
-            style={{ y: bgY, scale: bgScale }}
+            style={parallaxEnabled ? { y: bgY, scale: bgScale } : undefined}
           >
             <Image
               src="/hero.webp"
@@ -91,40 +103,15 @@ export default function Home() {
               priority
               sizes="100vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-ocean-deep/60 via-ocean-deep/20 to-ocean-deep" />
-            <div className="absolute inset-0 bg-gradient-to-r from-ocean-deep/50 via-transparent to-ocean-deep/50" />
-            <div className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-ocean-deep via-ocean-deep/80 to-transparent" />
-            <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-ocean-deep/60 to-transparent" />
+            {/* Cinematic vignette — stronger bottom so CTAs stay readable */}
+            <div className="absolute inset-0 bg-gradient-to-b from-ocean-deep/50 via-ocean-deep/30 to-ocean-deep" />
+            <div className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-ocean-deep via-ocean-deep/85 to-transparent" />
+            <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-ocean-deep/75 to-transparent" />
           </motion.div>
-
-          {/* Particles */}
-          <ParticleField />
-
-          {/* Jolly Roger watermark — ambient One Piece signature, top-right */}
-          <motion.div
-            className="pointer-events-none absolute -right-16 -top-10 hidden opacity-[0.035] sm:block md:-right-8 md:top-2"
-            animate={{ rotate: [0, 4, -2, 0] }}
-            transition={{ duration: 18, ease: 'easeInOut', repeat: Infinity }}
-            aria-hidden
-          >
-            <Skull className="h-[320px] w-[320px] text-gold drop-shadow-[0_0_80px_rgba(244,163,0,0.3)] md:h-[420px] md:w-[420px]" strokeWidth={0.6} />
-          </motion.div>
-
-          {/* Morphing decorative shape */}
-          <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <motion.div
-              className="h-[500px] w-[500px] animate-morph opacity-[0.04]"
-              style={{
-                background: 'radial-gradient(circle, rgba(244,163,0,0.6), rgba(30,144,255,0.4), transparent 70%)',
-              }}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 40, ease: 'linear', repeat: Infinity }}
-            />
-          </div>
 
           {/* Hero content — positioned center-bottom */}
           <motion.div
-            style={{ opacity: heroContentOpacity }}
+            style={parallaxEnabled ? { opacity: heroContentOpacity } : undefined}
             className="relative z-10 flex h-full flex-col items-center px-6 pt-[12vh] text-center sm:pt-[16vh]"
           >
             <motion.div
@@ -141,7 +128,7 @@ export default function Home() {
 
             <div className="flex-1" />
 
-            <div className="max-w-3xl pb-10 sm:pb-16">
+            <div className="max-w-3xl pb-28 sm:pb-32">
               <h1 className="mb-6 text-4xl font-extrabold leading-[1.1] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] sm:text-5xl md:text-6xl lg:text-7xl">
                 {['One', 'Piece'].map((word, i) => (
                   <motion.span
@@ -204,15 +191,21 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.15, duration: 0.7, ease: EASE }}
-                className="flex flex-wrap items-center justify-center gap-4"
+                className="flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center sm:gap-4"
               >
-                <Link href="/arcs" className="btn-gold shine-hover group text-sm sm:text-base">
+                <Link
+                  href="/arcs"
+                  className="btn-gold shine-hover group relative !px-7 !py-3.5 text-sm shadow-[0_10px_40px_-8px_rgba(244,163,0,0.55)] sm:min-w-[220px] sm:text-base"
+                >
                   <Play className="relative z-[2] h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
                   <span className="relative z-[2]">İzlemeye Başla</span>
                   <ArrowRight className="relative z-[2] h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
-                <Link href="/characters" className="btn-ghost shine-hover border-white/10 text-white text-sm sm:text-base group">
-                  <Compass className="relative z-[2] h-4 w-4 transition-transform duration-500 group-hover:rotate-90" />
+                <Link
+                  href="/characters"
+                  className="btn-ghost shine-hover group !px-7 !py-3.5 text-sm text-white !border-white/15 hover:!border-gold/40 sm:min-w-[220px] sm:text-base"
+                >
+                  <Compass className="relative z-[2] h-4 w-4 text-gold transition-transform duration-500 group-hover:rotate-90" />
                   <span className="relative z-[2]">Karakterleri Keşfet</span>
                 </Link>
               </motion.div>
