@@ -2,3 +2,7 @@ node_modules/
 .env.local
 .next/
 *.tsbuildinfo
+
+# Claude Code — commit commands/agents, ignore session state
+.claude/scheduled_tasks.lock
+.claude/settings.local.json
