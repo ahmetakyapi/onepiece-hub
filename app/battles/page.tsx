@@ -21,6 +21,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import PageHero from '@/components/wiki/PageHero'
 import EmptyState from '@/components/ui/EmptyState'
+import AmbientBackground from '@/components/ui/AmbientBackground'
 import { BATTLES, BATTLE_CATEGORIES } from '@/lib/constants/battles'
 import { getCharacterImage } from '@/lib/constants/images'
 import { EASE } from '@/lib/variants'
@@ -168,6 +169,7 @@ export default function BattlesPage() {
 
   return (
       <main className="relative min-h-screen pt-24">
+        <AmbientBackground theme="battle" intensity="normal" />
         <div className="mx-auto max-w-6xl px-6">
           {/* Hero */}
           <PageHero

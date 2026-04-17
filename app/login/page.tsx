@@ -70,6 +70,32 @@ export default function LoginPage() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep via-ocean-deep/60 to-transparent" />
 
+            {/* Animated wave layers — subtle motion */}
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 overflow-hidden">
+              <svg
+                className="absolute inset-x-0 bottom-0 w-[200%] animate-[ocean-drift_18s_linear_infinite]"
+                viewBox="0 0 1440 120"
+                preserveAspectRatio="none"
+                style={{ height: 120 }}
+              >
+                <path
+                  d="M0,60 C240,90 480,30 720,60 C960,90 1200,30 1440,60 L1440,120 L0,120 Z"
+                  fill="rgba(30,144,255,0.08)"
+                />
+              </svg>
+              <svg
+                className="absolute inset-x-0 bottom-0 w-[200%] animate-[ocean-drift_26s_linear_infinite_reverse]"
+                viewBox="0 0 1440 120"
+                preserveAspectRatio="none"
+                style={{ height: 80, opacity: 0.6 }}
+              >
+                <path
+                  d="M0,80 C360,50 720,100 1080,70 C1260,55 1380,85 1440,80 L1440,120 L0,120 Z"
+                  fill="rgba(244,163,0,0.05)"
+                />
+              </svg>
+            </div>
+
             {/* Overlay content */}
             <div className="relative flex h-full flex-col items-center justify-center p-10 text-center">
               <motion.div
@@ -77,8 +103,15 @@ export default function LoginPage() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               >
-                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-gold/20 bg-gold/10">
-                  <Compass className="h-8 w-8 text-gold animate-[spin_8s_linear_infinite]" />
+                {/* Compass with dual rotating rings */}
+                <div className="relative mx-auto mb-6 h-20 w-20">
+                  <div className="absolute inset-0 rounded-full border border-gold/10 animate-[spin_16s_linear_infinite]" />
+                  <div className="absolute inset-1 rounded-full border border-dashed border-sea/15 animate-[spin_12s_linear_infinite_reverse]" />
+                  <div className="absolute inset-2 flex items-center justify-center rounded-2xl border border-gold/25 bg-gold/10 backdrop-blur-sm">
+                    <Compass className="h-8 w-8 text-gold animate-[spin_8s_linear_infinite]" />
+                  </div>
+                  {/* Outer glow ring */}
+                  <div className="absolute -inset-2 rounded-full bg-gold/[0.04] blur-xl animate-pulse" />
                 </div>
                 <h2 className="mb-3 text-2xl font-extrabold text-pirate-text">
                   Grand Line&apos;a
@@ -91,10 +124,10 @@ export default function LoginPage() {
               </motion.div>
 
               {/* Decorative anchors */}
-              <div className="pointer-events-none absolute bottom-8 left-8 opacity-10">
+              <div className="pointer-events-none absolute bottom-8 left-8 opacity-10 animate-float-slow">
                 <Anchor className="h-20 w-20 text-sea" />
               </div>
-              <div className="pointer-events-none absolute right-8 top-8 opacity-10">
+              <div className="pointer-events-none absolute right-8 top-8 opacity-10 animate-float-delayed">
                 <Anchor className="h-12 w-12 rotate-45 text-gold" />
               </div>
             </div>

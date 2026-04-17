@@ -11,6 +11,7 @@ const ScrollProgress = dynamic(() => import('@/components/layout/ScrollProgress'
 const CommandPalette = dynamic(() => import('@/components/search/CommandPalette'), { ssr: false })
 const RippleEffect = dynamic(() => import('@/components/ui/RippleEffect'), { ssr: false })
 const ToastContainer = dynamic(() => import('@/components/ui/ToastContainer'), { ssr: false })
+const MobileBottomNav = dynamic(() => import('@/components/layout/MobileBottomNav'), { ssr: false })
 import './globals.css'
 
 const manrope = Manrope({
@@ -87,7 +88,10 @@ export default function RootLayout({
           <ToastContainer />
           <Header />
           <main id="main-content">{children}</main>
-          <Footer />
+          <div className="pb-16 md:pb-0">
+            <Footer />
+          </div>
+          <MobileBottomNav />
         </AuthProvider>
         <Analytics />
       </body>

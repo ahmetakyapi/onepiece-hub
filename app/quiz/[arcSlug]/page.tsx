@@ -13,6 +13,8 @@ import {
 import dynamic from 'next/dynamic'
 
 const Confetti = dynamic(() => import('@/components/ui/Confetti'), { ssr: false })
+import AmbientBackground from '@/components/ui/AmbientBackground'
+import { MangaSFX } from '@/components/ui/MangaPanel'
 import { getQuizByArcSlug } from '@/lib/constants/quizzes'
 import { getArcBySlug } from '@/lib/constants/arcs'
 import { EASE } from '@/lib/variants'
@@ -113,11 +115,7 @@ export default function QuizPage() {
 
   return (
     <main className="relative min-h-screen pt-24 pb-16 overflow-hidden">
-      {/* Background ambient */}
-      <div className="pointer-events-none fixed inset-0">
-        <div className="absolute top-1/4 left-1/4 h-[500px] w-[500px] rounded-full bg-purple-500/[0.04] blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 h-[400px] w-[400px] rounded-full bg-gold/[0.03] blur-[100px]" />
-      </div>
+      <AmbientBackground theme={finished && percentage >= 70 ? 'celebration' : 'mystery'} intensity="normal" />
 
       <div className="relative z-10 mx-auto max-w-2xl px-4 sm:px-6">
         {/* Top bar */}
@@ -153,6 +151,25 @@ export default function QuizPage() {
           )}
         </div>
 
+        {/* Streak SFX pop-ups on milestone hits */}
+        <AnimatePresence>
+          {streak > 0 && streak % 3 === 0 && showResult && (
+            <motion.div
+              key={`sfx-${streak}`}
+              initial={{ opacity: 0, scale: 0.3, y: 20, rotate: -15 }}
+              animate={{ opacity: 1, scale: 1, y: 0, rotate: -6 }}
+              exit={{ opacity: 0, scale: 1.3, y: -20 }}
+              transition={{ duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }}
+              className="pointer-events-none fixed left-1/2 top-1/3 z-50 -translate-x-1/2"
+            >
+              <MangaSFX
+                text={streak >= 9 ? 'LEGENDARY!' : streak >= 6 ? 'UNSTOPPABLE!' : 'COMBO!'}
+                size="lg"
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <AnimatePresence mode="wait">
           {finished ? (
             /* ─── Result Screen ─── */
@@ -173,6 +190,17 @@ export default function QuizPage() {
                 </div>
 
                 <div className="relative">
+                  {/* Manga SFX — crowning moment for Yonko/Supernova */}
+                  {percentage >= 70 && (
+                    <div className="relative mb-3 h-16 flex items-center justify-center">
+                      <MangaSFX
+                        text={percentage >= 90 ? 'YONKO!' : 'DOKAAN!'}
+                        size="lg"
+                        className="!text-5xl sm:!text-6xl"
+                      />
+                    </div>
+                  )}
+
                   {/* Rank badge */}
                   {(() => {
                     const rank = getRank()

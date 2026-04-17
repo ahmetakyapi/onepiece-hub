@@ -19,6 +19,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import PageHero from '@/components/wiki/PageHero'
 import EmptyState from '@/components/ui/EmptyState'
+import AmbientBackground from '@/components/ui/AmbientBackground'
 import { getCharacterImage } from '@/lib/constants/images'
 import { EASE } from '@/lib/variants'
 import { parseBounty, formatBounty } from '@/lib/utils'
@@ -155,6 +156,7 @@ export default function BountiesPage() {
 
   return (
       <main className="relative min-h-screen pt-24">
+        <AmbientBackground theme="danger" intensity="subtle" />
         <div className="mx-auto max-w-6xl px-6">
           {/* Hero */}
           <PageHero

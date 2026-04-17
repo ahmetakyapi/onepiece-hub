@@ -17,6 +17,7 @@ import { BATTLES } from '@/lib/constants/battles'
 import type { Character, Ability } from '@/types'
 import CommentSection from '@/components/ui/CommentSection'
 import FavoriteButton from '@/components/ui/FavoriteButton'
+import SpeechBubble from '@/components/ui/SpeechBubble'
 
 const DEVIL_FRUIT_TYPE_COLORS: Record<string, string> = {
   'Paramecia': 'bg-purple-500/20 text-purple-300',
@@ -226,9 +227,16 @@ export default function CharacterDetailClient({ character }: { character: Charac
 
       {/* ─── Content ───────────────────────────────────────────── */}
       <div className="relative z-10 mx-auto max-w-4xl px-6 pb-20">
-        {/* Description */}
+        {/* Description + epithet speech bubble */}
         <RevealSection className="mb-10 -mt-6">
-          <div className="bento-card rounded-2xl p-6">
+          <div className="bento-card relative rounded-2xl p-6">
+            {character.epithet && (
+              <div className="mb-5 hidden pt-2 sm:block">
+                <SpeechBubble tail="bottom-left" variant="shout" character={character.name}>
+                  {character.epithet}!
+                </SpeechBubble>
+              </div>
+            )}
             <p className="text-sm leading-relaxed text-pirate-muted sm:text-base">
               {character.description}
             </p>

@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowUpRight, Github } from 'lucide-react'
+import { ArrowUpRight, Github, Skull } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FOOTER_SECTIONS } from '@/lib/constants/navigation'
@@ -8,13 +8,30 @@ import { FOOTER_SECTIONS } from '@/lib/constants/navigation'
 export default function Footer() {
   return (
     <footer className="relative border-t border-pirate-border/20 overflow-hidden">
-      {/* Top gradient line */}
+      {/* Top wave ribbon */}
+      <div className="pointer-events-none absolute inset-x-0 -top-1 h-8 overflow-hidden opacity-60">
+        <svg
+          className="absolute inset-x-0 top-0 w-[200%] animate-[ocean-drift_28s_linear_infinite]"
+          viewBox="0 0 1440 30"
+          preserveAspectRatio="none"
+          style={{ height: 32 }}
+          aria-hidden
+        >
+          <path
+            d="M0,15 C240,5 480,25 720,15 C960,5 1200,25 1440,15 L1440,0 L0,0 Z"
+            fill="rgba(244,163,0,0.06)"
+          />
+        </svg>
+      </div>
       <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
-      <div className="absolute -top-[2px] left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/10 to-transparent blur-sm" />
 
-      {/* Decorative orbs */}
+      {/* Decorative orbs + jolly roger watermark */}
       <div className="pointer-events-none absolute bottom-0 left-[15%] h-64 w-64 rounded-full bg-gold/[0.02] blur-[100px]" />
       <div className="pointer-events-none absolute bottom-0 right-[15%] h-64 w-64 rounded-full bg-sea/[0.02] blur-[100px]" />
+      <Skull
+        aria-hidden
+        className="pointer-events-none absolute -bottom-6 right-8 h-32 w-32 text-pirate-text/[0.04] sm:right-16 sm:h-40 sm:w-40"
+      />
 
       <div className="relative mx-auto max-w-7xl px-6 py-16 sm:py-20">
         <div className="grid gap-12 md:grid-cols-5">

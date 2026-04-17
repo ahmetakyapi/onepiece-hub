@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import PageHero from '@/components/wiki/PageHero'
 import EmptyState from '@/components/ui/EmptyState'
+import AmbientBackground from '@/components/ui/AmbientBackground'
 import { DEVIL_FRUITS, DEVIL_FRUIT_TYPE_INFO } from '@/lib/constants/devil-fruits'
 import { getCharacterImage } from '@/lib/constants/images'
 import { useViewTransition } from '@/hooks/useViewTransition'
@@ -57,6 +58,7 @@ export default function DevilFruitsPage() {
 
   return (
       <main className="relative min-h-screen pt-24">
+        <AmbientBackground theme="mystery" intensity="normal" />
         <div className="mx-auto max-w-7xl px-6">
           {/* Hero Section */}
           <PageHero

@@ -12,6 +12,9 @@ import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
 import { ARCS } from '@/lib/constants/arcs'
 import { CHARACTERS } from '@/lib/constants/characters'
 import { DEVIL_FRUITS } from '@/lib/constants/devil-fruits'
+import SpeechBubble from '@/components/ui/SpeechBubble'
+import AmbientBackground from '@/components/ui/AmbientBackground'
+import { MangaSFX, MangaDivider } from '@/components/ui/MangaPanel'
 
 /* ─── Data ───────────────────────────────────────────────────── */
 
@@ -127,6 +130,7 @@ const QUOTES = [
 export default function AboutPage() {
   return (
       <main className="relative min-h-screen overflow-hidden">
+        <AmbientBackground theme="adventure" intensity="subtle" />
         {/* ─── Hero ─────────────────────────────────────────────── */}
         <section className="relative pt-28 pb-24">
           {/* Background orbs */}
@@ -368,34 +372,36 @@ export default function AboutPage() {
               transition={{ duration: 0.6, ease: EASE }}
               className="mb-10 text-center"
             >
+              <div className="mb-3 flex justify-center">
+                <MangaSFX text="GREAT ERA!" size="md" />
+              </div>
               <h2 className="text-2xl font-extrabold text-pirate-text sm:text-3xl">
                 Büyük <span className="text-fire-gradient">Korsan Çağı</span>
               </h2>
             </motion.div>
 
-            <div className="grid gap-5 sm:grid-cols-3">
-              {QUOTES.map((q, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, ease: EASE, delay: i * 0.1 }}
-                  className="group relative overflow-hidden rounded-2xl border border-gold/15 bg-gradient-to-br from-gold/[0.03] to-transparent p-6 transition-all duration-500 hover:border-gold/30"
-                >
-                  {/* Quote mark */}
-                  <div className="absolute -left-2 -top-4 text-6xl font-black text-gold/[0.06] select-none">
-                    &ldquo;
-                  </div>
-                  <p className="relative z-10 mb-4 text-base font-semibold italic leading-relaxed text-pirate-text/90">
-                    {q.text}
-                  </p>
-                  <div className="flex items-center gap-2">
-                    <div className="h-px flex-1 bg-gradient-to-r from-gold/20 to-transparent" />
-                    <span className="text-xs font-bold text-gold/70">{q.character}</span>
-                  </div>
-                </motion.div>
-              ))}
+            <div className="grid gap-8 pt-4 sm:grid-cols-3 sm:gap-10">
+              {QUOTES.map((q, i) => {
+                const tails = ['bottom-left', 'bottom-right', 'bottom-left'] as const
+                const variants = ['shout', 'normal', 'normal'] as const
+                return (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20, scale: 0.94 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, ease: EASE, delay: i * 0.12 }}
+                    className="flex flex-col items-center gap-3"
+                  >
+                    <SpeechBubble tail={tails[i]} variant={variants[i]} character={q.character}>
+                      {q.text}
+                    </SpeechBubble>
+                    <span className="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-gold/60">
+                      {q.character}
+                    </span>
+                  </motion.div>
+                )
+              })}
             </div>
           </div>
         </section>

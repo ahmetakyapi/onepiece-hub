@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Home, Compass, Map, Anchor } from 'lucide-react'
 import { fadeUp, staggerContainer } from '@/lib/variants'
+import SpeechBubble from '@/components/ui/SpeechBubble'
 
 const QUICK_LINKS = [
   { label: 'Ana Sayfa', href: '/', icon: Home, desc: 'Maceraya geri dön' },
@@ -49,7 +50,7 @@ export default function NotFound() {
             </span>
           </div>
 
-          <div className="manga-panel manga-panel-diagonal col-span-full flex items-center gap-4 p-5 sm:p-6">
+          <div className="manga-panel manga-panel-diagonal col-span-full flex flex-col items-start gap-4 p-5 sm:flex-row sm:items-center sm:p-6">
             <div className="relative flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border-2 border-gold/30 bg-ocean-surface/60">
               <Compass className="h-6 w-6 text-gold animate-pulse" />
             </div>
@@ -57,9 +58,11 @@ export default function NotFound() {
               <p className="text-sm text-pirate-muted sm:text-base">
                 Log Pose yanlış yönü gösteriyor gibi... Aradığın sayfa Grand Line&apos;ın derinliklerinde kaybolmuş.
               </p>
-              <p className="mt-1 text-[11px] italic text-pirate-muted/60 sm:text-xs">
-                &ldquo;Kaybolmak da maceranın bir parçası!&rdquo; — Zoro (muhtemelen)
-              </p>
+            </div>
+            <div className="flex-shrink-0 self-end sm:self-center">
+              <SpeechBubble tail="bottom-right" variant="whisper">
+                Kaybolmak da maceranın bir parçası — Zoro
+              </SpeechBubble>
             </div>
           </div>
         </motion.div>

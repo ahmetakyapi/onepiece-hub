@@ -782,6 +782,10 @@ textarea:focus {
   @keyframes grow-bar {
     from { width: 0; }
   }
+  @keyframes ocean-drift {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
 }
 
 /* ─── Lightweight animation utilities ──────────────────────────────────── */

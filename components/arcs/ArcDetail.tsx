@@ -25,82 +25,97 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
     target: coverRef,
     offset: ['start start', 'end start'],
   })
-  const coverScale = useTransform(scrollYProgress, [0, 1], [1, 1.15])
-  const coverOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.3])
+  const coverScale = useTransform(scrollYProgress, [0, 1], [1.05, 1.2])
+  const coverOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0.2])
+  const coverY = useTransform(scrollYProgress, [0, 1], ['0%', '15%'])
 
   return (
-      <main className="relative min-h-screen pt-24">
-        <div className="mx-auto max-w-5xl px-6">
-          {/* Back button */}
+      <main className="relative min-h-screen">
+        {/* ─── Cinematic Hero ────────────────────────────────── */}
+        <section
+          ref={coverRef}
+          className="relative h-[65vh] min-h-[460px] overflow-hidden sm:h-[72vh]"
+        >
+          {getArcImage(arc.slug) ? (
+            <motion.div
+              className="absolute inset-0"
+              style={{ scale: coverScale, opacity: coverOpacity, y: coverY, viewTransitionName: `arc-image-${arc.slug}` }}
+            >
+              <Image
+                src={getArcImage(arc.slug)}
+                alt={arc.name}
+                fill
+                className="object-cover"
+                sizes="100vw"
+                priority
+              />
+            </motion.div>
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-ocean-surface to-ocean-deep">
+              <Compass className="h-24 w-24 text-sea/15 animate-float" />
+            </div>
+          )}
+
+          <div className="absolute inset-0 bg-gradient-to-b from-ocean-deep/50 via-ocean-deep/20 to-ocean-deep" />
+          <div className="absolute inset-0 bg-gradient-to-r from-ocean-deep/60 via-transparent to-ocean-deep/50" />
+          <div className="absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-ocean-deep via-ocean-deep/80 to-transparent" />
+
           <motion.div
             initial={{ opacity: 0, x: -12 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, ease: EASE }}
+            className="absolute left-0 right-0 top-0 z-10 px-6 pt-24 sm:pt-28"
           >
-            <Link
-              href="/arcs"
-              className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-pirate-border/30 bg-ocean-surface/30 px-4 py-2 text-[13px] text-pirate-muted transition-all duration-300 hover:border-gold/20 hover:text-gold group"
-            >
-              <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-1" />
-              Tüm Arc&apos;lar
-            </Link>
-          </motion.div>
-
-          {/* Cover with parallax */}
-          <motion.div
-            ref={coverRef}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: EASE }}
-            className="relative mb-8 h-56 overflow-hidden rounded-3xl bg-ocean-surface sm:h-80"
-          >
-            {getArcImage(arc.slug) ? (
-              <motion.div
-                className="absolute inset-0"
-                style={{ scale: coverScale, opacity: coverOpacity, viewTransitionName: `arc-image-${arc.slug}` }}
+            <div className="mx-auto max-w-5xl">
+              <Link
+                href="/arcs"
+                className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-ocean-deep/50 px-4 py-2 text-[13px] text-white/70 backdrop-blur-md transition-all duration-300 hover:border-gold/30 hover:text-gold group"
               >
-                <Image
-                  src={getArcImage(arc.slug)}
-                  alt={arc.name}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 640px) 100vw, 896px"
-                  priority
-                />
-              </motion.div>
-            ) : (
-              <div className="flex h-full w-full items-center justify-center">
-                <Compass className="h-16 w-16 text-sea/15" />
-              </div>
-            )}
-            <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep via-ocean-deep/30 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-r from-ocean-deep/30 via-transparent to-ocean-deep/30" />
+                <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-1" />
+                Tüm Arc&apos;lar
+              </Link>
+            </div>
           </motion.div>
 
-          {/* Title + meta */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
-            className="mb-6"
+            transition={{ duration: 0.7, ease: EASE, delay: 0.15 }}
+            className="absolute inset-x-0 bottom-0 z-10 px-6 pb-10 sm:pb-14"
           >
-            <div className="mb-3 flex items-center gap-3">
-              <h1 className="text-3xl font-extrabold text-pirate-text sm:text-4xl">
-                {arc.name}
-              </h1>
-              <FavoriteButton targetType="arc" targetSlug={arc.slug} />
-            </div>
-            <div className="flex flex-wrap items-center gap-4 text-sm text-pirate-muted">
-              <span className="flex items-center gap-1.5">
-                <Film className="h-4 w-4 text-sea" />
-                {arc.episodeCount} Bölüm
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Clock className="h-4 w-4 text-gold" />
-                ~{Math.round(arc.episodeCount * 24 / 60)} saat
-              </span>
+            <div className="mx-auto max-w-5xl">
+              {arc.saga && (
+                <span className="mb-3 inline-block tag border-gold/25 bg-gold/[0.1] text-gold backdrop-blur-md">
+                  {arc.saga.toUpperCase()} SAGA
+                </span>
+              )}
+              <div className="mb-3 flex flex-wrap items-center gap-3">
+                <h1 className="text-4xl font-extrabold tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:text-5xl md:text-6xl">
+                  {arc.name}
+                </h1>
+                <FavoriteButton targetType="arc" targetSlug={arc.slug} />
+              </div>
+              <div className="flex flex-wrap items-center gap-4 text-sm text-white/80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
+                <span className="flex items-center gap-1.5">
+                  <Film className="h-4 w-4 text-sea-light" />
+                  {arc.episodeCount} Bölüm
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Clock className="h-4 w-4 text-gold" />
+                  ~{Math.round(arc.episodeCount * 24 / 60)} saat
+                </span>
+                {arc.location && (
+                  <span className="flex items-center gap-1.5">
+                    <MapPin className="h-4 w-4 text-sea" />
+                    {arc.location}
+                  </span>
+                )}
+              </div>
             </div>
           </motion.div>
+        </section>
+
+        <div className="mx-auto max-w-5xl px-6 pt-10">
 
           {/* Meta cards */}
           <motion.div

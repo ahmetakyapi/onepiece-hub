@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useScroll, useTransform, useInView, useMotionTemplate } from 'framer-motion'
-import { Play, Compass, Cherry, Shield, Globe, Anchor, Swords, Trophy, Clock, ArrowRight, Sparkles, Map } from 'lucide-react'
+import { Play, Compass, Cherry, Shield, Globe, Anchor, Swords, Trophy, Clock, ArrowRight, Sparkles, Map, Skull } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRef } from 'react'
@@ -53,6 +53,7 @@ const WIKI_ITEMS = [
   { icon: Clock, label: 'Zaman Çizelgesi', href: '/timeline', count: '25+', desc: 'Kronolojik olaylar', color: 'text-cyan-400', bg: 'from-cyan-400/15 to-cyan-400/5', borderHover: 'hover:border-cyan-400/25' },
   { icon: Map, label: 'İzleme Rehberi', href: '/guide', count: 'Yeni', desc: 'Nereden başla?', color: 'text-emerald-400', bg: 'from-emerald-400/15 to-emerald-400/5', borderHover: 'hover:border-emerald-400/25' },
   { icon: Compass, label: 'Tüm Arc\'lar', href: '/arcs', count: '32', desc: 'Arc rehberi', color: 'text-sea-light', bg: 'from-sea-light/15 to-sea-light/5', borderHover: 'hover:border-sea-light/25' },
+  { icon: Skull, label: 'Wanted Poster', href: '/wanted-poster', count: 'Oluştur', desc: 'Kendi ödülünü tasarla', color: 'text-gold', bg: 'from-gold/15 to-gold/5', borderHover: 'hover:border-gold/30' },
 ] as const
 
 export default function Home() {
@@ -63,25 +64,25 @@ export default function Home() {
   })
 
   // Scene 1 (intro) — visible during first third of the sticky sequence
-  const scene1Opacity = useTransform(scrollYProgress, [0, 0.28, 0.42], [1, 1, 0])
-  const scene1Y = useTransform(scrollYProgress, [0, 0.42], [0, -60])
+  const scene1Opacity = useTransform(scrollYProgress, [0, 0.32, 0.48], [1, 1, 0])
+  const scene1Y = useTransform(scrollYProgress, [0, 0.48], [0, -60])
 
-  // Scene 2 (poneglyph reveal) — emerges mid-way
-  const scene2Opacity = useTransform(scrollYProgress, [0.38, 0.52, 0.82, 0.95], [0, 1, 1, 0])
-  const scene2Y = useTransform(scrollYProgress, [0.38, 0.52], [40, 0])
+  // Scene 2 (poneglyph reveal) — stays until the very end, no dead space
+  const scene2Opacity = useTransform(scrollYProgress, [0.42, 0.58, 0.94, 1], [0, 1, 1, 0])
+  const scene2Y = useTransform(scrollYProgress, [0.42, 0.58], [40, 0])
 
   // Background parallax / zoom across full sequence
-  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1.08, 1.35])
-  const bgBlur = useTransform(scrollYProgress, [0, 0.5, 1], ['0px', '0px', '6px'])
-  const bgBrightness = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.78, 0.55])
+  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '14%'])
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1.08, 1.28])
+  const bgBlur = useTransform(scrollYProgress, [0, 0.5, 1], ['0px', '0px', '5px'])
+  const bgBrightness = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.78, 0.58])
   const bgFilter = useMotionTemplate`blur(${bgBlur}) brightness(${bgBrightness})`
 
-  // Poneglyph overlay intensity
-  const poneglyphOpacity = useTransform(scrollYProgress, [0.3, 0.55, 0.9, 1], [0, 0.55, 0.7, 0])
+  // Poneglyph overlay intensity — follows scene 2
+  const poneglyphOpacity = useTransform(scrollYProgress, [0.35, 0.6, 0.95, 1], [0, 0.6, 0.7, 0])
 
-  // Exit fade — whole hero disappears into next section
-  const heroExitOpacity = useTransform(scrollYProgress, [0.9, 1], [1, 0])
+  // Exit fade — tight window at the very end, no dead scroll
+  const heroExitOpacity = useTransform(scrollYProgress, [0.96, 1], [1, 0])
 
   const wikiRef = useRef<HTMLDivElement>(null)
   const wikiInView = useInView(wikiRef, { once: true, margin: '-80px' })
@@ -92,7 +93,7 @@ export default function Home() {
         <section
           ref={heroRef}
           className="relative z-10"
-          style={{ height: '200vh' }}
+          style={{ height: '160vh' }}
         >
           <motion.div
             style={{ opacity: heroExitOpacity }}

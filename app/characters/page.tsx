@@ -13,6 +13,7 @@ import PageHero from '@/components/wiki/PageHero'
 import EmptyState from '@/components/ui/EmptyState'
 import CharacterCard from '@/components/characters/CharacterCard'
 import CrewAmbient from '@/components/characters/CrewAmbient'
+import AmbientBackground from '@/components/ui/AmbientBackground'
 import { CHARACTERS, CREW_LABELS } from '@/lib/constants/characters'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
 import { parseBounty } from '@/lib/utils'
@@ -86,6 +87,7 @@ export default function CharactersPage() {
 
   return (
       <main className="relative min-h-screen pt-28 sm:pt-32">
+        <AmbientBackground theme="adventure" intensity="subtle" />
         <CrewAmbient />
         <div className="mx-auto max-w-7xl px-6">
           {/* ─── Hero ─── */}
