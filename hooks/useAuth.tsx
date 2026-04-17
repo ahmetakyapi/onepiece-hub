@@ -5,7 +5,9 @@ import { createContext, useContext, useState, useEffect, useCallback, type React
 type User = {
   id: string
   username: string
-  name?: string
+  name?: string | null
+  image?: string | null
+  createdAt?: string | Date | null
 }
 
 type AuthContext = {

@@ -10,10 +10,11 @@ import {
 } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
-import { getTimeAgo } from '@/lib/utils'
+import { getTimeAgo, formatDate } from '@/lib/utils'
 import { useAuth } from '@/hooks/useAuth'
 import { ARCS } from '@/lib/constants/arcs'
 import WaveSeparator from '@/components/ui/WaveSeparator'
+import { getStoredAffiliation, getAffiliationById } from '@/lib/crew-affiliation'
 import type { Arc } from '@/types'
 
 const WatchingDashboard = dynamic(() => import('@/components/profile/WatchingDashboard'), { ssr: false })
@@ -51,6 +52,12 @@ export default function ProfilePage() {
   const [quizScores, setQuizScores] = useState<QuizScoreEntry[]>([])
   const [favs, setFavs] = useState<FavoriteEntry[]>([])
   const [loadingProgress, setLoadingProgress] = useState(true)
+  const [affiliationId, setAffiliationId] = useState<string | null>(null)
+
+  useEffect(() => {
+    setAffiliationId(getStoredAffiliation())
+  }, [])
+  const affiliation = getAffiliationById(affiliationId)
 
   useEffect(() => {
     if (!user) return
@@ -189,8 +196,21 @@ export default function ProfilePage() {
               <motion.div variants={fadeUp} className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-5">
                   <div className="relative">
-                    <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-gold/20 via-sea/15 to-gold/10 border border-gold/20 shadow-lg shadow-gold/5">
-                      <User className="h-9 w-9 text-gold" />
+                    <div
+                      className="flex h-20 w-20 items-center justify-center rounded-2xl border shadow-lg"
+                      style={{
+                        background: affiliation
+                          ? `linear-gradient(135deg, rgba(${affiliation.rgb},0.25), rgba(${affiliation.rgb},0.08) 60%, transparent)`
+                          : 'linear-gradient(135deg, rgba(244,163,0,0.2), rgba(30,144,255,0.15), rgba(244,163,0,0.1))',
+                        borderColor: affiliation ? `rgba(${affiliation.rgb},0.4)` : 'rgba(244,163,0,0.2)',
+                        boxShadow: affiliation ? `0 0 24px rgba(${affiliation.rgb},0.15)` : undefined,
+                      }}
+                    >
+                      {affiliation ? (
+                        <affiliation.icon className="h-9 w-9" style={{ color: `rgb(${affiliation.rgb})` }} />
+                      ) : (
+                        <User className="h-9 w-9 text-gold" />
+                      )}
                     </div>
                     <div className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/20 border border-emerald-500/30">
                       <Sparkles className="h-3 w-3 text-emerald-400" />
@@ -200,10 +220,22 @@ export default function ProfilePage() {
                     <h1 className="text-2xl font-extrabold text-pirate-text sm:text-3xl">
                       {user.name || user.username}
                     </h1>
-                    <p className="text-sm text-pirate-muted">@{user.username}</p>
-                    <div className="mt-1.5 flex items-center gap-1.5 text-xs text-pirate-muted/50">
+                    <div className="mt-1 flex flex-wrap items-center gap-2">
+                      <p className="text-sm text-pirate-muted">@{user.username}</p>
+                      {affiliation && (
+                        <span
+                          className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-bold ${affiliation.border} ${affiliation.bg} ${affiliation.text}`}
+                        >
+                          <affiliation.icon className="h-2.5 w-2.5" />
+                          {affiliation.name}
+                        </span>
+                      )}
+                    </div>
+                    <div className="mt-1.5 flex items-center gap-1.5 text-xs text-pirate-muted/60">
                       <Calendar className="h-3 w-3" />
-                      Korsan olarak katıldı
+                      {user.createdAt
+                        ? `Katılım: ${formatDate(user.createdAt as Date | string)}`
+                        : 'Korsan olarak katıldı'}
                     </div>
                   </div>
                 </div>

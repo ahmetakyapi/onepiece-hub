@@ -8,12 +8,18 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { fadeUp, staggerContainer } from '@/lib/variants'
 import { useAuth } from '@/hooks/useAuth'
+import {
+  CREW_AFFILIATIONS,
+  setStoredAffiliation,
+  type CrewAffiliationId,
+} from '@/lib/crew-affiliation'
 
 export default function LoginPage() {
   const [isRegister, setIsRegister] = useState(false)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
+  const [crewPick, setCrewPick] = useState<CrewAffiliationId>('straw-hat')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const { user, loading: authLoading, login, register } = useAuth()
@@ -42,6 +48,7 @@ export default function LoginPage() {
     if (result.error) {
       setError(result.error)
     } else {
+      if (isRegister) setStoredAffiliation(crewPick)
       router.push(from)
     }
   }
@@ -216,6 +223,49 @@ export default function LoginPage() {
                     />
                   </div>
                 </div>
+
+                {isRegister && (
+                  <div>
+                    <label className="mb-2 block text-xs font-semibold text-pirate-muted">
+                      Mürettebatını Seç
+                    </label>
+                    <div className="grid grid-cols-3 gap-2">
+                      {CREW_AFFILIATIONS.map((c) => {
+                        const Icon = c.icon
+                        const active = crewPick === c.id
+                        return (
+                          <button
+                            type="button"
+                            key={c.id}
+                            onClick={() => setCrewPick(c.id)}
+                            className={`group relative flex flex-col items-center gap-1.5 rounded-xl border px-2 py-3 text-center transition-all duration-300 ${
+                              active
+                                ? `${c.border} ${c.bg} shadow-[0_0_24px_rgba(var(--crew-glow),0.12)]`
+                                : 'border-pirate-border/30 bg-ocean-surface/30 hover:border-pirate-border/60'
+                            }`}
+                            style={active ? ({ '--crew-glow': c.rgb } as React.CSSProperties) : undefined}
+                            aria-pressed={active}
+                            aria-label={`${c.name} — ${c.tagline}`}
+                          >
+                            <div
+                              className={`flex h-7 w-7 items-center justify-center rounded-lg transition-all duration-300 ${
+                                active ? c.bg : 'bg-ocean-deep/60'
+                              }`}
+                            >
+                              <Icon className={`h-3.5 w-3.5 ${active ? c.text : 'text-pirate-muted/60'}`} />
+                            </div>
+                            <p className={`text-[11px] font-bold leading-tight ${active ? c.text : 'text-pirate-text/80'}`}>
+                              {c.name}
+                            </p>
+                            <p className="text-[9px] leading-tight text-pirate-muted/60 line-clamp-1">
+                              {c.tagline}
+                            </p>
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )}
 
                 {error && (
                   <p className="rounded-lg bg-luffy/10 px-3 py-2 text-xs font-medium text-luffy">

@@ -33,6 +33,7 @@ type Result = {
 }
 
 const PAGES: Result[] = [
+  { kind: 'page', label: 'Keşfet', sublabel: 'Editoryal seçkiler & rastgele keşifler', href: '/explore', icon: Compass },
   { kind: 'page', label: 'Karakterler', sublabel: '61 karakter ansiklopedisi', href: '/characters', icon: Users },
   { kind: 'page', label: "Arc'lar", sublabel: 'Filler\'sız arc bazlı bölümler', href: '/arcs', icon: Compass },
   { kind: 'page', label: 'Şeytan Meyveleri', sublabel: 'Tüm meyveler ve güçleri', href: '/devil-fruits', icon: Cherry },

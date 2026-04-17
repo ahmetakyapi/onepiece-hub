@@ -5,9 +5,9 @@ import {
 } from 'lucide-react'
 
 export const MAIN_LINKS = [
-  { label: 'Arc\'lar', href: '/arcs', icon: Compass },
+  { label: 'Keşfet', href: '/explore', icon: Compass },
+  { label: 'Arc\'lar', href: '/arcs', icon: Scroll },
   { label: 'Karakterler', href: '/characters', icon: Users },
-  { label: 'Quiz', href: '/quiz', icon: BrainCircuit },
   { label: 'Rehber', href: '/guide', icon: Map },
 ] as const
 
@@ -26,7 +26,8 @@ export const FOOTER_SECTIONS = [
   {
     title: 'Keşfet',
     links: [
-      { label: 'Arc\'lar', href: '/arcs', icon: Compass },
+      { label: 'Keşfet Sayfası', href: '/explore', icon: Compass },
+      { label: 'Arc\'lar', href: '/arcs', icon: Scroll },
       { label: 'Karakterler', href: '/characters', icon: Users },
       { label: 'İzleme Rehberi', href: '/guide', icon: Map },
       { label: 'Ödül Sıralaması', href: '/bounties', icon: Trophy },

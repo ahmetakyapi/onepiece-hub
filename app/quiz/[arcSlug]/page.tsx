@@ -8,7 +8,7 @@ import {
   ArrowLeft, BrainCircuit, CheckCircle,
   XCircle, Trophy, RotateCcw, Zap,
   ChevronRight, Target, Flame, Crown,
-  ArrowRight
+  ArrowRight, Volume2, VolumeX
 } from 'lucide-react'
 import dynamic from 'next/dynamic'
 
@@ -18,6 +18,7 @@ import { MangaSFX } from '@/components/ui/MangaPanel'
 import { getQuizByArcSlug } from '@/lib/constants/quizzes'
 import { getArcBySlug } from '@/lib/constants/arcs'
 import { EASE } from '@/lib/variants'
+import { SFX, isSoundEnabled, setSoundEnabled } from '@/lib/audio'
 
 export default function QuizPage() {
   const { arcSlug } = useParams<{ arcSlug: string }>()
@@ -31,9 +32,24 @@ export default function QuizPage() {
   const [finished, setFinished] = useState(false)
   const [streak, setStreak] = useState(0)
   const [bestStreak, setBestStreak] = useState(0)
+  const [soundOn, setSoundOn] = useState(false)
   const scoreSaved = useRef(false)
+  const yonkoSFXPlayed = useRef(false)
 
-  // Quiz bittiğinde skoru DB'ye kaydet
+  useEffect(() => {
+    setSoundOn(isSoundEnabled())
+  }, [])
+
+  const toggleSound = useCallback(() => {
+    setSoundOn((prev) => {
+      const next = !prev
+      setSoundEnabled(next)
+      if (next) SFX.correct()
+      return next
+    })
+  }, [])
+
+  // Quiz bittiğinde skoru DB'ye kaydet + Yonko SFX çal
   useEffect(() => {
     if (!finished || scoreSaved.current || !quiz) return
     scoreSaved.current = true
@@ -46,7 +62,15 @@ export default function QuizPage() {
         totalQ: quiz.questions.length,
       }),
     }).catch(() => {})
-  }, [finished, arcSlug, score, quiz])
+
+    if (soundOn && !yonkoSFXPlayed.current) {
+      const pct = (score / quiz.questions.length) * 100
+      if (pct >= 90) {
+        yonkoSFXPlayed.current = true
+        window.setTimeout(() => SFX.yonko(), 400)
+      }
+    }
+  }, [finished, arcSlug, score, quiz, soundOn])
 
   const handleSelect = useCallback((index: number) => {
     if (showResult || !quiz) return
@@ -58,12 +82,17 @@ export default function QuizPage() {
       setStreak((s) => {
         const next = s + 1
         setBestStreak((b) => Math.max(b, next))
+        if (soundOn) {
+          if (next > 0 && next % 3 === 0) SFX.streak(next)
+          else SFX.correct()
+        }
         return next
       })
     } else {
       setStreak(0)
+      if (soundOn) SFX.wrong()
     }
-  }, [showResult, quiz, currentQ])
+  }, [showResult, quiz, currentQ, soundOn])
 
   const handleNext = useCallback(() => {
     if (!quiz) return
@@ -129,7 +158,23 @@ export default function QuizPage() {
           </Link>
 
           {!finished && (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2.5">
+              {/* Sound toggle */}
+              <button
+                type="button"
+                onClick={toggleSound}
+                className={`flex h-8 w-8 items-center justify-center rounded-full border transition-all ${
+                  soundOn
+                    ? 'border-gold/30 bg-gold/10 text-gold'
+                    : 'border-pirate-border/40 bg-ocean-surface/60 text-pirate-muted/60 hover:text-pirate-text'
+                }`}
+                title={soundOn ? 'Sesi kapat' : 'Sesi aç'}
+                aria-label={soundOn ? 'Sesi kapat' : 'Sesi aç'}
+                aria-pressed={soundOn}
+              >
+                {soundOn ? <Volume2 className="h-3.5 w-3.5" /> : <VolumeX className="h-3.5 w-3.5" />}
+              </button>
+
               {/* Streak indicator */}
               {streak >= 2 && (
                 <motion.div
