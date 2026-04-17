@@ -870,3 +870,100 @@ textarea:focus {
   body::before, body::after { display: none; }
   .glass, .surface { background: white; border: 1px solid #ddd; }
 }
+
+/* ─── Button Ripple (click wave) ──────────────────────────────────────── */
+.btn-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 70%);
+  transform: scale(0);
+  animation: btn-ripple 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 0;
+}
+@keyframes btn-ripple {
+  to { transform: scale(1.6); opacity: 0; }
+}
+
+/* ─── Toast notifications ─────────────────────────────────────────────── */
+.toast-stack {
+  position: fixed;
+  top: 6rem;
+  right: 1.25rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  pointer-events: none;
+  max-width: 22rem;
+}
+.toast-item {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, rgba(14,28,48,0.95), rgba(8,16,30,0.92));
+  border: 1px solid rgba(244,163,0,0.3);
+  box-shadow: 0 16px 44px rgba(2,6,23,0.55), inset 0 1px 0 rgba(255,255,255,0.05);
+  backdrop-filter: blur(24px) saturate(1.4);
+  color: var(--color-text);
+  animation: toast-enter 0.35s var(--ease-out-expo) both;
+  max-width: 22rem;
+}
+.toast-item.toast-exit {
+  animation: toast-exit 0.25s var(--ease-out-expo) both;
+}
+.toast-item.toast-error {
+  border-color: rgba(231,76,60,0.35);
+}
+.toast-item.toast-success {
+  border-color: rgba(52,211,153,0.35);
+}
+@keyframes toast-enter {
+  from { opacity: 0; transform: translateX(40px) scale(0.96); filter: blur(4px); }
+  to   { opacity: 1; transform: translateX(0) scale(1); filter: blur(0); }
+}
+@keyframes toast-exit {
+  to { opacity: 0; transform: translateX(20px) scale(0.98); filter: blur(3px); }
+}
+
+/* ─── View Transitions (Chrome/Edge) ──────────────────────────────────── */
+@supports (view-transition-name: none) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.45s;
+    animation-timing-function: var(--ease-out-expo);
+  }
+  ::view-transition-old(root) {
+    animation-name: vt-root-out;
+  }
+  ::view-transition-new(root) {
+    animation-name: vt-root-in;
+  }
+
+  /* Shared-element morph: character image between list card and detail hero */
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0.6s;
+    animation-timing-function: var(--ease-out-expo);
+    mix-blend-mode: normal;
+  }
+
+  @keyframes vt-root-out {
+    from { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    to   { opacity: 0; transform: translateY(-12px) scale(0.985); filter: blur(4px); }
+  }
+  @keyframes vt-root-in {
+    from { opacity: 0; transform: translateY(12px) scale(1.015); filter: blur(4px); }
+    to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0.01ms !important;
+  }
+}

@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Heart } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
+import { toast } from '@/lib/toast'
 
 type Props = {
   targetType: string
@@ -69,12 +70,18 @@ export default function FavoriteButton({ targetType, targetSlug, className = '' 
       const data = await res.json()
       if (res.ok) {
         setFavorited(data.data.favorited)
+        toast({
+          kind: 'success',
+          title: data.data.favorited ? 'Favorilere eklendi' : 'Favorilerden kaldırıldı',
+          message: data.data.favorited ? 'Kayıt defterine işlendi — profilinden erişebilirsin.' : undefined,
+        })
       } else {
-        // Revert on error
         setFavorited((prev) => !prev)
+        toast({ kind: 'error', title: 'Bir şeyler ters gitti', message: 'Favoriler güncellenemedi.' })
       }
     } catch {
       setFavorited((prev) => !prev)
+      toast({ kind: 'error', title: 'Bağlantı hatası', message: 'Deniz dalgalı görünüyor, sonra tekrar dene.' })
     } finally {
       setLoading(false)
     }

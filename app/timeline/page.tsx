@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Clock, Star, BookOpen, Compass, Anchor, Flame, Swords, Crown, Globe, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import PageHero from '@/components/wiki/PageHero'
+import EraShowcase from '@/components/timeline/EraShowcase'
 import { fadeUp, EASE } from '@/lib/variants'
 
 type TimelineEvent = {
@@ -174,7 +175,12 @@ export default function TimelinePage() {
               </div>
             </div>
           </PageHero>
+        </div>
 
+        {/* Era Showcase — cinematic scroll-zoom sequence */}
+        <EraShowcase />
+
+        <div className="mx-auto max-w-5xl px-6">
           {/* Category filters */}
           <div className="mb-12 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 animate-fade-in-up">
             <button

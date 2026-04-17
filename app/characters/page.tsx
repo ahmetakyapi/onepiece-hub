@@ -7,23 +7,15 @@ import {
   Users,
   Anchor,
   ArrowUpDown,
-  ArrowRight,
-  Skull,
-  Crown,
-  Swords,
-  Shield,
-  Flame,
-  Sparkles,
-  Star,
 } from 'lucide-react'
-import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import PageHero from '@/components/wiki/PageHero'
-import CharacterAvatar from '@/components/ui/CharacterAvatar'
 import EmptyState from '@/components/ui/EmptyState'
+import CharacterCard from '@/components/characters/CharacterCard'
+import CrewAmbient from '@/components/characters/CrewAmbient'
 import { CHARACTERS, CREW_LABELS } from '@/lib/constants/characters'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
-import { parseBounty, formatBounty } from '@/lib/utils'
+import { parseBounty } from '@/lib/utils'
 import { CREW_COLORS, CREW_ICONS } from '@/lib/constants/crew-styles'
 import type { CrewType } from '@/types'
 
@@ -84,11 +76,6 @@ export default function CharactersPage() {
     })
   }
 
-  /* Stats */
-  const totalBounty = useMemo(
-    () => CHARACTERS.reduce((sum, c) => sum + parseBounty(c.bounty), 0),
-    [],
-  )
   const crewCounts = useMemo(() => {
     const counts: Record<string, number> = {}
     CHARACTERS.forEach((c) => {
@@ -99,6 +86,7 @@ export default function CharactersPage() {
 
   return (
       <main className="relative min-h-screen pt-28 sm:pt-32">
+        <CrewAmbient />
         <div className="mx-auto max-w-7xl px-6">
           {/* ─── Hero ─── */}
           <PageHero
@@ -213,114 +201,15 @@ export default function CharactersPage() {
             className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
           >
             <AnimatePresence mode="sync">
-              {filtered.map((char) => {
-                const colors = CREW_COLORS[char.crew] || CREW_COLORS.other
-                const bountyValue = parseBounty(char.bounty)
-
-                return (
-                  <motion.div
-                    key={char.slug}
-                    variants={fadeUp}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    layout
-                  >
-                    <Link
-                      href={`/characters/${char.slug}`}
-                      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-pirate-border/20 bg-ocean-surface/30 backdrop-blur-sm transition-all duration-500 hover:border-pirate-border/40 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
-                    >
-                      {/* Image area */}
-                      <div className="relative h-52 overflow-hidden">
-                        <CharacterAvatar
-                          slug={char.slug}
-                          name={char.name}
-                          crew={char.crew}
-                          className="transition-transform duration-700 ease-expo-out group-hover:scale-110"
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        />
-
-                        {/* Gradient overlays */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep via-ocean-deep/40 to-transparent" />
-                        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-ocean-deep/30" />
-
-                        {/* Hover shine */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.03] to-transparent translate-x-[-200%] transition-transform duration-700 group-hover:translate-x-[200%]" />
-
-                        {/* Epithet badge */}
-                        {char.epithet && (
-                          <div className="absolute left-3 top-3 z-10">
-                            <span className={`inline-flex items-center gap-1 rounded-lg border ${colors.border} ${colors.bg} px-2 py-0.5 text-[10px] font-bold ${colors.text} backdrop-blur-md`}>
-                              {char.epithet}
-                            </span>
-                          </div>
-                        )}
-
-                        {/* Bounty badge - top right */}
-                        {char.bounty && (
-                          <div className="absolute right-3 top-3 z-10">
-                            <span className="inline-flex items-center gap-1 rounded-lg border border-gold/20 bg-ocean-deep/60 px-2 py-0.5 text-[10px] font-bold text-gold backdrop-blur-md">
-                              <Skull className="h-2.5 w-2.5" />
-                              {formatBounty(bountyValue)}
-                            </span>
-                          </div>
-                        )}
-
-                        {/* Character name overlay at bottom of image */}
-                        <div className="absolute bottom-0 left-0 right-0 z-10 p-4">
-                          <h3 className="text-base font-extrabold tracking-tight text-pirate-text transition-colors duration-300 group-hover:text-gold drop-shadow-lg">
-                            {char.name}
-                          </h3>
-                        </div>
-                      </div>
-
-                      {/* Info section */}
-                      <div className="flex flex-1 flex-col p-4 pt-2">
-                        {/* Crew badge */}
-                        <div className="mb-2.5">
-                          <span
-                            className={`inline-flex items-center gap-1.5 rounded-md border ${colors.border} ${colors.bg} px-2 py-0.5 text-[10px] font-semibold ${colors.text}`}
-                          >
-                            <Anchor className="h-2.5 w-2.5" />
-                            {CREW_LABELS[char.crew]}
-                          </span>
-                        </div>
-
-                        {/* Description */}
-                        <p className="line-clamp-2 text-[11px] leading-relaxed text-pirate-muted/70">
-                          {char.description}
-                        </p>
-
-                        {/* Devil fruit indicator */}
-                        {char.devilFruit && (
-                          <div className="mt-2 flex items-center gap-1.5">
-                            <Sparkles className="h-3 w-3 text-purple-400/70" />
-                            <span className="truncate text-[10px] text-purple-400/70">
-                              {char.devilFruit.name}
-                            </span>
-                          </div>
-                        )}
-
-                        {/* Footer */}
-                        <div className="mt-auto flex items-center justify-between border-t border-pirate-border/10 pt-3 mt-3">
-                          {char.bounty ? (
-                            <div className="flex items-baseline gap-1">
-                              <span className="text-[10px] text-pirate-muted/40">Ödül</span>
-                              <span className="text-xs font-bold text-gold tabular-nums">
-                                {char.bounty}
-                              </span>
-                            </div>
-                          ) : (
-                            <span className="text-[10px] text-pirate-muted/30">Ödül bilinmiyor</span>
-                          )}
-                          <div className="flex items-center gap-1 text-[10px] text-pirate-muted/30 transition-all duration-300 group-hover:text-gold/50">
-                            <span className="hidden sm:inline">Detay</span>
-                            <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5" />
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  </motion.div>
-                )
-              })}
+              {filtered.map((char) => (
+                <motion.div
+                  key={char.slug}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  layout
+                >
+                  <CharacterCard character={char} />
+                </motion.div>
+              ))}
             </AnimatePresence>
           </motion.div>
 

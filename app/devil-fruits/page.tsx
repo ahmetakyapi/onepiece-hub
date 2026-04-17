@@ -8,6 +8,7 @@ import PageHero from '@/components/wiki/PageHero'
 import EmptyState from '@/components/ui/EmptyState'
 import { DEVIL_FRUITS, DEVIL_FRUIT_TYPE_INFO } from '@/lib/constants/devil-fruits'
 import { getCharacterImage } from '@/lib/constants/images'
+import { useViewTransition } from '@/hooks/useViewTransition'
 
 const TYPES = Object.keys(DEVIL_FRUIT_TYPE_INFO)
 
@@ -23,6 +24,7 @@ const HERO_ORBS = [
 export default function DevilFruitsPage() {
   const [search, setSearch] = useState('')
   const [activeType, setActiveType] = useState<string | null>(null)
+  const navigate = useViewTransition()
 
   const filtered = useMemo(() => {
     return DEVIL_FRUITS.filter((df) => {
@@ -188,10 +190,18 @@ export default function DevilFruitsPage() {
                         <Link
                           key={df.slug}
                           href={`/devil-fruits/${df.slug}`}
+                          onClick={(e) => {
+                            if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
+                            e.preventDefault()
+                            navigate(`/devil-fruits/${df.slug}`)
+                          }}
                           className="bento-card group relative flex flex-col overflow-hidden transition-all hover:border-gold/20"
                         >
                           {/* Character image — large hero area */}
-                          <div className={`relative h-44 w-full overflow-hidden ${typeInfo.bg}`}>
+                          <div
+                            className={`relative h-44 w-full overflow-hidden ${typeInfo.bg}`}
+                            style={{ viewTransitionName: `fruit-image-${df.slug}` }}
+                          >
                             {characterImage ? (
                               <Image
                                 src={characterImage}

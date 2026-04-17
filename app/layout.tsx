@@ -8,6 +8,9 @@ import dynamic from 'next/dynamic'
 import '@/lib/env'
 
 const ScrollProgress = dynamic(() => import('@/components/layout/ScrollProgress'), { ssr: false })
+const CommandPalette = dynamic(() => import('@/components/search/CommandPalette'), { ssr: false })
+const RippleEffect = dynamic(() => import('@/components/ui/RippleEffect'), { ssr: false })
+const ToastContainer = dynamic(() => import('@/components/ui/ToastContainer'), { ssr: false })
 import './globals.css'
 
 const manrope = Manrope({
@@ -79,6 +82,9 @@ export default function RootLayout({
             İçeriğe atla
           </a>
           <ScrollProgress />
+          <CommandPalette />
+          <RippleEffect />
+          <ToastContainer />
           <Header />
           <main id="main-content">{children}</main>
           <Footer />

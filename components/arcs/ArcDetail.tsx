@@ -55,7 +55,10 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
             className="relative mb-8 h-56 overflow-hidden rounded-3xl bg-ocean-surface sm:h-80"
           >
             {getArcImage(arc.slug) ? (
-              <motion.div className="absolute inset-0" style={{ scale: coverScale, opacity: coverOpacity }}>
+              <motion.div
+                className="absolute inset-0"
+                style={{ scale: coverScale, opacity: coverOpacity, viewTransitionName: `arc-image-${arc.slug}` }}
+              >
                 <Image
                   src={getArcImage(arc.slug)}
                   alt={arc.name}

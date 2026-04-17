@@ -7,11 +7,13 @@ import { ArrowRight, Compass, Film } from 'lucide-react'
 import { memo, useRef, useCallback, useEffect, useState } from 'react'
 import { fadeUp } from '@/lib/variants'
 import { getArcImage } from '@/lib/constants/images'
+import { useViewTransition } from '@/hooks/useViewTransition'
 import type { Arc } from '@/types'
 
 function ArcCard({ arc }: { arc: Arc }) {
   const img = getArcImage(arc.slug)
   const ref = useRef<HTMLDivElement>(null)
+  const navigate = useViewTransition()
 
   // Respect prefers-reduced-motion
   const [reducedMotion, setReducedMotion] = useState(false)
@@ -59,6 +61,11 @@ function ArcCard({ arc }: { arc: Arc }) {
       >
         <Link
           href={`/arcs/${arc.slug}`}
+          onClick={(e) => {
+            if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
+            e.preventDefault()
+            navigate(`/arcs/${arc.slug}`)
+          }}
           className="bento-card group relative flex flex-col overflow-hidden"
         >
           {/* Holographic shine overlay */}
@@ -68,7 +75,10 @@ function ArcCard({ arc }: { arc: Arc }) {
           />
 
           {/* Cover */}
-          <div className="relative h-52 w-full overflow-hidden bg-ocean-surface sm:h-60">
+          <div
+            className="relative h-52 w-full overflow-hidden bg-ocean-surface sm:h-60"
+            style={{ viewTransitionName: `arc-image-${arc.slug}` }}
+          >
             {img ? (
               <Image
                 src={img}

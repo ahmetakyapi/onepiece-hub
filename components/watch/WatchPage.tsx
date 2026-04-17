@@ -1,13 +1,13 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import {
   ArrowLeft, ChevronLeft, ChevronRight,
   Check, Film, Play, BookOpen,
   ExternalLink, AlertTriangle, Clock, Eye,
-  Compass, ArrowRight
+  Compass, ArrowRight, Maximize2, X
 } from 'lucide-react'
 import { fadeUp, staggerContainer } from '@/lib/variants'
 import { getGlobalEpisodeNumber } from '@/lib/constants/arcs'
@@ -29,8 +29,26 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
   const globalEp = getGlobalEpisodeNumber(arc.slug, episode.number)
   const onePaceTrUrl = `https://www.onepacetr.net/bolum/${globalEp}`
   const [iframeError, setIframeError] = useState(false)
+  const [cinemaMode, setCinemaMode] = useState(false)
   const { isWatched, toggle, markWatched, watchedCount, loaded } = useWatchedEpisodes()
   const currentRef = useRef<HTMLAnchorElement>(null)
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && cinemaMode) setCinemaMode(false)
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [cinemaMode])
+
+  useEffect(() => {
+    if (cinemaMode) {
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.overflow = ''
+      }
+    }
+  }, [cinemaMode])
 
   const allSlugs = arc.episodes.map((ep) => ep.slug)
   const watched = watchedCount(allSlugs)
@@ -156,6 +174,16 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
                   )}
                 </button>
 
+                {/* Cinema Mode toggle */}
+                <button
+                  onClick={() => setCinemaMode(true)}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-pirate-border bg-ocean-surface px-3 py-2 text-xs font-medium text-pirate-muted transition-all hover:border-gold/20 hover:text-gold sm:text-sm"
+                  title="Cinema Mode (F)"
+                >
+                  <Maximize2 className="h-3.5 w-3.5" />
+                  <span className="hidden sm:inline">Cinema</span>
+                </button>
+
                 {/* OnePaceTR link */}
                 <a
                   href={onePaceTrUrl}
@@ -224,14 +252,42 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
                   </span>
                 </div>
 
-                {/* Progress bar */}
-                <div className="mb-4 h-1.5 overflow-hidden rounded-full bg-ocean-surface">
-                  <motion.div
-                    className="h-full rounded-full bg-gradient-to-r from-gold to-gold-bright"
-                    initial={{ width: 0 }}
-                    animate={{ width: `${(watched / arc.episodeCount) * 100}%` }}
-                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                  />
+                {/* Progress compass — circular arc progress */}
+                <div className="mb-4 flex items-center gap-3 rounded-xl border border-pirate-border/30 bg-ocean-deep/40 px-3 py-2.5">
+                  <div className="relative h-12 w-12 flex-shrink-0">
+                    <svg viewBox="0 0 48 48" className="h-full w-full -rotate-90">
+                      <circle cx="24" cy="24" r="20" className="fill-none stroke-ocean-surface" strokeWidth="4" />
+                      <motion.circle
+                        cx="24"
+                        cy="24"
+                        r="20"
+                        className="fill-none stroke-gold"
+                        strokeWidth="4"
+                        strokeLinecap="round"
+                        strokeDasharray={`${2 * Math.PI * 20}`}
+                        initial={{ strokeDashoffset: 2 * Math.PI * 20 }}
+                        animate={{
+                          strokeDashoffset:
+                            2 * Math.PI * 20 * (1 - watched / arc.episodeCount),
+                        }}
+                        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                      />
+                    </svg>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Compass className="h-4 w-4 text-gold" />
+                    </div>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-pirate-muted">
+                      Arc İlerlemesi
+                    </p>
+                    <p className="text-sm font-bold text-pirate-text">
+                      {watched} / {arc.episodeCount} bölüm
+                    </p>
+                  </div>
+                  <p className="text-xs font-black stat-number text-gold">
+                    {Math.round((watched / arc.episodeCount) * 100)}%
+                  </p>
                 </div>
 
                 {/* Episode list */}
@@ -319,6 +375,81 @@ export default function WatchPageClient({ arc, episode, prevEpisode, nextEpisode
             </motion.div>
           </motion.div>
         </div>
+
+        {/* ─── Cinema Mode overlay ──────────────────────────────────── */}
+        <AnimatePresence>
+          {cinemaMode && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 z-[200] flex items-center justify-center bg-black/98 backdrop-blur-sm"
+            >
+              <button
+                onClick={() => setCinemaMode(false)}
+                className="absolute right-5 top-5 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/60 text-white/70 backdrop-blur-md transition-all hover:border-gold/30 hover:text-gold"
+                aria-label="Cinema modundan çık"
+              >
+                <X className="h-5 w-5" />
+              </button>
+
+              <div className="pointer-events-none absolute left-1/2 top-5 z-10 -translate-x-1/2 flex items-center gap-3 rounded-full border border-white/10 bg-black/60 px-4 py-1.5 backdrop-blur-md">
+                <span className="flex h-2 w-2">
+                  <span className="absolute inline-flex h-2 w-2 animate-ping rounded-full bg-luffy/70" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-luffy" />
+                </span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/80">
+                  Cinema Mode
+                </span>
+                <span className="text-[11px] text-white/50">•</span>
+                <span className="text-[11px] text-white/70">Bölüm {globalEp}</span>
+              </div>
+
+              <motion.div
+                initial={{ scale: 0.95 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.95 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                className="relative w-[94vw] max-w-[1400px] overflow-hidden rounded-2xl border border-gold/15 bg-[#0d1b2a] shadow-[0_0_120px_rgba(244,163,0,0.12)]"
+                style={{ aspectRatio: '16 / 9' }}
+              >
+                {!iframeError ? (
+                  <iframe
+                    src={onePaceTrUrl}
+                    className="absolute border-0"
+                    style={{ width: '200%', height: '255%', left: '-55%', top: '-38%' }}
+                    allowFullScreen
+                    allow="autoplay; fullscreen; encrypted-media"
+                    onError={() => setIframeError(true)}
+                  />
+                ) : (
+                  <div className="flex h-full w-full flex-col items-center justify-center gap-4">
+                    <AlertTriangle className="h-12 w-12 text-gold/40" />
+                    <a
+                      href={onePaceTrUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-gold inline-flex"
+                    >
+                      <Play className="h-4 w-4" />
+                      OnePaceTR&apos;de İzle
+                    </a>
+                  </div>
+                )}
+              </motion.div>
+
+              <div className="pointer-events-none absolute inset-x-0 bottom-6 flex items-center justify-center gap-6 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40">
+                <span className="flex items-center gap-1.5">
+                  <kbd className="rounded border border-white/20 bg-white/5 px-1.5 py-0.5 font-mono text-white/60">ESC</kbd>
+                  Çık
+                </span>
+                <span>{episode.title}</span>
+                <span>{arc.name}</span>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
   )
 }

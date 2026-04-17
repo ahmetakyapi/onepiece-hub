@@ -201,13 +201,26 @@ export default function Header() {
 
           {/* Right side — search + auth + mobile */}
           <div className="flex items-center gap-3">
-            <Link
-              href="/search"
-              className="flex h-9 w-9 items-center justify-center rounded-xl text-pirate-muted transition-all duration-200 hover:bg-gold/10 hover:text-gold"
-              title="Ara"
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event('open-command-palette'))}
+              className="group hidden h-9 items-center gap-2 rounded-xl border border-pirate-border/30 bg-ocean-surface/40 pl-3 pr-2 text-[12px] text-pirate-muted transition-all duration-200 hover:border-gold/25 hover:bg-gold/[0.06] hover:text-gold sm:flex"
+              title="Ara (Ctrl+K)"
+            >
+              <Search className="h-3.5 w-3.5" />
+              <span>Ara</span>
+              <kbd className="ml-1 rounded border border-pirate-border/40 bg-ocean-deep/50 px-1.5 py-0.5 text-[9px] font-bold tracking-wider">
+                ⌘K
+              </kbd>
+            </button>
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event('open-command-palette'))}
+              className="flex h-9 w-9 items-center justify-center rounded-xl text-pirate-muted transition-all duration-200 hover:bg-gold/10 hover:text-gold sm:hidden"
+              aria-label="Ara"
             >
               <Search className="h-4 w-4" />
-            </Link>
+            </button>
             {!loading && (
               user ? (
                 <div className="hidden items-center gap-2 sm:flex">

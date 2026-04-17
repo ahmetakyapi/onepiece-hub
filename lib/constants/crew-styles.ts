@@ -20,6 +20,24 @@ export const CREW_COLORS: Record<string, { border: string; bg: string; text: str
   other: { border: 'border-pirate-border/30', bg: 'bg-pirate-muted/[0.04]', text: 'text-pirate-muted', glow: 'shadow-pirate-border/10' },
 }
 
+export const CREW_RGB: Record<string, string> = {
+  'straw-hat': '244,163,0',
+  marine: '30,144,255',
+  shichibukai: '168,139,250',
+  yonko: '231,76,60',
+  revolutionary: '52,211,153',
+  'baroque-works': '251,191,36',
+  cp9: '148,163,184',
+  supernova: '34,211,238',
+  'beast-pirates': '167,139,250',
+  'big-mom-pirates': '244,114,182',
+  'roger-pirates': '244,163,0',
+  'whitebeard-pirates': '56,189,248',
+  'red-hair-pirates': '239,68,68',
+  ally: '45,212,191',
+  other: '148,163,184',
+}
+
 export const CREW_ICONS: Record<string, typeof Skull> = {
   'straw-hat': Anchor,
   marine: Shield,

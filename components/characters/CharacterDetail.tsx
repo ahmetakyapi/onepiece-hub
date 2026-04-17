@@ -98,7 +98,10 @@ export default function CharacterDetailClient({ character }: { character: Charac
       {/* ─── Cinematic Hero ────────────────────────────────────── */}
       <section ref={heroRef} className="relative h-[70vh] min-h-[500px] overflow-hidden bg-gradient-to-b from-ocean-surface to-ocean-deep sm:h-[80vh]">
         {/* Background image with parallax */}
-        <motion.div className="absolute inset-0 flex items-center justify-center" style={{ y: heroY, scale: heroScale }}>
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center"
+          style={{ y: heroY, scale: heroScale, viewTransitionName: `character-image-${character.slug}` }}
+        >
           {imgSrc ? (
             <Image
               src={imgSrc}
