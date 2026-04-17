@@ -48,12 +48,12 @@ export default function MobileBottomNav() {
                 />
               )}
               <Icon
-                className={`h-[18px] w-[18px] transition-all ${
+                className={`h-5 w-5 transition-all ${
                   active ? 'text-gold' : 'text-pirate-muted/60 group-active:scale-90'
                 }`}
               />
               <span
-                className={`text-[9px] font-semibold tracking-wide transition-colors ${
+                className={`text-[10.5px] font-semibold tracking-wide transition-colors ${
                   active ? 'text-gold' : 'text-pirate-muted/60'
                 }`}
               >
@@ -74,12 +74,12 @@ export default function MobileBottomNav() {
             />
           )}
           <User
-            className={`h-[18px] w-[18px] transition-all ${
+            className={`h-5 w-5 transition-all ${
               isActive(pathname, profileHref) ? 'text-gold' : 'text-pirate-muted/60 group-active:scale-90'
             }`}
           />
           <span
-            className={`text-[9px] font-semibold tracking-wide transition-colors ${
+            className={`text-[10.5px] font-semibold tracking-wide transition-colors ${
               isActive(pathname, profileHref) ? 'text-gold' : 'text-pirate-muted/60'
             }`}
           >

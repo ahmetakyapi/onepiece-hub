@@ -65,7 +65,7 @@ export default function FeaturedArcSpotlight() {
           transition={{ duration: 0.9, ease: EASE, delay: 0.1 }}
           className="relative overflow-hidden rounded-3xl border border-pirate-border/20 bg-ocean-surface/30 shadow-[0_40px_120px_rgba(2,6,23,0.55)]"
         >
-          <div className="relative h-[60vh] min-h-[480px] w-full overflow-hidden sm:h-[70vh]">
+          <div className="relative h-[72vh] min-h-[420px] w-full overflow-hidden sm:h-[70vh] sm:min-h-[480px]">
             {img && (
               <motion.div
                 className="absolute inset-0"
@@ -88,7 +88,7 @@ export default function FeaturedArcSpotlight() {
             <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-luffy/[0.12] blur-[120px]" />
             <div className="pointer-events-none absolute -left-20 -bottom-20 h-72 w-72 rounded-full bg-gold/[0.08] blur-[120px]" />
 
-            <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-10">
+            <div className="absolute inset-0 flex flex-col justify-end p-5 sm:p-10">
               <motion.div
                 initial={{ opacity: 0, y: 24 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -112,19 +112,19 @@ export default function FeaturedArcSpotlight() {
                   )}
                 </div>
 
-                <h3 className="mb-3 text-4xl font-extrabold leading-[1.05] tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:text-5xl md:text-6xl">
+                <h3 className="mb-2 text-3xl font-extrabold leading-[1.05] tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:mb-3 sm:text-5xl md:text-6xl">
                   {arc.name}
                 </h3>
 
-                <p className="mb-5 max-w-xl text-sm leading-relaxed text-white/80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] sm:text-base">
+                <p className="mb-4 line-clamp-3 max-w-xl text-[13px] leading-relaxed text-white/80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] sm:mb-5 sm:line-clamp-none sm:text-base">
                   {arc.summary}
                 </p>
 
-                <div className="mb-6 flex items-start gap-3 rounded-xl border-l-2 border-luffy/40 bg-ocean-deep/40 p-3 backdrop-blur-sm">
-                  <Quote className="mt-0.5 h-4 w-4 flex-shrink-0 text-luffy/70" />
+                <div className="mb-5 flex items-start gap-2 rounded-xl border-l-2 border-luffy/40 bg-ocean-deep/40 p-2.5 backdrop-blur-sm sm:mb-6 sm:gap-3 sm:p-3">
+                  <Quote className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-luffy/70 sm:h-4 sm:w-4" />
                   <div className="min-w-0">
-                    <p className="text-sm italic text-white/85 sm:text-base">&ldquo;{FEATURED_QUOTE}&rdquo;</p>
-                    <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.2em] text-luffy/70">
+                    <p className="text-[13px] italic text-white/85 sm:text-base">&ldquo;{FEATURED_QUOTE}&rdquo;</p>
+                    <p className="mt-1 text-[9px] font-bold uppercase tracking-[0.2em] text-luffy/70 sm:text-[10px]">
                       {FEATURED_ATTRIBUTION}
                     </p>
                   </div>

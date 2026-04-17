@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useScroll, useTransform, useInView, useMotionTemplate } from 'framer-motion'
-import { Play, Compass, Cherry, Shield, Globe, Anchor, Swords, Trophy, Clock, ArrowRight, Sparkles, Map, Skull } from 'lucide-react'
+import { Play, Compass, Cherry, Shield, Globe, Anchor, Swords, Trophy, Clock, ArrowRight, Sparkles, Map, Skull, ChevronDown } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRef } from 'react'
@@ -63,13 +63,16 @@ export default function Home() {
     offset: ['start start', 'end end'],
   })
 
-  // Scene 1 (intro) — visible during first third of the sticky sequence
-  const scene1Opacity = useTransform(scrollYProgress, [0, 0.32, 0.48], [1, 1, 0])
-  const scene1Y = useTransform(scrollYProgress, [0, 0.48], [0, -60])
+  // Scene 1 (intro) — visible during first 40% of the sticky sequence
+  const scene1Opacity = useTransform(scrollYProgress, [0, 0.25, 0.4], [1, 1, 0])
+  const scene1Y = useTransform(scrollYProgress, [0, 0.4], [0, -60])
 
-  // Scene 2 (poneglyph reveal) — stays until the very end, no dead space
-  const scene2Opacity = useTransform(scrollYProgress, [0.42, 0.58, 0.94, 1], [0, 1, 1, 0])
-  const scene2Y = useTransform(scrollYProgress, [0.42, 0.58], [40, 0])
+  // Scene 2 (poneglyph reveal) — takes over mid-scroll, stays until the end (no dead space)
+  const scene2Opacity = useTransform(scrollYProgress, [0.32, 0.5, 0.95, 1], [0, 1, 1, 0])
+  const scene2Y = useTransform(scrollYProgress, [0.32, 0.5], [40, 0])
+
+  // Scroll hint in scene 2 — appears once scene 2 is settled, pulses to invite continuation
+  const scene2HintOpacity = useTransform(scrollYProgress, [0.55, 0.7, 0.9, 0.96], [0, 1, 1, 0])
 
   // Background parallax / zoom across full sequence
   const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '14%'])
@@ -92,8 +95,7 @@ export default function Home() {
         {/* ─── Hero — Sticky multi-scene sequence ─────────────────── */}
         <section
           ref={heroRef}
-          className="relative z-10"
-          style={{ height: '160vh' }}
+          className="relative z-10 h-[130vh] sm:h-[160vh]"
         >
           <motion.div
             style={{ opacity: heroExitOpacity }}
@@ -148,7 +150,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 16, scale: 0.9 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
-                className="mt-[22vh] inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/[0.06] px-4 py-1.5 backdrop-blur-md sm:mt-[20vh]"
+                className="mt-[14vh] inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/[0.06] px-4 py-1.5 backdrop-blur-md sm:mt-[20vh]"
               >
                 <Sparkles className="h-3 w-3 text-gold" />
                 <span className="text-[11px] font-semibold tracking-wide text-gold">
@@ -158,7 +160,7 @@ export default function Home() {
 
               <div className="flex-1" />
 
-              <div className="max-w-3xl pb-32 sm:pb-28">
+              <div className="max-w-3xl pb-16 sm:pb-28">
                 <h1 className="mb-6 text-4xl font-extrabold leading-[1.1] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] sm:text-5xl md:text-6xl lg:text-7xl">
                   {['One', 'Piece'].map((word, i) => (
                     <motion.span
@@ -250,45 +252,62 @@ export default function Home() {
             {/* Scene 2 — Poneglyph reveal */}
             <motion.div
               style={{ opacity: scene2Opacity, y: scene2Y }}
-              className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center"
+              className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 pt-20 text-center sm:pt-0"
             >
               <div className="max-w-3xl">
-                <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-sea/25 bg-ocean-deep/60 px-4 py-1.5 backdrop-blur-md">
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-sea/25 bg-ocean-deep/60 px-4 py-1.5 backdrop-blur-md sm:mb-6">
                   <span className="relative flex h-2 w-2">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold/60" />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
                   </span>
-                  <span className="text-[11px] font-semibold tracking-[0.18em] text-sea-light">
+                  <span className="text-[10px] font-semibold tracking-[0.18em] text-sea-light sm:text-[11px]">
                     POSEIDON&apos;UN SESİ
                   </span>
                 </div>
 
-                <h2 className="mb-5 text-3xl font-extrabold leading-[1.05] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.75)] sm:text-5xl md:text-6xl">
+                <h2 className="mb-4 text-[26px] font-extrabold leading-[1.05] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.75)] sm:mb-5 sm:text-5xl md:text-6xl">
                   <span className="block text-white/90">Void Century&apos;nin</span>
                   <span className="block text-gold-gradient">sırları burada.</span>
                 </h2>
 
-                <p className="mx-auto mb-8 max-w-xl text-sm leading-relaxed text-white/75 drop-shadow-[0_2px_8px_rgba(0,0,0,0.65)] sm:text-base">
+                <p className="mx-auto mb-6 max-w-xl text-[13px] leading-relaxed text-white/75 drop-shadow-[0_2px_8px_rgba(0,0,0,0.65)] sm:mb-8 sm:text-base">
                   800 yıl önce kaybolan bir çağ. 32 arc&apos;lık destansı yolculuk.
                   <span className="text-gold"> 61 karakter, 12 mürettebat, 43 Şeytan Meyvesi </span>
                   ve henüz söylenmemiş binlerce hikaye.
                 </p>
 
-                <div className="flex flex-wrap items-center justify-center gap-3">
-                  <Link href="/timeline" className="btn-ghost border-gold/20 bg-gold/[0.06] text-gold group">
-                    <Sparkles className="h-4 w-4 transition-transform duration-500 group-hover:rotate-12" />
+                <div className="flex flex-wrap items-center justify-center gap-2 text-xs sm:gap-3 sm:text-sm">
+                  <Link href="/timeline" className="btn-ghost border-gold/20 bg-gold/[0.06] text-gold group !py-2 !px-3 sm:!py-2.5 sm:!px-4">
+                    <Sparkles className="h-3.5 w-3.5 transition-transform duration-500 group-hover:rotate-12 sm:h-4 sm:w-4" />
                     Zaman Çizelgesi
                   </Link>
-                  <Link href="/world" className="btn-ghost border-sea/20 bg-sea/[0.06] text-sea group">
-                    <Map className="h-4 w-4 transition-transform duration-500 group-hover:scale-110" />
+                  <Link href="/world" className="btn-ghost border-sea/20 bg-sea/[0.06] text-sea group !py-2 !px-3 sm:!py-2.5 sm:!px-4">
+                    <Map className="h-3.5 w-3.5 transition-transform duration-500 group-hover:scale-110 sm:h-4 sm:w-4" />
                     Dünya Haritası
                   </Link>
-                  <Link href="/devil-fruits" className="btn-ghost border-purple-400/20 bg-purple-400/[0.06] text-purple-300 group">
-                    <Cherry className="h-4 w-4 transition-transform duration-500 group-hover:rotate-12" />
+                  <Link href="/devil-fruits" className="btn-ghost border-purple-400/20 bg-purple-400/[0.06] text-purple-300 group !py-2 !px-3 sm:!py-2.5 sm:!px-4">
+                    <Cherry className="h-3.5 w-3.5 transition-transform duration-500 group-hover:rotate-12 sm:h-4 sm:w-4" />
                     Şeytan Meyveleri
                   </Link>
                 </div>
               </div>
+
+              {/* Scroll-down hint — appears when scene 2 has settled */}
+              <motion.div
+                style={{ opacity: scene2HintOpacity }}
+                className="pointer-events-none absolute inset-x-0 bottom-8 flex flex-col items-center gap-1.5 sm:bottom-10"
+              >
+                <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/50 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
+                  Devam et
+                </span>
+                <motion.div
+                  animate={{ y: [0, 6, 0] }}
+                  transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+                  className="flex h-7 w-7 items-center justify-center rounded-full border border-gold/30 bg-ocean-deep/60 backdrop-blur-md"
+                >
+                  <ChevronDown className="h-3.5 w-3.5 text-gold" />
+                </motion.div>
+              </motion.div>
             </motion.div>
 
             {/* Wave transition — persists across scenes */}
@@ -297,7 +316,7 @@ export default function Home() {
         </section>
 
         {/* ─── Stats ─────────────────────────────────────────────── */}
-        <section className="relative z-10 px-6 py-16 sm:py-20">
+        <section className="relative z-10 px-6 pt-6 pb-12 sm:py-20">
           <StatsBar />
         </section>
 

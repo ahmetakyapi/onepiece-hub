@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Clock, Star, BookOpen, Compass, Anchor, Flame, Swords, Crown, Globe, Sparkles } from 'lucide-react'
+import { Clock, Star, BookOpen, Compass, Anchor, Flame, Swords, Crown, Globe, Sparkles, ChevronDown } from 'lucide-react'
 import Link from 'next/link'
 import PageHero from '@/components/wiki/PageHero'
 import EraShowcase from '@/components/timeline/EraShowcase'
@@ -175,6 +175,35 @@ export default function TimelinePage() {
               </div>
             </div>
           </PageHero>
+
+          {/* Scroll-reveal intro — tells the user a sticky sequence is coming */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.6, ease: EASE }}
+            className="relative mx-auto mb-6 flex max-w-xl flex-col items-center gap-3 rounded-2xl border border-gold/20 bg-ocean-surface/30 px-5 py-4 text-center backdrop-blur-sm sm:flex-row sm:text-left"
+          >
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-gold/25 bg-gold/10">
+              <Sparkles className="h-4 w-4 text-gold" />
+            </div>
+            <div className="flex-1">
+              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-gold">
+                Sinema modu
+              </p>
+              <p className="text-sm leading-relaxed text-pirate-text">
+                Kaydırdıkça 6 dönem sırayla uyanacak — yavaşça scroll et.
+              </p>
+            </div>
+            <motion.div
+              animate={{ y: [0, 6, 0] }}
+              transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+              className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-gold/30 bg-ocean-deep/60"
+              aria-hidden
+            >
+              <ChevronDown className="h-4 w-4 text-gold" />
+            </motion.div>
+          </motion.div>
         </div>
 
         {/* Era Showcase — cinematic scroll-zoom sequence */}

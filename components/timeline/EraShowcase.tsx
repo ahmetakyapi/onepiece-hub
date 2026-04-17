@@ -117,35 +117,35 @@ function EraScene({ era, index, total, scrollYProgress }: {
 
       <div className="relative z-10 mx-auto max-w-3xl text-center">
         <div
-          className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border"
+          className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl border sm:mb-6 sm:h-16 sm:w-16"
           style={{
             borderColor: `rgba(${era.rgb}, 0.4)`,
             background: `rgba(${era.rgb}, 0.12)`,
             boxShadow: `0 0 40px rgba(${era.rgb}, 0.3)`,
           }}
         >
-          <Icon className="h-7 w-7" style={{ color: `rgb(${era.rgb})` }} />
+          <Icon className="h-5 w-5 sm:h-7 sm:w-7" style={{ color: `rgb(${era.rgb})` }} />
         </div>
 
         <p
-          className="mb-3 text-[11px] font-black uppercase tracking-[0.3em]"
+          className="mb-2 text-[10px] font-black uppercase tracking-[0.25em] sm:mb-3 sm:text-[11px] sm:tracking-[0.3em]"
           style={{ color: `rgb(${era.rgb})` }}
         >
           {era.years} • Bölüm {index + 1} / {total}
         </p>
 
         <p
-          className="mb-2 text-xs font-semibold uppercase tracking-[0.2em]"
+          className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] sm:mb-2 sm:text-xs sm:tracking-[0.2em]"
           style={{ color: `rgba(${era.rgb}, 0.85)` }}
         >
           {era.label}
         </p>
 
-        <h3 className="mb-5 text-4xl font-extrabold leading-[1.05] tracking-tight text-pirate-text drop-shadow-[0_4px_20px_rgba(0,0,0,0.5)] sm:text-5xl md:text-6xl">
+        <h3 className="mb-4 text-3xl font-extrabold leading-[1.05] tracking-tight text-pirate-text drop-shadow-[0_4px_20px_rgba(0,0,0,0.5)] sm:mb-5 sm:text-5xl md:text-6xl">
           {era.headline}
         </h3>
 
-        <p className="mx-auto max-w-xl text-sm leading-relaxed text-pirate-muted sm:text-base">
+        <p className="mx-auto max-w-xl text-[13px] leading-relaxed text-pirate-muted sm:text-base">
           {era.desc}
         </p>
       </div>
@@ -165,8 +165,7 @@ export default function EraShowcase() {
   return (
     <section
       ref={ref}
-      className="relative"
-      style={{ height: `${ERAS.length * 90}vh` }}
+      className="relative h-[490vh] sm:h-[630vh]"
     >
       <div className="sticky top-0 h-screen overflow-hidden bg-ocean-deep">
         {ERAS.map((era, i) => (
@@ -179,16 +178,19 @@ export default function EraShowcase() {
           />
         ))}
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-10 mx-auto max-w-xs px-6">
-          <div className="h-[2px] overflow-hidden rounded-full bg-pirate-border/30">
-            <motion.div
-              className="h-full bg-gradient-to-r from-gold via-sea to-luffy"
-              style={{ width: progress }}
-            />
+        <div className="pointer-events-none absolute inset-x-0 bottom-8 mx-auto max-w-sm px-6 sm:bottom-10">
+          <div className="rounded-full border border-pirate-border/30 bg-ocean-deep/70 p-3 backdrop-blur-md">
+            <div className="h-[3px] overflow-hidden rounded-full bg-pirate-border/40">
+              <motion.div
+                className="h-full bg-gradient-to-r from-gold via-sea to-luffy"
+                style={{ width: progress }}
+              />
+            </div>
+            <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[10px] font-bold uppercase tracking-[0.22em] text-gold/80">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-gold" />
+              Kaydırmaya devam — 900 yıllık yolculuk
+            </p>
           </div>
-          <p className="mt-2 text-center text-[10px] font-semibold uppercase tracking-[0.25em] text-pirate-muted/50">
-            Scroll — 900 yıllık yolculuk
-          </p>
         </div>
       </div>
     </section>

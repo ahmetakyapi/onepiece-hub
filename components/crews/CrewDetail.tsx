@@ -30,7 +30,7 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
       {/* ─── Cinematic Hero ─────────────────────────────────── */}
       <section
         ref={heroRef}
-        className="relative h-[58vh] min-h-[440px] overflow-hidden sm:h-[68vh]"
+        className="relative h-[68vh] min-h-[400px] overflow-hidden sm:h-[68vh] sm:min-h-[440px]"
       >
         {captainImg ? (
           <motion.div className="absolute inset-0" style={{ y: heroY, scale: heroScale }}>

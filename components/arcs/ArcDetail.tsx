@@ -34,7 +34,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
         {/* ─── Cinematic Hero ────────────────────────────────── */}
         <section
           ref={coverRef}
-          className="relative h-[65vh] min-h-[460px] overflow-hidden sm:h-[72vh]"
+          className="relative h-[70vh] min-h-[420px] overflow-hidden sm:h-[72vh] sm:min-h-[460px]"
         >
           {getArcImage(arc.slug) ? (
             <motion.div

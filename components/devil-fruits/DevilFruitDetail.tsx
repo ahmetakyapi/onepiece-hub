@@ -31,7 +31,7 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
       {/* ─── Cinematic Hero ─────────────────────────────────── */}
       <section
         ref={heroRef}
-        className="relative h-[60vh] min-h-[440px] overflow-hidden sm:h-[70vh]"
+        className="relative h-[70vh] min-h-[400px] overflow-hidden sm:h-[70vh] sm:min-h-[440px]"
       >
         {userImg ? (
           <motion.div className="absolute inset-0" style={{ y: bgY, scale: bgScale, viewTransitionName: `fruit-image-${fruit.slug}` }}>
