@@ -87,7 +87,7 @@ export default function Home() {
               src="/hero.webp"
               alt="One Piece Hero"
               fill
-              className="object-cover"
+              className="object-cover animate-ken-burns"
               priority
               sizes="100vw"
             />
@@ -99,6 +99,16 @@ export default function Home() {
 
           {/* Particles */}
           <ParticleField />
+
+          {/* Jolly Roger watermark — ambient One Piece signature, top-right */}
+          <motion.div
+            className="pointer-events-none absolute -right-16 -top-10 hidden opacity-[0.035] sm:block md:-right-8 md:top-2"
+            animate={{ rotate: [0, 4, -2, 0] }}
+            transition={{ duration: 18, ease: 'easeInOut', repeat: Infinity }}
+            aria-hidden
+          >
+            <Skull className="h-[320px] w-[320px] text-gold drop-shadow-[0_0_80px_rgba(244,163,0,0.3)] md:h-[420px] md:w-[420px]" strokeWidth={0.6} />
+          </motion.div>
 
           {/* Morphing decorative shape */}
           <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -140,7 +150,7 @@ export default function Home() {
                     variants={wordVariants}
                     initial="hidden"
                     animate="visible"
-                    className="inline-block text-gold-gradient mr-3"
+                    className="inline-block text-gold-shimmer mr-3"
                   >
                     {word}
                   </motion.span>
@@ -164,7 +174,7 @@ export default function Home() {
                   variants={wordVariants}
                   initial="hidden"
                   animate="visible"
-                  className="inline-block text-gold-gradient"
+                  className="inline-block text-gold-shimmer"
                 >
                   Hazır Mısın?
                 </motion.span>
@@ -196,14 +206,14 @@ export default function Home() {
                 transition={{ delay: 1.15, duration: 0.7, ease: EASE }}
                 className="flex flex-wrap items-center justify-center gap-4"
               >
-                <Link href="/arcs" className="btn-gold group text-sm sm:text-base">
-                  <Play className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
-                  İzlemeye Başla
-                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                <Link href="/arcs" className="btn-gold shine-hover group text-sm sm:text-base">
+                  <Play className="relative z-[2] h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+                  <span className="relative z-[2]">İzlemeye Başla</span>
+                  <ArrowRight className="relative z-[2] h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
-                <Link href="/characters" className="btn-ghost border-white/10 text-white text-sm sm:text-base group">
-                  <Compass className="h-4 w-4 transition-transform duration-500 group-hover:rotate-90" />
-                  Karakterleri Keşfet
+                <Link href="/characters" className="btn-ghost shine-hover border-white/10 text-white text-sm sm:text-base group">
+                  <Compass className="relative z-[2] h-4 w-4 transition-transform duration-500 group-hover:rotate-90" />
+                  <span className="relative z-[2]">Karakterleri Keşfet</span>
                 </Link>
               </motion.div>
             </div>
