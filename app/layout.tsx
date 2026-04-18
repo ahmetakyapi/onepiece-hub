@@ -2,16 +2,8 @@ import type { Metadata } from 'next'
 import { Manrope, IBM_Plex_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { AuthProvider } from '@/hooks/useAuth'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
-import dynamic from 'next/dynamic'
+import { ClientLayout } from '@/components/layout/ClientLayout'
 import '@/lib/env'
-
-const ScrollProgress = dynamic(() => import('@/components/layout/ScrollProgress'), { ssr: false })
-const CommandPalette = dynamic(() => import('@/components/search/CommandPalette'), { ssr: false })
-const RippleEffect = dynamic(() => import('@/components/ui/RippleEffect'), { ssr: false })
-const ToastContainer = dynamic(() => import('@/components/ui/ToastContainer'), { ssr: false })
-const MobileBottomNav = dynamic(() => import('@/components/layout/MobileBottomNav'), { ssr: false })
 import './globals.css'
 
 const manrope = Manrope({
@@ -76,35 +68,10 @@ export default function RootLayout({
       <head />
       <body className={`${manrope.className} bg-ocean-deep`} suppressHydrationWarning>
         <AuthProvider>
-          <LayoutContent>{children}</LayoutContent>
+          <ClientLayout>{children}</ClientLayout>
         </AuthProvider>
         <Analytics />
       </body>
     </html>
-  )
-}
-
-function LayoutContent({ children }: { children: React.ReactNode }) {
-  'use client'
-
-  return (
-    <>
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-lg focus:bg-gold focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-ocean-deep"
-      >
-        İçeriğe atla
-      </a>
-      <ScrollProgress />
-      <CommandPalette />
-      <RippleEffect />
-      <ToastContainer />
-      <Header />
-      <main id="main-content">{children}</main>
-      <div style={{ paddingBottom: 'calc(max(env(safe-area-inset-bottom), 0px) + 72px)' }} className="md:!pb-0">
-        <Footer />
-      </div>
-      <MobileBottomNav />
-    </>
   )
 }

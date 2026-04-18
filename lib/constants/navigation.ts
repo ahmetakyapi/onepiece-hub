@@ -18,7 +18,7 @@ export const WIKI_LINKS = [
   { label: 'Organizasyonlar', href: '/crews', icon: Anchor, desc: 'Mürettebat ve gruplar' },
   { label: 'Efsanevi Savaşlar', href: '/battles', icon: Swords, desc: 'İkonik dövüşler' },
   { label: 'Ödül Sıralaması', href: '/bounties', icon: Trophy, desc: 'Bounty leaderboard' },
-  { label: 'Güç Sıralaması', href: '/power-ranking', icon: Swords, desc: 'Karakter güç karşılaştırma' },
+  { label: 'Güç Sıralaması', href: '/power', icon: Swords, desc: 'Karakter güç seviyeleri' },
   { label: 'Zaman Çizelgesi', href: '/timeline', icon: Clock, desc: 'Kronolojik tarih' },
 ] as const
 

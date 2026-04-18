@@ -18,6 +18,7 @@ import type { Character, Ability } from '@/types'
 import CommentSection from '@/components/ui/CommentSection'
 import FavoriteButton from '@/components/ui/FavoriteButton'
 import SpeechBubble from '@/components/ui/SpeechBubble'
+import PowerStatBars from '@/components/characters/PowerStatBars'
 
 const DEVIL_FRUIT_TYPE_COLORS: Record<string, string> = {
   'Paramecia': 'bg-purple-500/20 text-purple-300',
@@ -308,6 +309,20 @@ export default function CharacterDetailClient({ character }: { character: Charac
             </div>
           </RevealSection>
         )}
+
+        {/* Power Stats */}
+        <RevealSection className="mb-10">
+          <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+            <Sparkles className="h-5 w-5 text-gold" />
+            Güç İstatistikleri
+          </h2>
+          <div className="bento-card relative overflow-hidden rounded-2xl p-6">
+            <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-gold/40 via-purple-400/20 to-transparent" />
+            <div className="pl-4">
+              <PowerStatBars slug={character.slug} />
+            </div>
+          </div>
+        </RevealSection>
 
         {/* Abilities */}
         <RevealSection className="mb-10">

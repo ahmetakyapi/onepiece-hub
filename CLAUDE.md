@@ -81,6 +81,23 @@ Users tablosunda `email` kolonu yok → şifre sıfırlama özelliği eklenemez 
 ### 15. pixeldrainId Ölü Alan
 `types/Episode.pixeldrainId?` — eski video stratejisinden kalma, artık kullanılmıyor.
 
+### 16. Yeni Feature Performance Kuralları
+**SVG > Canvas > External lib** — custom SVG/div çizimi tercih edilir (SSR-safe, no extra bundle). Recharts/Chart.js kullanma.
+
+**React.memo + useMemo** — list/grid bileşenler (card grid, leaderboard) ve filter/sort işlemleri mutlaka optimize edilmeli. Listelenecek bileşenleri `memo()` ile wrap, hesaplı `useMemo` için dependency array'leri eksiksiz.
+
+**dynamic(..., {ssr:false})** sadece window/canvas/Web Audio kullanan bileşenler için. SVG static render edilebilir.
+
+**generateStaticParams + Server Component** — veri statik ise page server component, `generateStaticParams` ile tüm slug'ları build-time SSG yapılır.
+
+**useScroll/useTransform gate** — parallax animasyonları `matchMedia('(min-width: 768px)')` ile md+ breakpoint'te aktif edilir (mobilde CPU yükü).
+
+**Image: sizes + format** — her image `sizes` prop, AVIF/WebP formatları next.config `images.formats` ile.
+
+**Inline animation objects** — `framer-motion` varyantları `lib/variants.ts`'den import et, component içinde inline tanımlama değil.
+
+Örnek: `PowerStatBars` → `React.memo`, `useInView` trigger, `useMemo` yok (veri prop), bar fill `animate={{width}}` with EASE constant.
+
 ## CSS Reduced-Motion + Print
 
 - `prefers-reduced-motion`: tüm animasyonlar disable
