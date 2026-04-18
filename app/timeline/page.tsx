@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Clock, Star, BookOpen, Compass, Anchor, Flame, Swords, Crown, Globe, Sparkles, ChevronDown } from 'lucide-react'
+import { Clock, Star, BookOpen, Compass, Anchor, Flame, Swords, Crown, Globe, Sparkles, ChevronDown, Search, X } from 'lucide-react'
 import Link from 'next/link'
 import PageHero from '@/components/wiki/PageHero'
 import EraShowcase from '@/components/timeline/EraShowcase'
@@ -125,12 +125,23 @@ function TimelineNode({ event }: { event: TimelineEvent }) {
 // ─── Main page
 export default function TimelinePage() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
+  const [importantOnly, setImportantOnly] = useState(false)
+  const [search, setSearch] = useState('')
 
   const filtered = useMemo(() => {
-    return activeCategory
-      ? TIMELINE.filter((e) => e.category === activeCategory)
-      : TIMELINE
-  }, [activeCategory])
+    const q = search.trim().toLowerCase()
+    return TIMELINE.filter((e) => {
+      if (activeCategory && e.category !== activeCategory) return false
+      if (importantOnly && e.importance !== 3) return false
+      if (q) {
+        const hay = `${e.title} ${e.description} ${e.year}`.toLowerCase()
+        if (!hay.includes(q)) return false
+      }
+      return true
+    })
+  }, [activeCategory, importantOnly, search])
+
+  const hasActiveFilters = activeCategory !== null || importantOnly || search.length > 0
 
   const categories = Object.entries(CATEGORY_INFO)
 
@@ -212,6 +223,58 @@ export default function TimelinePage() {
         </div>
 
         <div className="mx-auto max-w-5xl px-6">
+          {/* Search + important toggle */}
+          <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="relative flex-1">
+              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-pirate-muted/50" />
+              <input
+                type="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Olay, yıl veya açıklama ara..."
+                className="w-full rounded-full border border-pirate-border/30 bg-ocean-surface/40 px-11 py-2.5 text-sm text-pirate-text placeholder:text-pirate-muted/50 focus:border-gold/40 focus:bg-ocean-surface/70 focus:outline-none focus:ring-2 focus:ring-gold/20 transition-all"
+              />
+              {search && (
+                <button
+                  onClick={() => setSearch('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1.5 text-pirate-muted/60 hover:bg-ocean-surface hover:text-gold transition-colors"
+                  aria-label="Aramayı temizle"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              )}
+            </div>
+            <button
+              onClick={() => setImportantOnly(!importantOnly)}
+              className={`inline-flex items-center gap-1.5 rounded-full border px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition-all ${
+                importantOnly
+                  ? 'border-luffy/40 bg-luffy/10 text-luffy shadow-[0_0_16px_rgba(231,76,60,0.2)]'
+                  : 'border-pirate-border/30 bg-ocean-surface/40 text-pirate-text hover:border-luffy/40 hover:text-luffy'
+              }`}
+            >
+              <Star className="h-3.5 w-3.5" />
+              Sadece Kritik
+            </button>
+            {hasActiveFilters && (
+              <button
+                onClick={() => { setActiveCategory(null); setImportantOnly(false); setSearch('') }}
+                className="inline-flex items-center gap-1.5 rounded-full border border-pirate-border/30 bg-ocean-surface/40 px-4 py-2.5 text-xs font-semibold text-pirate-muted hover:text-gold hover:border-gold/40 transition-all"
+              >
+                <X className="h-3.5 w-3.5" />
+                Temizle
+              </button>
+            )}
+          </div>
+
+          {/* Results count */}
+          {hasActiveFilters && (
+            <div className="mb-6 flex items-center gap-2 text-xs text-pirate-muted">
+              <span className="font-bold text-gold">{filtered.length}</span>
+              <span>olay bulundu</span>
+              <span className="text-pirate-muted/40">/ {TIMELINE.length} toplam</span>
+            </div>
+          )}
+
           {/* Category filters */}
           <div className="mb-12 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 animate-fade-in-up">
             <button
@@ -270,9 +333,28 @@ export default function TimelinePage() {
               <div className="h-full w-full bg-gradient-to-b from-amber-400/40 via-purple-400/30 via-40% via-sea/30 via-55% via-blue-400/25 via-65% via-gold/35 via-80% to-luffy/30" />
             </div>
 
+            {filtered.length === 0 && (
+              <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-pirate-border/30 bg-ocean-surface/20 px-6 py-16 text-center">
+                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-gold/20 bg-gold/10">
+                  <Search className="h-6 w-6 text-gold/70" />
+                </div>
+                <p className="mb-1 text-base font-bold text-pirate-text">Eşleşen olay bulunamadı</p>
+                <p className="mb-5 max-w-md text-sm text-pirate-muted">
+                  Filtrelerini gevşet, arama metnini değiştir veya tüm filtreleri temizle.
+                </p>
+                <button
+                  onClick={() => { setActiveCategory(null); setImportantOnly(false); setSearch('') }}
+                  className="btn-ghost text-xs"
+                >
+                  <X className="h-3.5 w-3.5" />
+                  Filtreleri Temizle
+                </button>
+              </div>
+            )}
+
             <AnimatePresence mode="wait">
               <motion.div
-                key={activeCategory ?? 'all'}
+                key={`${activeCategory ?? 'all'}-${importantOnly}-${search}`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}

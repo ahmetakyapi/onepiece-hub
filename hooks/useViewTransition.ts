@@ -23,13 +23,19 @@ export function useViewTransition() {
         router.push(href)
         return
       }
-      const start = (document as unknown as { startViewTransition: StartViewTransition }).startViewTransition
-      start(() => {
-        router.push(href)
-        return new Promise<void>((resolve) => {
-          requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+      try {
+        const doc = document as unknown as { startViewTransition: StartViewTransition }
+        // Must invoke through `document` to preserve `this` binding — destructuring breaks Chrome
+        doc.startViewTransition(() => {
+          router.push(href)
+          return new Promise<void>((resolve) => {
+            requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+          })
         })
-      })
+      } catch {
+        // Guard: if View Transitions API throws (e.g., nested transition), fall back
+        router.push(href)
+      }
     },
     [router],
   )

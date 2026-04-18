@@ -1,7 +1,7 @@
 import {
   Compass, Users, BookOpen, Map, BrainCircuit,
   Cherry, Shield, Globe, Anchor, Swords,
-  Trophy, Clock, Scroll, Zap,
+  Trophy, Clock, Scroll, Zap, Award,
 } from 'lucide-react'
 
 export const MAIN_LINKS = [
@@ -52,6 +52,7 @@ export const FOOTER_SECTIONS = [
     title: 'Daha Fazla',
     links: [
       { label: 'Karşılaştır', href: '/vs', icon: Swords },
+      { label: 'Başarımlar', href: '/achievements', icon: Award },
       { label: 'Zaman Çizelgesi', href: '/timeline', icon: Clock },
       { label: 'Wanted Poster', href: '/wanted-poster', icon: Scroll },
       { label: 'Hakkında', href: '/about', icon: BookOpen },

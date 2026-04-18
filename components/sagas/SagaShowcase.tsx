@@ -34,11 +34,18 @@ function SagaCard({ saga, alternate }: { saga: SagaCardData; alternate: boolean 
       variants={fadeUp}
       className={`group relative overflow-hidden rounded-3xl border ${cls.border} bg-gradient-to-br ${cls.gradient} transition-all duration-500 hover:shadow-2xl`}
     >
+      {/* Full-card click overlay — below buttons so they still catch clicks */}
+      <Link
+        href={`/sagas/${saga.slug}`}
+        aria-label={`${saga.name} sagasını keşfet`}
+        className="absolute inset-0 z-0 rounded-[inherit] focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/40"
+      />
+
       {/* Ambient glows */}
       <div className={`pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full ${cls.glow} blur-[90px]`} />
       <div className={`pointer-events-none absolute -left-20 -bottom-20 h-48 w-48 rounded-full ${cls.glow} opacity-50 blur-[70px]`} />
 
-      <div className={`grid items-stretch gap-0 md:grid-cols-2 ${alternate ? 'md:[&>*:first-child]:order-2' : ''}`}>
+      <div className={`pointer-events-none relative z-[1] grid items-stretch gap-0 md:grid-cols-2 ${alternate ? 'md:[&>*:first-child]:order-2' : ''}`}>
         {/* Image side */}
         <div className="relative h-56 w-full overflow-hidden sm:h-72 md:h-auto md:min-h-[380px]">
           {cover && (
@@ -83,11 +90,9 @@ function SagaCard({ saga, alternate }: { saga: SagaCardData; alternate: boolean 
                 {saga.era}
               </p>
             )}
-            <Link href={`/sagas/${saga.slug}`} className="group/title inline-block">
-              <h2 className={`mb-2 text-3xl font-extrabold tracking-tight text-white transition-colors duration-300 ${cls.hoverText} sm:text-4xl md:text-5xl`}>
-                {saga.name}
-              </h2>
-            </Link>
+            <h2 className={`mb-2 text-3xl font-extrabold tracking-tight text-white transition-colors duration-300 ${cls.hoverText} sm:text-4xl md:text-5xl`}>
+              {saga.name}
+            </h2>
             <p className={`mb-5 text-sm font-semibold italic ${cls.text}`}>
               &ldquo;{saga.tagline}&rdquo;
             </p>
@@ -109,8 +114,8 @@ function SagaCard({ saga, alternate }: { saga: SagaCardData; alternate: boolean 
               </span>
             </div>
 
-            {/* CTAs */}
-            <div className="flex flex-wrap gap-2">
+            {/* CTAs — pointer-events-auto re-enables clicks on buttons above the card overlay link */}
+            <div className="pointer-events-auto relative z-10 flex flex-wrap gap-2">
               <Link
                 href={`/sagas/${saga.slug}`}
                 className={`group/btn inline-flex items-center gap-1.5 rounded-full ${cls.bg} border ${cls.border} px-4 py-2 text-xs font-bold ${cls.text} transition-all hover:brightness-125`}

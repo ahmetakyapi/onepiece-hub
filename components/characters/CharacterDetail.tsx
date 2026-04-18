@@ -19,6 +19,9 @@ import CommentSection from '@/components/ui/CommentSection'
 import FavoriteButton from '@/components/ui/FavoriteButton'
 import SpeechBubble from '@/components/ui/SpeechBubble'
 import PowerStatBars from '@/components/characters/PowerStatBars'
+import CharacterArcJourney from '@/components/characters/CharacterArcJourney'
+import RelatedCharacters from '@/components/related/RelatedCharacters'
+import { getRelatedCharacters } from '@/lib/related'
 
 const DEVIL_FRUIT_TYPE_COLORS: Record<string, string> = {
   'Paramecia': 'bg-purple-500/20 text-purple-300',
@@ -367,32 +370,21 @@ export default function CharacterDetailClient({ character }: { character: Charac
           </div>
         </RevealSection>
 
-        {/* Appearances */}
+        {/* Arc Journey — saga-grouped appearance timeline */}
         {character.appearances && character.appearances.length > 0 && (
           <RevealSection className="mb-10">
-            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+            <h2 className="mb-5 flex items-center gap-2 text-lg font-bold text-pirate-text">
               <Film className="h-5 w-5 text-sea" />
-              Göründüğü Arc&apos;lar
+              Arc Yolculuğu
               <span className="ml-1 rounded-full bg-sea/[0.06] px-2.5 py-0.5 text-[11px] font-semibold text-sea/70">
                 {character.appearances.length}
               </span>
             </h2>
-            <div className="bento-card rounded-2xl p-5">
-              <div className="flex flex-wrap gap-2">
-                {character.appearances.map((arcSlug) => {
-                  const arcData = getArcBySlug(arcSlug)
-                  return (
-                    <Link
-                      key={arcSlug}
-                      href={`/arcs/${arcSlug}`}
-                      className="group rounded-lg border border-transparent bg-ocean-surface px-3 py-1.5 text-xs font-medium text-pirate-muted transition-all duration-300 hover:border-sea/20 hover:bg-sea/10 hover:text-sea"
-                    >
-                      {arcData?.name ?? arcSlug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
-                    </Link>
-                  )
-                })}
-              </div>
-            </div>
+            <CharacterArcJourney
+              firstArc={character.firstArc}
+              appearances={character.appearances}
+              characterName={character.name}
+            />
           </RevealSection>
         )}
 
@@ -457,6 +449,14 @@ export default function CharacterDetailClient({ character }: { character: Charac
             </RevealSection>
           )
         })()}
+      </div>
+
+      <div className="mx-auto max-w-5xl px-6 pb-14">
+        <RelatedCharacters
+          characters={getRelatedCharacters(character.slug, 6)}
+          title="Benzer Karakterler"
+          description="Aynı crew, ortak arc ve yakın güç seviyesine göre önerildi."
+        />
       </div>
 
       <div className="mx-auto max-w-5xl px-6">

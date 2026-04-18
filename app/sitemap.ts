@@ -24,6 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/quiz',
     '/search',
     '/about',
+    '/achievements',
     '/power',
     '/power-ranking',
     '/sagas',
