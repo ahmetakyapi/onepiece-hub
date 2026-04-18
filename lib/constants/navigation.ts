@@ -20,6 +20,7 @@ export const WIKI_LINKS = [
   { label: 'Ödül Sıralaması', href: '/bounties', icon: Trophy, desc: 'Bounty leaderboard' },
   { label: 'Güç Sıralaması', href: '/power', icon: Swords, desc: 'Karakter güç seviyeleri' },
   { label: 'Teknikler', href: '/techniques', icon: Zap, desc: 'Haki, meyve ve özel saldırılar' },
+  { label: 'Karşılaştır', href: '/vs', icon: Swords, desc: 'İki karakteri yan yana kıyasla' },
   { label: 'Zaman Çizelgesi', href: '/timeline', icon: Clock, desc: 'Kronolojik tarih' },
 ] as const
 
