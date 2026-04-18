@@ -200,6 +200,7 @@ export default function CommandPalette() {
             onClick={() => setOpen(false)}
           />
 
+          <div className="pointer-events-none fixed inset-0 z-[101] flex items-center justify-center p-3 sm:p-4">
           <motion.div
             role="dialog"
             aria-label="Komut paleti"
@@ -207,7 +208,7 @@ export default function CommandPalette() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.97 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="surface fixed inset-x-3 top-4 z-[101] overflow-hidden rounded-2xl sm:inset-x-auto sm:left-1/2 sm:top-24 sm:w-[92vw] sm:max-w-2xl sm:-translate-x-1/2"
+            className="surface pointer-events-auto flex max-h-[85vh] w-full flex-col overflow-hidden rounded-2xl sm:max-w-2xl"
           >
             <div className="flex items-center gap-3 border-b border-pirate-border/20 px-4 py-3.5 sm:px-5 sm:py-4">
               <Search className="h-4 w-4 flex-shrink-0 text-gold/70 sm:h-5 sm:w-5" />
@@ -236,7 +237,7 @@ export default function CommandPalette() {
               </kbd>
             </div>
 
-            <div ref={listRef} className="max-h-[calc(100vh-12rem)] overflow-y-auto scrollbar-thin sm:max-h-[50vh]">
+            <div ref={listRef} className="flex-1 overflow-y-auto scrollbar-thin">
               {results.length === 0 ? (
                 <div className="px-5 py-10 text-center">
                   <Search className="mx-auto mb-3 h-10 w-10 text-pirate-muted/30" />
@@ -312,6 +313,7 @@ export default function CommandPalette() {
               <span>{results.length} sonuç</span>
             </div>
           </motion.div>
+          </div>
         </>
       )}
     </AnimatePresence>

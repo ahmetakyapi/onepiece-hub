@@ -68,17 +68,17 @@ export default function SpoilerGateWidget() {
               onClick={() => setOpen(false)}
               className="fixed inset-0 z-[60] bg-ocean-deep/80 backdrop-blur-md"
             />
-            <motion.div
-              variants={modalPanel}
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-              className="fixed inset-x-4 top-1/2 z-[70] mx-auto -translate-y-1/2 rounded-2xl border border-pirate-border/40 bg-ocean-elevated shadow-2xl sm:inset-auto sm:left-1/2 sm:-translate-x-1/2 sm:max-w-lg sm:w-[90vw]"
-              style={{ top: '50%' }}
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="spoiler-gate-title"
-            >
+            <div className="pointer-events-none fixed inset-0 z-[70] flex items-center justify-center p-4">
+              <motion.div
+                variants={modalPanel}
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                className="pointer-events-auto flex max-h-[85vh] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-pirate-border/40 bg-ocean-elevated shadow-2xl"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="spoiler-gate-title"
+              >
               {/* Header */}
               <div className="flex items-start gap-4 border-b border-pirate-border/20 p-5">
                 <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border border-gold/20 bg-gold/10">
@@ -189,6 +189,7 @@ export default function SpoilerGateWidget() {
                 </button>
               </div>
             </motion.div>
+            </div>
           </>
         )}
       </AnimatePresence>
