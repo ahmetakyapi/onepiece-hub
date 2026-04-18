@@ -239,8 +239,9 @@ export default function Header() {
                   </Link>
                   <button
                     onClick={logout}
-                    className="flex h-8 w-8 items-center justify-center rounded-full text-pirate-muted transition-all duration-200 hover:bg-luffy/10 hover:text-luffy"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-luffy/20 bg-luffy/[0.06] text-luffy transition-all duration-200 hover:bg-luffy/15 hover:border-luffy/40 hover:shadow-[0_0_12px_rgba(231,76,60,0.2)]"
                     title="Çıkış Yap"
+                    aria-label="Çıkış Yap"
                   >
                     <LogOut className="h-3.5 w-3.5" />
                   </button>
