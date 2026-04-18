@@ -25,6 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/about',
     '/power',
     '/power-ranking',
+    '/sagas',
     '/techniques',
     '/vs',
     '/wanted-poster',

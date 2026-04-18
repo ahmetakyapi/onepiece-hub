@@ -6,6 +6,7 @@ import {
 
 export const MAIN_LINKS = [
   { label: 'Keşfet', href: '/explore', icon: Compass },
+  { label: 'Sagalar', href: '/sagas', icon: BookOpen },
   { label: 'Arc\'lar', href: '/arcs', icon: Scroll },
   { label: 'Karakterler', href: '/characters', icon: Users },
   { label: 'Rehber', href: '/guide', icon: Map },
@@ -29,6 +30,7 @@ export const FOOTER_SECTIONS = [
     title: 'Keşfet',
     links: [
       { label: 'Keşfet Sayfası', href: '/explore', icon: Compass },
+      { label: 'Sagalar', href: '/sagas', icon: BookOpen },
       { label: 'Arc\'lar', href: '/arcs', icon: Scroll },
       { label: 'Karakterler', href: '/characters', icon: Users },
       { label: 'İzleme Rehberi', href: '/guide', icon: Map },
