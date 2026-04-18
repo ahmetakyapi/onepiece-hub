@@ -6,13 +6,13 @@ import {
 
 export const MAIN_LINKS = [
   { label: 'Keşfet', href: '/explore', icon: Compass },
+  { label: 'Sagalar', href: '/sagas', icon: BookOpen },
   { label: 'Arc\'lar', href: '/arcs', icon: Scroll },
   { label: 'Karakterler', href: '/characters', icon: Users },
   { label: 'Rehber', href: '/guide', icon: Map },
 ] as const
 
 export const WIKI_LINKS = [
-  { label: 'Sagalar', href: '/sagas', icon: BookOpen, desc: '10 destansı saga showcase' },
   { label: 'Şeytan Meyveleri', href: '/devil-fruits', icon: Cherry, desc: 'Tüm meyveler ve güçleri' },
   { label: 'Haki Rehberi', href: '/haki', icon: Shield, desc: 'Üç Haki türü detaylı' },
   { label: 'Dünya Haritası', href: '/world', icon: Globe, desc: 'Denizler ve lokasyonlar' },
