@@ -41,6 +41,7 @@ export const FOOTER_SECTIONS = [
       { label: 'Şeytan Meyveleri', href: '/devil-fruits', icon: Cherry },
       { label: 'Haki Rehberi', href: '/haki', icon: Shield },
       { label: 'Teknikler', href: '/techniques', icon: Zap },
+      { label: 'Güç Sıralaması', href: '/power', icon: Swords },
       { label: 'Dünya Haritası', href: '/world', icon: Globe },
       { label: 'Organizasyonlar', href: '/crews', icon: Anchor },
     ],
@@ -48,6 +49,7 @@ export const FOOTER_SECTIONS = [
   {
     title: 'Daha Fazla',
     links: [
+      { label: 'Karşılaştır', href: '/vs', icon: Swords },
       { label: 'Zaman Çizelgesi', href: '/timeline', icon: Clock },
       { label: 'Wanted Poster', href: '/wanted-poster', icon: Scroll },
       { label: 'Hakkında', href: '/about', icon: BookOpen },

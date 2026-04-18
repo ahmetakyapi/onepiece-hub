@@ -23,7 +23,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/quiz',
     '/search',
     '/about',
+    '/power',
     '/power-ranking',
+    '/techniques',
+    '/vs',
     '/wanted-poster',
   ]
 

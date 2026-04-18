@@ -23,6 +23,7 @@ export interface TechniqueEntry {
 const CATEGORY_CONFIG: Record<string, {
   icon: typeof Zap
   color: string
+  hover: string
   bg: string
   border: string
   glow: string
@@ -30,6 +31,7 @@ const CATEGORY_CONFIG: Record<string, {
   'Haki': {
     icon: Shield,
     color: 'text-purple-400',
+    hover: 'group-hover:text-purple-400',
     bg: 'bg-purple-500/10',
     border: 'border-purple-500/30',
     glow: 'bg-purple-500/[0.08]',
@@ -37,6 +39,7 @@ const CATEGORY_CONFIG: Record<string, {
   'Şeytan Meyvesi': {
     icon: Cherry,
     color: 'text-luffy',
+    hover: 'group-hover:text-luffy',
     bg: 'bg-luffy/10',
     border: 'border-luffy/30',
     glow: 'bg-luffy/[0.08]',
@@ -44,6 +47,7 @@ const CATEGORY_CONFIG: Record<string, {
   'Kılıç': {
     icon: Sword,
     color: 'text-sea',
+    hover: 'group-hover:text-sea',
     bg: 'bg-sea/10',
     border: 'border-sea/30',
     glow: 'bg-sea/[0.08]',
@@ -51,6 +55,7 @@ const CATEGORY_CONFIG: Record<string, {
   'Fiziksel': {
     icon: Zap,
     color: 'text-gold',
+    hover: 'group-hover:text-gold',
     bg: 'bg-gold/10',
     border: 'border-gold/30',
     glow: 'bg-gold/[0.08]',
@@ -58,6 +63,7 @@ const CATEGORY_CONFIG: Record<string, {
   'Silah': {
     icon: Anchor,
     color: 'text-pirate-muted',
+    hover: 'group-hover:text-pirate-text',
     bg: 'bg-pirate-muted/10',
     border: 'border-pirate-border/40',
     glow: 'bg-pirate-muted/[0.05]',
@@ -65,6 +71,7 @@ const CATEGORY_CONFIG: Record<string, {
   'Özel': {
     icon: Sparkles,
     color: 'text-amber-400',
+    hover: 'group-hover:text-amber-400',
     bg: 'bg-amber-500/10',
     border: 'border-amber-500/30',
     glow: 'bg-amber-500/[0.08]',
@@ -72,6 +79,7 @@ const CATEGORY_CONFIG: Record<string, {
   'Bilim': {
     icon: BookOpen,
     color: 'text-emerald-400',
+    hover: 'group-hover:text-emerald-400',
     bg: 'bg-emerald-500/10',
     border: 'border-emerald-500/30',
     glow: 'bg-emerald-500/[0.08]',
@@ -96,11 +104,11 @@ function TechniqueCard({ technique }: { technique: TechniqueEntry }) {
           <CategoryIcon className="h-3 w-3" />
           {technique.category}
         </span>
-        <ArrowRight className={`h-4 w-4 text-pirate-muted/30 transition-all group-hover:translate-x-1 group-hover:${config.color}`} />
+        <ArrowRight className={`h-4 w-4 text-pirate-muted/30 transition-all group-hover:translate-x-1 ${config.hover}`} />
       </div>
 
       {/* Technique name */}
-      <h3 className={`relative mb-2 text-base font-extrabold leading-tight text-pirate-text transition-colors group-hover:${config.color} sm:text-lg`}>
+      <h3 className={`relative mb-2 text-base font-extrabold leading-tight text-pirate-text transition-colors ${config.hover} sm:text-lg`}>
         {technique.name}
       </h3>
 
@@ -217,7 +225,7 @@ function TechniqueGrid({ techniques }: { techniques: TechniqueEntry[] }) {
               className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-all ${
                 isActive
                   ? `${config.bg} ${config.color} border ${config.border} shadow-lg`
-                  : `border border-pirate-border/30 bg-ocean-surface/40 text-pirate-text hover:${config.border.replace('border-', 'border-')}`
+                  : 'border border-pirate-border/30 bg-ocean-surface/40 text-pirate-text hover:border-gold/40'
               }`}
             >
               <CategoryIcon className="h-3 w-3" />

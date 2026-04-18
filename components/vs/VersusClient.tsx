@@ -239,7 +239,7 @@ function VersusClient() {
                     <div className={`text-right ${
                       row.winner === 'left' ? 'text-luffy' : 'text-pirate-muted'
                     }`}>
-                      <p className={`text-sm font-bold sm:text-base ${
+                      <p className={`text-xs font-bold sm:text-base ${
                         row.winner === 'left' ? 'drop-shadow-[0_0_8px_rgba(231,76,60,0.5)]' : ''
                       }`}>
                         {row.leftDisplay}
@@ -247,11 +247,11 @@ function VersusClient() {
                     </div>
 
                     {/* Center label */}
-                    <div className="flex min-w-[120px] flex-col items-center gap-1 px-2 text-center sm:min-w-[160px]">
+                    <div className="flex min-w-[90px] flex-col items-center gap-1 px-1 text-center sm:min-w-[160px] sm:px-2">
                       <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gold/10 border border-gold/20">
                         <Icon className="h-3.5 w-3.5 text-gold" />
                       </div>
-                      <p className="text-[10px] font-bold uppercase tracking-wider text-pirate-muted/80 sm:text-xs">
+                      <p className="text-[9px] font-bold uppercase tracking-wider text-pirate-muted/80 sm:text-xs">
                         {row.label}
                       </p>
                     </div>
@@ -260,7 +260,7 @@ function VersusClient() {
                     <div className={`text-left ${
                       row.winner === 'right' ? 'text-sea' : 'text-pirate-muted'
                     }`}>
-                      <p className={`text-sm font-bold sm:text-base ${
+                      <p className={`text-xs font-bold sm:text-base ${
                         row.winner === 'right' ? 'drop-shadow-[0_0_8px_rgba(30,144,255,0.5)]' : ''
                       }`}>
                         {row.rightDisplay}
@@ -279,21 +279,18 @@ function VersusClient() {
                 transition={{ duration: 0.5, ease: EASE, delay: 0.3 }}
                 className="rounded-2xl border border-pirate-border/20 bg-ocean-surface/30 p-5 sm:p-6"
               >
-                <div className="mb-5 flex items-center justify-between">
-                  <div>
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-luffy">
-                      {left.name}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
+                <div className="mb-5 flex items-center justify-center gap-2 sm:justify-between">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-luffy truncate max-w-[30%]">
+                    {left.name}
+                  </p>
+                  <div className="flex items-center gap-2 flex-shrink-0">
                     <Zap className="h-4 w-4 text-gold" />
-                    <p className="text-xs font-bold uppercase tracking-wider text-gold">Stat Karşılaştırması</p>
+                    <p className="hidden text-xs font-bold uppercase tracking-wider text-gold sm:inline">Stat Karşılaştırması</p>
+                    <p className="text-xs font-bold uppercase tracking-wider text-gold sm:hidden">vs</p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-sea">
-                      {right.name}
-                    </p>
-                  </div>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-sea truncate max-w-[30%] text-right">
+                    {right.name}
+                  </p>
                 </div>
 
                 <div className="space-y-4">

@@ -46,8 +46,8 @@ function CharacterPicker({ value, onSelect, accent, disabledSlug, label }: Props
   }, [search])
 
   const accentClasses = accent === 'luffy'
-    ? { border: 'border-luffy/40', bg: 'bg-luffy/[0.04]', glow: 'shadow-[0_0_40px_rgba(231,76,60,0.15)]', text: 'text-luffy', focus: 'focus:border-luffy/60 focus:ring-luffy/20' }
-    : { border: 'border-sea/40', bg: 'bg-sea/[0.04]', glow: 'shadow-[0_0_40px_rgba(30,144,255,0.15)]', text: 'text-sea', focus: 'focus:border-sea/60 focus:ring-sea/20' }
+    ? { border: 'border-luffy/40', bg: 'bg-luffy/[0.04]', hoverBg: 'hover:bg-luffy/10', glow: 'shadow-[0_0_40px_rgba(231,76,60,0.15)]', text: 'text-luffy', focus: 'focus:border-luffy/60 focus:ring-luffy/20' }
+    : { border: 'border-sea/40', bg: 'bg-sea/[0.04]', hoverBg: 'hover:bg-sea/10', glow: 'shadow-[0_0_40px_rgba(30,144,255,0.15)]', text: 'text-sea', focus: 'focus:border-sea/60 focus:ring-sea/20' }
 
   return (
     <div ref={containerRef} className="relative">
@@ -154,7 +154,7 @@ function CharacterPicker({ value, onSelect, accent, disabledSlug, label }: Props
                       className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left transition-colors ${
                         isDisabled
                           ? 'cursor-not-allowed opacity-30'
-                          : `hover:${accentClasses.bg}`
+                          : accentClasses.hoverBg
                       }`}
                     >
                       <div className="relative h-9 w-9 flex-shrink-0 overflow-hidden rounded-lg border border-pirate-border/30">
