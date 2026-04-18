@@ -1,7 +1,7 @@
 import {
   Compass, Users, BookOpen, Map, BrainCircuit,
   Cherry, Shield, Globe, Anchor, Swords,
-  Trophy, Clock, Scroll,
+  Trophy, Clock, Scroll, Zap,
 } from 'lucide-react'
 
 export const MAIN_LINKS = [
@@ -19,6 +19,7 @@ export const WIKI_LINKS = [
   { label: 'Efsanevi Savaşlar', href: '/battles', icon: Swords, desc: 'İkonik dövüşler' },
   { label: 'Ödül Sıralaması', href: '/bounties', icon: Trophy, desc: 'Bounty leaderboard' },
   { label: 'Güç Sıralaması', href: '/power', icon: Swords, desc: 'Karakter güç seviyeleri' },
+  { label: 'Teknikler', href: '/techniques', icon: Zap, desc: 'Haki, meyve ve özel saldırılar' },
   { label: 'Zaman Çizelgesi', href: '/timeline', icon: Clock, desc: 'Kronolojik tarih' },
 ] as const
 
@@ -38,6 +39,7 @@ export const FOOTER_SECTIONS = [
     links: [
       { label: 'Şeytan Meyveleri', href: '/devil-fruits', icon: Cherry },
       { label: 'Haki Rehberi', href: '/haki', icon: Shield },
+      { label: 'Teknikler', href: '/techniques', icon: Zap },
       { label: 'Dünya Haritası', href: '/world', icon: Globe },
       { label: 'Organizasyonlar', href: '/crews', icon: Anchor },
     ],
