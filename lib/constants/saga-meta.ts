@@ -97,6 +97,7 @@ export const SAGA_META: Record<string, SagaMeta> = {
 
 export const ACCENT_CLASSES: Record<SagaMeta['accent'], {
   text: string
+  hoverText: string
   border: string
   bg: string
   glow: string
@@ -104,6 +105,7 @@ export const ACCENT_CLASSES: Record<SagaMeta['accent'], {
 }> = {
   cyan: {
     text: 'text-cyan-400',
+    hoverText: 'group-hover:text-cyan-400',
     border: 'border-cyan-500/30',
     bg: 'bg-cyan-500/10',
     glow: 'bg-cyan-500/[0.12]',
@@ -111,6 +113,7 @@ export const ACCENT_CLASSES: Record<SagaMeta['accent'], {
   },
   amber: {
     text: 'text-amber-400',
+    hoverText: 'group-hover:text-amber-400',
     border: 'border-amber-500/30',
     bg: 'bg-amber-500/10',
     glow: 'bg-amber-500/[0.12]',
@@ -118,6 +121,7 @@ export const ACCENT_CLASSES: Record<SagaMeta['accent'], {
   },
   indigo: {
     text: 'text-indigo-400',
+    hoverText: 'group-hover:text-indigo-400',
     border: 'border-indigo-500/30',
     bg: 'bg-indigo-500/10',
     glow: 'bg-indigo-500/[0.12]',
@@ -125,6 +129,7 @@ export const ACCENT_CLASSES: Record<SagaMeta['accent'], {
   },
   sea: {
     text: 'text-sea',
+    hoverText: 'group-hover:text-sea',
     border: 'border-sea/30',
     bg: 'bg-sea/10',
     glow: 'bg-sea/[0.12]',
@@ -132,6 +137,7 @@ export const ACCENT_CLASSES: Record<SagaMeta['accent'], {
   },
   purple: {
     text: 'text-purple-400',
+    hoverText: 'group-hover:text-purple-400',
     border: 'border-purple-500/30',
     bg: 'bg-purple-500/10',
     glow: 'bg-purple-500/[0.12]',
@@ -139,6 +145,7 @@ export const ACCENT_CLASSES: Record<SagaMeta['accent'], {
   },
   luffy: {
     text: 'text-luffy',
+    hoverText: 'group-hover:text-luffy',
     border: 'border-luffy/30',
     bg: 'bg-luffy/10',
     glow: 'bg-luffy/[0.12]',
@@ -146,6 +153,7 @@ export const ACCENT_CLASSES: Record<SagaMeta['accent'], {
   },
   emerald: {
     text: 'text-emerald-400',
+    hoverText: 'group-hover:text-emerald-400',
     border: 'border-emerald-500/30',
     bg: 'bg-emerald-500/10',
     glow: 'bg-emerald-500/[0.12]',
@@ -153,6 +161,7 @@ export const ACCENT_CLASSES: Record<SagaMeta['accent'], {
   },
   pink: {
     text: 'text-pink-400',
+    hoverText: 'group-hover:text-pink-400',
     border: 'border-pink-500/30',
     bg: 'bg-pink-500/10',
     glow: 'bg-pink-500/[0.12]',
@@ -160,6 +169,7 @@ export const ACCENT_CLASSES: Record<SagaMeta['accent'], {
   },
   gold: {
     text: 'text-gold',
+    hoverText: 'group-hover:text-gold',
     border: 'border-gold/30',
     bg: 'bg-gold/10',
     glow: 'bg-gold/[0.12]',
@@ -167,6 +177,7 @@ export const ACCENT_CLASSES: Record<SagaMeta['accent'], {
   },
   rose: {
     text: 'text-rose-400',
+    hoverText: 'group-hover:text-rose-400',
     border: 'border-rose-500/30',
     bg: 'bg-rose-500/10',
     glow: 'bg-rose-500/[0.12]',

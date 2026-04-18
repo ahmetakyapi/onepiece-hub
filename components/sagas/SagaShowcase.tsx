@@ -4,7 +4,7 @@ import { memo } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { ArrowRight, Film, BookOpen, Sparkles } from 'lucide-react'
+import { ArrowRight, Film, BookOpen, Sparkles, Compass } from 'lucide-react'
 import { getArcImage } from '@/lib/constants/images'
 import { ACCENT_CLASSES, type SagaMeta } from '@/lib/constants/saga-meta'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
@@ -83,11 +83,13 @@ function SagaCard({ saga, alternate }: { saga: SagaCardData; alternate: boolean 
                 {saga.era}
               </p>
             )}
-            <h2 className="mb-2 text-3xl font-extrabold tracking-tight text-white sm:text-4xl md:text-5xl">
-              {saga.name}
-            </h2>
+            <Link href={`/sagas/${saga.slug}`} className="group/title inline-block">
+              <h2 className={`mb-2 text-3xl font-extrabold tracking-tight text-white transition-colors duration-300 ${cls.hoverText} sm:text-4xl md:text-5xl`}>
+                {saga.name}
+              </h2>
+            </Link>
             <p className={`mb-5 text-sm font-semibold italic ${cls.text}`}>
-              "{saga.tagline}"
+              &ldquo;{saga.tagline}&rdquo;
             </p>
             <p className="mb-6 text-sm leading-relaxed text-pirate-muted sm:text-[15px]">
               {saga.description}
@@ -110,18 +112,19 @@ function SagaCard({ saga, alternate }: { saga: SagaCardData; alternate: boolean 
             {/* CTAs */}
             <div className="flex flex-wrap gap-2">
               <Link
-                href={`/arcs/${saga.firstArcSlug}`}
+                href={`/sagas/${saga.slug}`}
                 className={`group/btn inline-flex items-center gap-1.5 rounded-full ${cls.bg} border ${cls.border} px-4 py-2 text-xs font-bold ${cls.text} transition-all hover:brightness-125`}
               >
-                <Sparkles className="h-3 w-3" />
-                İlk Arc&apos;a Başla
+                <Compass className="h-3 w-3" />
+                Saga&apos;yı Keşfet
                 <ArrowRight className="h-3 w-3 transition-transform group-hover/btn:translate-x-0.5" />
               </Link>
               <Link
-                href={`/arcs/${saga.featuredArcSlug}`}
+                href={`/arcs/${saga.firstArcSlug}`}
                 className="group/btn2 inline-flex items-center gap-1.5 rounded-full border border-pirate-border/30 bg-ocean-surface/40 px-4 py-2 text-xs font-bold text-pirate-text transition-all hover:border-gold/40 hover:text-gold"
               >
-                Öne Çıkan
+                <Sparkles className="h-3 w-3" />
+                İlk Arc
                 <ArrowRight className="h-3 w-3 transition-transform group-hover/btn2:translate-x-0.5" />
               </Link>
             </div>
