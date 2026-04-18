@@ -9,6 +9,7 @@ const CommandPalette = dynamic(() => import('@/components/search/CommandPalette'
 const RippleEffect = dynamic(() => import('@/components/ui/RippleEffect'), { ssr: false })
 const ToastContainer = dynamic(() => import('@/components/ui/ToastContainer'), { ssr: false })
 const MobileBottomNav = dynamic(() => import('@/components/layout/MobileBottomNav'), { ssr: false })
+const SpoilerGateWidget = dynamic(() => import('@/components/spoiler/SpoilerGateWidget'), { ssr: false })
 
 interface Props {
   children: React.ReactNode
@@ -33,6 +34,7 @@ export function ClientLayout({ children }: Props) {
         <Footer />
       </div>
       <MobileBottomNav />
+      <SpoilerGateWidget />
     </>
   )
 }

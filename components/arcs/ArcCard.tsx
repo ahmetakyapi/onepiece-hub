@@ -3,17 +3,22 @@
 import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight, Compass, Film } from 'lucide-react'
+import { ArrowRight, Compass, Film, EyeOff, Eye } from 'lucide-react'
 import { memo, useRef, useCallback, useEffect, useState } from 'react'
 import { fadeUp } from '@/lib/variants'
 import { getArcImage } from '@/lib/constants/images'
 import { useViewTransition } from '@/hooks/useViewTransition'
+import { useSpoilerGate } from '@/hooks/useSpoilerGate'
 import type { Arc } from '@/types'
 
 function ArcCard({ arc }: { arc: Arc }) {
   const img = getArcImage(arc.slug)
   const ref = useRef<HTMLDivElement>(null)
   const navigate = useViewTransition()
+
+  const { isSpoiler } = useSpoilerGate()
+  const [revealed, setRevealed] = useState(false)
+  const blocked = isSpoiler(arc.slug) && !revealed
 
   // Respect prefers-reduced-motion
   const [reducedMotion, setReducedMotion] = useState(false)
@@ -63,10 +68,12 @@ function ArcCard({ arc }: { arc: Arc }) {
           href={`/arcs/${arc.slug}`}
           onClick={(e) => {
             if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
+            if (blocked) { e.preventDefault(); setRevealed(true); return }
             e.preventDefault()
             navigate(`/arcs/${arc.slug}`)
           }}
           className="bento-card group relative flex flex-col overflow-hidden"
+          aria-label={blocked ? `Spoiler — ${arc.saga ?? ''} gizli arc. Göstermek için tıkla.` : undefined}
         >
           {/* Holographic shine overlay */}
           <motion.div
@@ -82,9 +89,9 @@ function ArcCard({ arc }: { arc: Arc }) {
             {img ? (
               <Image
                 src={img}
-                alt={arc.name}
+                alt={blocked ? 'Spoiler gizli' : arc.name}
                 fill
-                className="object-cover transition-transform duration-700 ease-expo-out group-hover:scale-110"
+                className={`object-cover transition-all duration-700 ease-expo-out group-hover:scale-110 ${blocked ? 'blur-xl scale-110 saturate-50' : ''}`}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
             ) : (
@@ -95,25 +102,38 @@ function ArcCard({ arc }: { arc: Arc }) {
             {/* Gradient overlays */}
             <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep via-ocean-deep/30 to-transparent" />
 
+            {/* Spoiler overlay */}
+            {blocked && (
+              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-2 bg-ocean-deep/60 backdrop-blur-sm">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-luffy/40 bg-ocean-deep/70">
+                  <EyeOff className="h-5 w-5 text-luffy" />
+                </div>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-luffy">Spoiler</p>
+                <p className="text-[10px] text-white/70">Göstermek için tıkla</p>
+              </div>
+            )}
+
             {/* Saga badge */}
-            {arc.saga && (
+            {arc.saga && !blocked && (
               <span className="absolute left-3 top-3 tag border-gold/15 bg-gold/[0.08] text-gold/70">
                 {arc.saga.toUpperCase()}
               </span>
             )}
             {/* Episode badge */}
-            <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-ocean-deep/70 px-2.5 py-1 text-[10px] font-bold text-sea backdrop-blur-md border border-sea/10">
-              <Film className="h-2.5 w-2.5" />
-              {arc.episodeCount} Bölüm
-            </span>
+            {!blocked && (
+              <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-ocean-deep/70 px-2.5 py-1 text-[10px] font-bold text-sea backdrop-blur-md border border-sea/10">
+                <Film className="h-2.5 w-2.5" />
+                {arc.episodeCount} Bölüm
+              </span>
+            )}
           </div>
 
           {/* Info */}
           <div className="relative z-20 p-4">
-            <h3 className="mb-1.5 text-base font-bold text-pirate-text transition-colors duration-300 group-hover:text-gold">
+            <h3 className={`mb-1.5 text-base font-bold transition-colors duration-300 ${blocked ? 'text-pirate-muted/40 blur-[6px] select-none' : 'text-pirate-text group-hover:text-gold'}`}>
               {arc.name}
             </h3>
-            <p className="mb-3 line-clamp-2 text-[11px] leading-relaxed text-pirate-muted/70">
+            <p className={`mb-3 line-clamp-2 text-[11px] leading-relaxed ${blocked ? 'text-pirate-muted/30 blur-[4px] select-none' : 'text-pirate-muted/70'}`}>
               {arc.summary}
             </p>
 
