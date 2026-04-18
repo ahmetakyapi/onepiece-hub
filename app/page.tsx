@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useScroll, useTransform, useInView } from 'framer-motion'
-import { Play, Compass, Cherry, Shield, Globe, Anchor, Swords, Trophy, Clock, ArrowRight, Sparkles, Map, Skull, ChevronDown } from 'lucide-react'
+import { Play, Compass, Cherry, Shield, Globe, Anchor, Swords, Trophy, Clock, ArrowRight, Sparkles, Map, Skull, ChevronDown, Zap, BookOpen } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
@@ -41,6 +41,58 @@ const lineReveal = {
     transition: { duration: 1.2, ease: EASE, delay: 1.2 },
   },
 }
+
+/* ─── Interactive Tools Section Data ──────────────────────────────────── */
+const TOOLS = [
+  {
+    icon: BookOpen,
+    label: 'Sagalar',
+    href: '/sagas',
+    desc: 'One Piece\'in 10 destansı sagası, cinematic showcase',
+    tag: 'Yeni',
+    accent: 'text-cyan-400',
+    hoverAccent: 'group-hover:text-cyan-400',
+    accentBg: 'bg-cyan-500/10',
+    accentBorder: 'border-cyan-500/30',
+    glow: 'bg-cyan-500/[0.12]',
+  },
+  {
+    icon: Swords,
+    label: 'Güç Sıralaması',
+    href: '/power',
+    desc: 'Karakter stat\'leri, tier sistemi ve podium',
+    tag: 'Dinamik',
+    accent: 'text-gold',
+    hoverAccent: 'group-hover:text-gold',
+    accentBg: 'bg-gold/10',
+    accentBorder: 'border-gold/30',
+    glow: 'bg-gold/[0.12]',
+  },
+  {
+    icon: Zap,
+    label: 'Teknikler',
+    href: '/techniques',
+    desc: 'Haki, meyve, kılıç — 200+ yetenek arşivi',
+    tag: 'Filtre',
+    accent: 'text-purple-400',
+    hoverAccent: 'group-hover:text-purple-400',
+    accentBg: 'bg-purple-500/10',
+    accentBorder: 'border-purple-500/30',
+    glow: 'bg-purple-500/[0.12]',
+  },
+  {
+    icon: Swords,
+    label: 'Karşılaştır',
+    href: '/vs',
+    desc: 'İki karakter seç, tüm stat\'ler yan yana',
+    tag: 'Etkileşimli',
+    accent: 'text-luffy',
+    hoverAccent: 'group-hover:text-luffy',
+    accentBg: 'bg-luffy/10',
+    accentBorder: 'border-luffy/30',
+    glow: 'bg-luffy/[0.12]',
+  },
+] as const
 
 /* ─── Wiki Section Data ───────────────────────────────────────────────── */
 const WIKI_ITEMS = [
@@ -82,6 +134,9 @@ export default function Home() {
 
   const wikiRef = useRef<HTMLDivElement>(null)
   const wikiInView = useInView(wikiRef, { once: true, margin: '-80px' })
+
+  const toolsRef = useRef<HTMLDivElement>(null)
+  const toolsInView = useInView(toolsRef, { once: true, margin: '-80px' })
 
   return (
       <main className="relative min-h-screen overflow-hidden">
@@ -257,6 +312,83 @@ export default function Home() {
 
         {/* ─── Journey Scroll Storytelling ────────────────────────── */}
         <JourneyScroll />
+
+        {/* ─── Interactive Tools Showcase ────────────────────────── */}
+        <section ref={toolsRef} className="relative z-10 px-6 py-20 sm:py-24">
+          <div className="pointer-events-none absolute -right-32 top-10 h-72 w-72 rounded-full bg-gold/[0.05] blur-[100px]" />
+          <div className="pointer-events-none absolute -left-32 bottom-10 h-64 w-64 rounded-full bg-luffy/[0.04] blur-[90px]" />
+
+          <div className="relative mx-auto max-w-6xl">
+            {/* Section header */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={toolsInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, ease: EASE }}
+              className="mb-10 text-center sm:mb-12"
+            >
+              <motion.p
+                initial={{ opacity: 0, y: 8 }}
+                animate={toolsInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, ease: EASE, delay: 0.1 }}
+                className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-gold/70"
+              >
+                ⚡ Etkileşimli Araçlar
+              </motion.p>
+              <h2 className="mb-3 text-2xl font-extrabold sm:text-3xl lg:text-4xl">
+                <span className="text-gold-gradient">Araştır</span>{' '}
+                <span className="text-pirate-text">& Karşılaştır</span>
+              </h2>
+              <p className="mx-auto max-w-xl text-sm text-pirate-muted sm:text-base">
+                One Piece evrenini kendi yöntemlerinle keşfet — saga&apos;lardan güç sıralamasına, teknik arşivinden karakter karşılaştırmalarına.
+              </p>
+            </motion.div>
+
+            {/* Tools Grid — 2 col sm, 4 col lg */}
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {TOOLS.map((tool, i) => (
+                <motion.div
+                  key={tool.href}
+                  initial={{ opacity: 0, y: 28 }}
+                  animate={toolsInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, ease: EASE, delay: 0.2 + i * 0.08 }}
+                >
+                  <Link
+                    href={tool.href}
+                    className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border ${tool.accentBorder} bg-ocean-surface/30 p-5 transition-all duration-500 hover:-translate-y-1 hover:bg-ocean-surface/50 hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.4)]`}
+                  >
+                    <div className={`pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full ${tool.glow} blur-[60px] transition-opacity duration-500 group-hover:opacity-150`} />
+
+                    {/* Tag */}
+                    <div className="relative mb-4 flex items-center justify-between">
+                      <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${tool.accentBg} border ${tool.accentBorder} transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3`}>
+                        <tool.icon className={`h-5 w-5 ${tool.accent}`} />
+                      </div>
+                      <span className={`rounded-full ${tool.accentBg} px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider ${tool.accent}`}>
+                        {tool.tag}
+                      </span>
+                    </div>
+
+                    {/* Content */}
+                    <div className="relative flex-1">
+                      <h3 className={`mb-2 text-lg font-extrabold text-pirate-text transition-colors duration-300 ${tool.hoverAccent} sm:text-xl`}>
+                        {tool.label}
+                      </h3>
+                      <p className="text-xs leading-relaxed text-pirate-muted sm:text-[13px]">
+                        {tool.desc}
+                      </p>
+                    </div>
+
+                    {/* CTA */}
+                    <div className="relative mt-5 flex items-center gap-1.5 text-xs font-bold">
+                      <span className={tool.accent}>Dene</span>
+                      <ArrowRight className={`h-3.5 w-3.5 ${tool.accent} transition-transform duration-300 group-hover:translate-x-1`} />
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* ─── Manga impact divider ─────────────────────────────── */}
         <MangaImpactDivider sfx="DON!" subtitle="Wiki &amp; Ansiklopedi" />
