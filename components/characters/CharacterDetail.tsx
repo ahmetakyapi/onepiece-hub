@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import {
   ArrowLeft, Users, Anchor, Sword, Sparkles,
   Skull, MapPin, Zap, BookOpen, Film,
@@ -81,6 +81,12 @@ function RevealSection({ children, className = '' }: { children: React.ReactNode
 }
 
 export default function CharacterDetailClient({ character }: { character: Character }) {
+  const [parallaxEnabled, setParallaxEnabled] = useState(false)
+
+  useEffect(() => {
+    setParallaxEnabled(window.matchMedia('(min-width: 768px)').matches)
+  }, [])
+
   const firstArc = getArcBySlug(character.firstArc)
   const heroRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
@@ -97,11 +103,11 @@ export default function CharacterDetailClient({ character }: { character: Charac
   return (
     <main className="relative min-h-screen">
       {/* ─── Cinematic Hero ────────────────────────────────────── */}
-      <section ref={heroRef} className="relative h-[78vh] min-h-[440px] overflow-hidden bg-gradient-to-b from-ocean-surface to-ocean-deep sm:h-[80vh] sm:min-h-[500px]">
+      <section ref={heroRef} className="relative h-[64vh] min-h-[380px] overflow-hidden bg-gradient-to-b from-ocean-surface to-ocean-deep sm:h-[78vh] sm:min-h-[440px] md:h-[80vh] md:min-h-[500px]">
         {/* Background image with parallax */}
         <motion.div
           className="absolute inset-0 flex items-center justify-center"
-          style={{ y: heroY, scale: heroScale, viewTransitionName: `character-image-${character.slug}` }}
+          style={parallaxEnabled ? { y: heroY, scale: heroScale, viewTransitionName: `character-image-${character.slug}` } : { viewTransitionName: `character-image-${character.slug}` }}
         >
           {imgSrc ? (
             <Image

@@ -58,7 +58,7 @@ export default function QuizHubPage() {
             variants={staggerContainer(0.1)}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-3 gap-4"
+            className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-4"
           >
             {[
               { label: 'Quiz', value: totalQuizzes, icon: BrainCircuit },

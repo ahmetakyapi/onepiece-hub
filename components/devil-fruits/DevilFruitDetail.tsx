@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import {
   ArrowLeft, Cherry, Sparkles, Skull, Zap,
   AlertTriangle, Star, BookOpen, Globe, ArrowRight,
@@ -15,6 +15,12 @@ import FavoriteButton from '@/components/ui/FavoriteButton'
 import type { DevilFruitEntry } from '@/types'
 
 export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEntry }) {
+  const [parallaxEnabled, setParallaxEnabled] = useState(false)
+
+  useEffect(() => {
+    setParallaxEnabled(window.matchMedia('(min-width: 768px)').matches)
+  }, [])
+
   const typeInfo = DEVIL_FRUIT_TYPE_INFO[fruit.type]
   const userImg = fruit.userSlug ? getCharacterImage(fruit.userSlug) : ''
 
@@ -31,10 +37,10 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
       {/* ─── Cinematic Hero ─────────────────────────────────── */}
       <section
         ref={heroRef}
-        className="relative h-[70vh] min-h-[400px] overflow-hidden sm:h-[70vh] sm:min-h-[440px]"
+        className="relative h-[64vh] min-h-[380px] overflow-hidden sm:h-[70vh] sm:min-h-[400px] md:min-h-[440px]"
       >
         {userImg ? (
-          <motion.div className="absolute inset-0" style={{ y: bgY, scale: bgScale, viewTransitionName: `fruit-image-${fruit.slug}` }}>
+          <motion.div className="absolute inset-0" style={parallaxEnabled ? { y: bgY, scale: bgScale, viewTransitionName: `fruit-image-${fruit.slug}` } : { viewTransitionName: `fruit-image-${fruit.slug}` }}>
             <Image
               src={userImg}
               alt={fruit.user}

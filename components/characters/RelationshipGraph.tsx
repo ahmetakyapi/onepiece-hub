@@ -119,11 +119,11 @@ export default function RelationshipGraph() {
 
       {/* Mobile: character picker rail */}
       {isMobile && (
-        <div className="bento-card overflow-hidden rounded-2xl p-3">
-          <p className="mb-2 px-1 text-[10px] font-bold uppercase tracking-[0.18em] text-pirate-muted/70">
+        <div className="bento-card overflow-hidden rounded-2xl p-4">
+          <p className="mb-3 px-1 text-xs font-bold uppercase tracking-[0.18em] text-pirate-muted/70">
             Karakter seç — ilişkilerini gör
           </p>
-          <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 scrollbar-thin">
+          <div className="-mx-2 flex gap-3 overflow-x-auto px-2 pb-2 scrollbar-thin">
             {GRAPH_CHARACTERS.map((slug) => {
               const char = CHARACTERS.find((c) => c.slug === slug)
               const img = CHARACTER_IMAGES[slug]
@@ -133,7 +133,7 @@ export default function RelationshipGraph() {
                   key={slug}
                   onClick={() => handleNodeClick(slug)}
                   className={cn(
-                    'group flex w-16 flex-shrink-0 flex-col items-center gap-1.5 rounded-xl border p-2 transition-all duration-300',
+                    'group flex w-20 flex-shrink-0 flex-col items-center gap-2 rounded-xl border p-3 transition-all duration-300',
                     isActive
                       ? 'border-gold/40 bg-gold/[0.08] shadow-[0_0_24px_rgba(244,163,0,0.15)]'
                       : 'border-pirate-border/20 bg-ocean-surface/30 hover:border-sea/30',
@@ -142,7 +142,7 @@ export default function RelationshipGraph() {
                   aria-label={char?.name ?? slug}
                 >
                   <div className={cn(
-                    'relative h-11 w-11 overflow-hidden rounded-full border-2',
+                    'relative h-14 w-14 overflow-hidden rounded-full border-2',
                     isActive ? 'border-gold/60' : 'border-pirate-border/30',
                   )}>
                     {img ? (
@@ -151,16 +151,16 @@ export default function RelationshipGraph() {
                         alt={char?.name ?? slug}
                         fill
                         className="object-cover object-top"
-                        sizes="44px"
+                        sizes="56px"
                       />
                     ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-ocean-surface text-sm font-extrabold text-pirate-text/80">
+                      <div className="flex h-full w-full items-center justify-center bg-ocean-surface text-lg font-extrabold text-pirate-text/80">
                         {(char?.name ?? slug).charAt(0).toUpperCase()}
                       </div>
                     )}
                   </div>
                   <span className={cn(
-                    'line-clamp-1 text-center text-[10px] font-semibold leading-tight transition-colors',
+                    'line-clamp-2 text-center text-xs font-semibold leading-tight transition-colors',
                     isActive ? 'text-gold' : 'text-pirate-muted/70',
                   )}>
                     {(char?.name ?? slug).split(' ')[0]}
@@ -361,28 +361,28 @@ export default function RelationshipGraph() {
                 Bu filtreyle ilişki bulunamadı.
               </p>
             ) : (
-              <div className="space-y-2.5">
+              <div className="space-y-3">
                 {filteredSelectedRelations.map((rel) => {
                   const config = RELATION_CONFIG[rel.type]
                   return (
                     <Link
                       key={`${rel.slug}-${rel.type}`}
                       href={`/characters/${rel.slug}`}
-                      className="group flex items-center gap-3 rounded-xl border border-pirate-border/30 bg-gradient-to-r from-ocean-surface/50 to-ocean-surface/30 px-3 py-3 transition-all hover:border-gold/40 hover:from-ocean-surface/80 hover:to-ocean-surface/60 hover:shadow-gold-glow sm:px-4 sm:py-3.5"
+                      className="group flex items-center gap-3 rounded-xl border border-pirate-border/30 bg-gradient-to-r from-ocean-surface/50 to-ocean-surface/30 px-3 py-4 transition-all hover:border-gold/40 hover:from-ocean-surface/80 hover:to-ocean-surface/60 hover:shadow-gold-glow sm:px-4 sm:py-3.5"
                     >
-                      <span className="h-3 w-3 flex-shrink-0 rounded-full ring-2 sm:h-3.5 sm:w-3.5" style={{ background: config.color, boxShadow: `0 0 0 2px ${config.color}40` }} />
+                      <span className="h-4 w-4 flex-shrink-0 rounded-full ring-2 sm:h-3.5 sm:w-3.5" style={{ background: config.color, boxShadow: `0 0 0 2px ${config.color}40` }} />
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-bold text-pirate-text transition-colors group-hover:text-gold sm:text-base">
+                        <p className="truncate text-base font-bold text-pirate-text transition-colors group-hover:text-gold sm:text-base">
                           {rel.name}
                         </p>
-                        <p className="mt-0.5 text-[11px] text-pirate-muted/60 sm:text-xs">{config.label}</p>
+                        <p className="mt-0.5 text-sm text-pirate-muted/60 sm:text-xs">{config.label}</p>
                       </div>
                       {rel.label && (
                         <span className="hidden flex-shrink-0 whitespace-nowrap rounded-full border px-2.5 py-1 text-xs font-bold sm:inline" style={{ background: `${config.color}25`, color: config.color, borderColor: `${config.color}40` }}>
                           {rel.label}
                         </span>
                       )}
-                      <ChevronRight className="ml-1 h-4 w-4 flex-shrink-0 text-pirate-muted/40 transition-all group-hover:translate-x-1 group-hover:text-gold sm:h-5 sm:w-5" />
+                      <ChevronRight className="ml-1 h-5 w-5 flex-shrink-0 text-pirate-muted/40 transition-all group-hover:translate-x-1 group-hover:text-gold sm:h-5 sm:w-5" />
                     </Link>
                   )
                 })}

@@ -206,8 +206,10 @@ export default function TimelinePage() {
           </motion.div>
         </div>
 
-        {/* Era Showcase — cinematic scroll-zoom sequence */}
-        <EraShowcase />
+        {/* Era Showcase — cinematic scroll-zoom sequence (desktop only to avoid scroll jail on mobile) */}
+        <div className="hidden md:block">
+          <EraShowcase />
+        </div>
 
         <div className="mx-auto max-w-5xl px-6">
           {/* Category filters */}

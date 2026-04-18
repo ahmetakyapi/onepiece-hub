@@ -118,7 +118,7 @@ export default function ExplorePage() {
             </div>
 
             <div className="relative overflow-hidden rounded-2xl border border-pirate-border/20 bg-ocean-surface/30 shadow-[0_40px_120px_rgba(2,6,23,0.55)] sm:rounded-3xl">
-              <div className="relative h-[68vh] min-h-[400px] w-full overflow-hidden sm:h-[64vh] sm:min-h-[440px]">
+              <div className="relative h-[64vh] min-h-[380px] w-full overflow-hidden sm:h-[72vh] sm:min-h-[440px] md:h-[72vh]">
                 {featuredImg && (
                   <div className="absolute inset-0">
                     <Image
@@ -156,7 +156,7 @@ export default function ExplorePage() {
                     </p>
                     <div className="mb-5 rounded-xl border-l-2 border-gold/40 bg-ocean-deep/40 p-2.5 backdrop-blur-sm sm:mb-6 sm:p-3">
                       <p className="text-[13px] italic text-white/85 sm:text-base">&ldquo;{FEATURED_QUOTE}&rdquo;</p>
-                      <p className="mt-1 text-[9px] font-bold uppercase tracking-[0.2em] text-gold/70 sm:text-[10px]">
+                      <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.2em] text-gold/70 sm:text-[11px]">
                         — {FEATURED_QUOTE_BY}
                       </p>
                     </div>

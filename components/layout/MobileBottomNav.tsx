@@ -39,7 +39,7 @@ export default function MobileBottomNav() {
             <Link
               key={tab.href}
               href={tab.href}
-              className="group relative flex flex-1 flex-col items-center gap-0.5 rounded-xl px-2 py-1.5"
+              className="group relative flex flex-1 flex-col items-center gap-0.5 rounded-xl px-3 py-2.5"
             >
               {active && (
                 <span

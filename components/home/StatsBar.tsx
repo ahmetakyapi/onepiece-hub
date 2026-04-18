@@ -88,10 +88,10 @@ export default function StatsBar() {
             initial={{ opacity: 0, y: 24 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease: EASE, delay: 0.15 + i * 0.12 }}
-            className="group flex flex-col items-center gap-2.5 text-center sm:gap-3"
+            className="group flex flex-col items-center gap-2 text-center sm:gap-2.5 md:gap-3"
           >
             {/* Ring + Icon */}
-            <div className="relative flex h-[72px] w-[72px] items-center justify-center sm:h-[92px] sm:w-[92px]">
+            <div className="relative flex h-14 w-14 items-center justify-center sm:h-[72px] sm:w-[72px] md:h-[92px] md:w-[92px]">
               <RingProgress
                 color={stat.color}
                 inView={inView}

@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
@@ -20,6 +20,12 @@ import FavoriteButton from '@/components/ui/FavoriteButton'
 const EASE = [0.16, 1, 0.3, 1] as const
 
 export default function ArcDetailClient({ arc }: { arc: Arc }) {
+  const [parallaxEnabled, setParallaxEnabled] = useState(false)
+
+  useEffect(() => {
+    setParallaxEnabled(window.matchMedia('(min-width: 768px)').matches)
+  }, [])
+
   const coverRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: coverRef,
@@ -34,12 +40,12 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
         {/* ─── Cinematic Hero ────────────────────────────────── */}
         <section
           ref={coverRef}
-          className="relative h-[70vh] min-h-[420px] overflow-hidden sm:h-[72vh] sm:min-h-[460px]"
+          className="relative h-[64vh] min-h-[380px] overflow-hidden sm:h-[70vh] sm:min-h-[420px] md:h-[72vh] md:min-h-[460px]"
         >
           {getArcImage(arc.slug) ? (
             <motion.div
               className="absolute inset-0"
-              style={{ scale: coverScale, opacity: coverOpacity, y: coverY, viewTransitionName: `arc-image-${arc.slug}` }}
+              style={parallaxEnabled ? { scale: coverScale, opacity: coverOpacity, y: coverY, viewTransitionName: `arc-image-${arc.slug}` } : { viewTransitionName: `arc-image-${arc.slug}` }}
             >
               <Image
                 src={getArcImage(arc.slug)}

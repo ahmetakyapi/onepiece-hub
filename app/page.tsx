@@ -112,7 +112,7 @@ export default function Home() {
           {/* Hero content — positioned center-bottom */}
           <motion.div
             style={parallaxEnabled ? { opacity: heroContentOpacity } : undefined}
-            className="relative z-10 flex h-full flex-col items-center px-6 pt-[12vh] text-center sm:pt-[16vh]"
+            className="relative z-10 flex h-full flex-col items-center px-6 pt-[8vh] text-center sm:pt-[12vh] md:pt-[16vh]"
           >
             <motion.div
               initial={{ opacity: 0, y: 16, scale: 0.9 }}
@@ -128,8 +128,8 @@ export default function Home() {
 
             <div className="flex-1" />
 
-            <div className="max-w-3xl pb-28 sm:pb-32">
-              <h1 className="mb-6 text-4xl font-extrabold leading-[1.1] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] sm:text-5xl md:text-6xl lg:text-7xl">
+            <div className="max-w-3xl pb-16 sm:pb-28 md:pb-32">
+              <h1 className="mb-4 text-4xl font-extrabold leading-[1.1] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] sm:mb-6 sm:text-5xl md:text-6xl lg:text-7xl">
                 {['One', 'Piece'].map((word, i) => (
                   <motion.span
                     key={word}
@@ -181,7 +181,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1, duration: 0.7, ease: EASE }}
-                className="mx-auto mb-8 max-w-lg text-sm leading-relaxed text-white/80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] sm:text-base"
+                className="mx-auto mb-6 max-w-lg text-sm leading-relaxed text-white/80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] sm:mb-8 sm:text-base"
               >
                 Filler&apos;sız arc bazlı bölümler, karakter ansiklopedisi,
                 izleme takibi ve daha fazlası.

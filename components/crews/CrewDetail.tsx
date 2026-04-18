@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import {
   ArrowLeft, Crown, Users, Skull, BookOpen,
   Trophy, MapPin, Anchor, Star, ArrowRight,
@@ -15,6 +15,12 @@ import FavoriteButton from '@/components/ui/FavoriteButton'
 import type { Crew } from '@/types'
 
 export default function CrewDetailClient({ crew }: { crew: Crew }) {
+  const [parallaxEnabled, setParallaxEnabled] = useState(false)
+
+  useEffect(() => {
+    setParallaxEnabled(window.matchMedia('(min-width: 768px)').matches)
+  }, [])
+
   const heroRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -30,10 +36,10 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
       {/* ─── Cinematic Hero ─────────────────────────────────── */}
       <section
         ref={heroRef}
-        className="relative h-[68vh] min-h-[400px] overflow-hidden sm:h-[68vh] sm:min-h-[440px]"
+        className="relative h-[64vh] min-h-[380px] overflow-hidden sm:h-[68vh] sm:min-h-[400px] md:min-h-[440px]"
       >
         {captainImg ? (
-          <motion.div className="absolute inset-0" style={{ y: heroY, scale: heroScale }}>
+          <motion.div className="absolute inset-0" style={parallaxEnabled ? { y: heroY, scale: heroScale } : {}}>
             <Image
               src={captainImg}
               alt={crew.captain || crew.name}
