@@ -7,7 +7,7 @@ import { SAGA_META } from '@/lib/constants/saga-meta'
 import SagaDetail, { type SagaDetailData } from '@/components/sagas/SagaDetail'
 
 interface Props {
-  params: Promise<{ slug: string }>
+  params: { slug: string }
 }
 
 export async function generateStaticParams() {
@@ -15,7 +15,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params
+  const { slug } = params
   const saga = SAGAS.find((s) => s.slug === slug)
   if (!saga) return { title: 'Saga Bulunamadı' }
 
@@ -26,8 +26,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function SagaPage({ params }: Props) {
-  const { slug } = await params
+export default function SagaPage({ params }: Props) {
+  const { slug } = params
   const saga = SAGAS.find((s) => s.slug === slug)
   if (!saga) notFound()
 
