@@ -5,6 +5,8 @@ import { verifyToken } from '@/lib/token'
 import { db } from '@/lib/db'
 import { users } from '@/lib/schema'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(req: NextRequest) {
   try {
     const token = req.cookies.get('session')?.value

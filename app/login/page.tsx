@@ -49,6 +49,7 @@ export default function LoginPage() {
       setError(result.error)
     } else {
       if (isRegister) setStoredAffiliation(crewPick)
+      window.dispatchEvent(new Event('route-loading:start'))
       router.push(from)
     }
   }

@@ -252,7 +252,7 @@ export default function Header() {
                   className="hidden items-center gap-2 rounded-full border border-gold/20 bg-gold/[0.06] px-4 py-2 text-[13px] font-semibold text-gold transition-all duration-300 hover:bg-gold/[0.12] hover:shadow-[0_0_20px_rgba(244,163,0,0.1)] sm:flex"
                 >
                   <User className="h-3.5 w-3.5" />
-                  Maceraya Katıl
+                  Giriş Yap
                 </Link>
               )
             )}
@@ -405,7 +405,7 @@ export default function Header() {
                   <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gold/10">
                     <User className="h-4 w-4 text-gold" />
                   </div>
-                  <span className="text-sm font-semibold text-gold">Maceraya Katıl</span>
+                  <span className="text-sm font-semibold text-gold">Giriş Yap</span>
                 </Link>
               )}
             </motion.div>

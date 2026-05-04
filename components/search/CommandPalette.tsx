@@ -93,14 +93,32 @@ const ALL_RESULTS: Result[] = [
 
 function scoreMatch(query: string, text: string): number {
   if (!query) return 0
-  const q = query.toLowerCase()
-  const t = text.toLowerCase()
+  const q = normalizeSearchText(query.trim())
+  const t = normalizeSearchText(text)
+  if (!q) return 0
   if (t === q) return 100
   if (t.startsWith(q)) return 80
-  const wordStartMatch = new RegExp(`\\b${q}`).test(t)
+  const wordStartMatch = new RegExp(`\\b${escapeRegExp(q)}`).test(t)
   if (wordStartMatch) return 60
   if (t.includes(q)) return 40
   return 0
+}
+
+function normalizeSearchText(value: string): string {
+  return value
+    .toLocaleLowerCase('tr-TR')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/ı/g, 'i')
+    .replace(/ş/g, 's')
+    .replace(/ğ/g, 'g')
+    .replace(/ü/g, 'u')
+    .replace(/ö/g, 'o')
+    .replace(/ç/g, 'c')
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
 function search(query: string): Result[] {
@@ -162,6 +180,7 @@ export default function CommandPalette() {
   const go = useCallback(
     (href: string) => {
       setOpen(false)
+      window.dispatchEvent(new Event('route-loading:start'))
       router.push(href)
     },
     [router],

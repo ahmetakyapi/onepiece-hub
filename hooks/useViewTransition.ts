@@ -19,6 +19,7 @@ export function useViewTransition() {
 
   const navigate = useCallback(
     (href: string) => {
+      window.dispatchEvent(new Event('route-loading:start'))
       if (!isSupported()) {
         router.push(href)
         return

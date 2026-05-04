@@ -5,6 +5,7 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 
 const ScrollProgress = dynamic(() => import('@/components/layout/ScrollProgress'), { ssr: false })
+const RouteLoadingIndicator = dynamic(() => import('@/components/layout/RouteLoadingIndicator'), { ssr: false })
 const CommandPalette = dynamic(() => import('@/components/search/CommandPalette'), { ssr: false })
 const RippleEffect = dynamic(() => import('@/components/ui/RippleEffect'), { ssr: false })
 const ToastContainer = dynamic(() => import('@/components/ui/ToastContainer'), { ssr: false })
@@ -25,11 +26,12 @@ export function ClientLayout({ children }: Props) {
         İçeriğe atla
       </a>
       <ScrollProgress />
+      <RouteLoadingIndicator />
       <CommandPalette />
       <RippleEffect />
       <ToastContainer />
       <Header />
-      <main id="main-content">{children}</main>
+      <div id="main-content">{children}</div>
       <div style={{ paddingBottom: 'calc(max(env(safe-area-inset-bottom), 0px) + 72px)' }} className="md:!pb-0">
         <Footer />
       </div>

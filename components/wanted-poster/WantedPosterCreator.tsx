@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Camera, Download, RotateCcw, Skull } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { fadeUp, EASE } from '@/lib/variants'
 
@@ -287,7 +288,14 @@ export default function WantedPosterCreator() {
                 style={{ background: '#d4b896' }}
               >
                 {imageUrl ? (
-                  <img src={imageUrl} alt="Poster" className="h-full w-full object-cover" />
+                  <Image
+                    src={imageUrl}
+                    alt="Poster"
+                    fill
+                    unoptimized
+                    className="object-cover"
+                    sizes="260px"
+                  />
                 ) : (
                   <div className="flex h-full flex-col items-center justify-center gap-2 text-[#1a0a04]/30">
                     <Camera className="h-10 w-10" />

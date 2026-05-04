@@ -14,6 +14,7 @@ import { EASE } from '@/lib/variants'
 const ParticleField = dynamic(() => import('@/components/home/ParticleField'), { ssr: false })
 const WaveBackground = dynamic(() => import('@/components/home/WaveBackground'), { ssr: false })
 const StatsBar = dynamic(() => import('@/components/home/StatsBar'), { ssr: false })
+const RouteConcierge = dynamic(() => import('@/components/home/RouteConcierge'), { ssr: false })
 const ArcTimeline = dynamic(() => import('@/components/home/ArcTimeline'), { ssr: false })
 const JourneyScroll = dynamic(() => import('@/components/home/JourneyScroll'), { ssr: false })
 const FeaturedArcSpotlight = dynamic(() => import('@/components/home/FeaturedArcSpotlight'), { ssr: false })
@@ -294,6 +295,8 @@ export default function Home() {
         <section className="relative z-10 -mt-4 px-6 pt-2 pb-12 sm:mt-0 sm:pt-10 sm:pb-20">
           <StatsBar />
         </section>
+
+        <RouteConcierge />
 
         {/* ─── Wave separator ──────────────────────────────────── */}
         <WaveSeparator variant="bold" />
