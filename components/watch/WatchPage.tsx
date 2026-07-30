@@ -343,38 +343,45 @@ export default function WatchPageClient({
           <span className="text-pirate-muted/70">{arc.saga}</span>
         </nav>
 
-        <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_21rem] xl:grid-cols-[minmax(0,1fr)_24rem]">
+        {/*
+          İki satırlı grid: başlık 1. satırda yalnızca sol kolonda, oynatıcı ve
+          bölüm listesi 2. satırda yan yana. Böylece listenin üst kenarı sayfanın
+          tepesinden değil, videonun tepesinden başlıyor — başlık kaç satır
+          sararsa sarsın hizalama bozulmuyor (sabit offset vermeye gerek yok).
+          `gap-y` yok; dikey boşluk başlığın `mb-3`'ü ve rail'in `mt-5`'i ile.
+        */}
+        <div className="grid gap-x-5 lg:grid-cols-[minmax(0,1fr)_21rem] xl:grid-cols-[minmax(0,1fr)_24rem]">
+          {/* ── Bölüm başlığı ──────────────────────────────────────── */}
+          <header className="mb-3 min-w-0 lg:col-start-1 lg:row-start-1">
+            <div className="mb-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-sea/20 bg-sea/[0.08] px-2.5 py-0.5 text-[11px] font-bold text-sea">
+                Bölüm {globalEp}
+              </span>
+              <span className="stat-number text-[11px] text-pirate-muted/60">
+                {arc.name} {episode.number}/{arc.episodeCount}
+              </span>
+              <span className="text-pirate-muted/30">•</span>
+              <span className="stat-number text-[11px] text-pirate-muted/60">
+                {episode.duration}
+              </span>
+              {currentIsWatched && (
+                <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-400">
+                  <Check className="h-3 w-3" />
+                  İzlendi
+                </span>
+              )}
+            </div>
+            <h1 className="text-xl font-extrabold tracking-tight text-pirate-text sm:text-2xl lg:text-[1.75rem]">
+              {episode.title}
+            </h1>
+          </header>
+
           {/*
             ⚠️ Bu kolon Framer Motion ile SARILMAMALI. motion `y` animasyonu
             elemanda `transform` bırakır, transform ise `position: fixed` için
             containing block oluşturur ve sinema/mini modu bozar.
           */}
-          <div className="min-w-0">
-            {/* ── Bölüm başlığı ────────────────────────────────────── */}
-            <header className="mb-3">
-              <div className="mb-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-sea/20 bg-sea/[0.08] px-2.5 py-0.5 text-[11px] font-bold text-sea">
-                  Bölüm {globalEp}
-                </span>
-                <span className="stat-number text-[11px] text-pirate-muted/60">
-                  {arc.name} {episode.number}/{arc.episodeCount}
-                </span>
-                <span className="text-pirate-muted/30">•</span>
-                <span className="stat-number text-[11px] text-pirate-muted/60">
-                  {episode.duration}
-                </span>
-                {currentIsWatched && (
-                  <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-400">
-                    <Check className="h-3 w-3" />
-                    İzlendi
-                  </span>
-                )}
-              </div>
-              <h1 className="text-xl font-extrabold tracking-tight text-pirate-text sm:text-2xl lg:text-[1.75rem]">
-                {episode.title}
-              </h1>
-            </header>
-
+          <div className="min-w-0 lg:col-start-1 lg:row-start-2">
             {/* ── Sahne çapası: yerleşimi ve yeri korur ────────────── */}
             <div ref={anchorRef} className="relative w-full" style={stageStyle}>
               {/* Sahne ayrıldığında boşluğu dolduran kart */}
@@ -661,7 +668,7 @@ export default function WatchPageClient({
           </div>
 
           {/* ── Bölüm listesi ────────────────────────────────────────── */}
-          <div className="min-w-0 lg:sticky lg:top-24 lg:self-start">
+          <div className="mt-5 min-w-0 lg:col-start-2 lg:row-start-2 lg:mt-0 lg:sticky lg:top-24 lg:self-start">
             <EpisodeRail
               arc={arc}
               currentSlug={episode.slug}
