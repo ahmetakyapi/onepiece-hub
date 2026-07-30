@@ -6,6 +6,7 @@ import { useRef } from 'react'
 import dynamic from 'next/dynamic'
 import { Sparkles, Map, Cherry } from 'lucide-react'
 import { EASE } from '@/lib/variants'
+import { SITE_STATS } from '@/lib/constants/stats'
 
 const PoneglyphOverlay = dynamic(() => import('@/components/home/PoneglyphOverlay'), { ssr: false })
 
@@ -94,8 +95,12 @@ export default function VoidCenturySection() {
           transition={{ duration: 0.7, ease: EASE, delay: 0.35 }}
           className="mx-auto mb-8 max-w-xl text-[13px] leading-relaxed text-white/75 sm:text-base"
         >
-          800 yıl önce kaybolan bir çağ. 32 arc&apos;lık destansı yolculuk.
-          <span className="text-gold"> 61 karakter, 12 mürettebat, 43 Şeytan Meyvesi </span>
+          800 yıl önce kaybolan bir çağ. {SITE_STATS.arcs} arc&apos;lık destansı yolculuk.
+          <span className="text-gold">
+            {' '}
+            {SITE_STATS.characters} karakter, {SITE_STATS.crews} mürettebat,{' '}
+            {SITE_STATS.devilFruits} Şeytan Meyvesi{' '}
+          </span>
           ve henüz söylenmemiş binlerce hikaye.
         </motion.p>
 

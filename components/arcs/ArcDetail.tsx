@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
@@ -13,6 +13,7 @@ import { getArcImage } from '@/lib/constants/images'
 import { getCharacterImage } from '@/lib/constants/images'
 import { getGlobalEpisodeNumber, ARCS } from '@/lib/constants/arcs'
 import { BATTLES } from '@/lib/constants/battles'
+import { formatRuntime, getArcRuntimeSeconds } from '@/lib/constants/stats'
 import type { Arc } from '@/types'
 import CommentSection from '@/components/ui/CommentSection'
 import FavoriteButton from '@/components/ui/FavoriteButton'
@@ -21,6 +22,9 @@ const EASE = [0.16, 1, 0.3, 1] as const
 
 export default function ArcDetailClient({ arc }: { arc: Arc }) {
   const [parallaxEnabled, setParallaxEnabled] = useState(false)
+
+  /* Gerçek bölüm sürelerinden — sabit 24 dk tahmini yerine */
+  const arcRuntime = useMemo(() => formatRuntime(getArcRuntimeSeconds(arc.slug)), [arc.slug])
 
   useEffect(() => {
     setParallaxEnabled(window.matchMedia('(min-width: 768px)').matches)
@@ -108,7 +112,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                 </span>
                 <span className="flex items-center gap-1.5">
                   <Clock className="h-4 w-4 text-gold" />
-                  ~{Math.round(arc.episodeCount * 24 / 60)} saat
+                  {arcRuntime}
                 </span>
                 {arc.location && (
                   <span className="flex items-center gap-1.5">

@@ -23,6 +23,7 @@ import {
 import { CHARACTERS } from '@/lib/constants/characters'
 import { ARCS } from '@/lib/constants/arcs'
 import { DEVIL_FRUITS } from '@/lib/constants/devil-fruits'
+import { SITE_STATS } from '@/lib/constants/stats'
 
 type ResultKind = 'character' | 'arc' | 'fruit' | 'page'
 
@@ -36,19 +37,19 @@ type Result = {
 
 const PAGES: Result[] = [
   { kind: 'page', label: 'Keşfet', sublabel: 'Editoryal seçkiler & rastgele keşifler', href: '/explore', icon: Compass },
-  { kind: 'page', label: 'Sagalar', sublabel: '10 destansı saga showcase', href: '/sagas', icon: BookOpen },
-  { kind: 'page', label: 'Karakterler', sublabel: '61 karakter ansiklopedisi', href: '/characters', icon: Users },
-  { kind: 'page', label: "Arc'lar", sublabel: 'Filler\'sız arc bazlı bölümler', href: '/arcs', icon: Compass },
-  { kind: 'page', label: 'Şeytan Meyveleri', sublabel: 'Tüm meyveler ve güçleri', href: '/devil-fruits', icon: Cherry },
-  { kind: 'page', label: 'Dünya Haritası', sublabel: '25+ lokasyon', href: '/world', icon: Map },
+  { kind: 'page', label: 'Sagalar', sublabel: `${SITE_STATS.sagas} destansı saga showcase`, href: '/sagas', icon: BookOpen },
+  { kind: 'page', label: 'Karakterler', sublabel: `${SITE_STATS.characters} karakter ansiklopedisi`, href: '/characters', icon: Users },
+  { kind: 'page', label: "Arc'lar", sublabel: `${SITE_STATS.arcs} arc, ${SITE_STATS.episodes} filler'sız bölüm`, href: '/arcs', icon: Compass },
+  { kind: 'page', label: 'Şeytan Meyveleri', sublabel: `${SITE_STATS.devilFruits} meyve ve güçleri`, href: '/devil-fruits', icon: Cherry },
+  { kind: 'page', label: 'Dünya Haritası', sublabel: `${SITE_STATS.locations} lokasyon`, href: '/world', icon: Map },
   { kind: 'page', label: 'Haki Rehberi', sublabel: '3 Haki türü detayı', href: '/haki', icon: Shield },
   { kind: 'page', label: 'Güç Sıralaması', sublabel: 'Karakter stat leaderboard', href: '/power', icon: Swords },
   { kind: 'page', label: 'Teknikler', sublabel: 'Haki, meyve ve özel saldırılar', href: '/techniques', icon: Zap },
   { kind: 'page', label: 'Karşılaştır', sublabel: 'İki karakteri yan yana kıyasla', href: '/vs', icon: Swords },
   { kind: 'page', label: 'Ödül Sıralaması', sublabel: 'Bounty leaderboard', href: '/bounties', icon: Trophy },
   { kind: 'page', label: 'Zaman Çizelgesi', sublabel: 'Kronolojik olaylar', href: '/timeline', icon: Clock },
-  { kind: 'page', label: 'Mürettebatlar', sublabel: '12 korsan mürettebatı', href: '/crews', icon: Anchor },
-  { kind: 'page', label: 'Efsanevi Savaşlar', sublabel: '12 ikonik dövüş', href: '/battles', icon: BookOpen },
+  { kind: 'page', label: 'Mürettebatlar', sublabel: `${SITE_STATS.crews} korsan mürettebatı`, href: '/crews', icon: Anchor },
+  { kind: 'page', label: 'Efsanevi Savaşlar', sublabel: `${SITE_STATS.battles} ikonik dövüş`, href: '/battles', icon: BookOpen },
   { kind: 'page', label: 'İzleme Rehberi', sublabel: 'Nereden başla?', href: '/guide', icon: Compass },
 ]
 
