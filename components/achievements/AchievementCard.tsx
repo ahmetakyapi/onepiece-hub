@@ -1,5 +1,6 @@
 'use client'
 
+import { memo } from 'react'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { TIER_CONFIG, type Achievement } from '@/lib/constants/achievements'
@@ -11,7 +12,9 @@ interface AchievementCardProps {
   index?: number
 }
 
-export default function AchievementCard({ achievement, unlocked, index = 0 }: AchievementCardProps) {
+/* memo: 16 elemanlı grid — filtre/sekme değişiminde tüm kartlar yeniden
+   render oluyordu. CharacterCard ve ArcCard zaten memo'lu, bu atlanmıştı. */
+function AchievementCard({ achievement, unlocked, index = 0 }: AchievementCardProps) {
   const tier = TIER_CONFIG[achievement.tier]
 
   return (
@@ -62,3 +65,5 @@ export default function AchievementCard({ achievement, unlocked, index = 0 }: Ac
     </motion.div>
   )
 }
+
+export default memo(AchievementCard)
