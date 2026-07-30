@@ -112,6 +112,7 @@ export default function QuizHubPage() {
                               alt={arc.name}
                               fill
                               className="object-cover group-hover:scale-105 transition-transform duration-500"
+                              sizes="(min-width: 1024px) 22rem, (min-width: 640px) 50vw, 100vw"
                             />
                           ) : (
                             <div className="w-full h-full bg-ocean-elevated" />

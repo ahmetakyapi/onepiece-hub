@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
 import {
   ArrowLeft, BrainCircuit, CheckCircle,
   XCircle, Trophy, RotateCcw, Zap,
@@ -20,8 +19,14 @@ import { getArcBySlug } from '@/lib/constants/arcs'
 import { EASE } from '@/lib/variants'
 import { SFX, isSoundEnabled, setSoundEnabled } from '@/lib/audio'
 
-export default function QuizPage() {
-  const { arcSlug } = useParams<{ arcSlug: string }>()
+/**
+ * Quiz oynatıcı.
+ *
+ * `arcSlug` prop olarak gelir (eskiden `useParams`'tan okunuyordu) — böylece
+ * route bir server component olabiliyor ve 32 quiz sayfası build-time'da
+ * statik üretiliyor.
+ */
+export default function QuizClient({ arcSlug }: { arcSlug: string }) {
   const quiz = getQuizByArcSlug(arcSlug)
   const arc = getArcBySlug(arcSlug)
 
