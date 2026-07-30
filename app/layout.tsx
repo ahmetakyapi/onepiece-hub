@@ -3,6 +3,7 @@ import { Manrope, IBM_Plex_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { AuthProvider } from '@/hooks/useAuth'
 import { ClientLayout } from '@/components/layout/ClientLayout'
+import { SITE_STATS } from '@/lib/constants/stats'
 import '@/lib/env'
 import './globals.css'
 
@@ -28,8 +29,7 @@ export const metadata: Metadata = {
     default: 'One Piece Hub — Macera Başlasın',
     template: '%s | One Piece Hub',
   },
-  description:
-    'One Piece evrenini keşfet. Arc bazlı filler\'sız bölümler, 65+ karakter ansiklopedisi, izleme takibi, quiz ve daha fazlası.',
+  description: `One Piece evrenini keşfet. ${SITE_STATS.arcs} arc'ta ${SITE_STATS.episodes} filler'sız bölüm, ${SITE_STATS.characters} karakterlik ansiklopedi, izleme takibi, quiz ve daha fazlası.`,
   keywords: ['One Piece', 'anime', 'manga', 'karakter', 'arc', 'filler', 'izleme rehberi', 'OnePaceTR', 'wiki'],
   authors: [{ name: 'One Piece Hub' }],
   openGraph: {

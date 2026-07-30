@@ -2,14 +2,16 @@
 
 import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { Search, Compass, Anchor, Film } from 'lucide-react'
+import { Search, Compass, Anchor, Film, Clock } from 'lucide-react'
 import { SAGAS } from '@/lib/constants/sagas'
 import { ARCS, getArcsBySaga } from '@/lib/constants/arcs'
 import ArcCard from '@/components/arcs/ArcCard'
 import PageHero from '@/components/wiki/PageHero'
 import WaveSeparator from '@/components/ui/WaveSeparator'
 import EmptyState from '@/components/ui/EmptyState'
+import ResumeBar from '@/components/watch/ResumeBar'
 import { EASE } from '@/lib/variants'
+import { SITE_STATS, formatRuntime } from '@/lib/constants/stats'
 
 const HERO_ORBS = [
   { color: 'rgba(30, 144, 255, 0.4)', size: 300, x: '70%', y: '10%', delay: 0 },
@@ -22,14 +24,18 @@ export default function ArcsPage() {
   const [search, setSearch] = useState('')
   const [activeSaga, setActiveSaga] = useState<string | null>(null)
 
-  const totalEpisodes = useMemo(() => ARCS.reduce((sum, arc) => sum + arc.episodes.length, 0), [])
-
-  const filteredArcs = ARCS.filter((arc) => {
-    const matchesSearch = arc.name.toLowerCase().includes(search.toLowerCase()) ||
-      arc.summary.toLowerCase().includes(search.toLowerCase())
-    const matchesSaga = !activeSaga || arc.saga === activeSaga
-    return matchesSearch && matchesSaga
-  })
+  /* Filtreleme her render'da değil, sadece girdi değişince çalışır */
+  const filteredArcs = useMemo(() => {
+    const needle = search.trim().toLocaleLowerCase('tr')
+    return ARCS.filter((arc) => {
+      const matchesSearch =
+        !needle ||
+        arc.name.toLocaleLowerCase('tr').includes(needle) ||
+        arc.summary.toLocaleLowerCase('tr').includes(needle)
+      const matchesSaga = !activeSaga || arc.saga === activeSaga
+      return matchesSearch && matchesSaga
+    })
+  }, [search, activeSaga])
 
   return (
       <main className="relative min-h-screen pt-24">
@@ -50,7 +56,7 @@ export default function ArcsPage() {
               </div>
               <div className="flex items-center gap-2 rounded-xl border border-gold/20 bg-gold/10 px-4 py-2">
                 <Film className="h-4 w-4 text-gold" />
-                <span className="text-sm font-bold text-gold">{totalEpisodes}</span>
+                <span className="text-sm font-bold text-gold">{SITE_STATS.episodes}</span>
                 <span className="text-xs text-pirate-muted">Bölüm</span>
               </div>
               <div className="flex items-center gap-2 rounded-xl border border-luffy/20 bg-luffy/10 px-4 py-2">
@@ -58,8 +64,16 @@ export default function ArcsPage() {
                 <span className="text-sm font-bold text-luffy">{SAGAS.length}</span>
                 <span className="text-xs text-pirate-muted">Saga</span>
               </div>
+              <div className="flex items-center gap-2 rounded-xl border border-pirate-border/40 bg-ocean-surface/40 px-4 py-2">
+                <Clock className="h-4 w-4 text-sea-light" />
+                <span className="text-sm font-bold text-sea-light">{formatRuntime()}</span>
+                <span className="text-xs text-pirate-muted">toplam</span>
+              </div>
             </div>
           </PageHero>
+
+          {/* Kaldığın yerden devam et */}
+          <ResumeBar className="mb-8" />
 
           {/* Search + Filters */}
           <motion.div

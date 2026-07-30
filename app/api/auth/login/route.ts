@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { users } from '@/lib/schema'
 import { err, serverErr, parseJSON } from '@/lib/api'
-import { eq } from 'drizzle-orm'
+import { eq, sql } from 'drizzle-orm'
 import { verifyPassword, isLegacyHash, hashPassword } from '@/lib/password'
 import { createToken } from '@/lib/token'
+import { usernameKey } from '@/lib/validation'
 
 export async function POST(req: NextRequest) {
   try {
@@ -18,19 +19,19 @@ export async function POST(req: NextRequest) {
       return err('Kullanıcı adı ve şifre gerekli', 400)
     }
 
+    /* Kayıt büyük/küçük harf duyarsız benzersizlik kullanıyor — giriş de
+       aynı şekilde eşleşmeli, yoksa "Ahmet" ile kaydolan "ahmet" ile giremez. */
     const [user] = await db
       .select()
       .from(users)
-      .where(eq(users.username, username))
+      .where(sql`lower(${users.username}) = ${usernameKey(username)}`)
       .limit(1)
 
-    if (!user) {
-      return err('Kullanıcı bulunamadı', 401)
-    }
-
-    const valid = await verifyPassword(password, user.password)
-    if (!valid) {
-      return err('Şifre hatalı', 401)
+    /* Kullanıcı yok ve şifre yanlış durumları aynı mesajı döner — aksi halde
+       hangi kullanıcı adlarının kayıtlı olduğu tek tek sınanabiliyordu. */
+    const valid = user ? await verifyPassword(password, user.password) : false
+    if (!user || !valid) {
+      return err('Kullanıcı adı veya şifre hatalı', 401)
     }
 
     // Eski SHA-256 hash'i bcrypt'e otomatik migrate et

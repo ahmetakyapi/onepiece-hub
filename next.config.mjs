@@ -8,7 +8,10 @@ const nextConfig = {
       { protocol: 'https', hostname: 'i.imgur.com' },
       { protocol: 'https', hostname: 'cdn.myanimelist.net' },
     ],
-    deviceSizes: [640, 750, 828, 1080, 1200],
+    /* 1920/2048 şart: /hero.webp ve arc kapakları `sizes="100vw"` ile
+       full-bleed kullanılıyor. Üst sınır 1200 iken 1440p+ ve retina
+       ekranlarda görsel yukarı ölçeklenip bulanıklaşıyordu. */
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
     imageSizes: [16, 32, 48, 64, 96, 128, 256],
   },
   compress: true,

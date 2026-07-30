@@ -9,6 +9,7 @@ import {
   CheckCircle2, BookOpen, MapPin
 } from 'lucide-react'
 import Link from 'next/link'
+import { SITE_STATS } from '@/lib/constants/stats'
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
@@ -588,9 +589,9 @@ export default function GuidePage() {
                     {/* Stats row */}
                     <div className="grid grid-cols-3 gap-2">
                       {[
-                        { value: '10', label: 'Saga', color: '#f4a300' },
-                        { value: '32', label: 'Arc', color: '#1e90ff' },
-                        { value: '580+', label: 'Bölüm', color: '#e74c3c' },
+                        { value: String(SITE_STATS.sagas), label: 'Saga', color: '#f4a300' },
+                        { value: String(SITE_STATS.arcs), label: 'Arc', color: '#1e90ff' },
+                        { value: String(SITE_STATS.episodes), label: 'Bölüm', color: '#e74c3c' },
                       ].map((stat) => (
                         <div
                           key={stat.label}

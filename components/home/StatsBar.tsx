@@ -3,14 +3,16 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef, useEffect, useState } from 'react'
 import { Compass, Film, Users, Clock } from 'lucide-react'
+import { SITE_STATS } from '@/lib/constants/stats'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
+/* Sayılar veriden türetilir — bkz. lib/constants/stats.ts */
 const STATS = [
-  { label: 'Arc', value: 36, suffix: '', icon: Compass, color: '#f4a300' },
-  { label: 'Bölüm', value: 463, suffix: '', icon: Film, color: '#1e90ff' },
-  { label: 'Karakter', value: 65, suffix: '', icon: Users, color: '#f4a300' },
-  { label: 'Saat İçerik', value: 189, suffix: '+', icon: Clock, color: '#1e90ff' },
+  { label: 'Arc', value: SITE_STATS.arcs, suffix: '', icon: Compass, color: '#f4a300' },
+  { label: 'Bölüm', value: SITE_STATS.episodes, suffix: '', icon: Film, color: '#1e90ff' },
+  { label: 'Karakter', value: SITE_STATS.characters, suffix: '', icon: Users, color: '#f4a300' },
+  { label: 'Saat İçerik', value: SITE_STATS.runtimeHours, suffix: '', icon: Clock, color: '#1e90ff' },
 ] as const
 
 function AnimatedNumber({ value, suffix, inView }: { value: number; suffix: string; inView: boolean }) {

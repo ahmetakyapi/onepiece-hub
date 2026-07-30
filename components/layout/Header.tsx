@@ -85,7 +85,12 @@ export default function Header() {
           }}
         />
 
-        <div className="relative mx-auto flex h-24 max-w-7xl items-center justify-between px-6 sm:h-28">
+        {/* Kaydırınca küçülür — üstte ferah, okurken yer açar */}
+        <div
+          className={`relative mx-auto flex max-w-7xl items-center justify-between px-6 transition-[height] duration-500 ease-expo-out ${
+            scrolled ? 'h-16 sm:h-[4.5rem]' : 'h-24 sm:h-28'
+          }`}
+        >
           {/* Logo */}
           <Link href="/" className="relative flex items-center gap-2 group">
             <Image
@@ -93,7 +98,9 @@ export default function Header() {
               alt="One Piece Hub"
               width={180}
               height={72}
-              className="h-20 w-auto drop-shadow-lg transition-all duration-500 ease-expo-out group-hover:drop-shadow-[0_0_20px_rgba(244,163,0,0.25)] sm:h-24"
+              className={`w-auto drop-shadow-lg transition-all duration-500 ease-expo-out group-hover:drop-shadow-[0_0_20px_rgba(244,163,0,0.25)] ${
+                scrolled ? 'h-12 sm:h-14' : 'h-20 sm:h-24'
+              }`}
               priority
             />
           </Link>
@@ -152,7 +159,7 @@ export default function Header() {
                           Ansiklopedi
                         </span>
                         <span className="rounded-full bg-gold/10 px-2 py-0.5 text-[9px] font-bold text-gold">
-                          7 bölüm
+                          {WIKI_LINKS.length} bölüm
                         </span>
                       </div>
 
@@ -293,7 +300,9 @@ export default function Header() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -16, scale: 0.98 }}
               transition={{ duration: 0.3, ease: EASE }}
-              className="glass-elevated fixed inset-x-4 top-20 z-40 max-h-[75vh] overflow-y-auto rounded-2xl p-3 md:hidden scrollbar-thin"
+              className={`glass-elevated fixed inset-x-4 z-40 max-h-[75vh] overflow-y-auto rounded-2xl p-3 md:hidden scrollbar-thin ${
+                scrolled ? 'top-[4.5rem]' : 'top-[6.5rem]'
+              }`}
             >
               {/* Main links */}
               <div className="mb-2 space-y-0.5">

@@ -4,9 +4,37 @@ import { Redis } from '@upstash/redis/cloudflare'
 
 const PROTECTED_PAGES = ['/profile']
 
-const RATE_LIMIT_PATHS = ['/api/auth/login', '/api/auth/register']
-const RATE_LIMIT_WINDOW = 60 // seconds
-const RATE_LIMIT_MAX = 10 // requests per minute
+const RATE_LIMIT_WINDOW = 60 // saniye
+
+/**
+ * Yol öneki → dakikadaki azami istek.
+ *
+ * Auth en sıkı (brute-force yüzeyi). Yorumlar spam'e açık olduğu için düşük.
+ * İzleme/favori kayıtları normal kullanımda hızlı tetiklenebildiği için daha
+ * geniş — amaç kullanıcıyı engellemek değil, otomatik kötüye kullanımı kesmek.
+ *
+ * En uzun önek kazanır, bkz. `resolveRateLimit`.
+ */
+const RATE_LIMITS: { prefix: string; max: number }[] = [
+  { prefix: '/api/auth/login', max: 10 },
+  { prefix: '/api/auth/register', max: 5 },
+  { prefix: '/api/comments', max: 20 },
+  { prefix: '/api/quiz-scores', max: 30 },
+  { prefix: '/api/favorites', max: 60 },
+  { prefix: '/api/progress/sync', max: 10 },
+  { prefix: '/api/progress', max: 120 },
+]
+
+/** Yola uyan en spesifik (en uzun önekli) limiti bul */
+function resolveRateLimit(pathname: string): { prefix: string; max: number } | null {
+  let match: { prefix: string; max: number } | null = null
+  for (const rule of RATE_LIMITS) {
+    if (pathname.startsWith(rule.prefix)) {
+      if (!match || rule.prefix.length > match.prefix.length) match = rule
+    }
+  }
+  return match
+}
 
 // Upstash Redis — fallback to in-memory if no env vars (dev mode)
 let redis: Redis | null = null
@@ -21,7 +49,7 @@ if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) 
 // Fallback in-memory store for development
 const inMemoryStore = new Map<string, { count: number; resetAt: number }>()
 
-async function checkRateLimit(ip: string, path: string): Promise<boolean> {
+async function checkRateLimit(ip: string, path: string, max: number): Promise<boolean> {
   const key = `ratelimit:${ip}:${path}`
 
   try {
@@ -31,7 +59,7 @@ async function checkRateLimit(ip: string, path: string): Promise<boolean> {
       if (count === 1) {
         await redis.expire(key, RATE_LIMIT_WINDOW)
       }
-      return count > RATE_LIMIT_MAX
+      return count > max
     }
   } catch (e) {
     console.error('Redis error, falling back to in-memory:', e)
@@ -47,20 +75,26 @@ async function checkRateLimit(ip: string, path: string): Promise<boolean> {
   }
 
   entry.count++
-  return entry.count > RATE_LIMIT_MAX
+  return entry.count > max
 }
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
-  // Rate limiting — auth endpoint'leri için
-  if (RATE_LIMIT_PATHS.some((p) => pathname.startsWith(p))) {
+  /* Rate limiting — yalnızca durum değiştiren istekler.
+     GET'ler okuma amaçlı ve zaten kullanıcıya kapsamlı; onları limitlemek
+     normal gezinmeyi bozar. */
+  const rule = req.method !== 'GET' ? resolveRateLimit(pathname) : null
+  if (rule) {
     const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
-    const isLimited = await checkRateLimit(ip, pathname)
+    const isLimited = await checkRateLimit(ip, rule.prefix, rule.max)
     if (isLimited) {
       return NextResponse.json(
         { error: 'Çok fazla istek. Lütfen bir dakika bekleyin.' },
-        { status: 429 },
+        {
+          status: 429,
+          headers: { 'Retry-After': String(RATE_LIMIT_WINDOW) },
+        },
       )
     }
   }
@@ -79,5 +113,14 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/profile/:path*', '/api/auth/:path*'],
+  /* RATE_LIMITS'e yeni bir /api yolu eklediğinde buraya da eklemeyi unutma —
+     matcher dışındaki yollarda middleware hiç çalışmaz. */
+  matcher: [
+    '/profile/:path*',
+    '/api/auth/:path*',
+    '/api/comments/:path*',
+    '/api/favorites/:path*',
+    '/api/progress/:path*',
+    '/api/quiz-scores/:path*',
+  ],
 }

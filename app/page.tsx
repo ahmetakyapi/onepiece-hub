@@ -10,6 +10,7 @@ import dynamic from 'next/dynamic'
 import WaveSeparator from '@/components/ui/WaveSeparator'
 import MangaImpactDivider from '@/components/ui/MangaImpactDivider'
 import { EASE } from '@/lib/variants'
+import { SITE_STATS } from '@/lib/constants/stats'
 
 const ParticleField = dynamic(() => import('@/components/home/ParticleField'), { ssr: false })
 const WaveBackground = dynamic(() => import('@/components/home/WaveBackground'), { ssr: false })
@@ -19,6 +20,9 @@ const ArcTimeline = dynamic(() => import('@/components/home/ArcTimeline'), { ssr
 const JourneyScroll = dynamic(() => import('@/components/home/JourneyScroll'), { ssr: false })
 const FeaturedArcSpotlight = dynamic(() => import('@/components/home/FeaturedArcSpotlight'), { ssr: false })
 const VoidCenturySection = dynamic(() => import('@/components/home/VoidCenturySection'), { ssr: false })
+/* localStorage okur → ssr:false zorunlu */
+const ResumeBar = dynamic(() => import('@/components/watch/ResumeBar'), { ssr: false })
+const SeriesStatus = dynamic(() => import('@/components/series/SeriesStatus'), { ssr: false })
 
 /* ─── Hero Text Animations ────────────────────────────────────────────── */
 const wordVariants = {
@@ -96,16 +100,17 @@ const TOOLS = [
 ] as const
 
 /* ─── Wiki Section Data ───────────────────────────────────────────────── */
+/* `count` değerleri SITE_STATS'ten türetilir — elle sayı yazılmaz */
 const WIKI_ITEMS = [
-  { icon: Cherry, label: 'Şeytan Meyveleri', href: '/devil-fruits', count: '43+', desc: 'Tüm meyveler', color: 'text-purple-400', bg: 'from-purple-500/15 to-purple-500/5', borderHover: 'hover:border-purple-500/25' },
+  { icon: Cherry, label: 'Şeytan Meyveleri', href: '/devil-fruits', count: String(SITE_STATS.devilFruits), desc: 'Tüm meyveler', color: 'text-purple-400', bg: 'from-purple-500/15 to-purple-500/5', borderHover: 'hover:border-purple-500/25' },
   { icon: Shield, label: 'Haki Rehberi', href: '/haki', count: '3', desc: 'Haki türleri', color: 'text-gold', bg: 'from-gold/15 to-gold/5', borderHover: 'hover:border-gold/25' },
-  { icon: Globe, label: 'Dünya Haritası', href: '/world', count: '25+', desc: 'Lokasyonlar', color: 'text-sea', bg: 'from-sea/15 to-sea/5', borderHover: 'hover:border-sea/25' },
-  { icon: Anchor, label: 'Organizasyonlar', href: '/crews', count: '12', desc: 'Mürettebatlar', color: 'text-emerald-400', bg: 'from-emerald-400/15 to-emerald-400/5', borderHover: 'hover:border-emerald-400/25' },
-  { icon: Swords, label: 'Efsanevi Savaşlar', href: '/battles', count: '12', desc: 'İkonik dövüşler', color: 'text-luffy', bg: 'from-luffy/15 to-luffy/5', borderHover: 'hover:border-luffy/25' },
-  { icon: Trophy, label: 'Ödül Sıralaması', href: '/bounties', count: '30+', desc: 'Bounty listesi', color: 'text-gold-bright', bg: 'from-gold-bright/15 to-gold-bright/5', borderHover: 'hover:border-gold-bright/25' },
+  { icon: Globe, label: 'Dünya Haritası', href: '/world', count: String(SITE_STATS.locations), desc: 'Lokasyonlar', color: 'text-sea', bg: 'from-sea/15 to-sea/5', borderHover: 'hover:border-sea/25' },
+  { icon: Anchor, label: 'Organizasyonlar', href: '/crews', count: String(SITE_STATS.crews), desc: 'Mürettebatlar', color: 'text-emerald-400', bg: 'from-emerald-400/15 to-emerald-400/5', borderHover: 'hover:border-emerald-400/25' },
+  { icon: Swords, label: 'Efsanevi Savaşlar', href: '/battles', count: String(SITE_STATS.battles), desc: 'İkonik dövüşler', color: 'text-luffy', bg: 'from-luffy/15 to-luffy/5', borderHover: 'hover:border-luffy/25' },
+  { icon: Trophy, label: 'Ödül Sıralaması', href: '/bounties', count: String(SITE_STATS.bounties), desc: 'Bounty listesi', color: 'text-gold-bright', bg: 'from-gold-bright/15 to-gold-bright/5', borderHover: 'hover:border-gold-bright/25' },
   { icon: Clock, label: 'Zaman Çizelgesi', href: '/timeline', count: '25+', desc: 'Kronolojik olaylar', color: 'text-cyan-400', bg: 'from-cyan-400/15 to-cyan-400/5', borderHover: 'hover:border-cyan-400/25' },
   { icon: Map, label: 'İzleme Rehberi', href: '/guide', count: 'Yeni', desc: 'Nereden başla?', color: 'text-emerald-400', bg: 'from-emerald-400/15 to-emerald-400/5', borderHover: 'hover:border-emerald-400/25' },
-  { icon: Compass, label: 'Tüm Arc\'lar', href: '/arcs', count: '32', desc: 'Arc rehberi', color: 'text-sea-light', bg: 'from-sea-light/15 to-sea-light/5', borderHover: 'hover:border-sea-light/25' },
+  { icon: Compass, label: 'Tüm Arc\'lar', href: '/arcs', count: String(SITE_STATS.arcs), desc: 'Arc rehberi', color: 'text-sea-light', bg: 'from-sea-light/15 to-sea-light/5', borderHover: 'hover:border-sea-light/25' },
   { icon: Skull, label: 'Wanted Poster', href: '/wanted-poster', count: 'Oluştur', desc: 'Kendi ödülünü tasarla', color: 'text-gold', bg: 'from-gold/15 to-gold/5', borderHover: 'hover:border-gold/30' },
 ] as const
 
@@ -295,6 +300,14 @@ export default function Home() {
         <section className="relative z-10 -mt-4 px-6 pt-2 pb-12 sm:mt-0 sm:pt-10 sm:pb-20">
           <StatsBar />
         </section>
+
+        {/* ─── Kaldığın yerden devam et ──────────────────────────── */}
+        <section className="relative z-10 mx-auto -mt-6 mb-6 max-w-3xl px-6 sm:-mt-10 sm:mb-10">
+          <ResumeBar compact />
+        </section>
+
+        {/* ─── Seri durumu — manga / anime / One Pace ────────────── */}
+        <SeriesStatus />
 
         <RouteConcierge />
 

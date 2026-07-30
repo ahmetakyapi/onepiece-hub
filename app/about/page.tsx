@@ -12,6 +12,7 @@ import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
 import { ARCS } from '@/lib/constants/arcs'
 import { CHARACTERS } from '@/lib/constants/characters'
 import { DEVIL_FRUITS } from '@/lib/constants/devil-fruits'
+import { SITE_STATS } from '@/lib/constants/stats'
 import SpeechBubble from '@/components/ui/SpeechBubble'
 import AmbientBackground from '@/components/ui/AmbientBackground'
 import { MangaSFX, MangaDivider } from '@/components/ui/MangaPanel'
@@ -22,7 +23,7 @@ const FEATURES = [
   {
     icon: Film,
     title: 'Arc Bazlı İzleme',
-    description: 'One Pace düzeniyle filler bölümler çıkarılmış, saf hikâye deneyimi. 36 arc, 463 bölüm — derli toplu.',
+    description: `One Pace düzeniyle filler bölümler çıkarılmış, saf hikâye deneyimi. ${SITE_STATS.arcs} arc, ${SITE_STATS.episodes} bölüm — derli toplu.`,
     color: 'text-sea',
     bg: 'bg-sea/10',
     borderColor: 'border-sea/20',
@@ -40,7 +41,7 @@ const FEATURES = [
   {
     icon: Users,
     title: 'Karakter Ansiklopedisi',
-    description: 'Hasır Şapkalardan Dört İmparator\'lara, Devrimcilerden Deniz Kuvvetleri\'ne 60+ karakterin detaylı profili.',
+    description: `Hasır Şapkalardan Dört İmparator'lara, Devrimcilerden Deniz Kuvvetleri'ne ${SITE_STATS.characters} karakterin detaylı profili.`,
     color: 'text-luffy',
     bg: 'bg-luffy/10',
     borderColor: 'border-luffy/20',
@@ -49,7 +50,7 @@ const FEATURES = [
   {
     icon: BrainCircuit,
     title: 'Şeytan Meyveleri & Haki',
-    description: '43+ Şeytan Meyvesi ansiklopedisi ve 3 Haki türünün detaylı rehberi. Güçler, kullanıcılar ve uyanışlar.',
+    description: `${SITE_STATS.devilFruits} Şeytan Meyvesi ansiklopedisi ve 3 Haki türünün detaylı rehberi. Güçler, kullanıcılar ve uyanışlar.`,
     color: 'text-emerald-400',
     bg: 'bg-emerald-400/10',
     borderColor: 'border-emerald-400/20',
@@ -58,7 +59,7 @@ const FEATURES = [
   {
     icon: MessageCircle,
     title: 'Dünya Haritası & Lore',
-    description: '25+ lokasyon, 12 organizasyon, efsanevi savaşlar ve zaman çizelgesi ile eksiksiz One Piece ansiklopedisi.',
+    description: `${SITE_STATS.locations} lokasyon, ${SITE_STATS.crews} organizasyon, efsanevi savaşlar ve zaman çizelgesi ile eksiksiz One Piece ansiklopedisi.`,
     color: 'text-gold-bright',
     bg: 'bg-gold-bright/10',
     borderColor: 'border-gold-bright/20',
@@ -67,7 +68,7 @@ const FEATURES = [
   {
     icon: Swords,
     title: 'Ödül Sıralaması & Savaşlar',
-    description: '30+ karakterin ödül sıralaması ve 12 efsanevi savaşın detaylı analizi. Güç seviyeleri ve kilit anlar.',
+    description: `${SITE_STATS.bounties} karakterin ödül sıralaması ve ${SITE_STATS.battles} efsanevi savaşın detaylı analizi. Güç seviyeleri ve kilit anlar.`,
     color: 'text-sea-light',
     bg: 'bg-sea-light/10',
     borderColor: 'border-sea-light/20',
@@ -88,7 +89,7 @@ const STEPS = [
   {
     step: '01',
     title: 'Arc Seç',
-    desc: 'East Blue\'dan Egghead\'e kadar 36 arc arasından birini seç. Her arcın detaylı özeti ve bölüm listesi seni bekliyor.',
+    desc: `East Blue'dan Egghead'e kadar ${SITE_STATS.arcs} arc arasından birini seç. Her arcın detaylı özeti ve bölüm listesi seni bekliyor.`,
     icon: Map,
     color: 'text-gold',
     hex: '#f4a300',

@@ -3,17 +3,10 @@ import { db } from '@/lib/db'
 import { watchProgress } from '@/lib/schema'
 import { ok, err, serverErr, parseJSON } from '@/lib/api'
 import { verifyToken } from '@/lib/token'
+import { resolveArcSlug } from '@/lib/validation'
 import { eq } from 'drizzle-orm'
-import { ARCS } from '@/lib/constants/arcs'
 
 type SyncItem = { episodeSlug: string; arcSlug: string }
-
-function resolveArcSlug(episodeSlug: string): string | null {
-  for (const arc of ARCS) {
-    if (arc.episodes.some((ep) => ep.slug === episodeSlug)) return arc.slug
-  }
-  return null
-}
 
 // POST /api/progress/sync — localStorage verilerini DB'ye aktar (login sonrası)
 export async function POST(req: NextRequest) {

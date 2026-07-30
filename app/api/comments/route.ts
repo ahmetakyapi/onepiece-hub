@@ -4,9 +4,11 @@ import { stripHTML } from '@/lib/sanitize'
 import { db } from '@/lib/db'
 import { comments } from '@/lib/schema'
 import { verifyToken } from '@/lib/token'
+import { isValidTarget } from '@/lib/validation'
 import { eq, and, desc } from 'drizzle-orm'
 
-const VALID_TARGET_TYPES = ['arc', 'character', 'devil-fruit', 'crew', 'episode', 'battle']
+const COMMENT_MIN_LENGTH = 2
+const COMMENT_MAX_LENGTH = 500
 
 // GET /api/comments?targetType=arc&targetSlug=xxx
 export async function GET(req: NextRequest) {
@@ -49,16 +51,26 @@ export async function POST(req: NextRequest) {
     if (!body) return err('Geçersiz JSON', 400)
     const { targetType, targetSlug, content } = body
 
-    if (!targetType || !targetSlug || !content) {
+    if (!targetType || !targetSlug || typeof content !== 'string') {
       return err('Tüm alanlar gerekli', 400)
     }
 
-    if (!VALID_TARGET_TYPES.includes(targetType)) {
-      return err('Geçersiz targetType', 400)
+    /* Hedef gerçek bir içeriğe işaret etmeli — yalnızca tip değil, slug da
+       doğrulanır. Aksi halde uydurma slug'larla DB şişirilebiliyordu. */
+    if (!isValidTarget(targetType, targetSlug)) {
+      return err('Geçersiz yorum hedefi', 400)
     }
 
-    if (content.length > 500) {
-      return err('Yorum en fazla 500 karakter olabilir', 400)
+    /* HTML'i temizledikten SONRA ölç: "   " ya da "<b></b>" gibi girdiler
+       eski kontrolü geçip DB'ye boş yorum olarak yazılıyordu. */
+    const cleaned = stripHTML(content).trim()
+
+    if (cleaned.length < COMMENT_MIN_LENGTH) {
+      return err(`Yorum en az ${COMMENT_MIN_LENGTH} karakter olmalı`, 400)
+    }
+
+    if (cleaned.length > COMMENT_MAX_LENGTH) {
+      return err(`Yorum en fazla ${COMMENT_MAX_LENGTH} karakter olabilir`, 400)
     }
 
     const [newComment] = await db
@@ -68,7 +80,7 @@ export async function POST(req: NextRequest) {
         username: user.username,
         targetType,
         targetSlug,
-        content: stripHTML(content.trim()),
+        content: cleaned,
       })
       .returning()
 

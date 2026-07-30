@@ -3,6 +3,7 @@ import { ok, err, serverErr, parseJSON } from '@/lib/api'
 import { db } from '@/lib/db'
 import { favorites } from '@/lib/schema'
 import { verifyToken } from '@/lib/token'
+import { FAVORITE_TARGET_TYPES, isValidTarget, type FavoriteTargetType } from '@/lib/validation'
 import { eq, and } from 'drizzle-orm'
 
 // GET /api/favorites — kullanıcının tüm favorilerini getir
@@ -42,9 +43,14 @@ export async function POST(req: NextRequest) {
       return err('targetType ve targetSlug gerekli', 400)
     }
 
-    const validTypes = ['arc', 'character', 'devil-fruit', 'crew']
-    if (!validTypes.includes(targetType)) {
+    /* Hem tip hem slug doğrulanır — slug kontrolü olmadan uydurma
+       hedeflerle sınırsız favori satırı yazılabiliyordu. */
+    if (!FAVORITE_TARGET_TYPES.includes(targetType as FavoriteTargetType)) {
       return err('Geçersiz targetType', 400)
+    }
+
+    if (!isValidTarget(targetType, targetSlug)) {
+      return err('Böyle bir içerik yok', 400)
     }
 
     // Mevcut favori var mı kontrol et

@@ -9,6 +9,8 @@ Next.js 14 App Router · TypeScript strict · Tailwind 3.4 dark-only · Framer M
 ## Mimari
 
 - **Statik veri**: arc, karakter, meyve, savaş, quiz, lokasyon, bounty, crew — hepsi `lib/constants/*` TS dosyalarında. **DB'ye yazılmaz.**
+- **Sayılar**: `lib/constants/stats.ts` → `SITE_STATS` **tek kaynak**. Arc/karakter/meyve sayısı UI'da **elle yazılmaz**, hep buradan türetilir (`formatRuntime()`, `getArcRuntimeSeconds()` de burada). Mevcut değerler: 10 saga · 36 arc · 463 bölüm · 66 karakter · 43 meyve · 22 savaş · 32 lokasyon · 12 crew · 38 bounty · ~212 saat.
+- **Seri güncelliği**: `lib/constants/series-status.ts` → manga/anime/One Pace nerede. **Elle güncellenir**, `STATUS_AS_OF` tarihi UI'da "son güncelleme" olarak görünür. `components/series/SeriesStatus.tsx` ana sayfada render eder.
 - **Dinamik veri (DB)**: sadece kullanıcı etkileşimi — `users`, `watchProgress`, `quizScores`, `comments`, `favorites`. Schema: `lib/schema.ts`.
 - **İzleme takibi**: Giriş yapmış → `/api/progress` (DB). Anonim → localStorage (`onepiece-watched`). Login/register'da otomatik sync (`hooks/useAuth.tsx`).
 - **Auth**: Custom JWT (`lib/token.ts` + `lib/password.ts`), httpOnly cookie, 30d TTL. next-auth kullanılmaz.
@@ -26,6 +28,8 @@ Dark-only "Okyanus Derinliği". Renk tokenları `app/globals.css` + `tailwind.co
 
 **Tailwind sınıflarını tercih et** — CSS variables sadece `globals.css` içinde kullanılmalı.
 
+**Tipografi tabanı** (`globals.css`, global — ayrıca class eklemene gerek yok): `h1-h4` → `text-wrap: balance` + kademeli negatif letter-spacing; `p`/`li` → `text-wrap: pretty`; `html` → `scroll-padding-top: 7.5rem` (sabit header in-page anchor'ları örtmesin).
+
 ## Framer Motion
 
 Standart varyantlar `lib/variants.ts`: `fadeIn`, `fadeUp`, `fadeUpLarge`, `fadeLeft`, `fadeRight`, `scaleIn`, `slideDown`, `modalBackdrop`, `modalPanel`, `staggerContainer(stagger)`. Sabit ease: `EASE = [0.22, 1, 0.36, 1]`.
@@ -35,16 +39,29 @@ Standart varyantlar `lib/variants.ts`: `fadeIn`, `fadeUp`, `fadeUpLarge`, `fadeL
 ### 1. Global Episode Numarası ARCS Sırasına Bağlı
 `getGlobalEpisodeNumber(arcSlug, episodeNumber)` `ARCS` dizisindeki arc sıralamasına göre kümülatif sayar. **Arc eklerken/sıra değiştirirken dikkat** — yanlış sıra tüm video embed'leri bozar.
 
-### 2. OnePaceTR iframe Zoom Offset
-`WatchPage` içinde iframe: `width: 200%, height: 255%, left: -55%, top: -38%`. OnePaceTR site yapısı değişirse bu değerler revize edilmeli. Aspect ratio: `4/3` (mobil), `16/11` (desktop). Fallback: `onError` → harici link butonu.
+### 2. Video Oynatıcı — Kırpma Geometrisi + Tek iframe Kuralı
+Bölümler OnePaceTR sayfası iframe'e gömülüp **video alanına kırpılarak** oynatılıyor (OnePaceTR bir SPA, API'si token korumalı → video elementine erişemiyoruz).
+
+- Geometri artık magic number değil: `lib/player-config.ts` → `DEFAULT_GEOMETRY` (`width 200%, height 255%, offsetX -55%, offsetY -38%`) + `STAGE_ASPECT_RATIO = '16 / 11'`.
+- **Oran değiştirmek kadrajı bozar** — iframe'in kendi layout viewport'u kutu oranına bağlı, OnePaceTR responsive yerleşimi değişiyor. Oranı değiştirirsen geometriyi yeniden kalibre et. Aynı oran inline/sinema/mini modların **hepsinde** kullanılır (eskiden sinema modu 16/9'du, kadraj farklıydı).
+- Kullanıcı UI'dan kalibre edebilir (`PlayerSettings` → localStorage) ve `full` embed moduna düşebilir → geometri bozulsa bile oynatıcı çalışır.
+- **`onError` cross-origin iframe'de tetiklenmez.** Hata tespiti `onLoad` + `PLAYER_TIMINGS.loadTimeoutMs` zaman aşımıyla yapılır.
+
+**⚠️ Tek iframe kuralı**: `VideoStage` **asla remount edilmemeli** — remount oynatmayı sıfırlar. inline/sinema/mini geçişi sadece saran div'in `className`'ini değiştirir. Ayrıca sahnenin **hiçbir ata elemanında `transform`/`filter`/`contain` olmamalı** (`position: fixed` için containing block oluşturur). Bu yüzden WatchPage'de oynatıcı kolonu Framer Motion ile sarılmaz.
+
+`components/watch/`: `WatchPage` (mod orkestrasyonu + kısayollar) · `VideoStage` (kalıcı iframe + yükleme/hata) · `EpisodeRail` (arama/filtre/memo) · `PlayerSettings` · `UpNextCard` · `ShortcutsDialog` · `ResumeBar`.
+
+Kısayollar `PLAYER_SHORTCUTS`'tan beslenir (hem handler hem yardım paneli): `→/N`, `←/P`, `F`, `T`, `W`, `U`, `R`, `Esc`, `?`.
+
+### 2b. Sıradaki Bölüm Sayacı Tahminidir
+Cross-origin iframe'de gerçek `ended`/`currentTime` okunamaz. `hooks/useEpisodeTimer.ts` duvar saati sayar, sekme gizliyken durur. Bu yüzden **otomatik geçiş varsayılan olarak kapalı** (`usePlayerPrefs.autoAdvance`).
 
 ### 3. Dynamic Import Zorunluluğu (SSR Patlar)
 Canvas/window erişimi yapan bileşenler **mutlaka** `dynamic(..., { ssr: false })` ile yüklenir:
 `ParticleField`, `WaveBackground`, `StatsBar`, `ArcTimeline`, `ScrollProgress`, `MobileBottomNav`, `PoneglyphOverlay`, `FeaturedArcSpotlight`, `JourneyScroll`.
 
 ### 4. KULLANMA Listesi
-- `components/CustomCursor.tsx` — generic AI pattern, kaldırıldı (dosya duruyor, import etme)
-- `hooks/useMagnetic.ts` — aynı sebep
+- `CustomCursor` / `useMagnetic` — generic AI pattern'dı, dosyaları da silindi. Geri ekleme.
 - `next-auth` — custom JWT tercih edildi
 - `pg` paketi — Neon serverless yerine kullanılmaz
 
@@ -80,6 +97,9 @@ Users tablosunda `email` kolonu yok → şifre sıfırlama özelliği eklenemez 
 
 ### 15. pixeldrainId Ölü Alan
 `types/Episode.pixeldrainId?` — eski video stratejisinden kalma, artık kullanılmıyor.
+
+### 15b. localStorage Anahtarları
+`onepiece-watched` (izleme, anonim) · `onepiece-player-prefs` (oynatıcı tercihleri + kalibrasyon) · `onepiece-last-watched` (ResumeBar) · crew affiliation · quiz ses flag'i. Hepsi cihaza özel, DB'ye yazılmaz. Yeni anahtar eklerken `lib/player-config.ts` → `PLAYER_STORAGE_KEYS` desenini izle.
 
 ### 16. Yeni Feature Performance Kuralları
 **SVG > Canvas > External lib** — custom SVG/div çizimi tercih edilir (SSR-safe, no extra bundle). Recharts/Chart.js kullanma.

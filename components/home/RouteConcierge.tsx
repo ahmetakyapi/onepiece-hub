@@ -13,6 +13,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { useRef } from 'react'
+import { SITE_STATS } from '@/lib/constants/stats'
 
 import { EASE } from '@/lib/variants'
 
@@ -68,8 +69,8 @@ const ROUTES = [
 ] as const
 
 const HIGHLIGHTS = [
-  { icon: Map, label: 'Düzenli akış', value: '463 bölüm' },
-  { icon: Swords, label: 'Karakter arşivi', value: '65+ profil' },
+  { icon: Map, label: 'Düzenli akış', value: `${SITE_STATS.episodes} bölüm` },
+  { icon: Swords, label: 'Karakter arşivi', value: `${SITE_STATS.characters} profil` },
   { icon: Sparkles, label: 'Seçilmiş rotalar', value: '4 başlangıç' },
 ] as const
 

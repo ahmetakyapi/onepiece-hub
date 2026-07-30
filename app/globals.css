@@ -45,6 +45,9 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  /* Sabit header (h-24/h-28) in-page anchor'ları örtmesin — #id linkleri ve
+     scrollIntoView bu kadar boşluk bırakır. */
+  scroll-padding-top: 7.5rem;
 }
 @media (prefers-reduced-motion: no-preference) {
   /* Smooth scroll only when user hasn't opted out AND is on a larger screen.
@@ -63,6 +66,25 @@ body {
   background: var(--bg-deep);
   color: var(--color-text);
   overflow-x: hidden;
+}
+
+/* ─── Tipografi ritmi ──────────────────────────────────────────────────────
+   Başlıklar büyüdükçe harf aralığı sıkışır (optik düzeltme) ve satır sonları
+   dengelenir — "tek kelime alt satırda kalmış" başlıklar kaybolur. */
+h1, h2, h3, h4 {
+  text-wrap: balance;
+}
+h1 { letter-spacing: -0.035em; line-height: 1.06; }
+h2 { letter-spacing: -0.028em; line-height: 1.14; }
+h3 { letter-spacing: -0.02em;  line-height: 1.22; }
+
+p, li {
+  text-wrap: pretty; /* tek kelimelik son satırları (orphan) engeller */
+}
+
+/* Rakamlar her yerde hizalı — bölüm sayıları, ödüller, istatistikler */
+time, kbd, .tabular-nums {
+  font-variant-numeric: tabular-nums;
 }
 
 /* Noise texture overlay on body — lightweight */
