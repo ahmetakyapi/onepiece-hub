@@ -1,9 +1,14 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
+import { BarChart3, ArrowRight } from 'lucide-react'
 import PowerLeaderboard from '@/components/power/PowerLeaderboard'
 
+/* /power → tier bazlı sıralama · /power-ranking → radar chart'lı stat analizi.
+   Başlıkları bilerek ayrı: aynı başlıkla iki sayfa SEO'da birbirini yiyordu. */
 export const metadata: Metadata = {
-  title: 'Güç Sıralaması',
-  description: 'One Piece karakterlerinin güç seviyelerini karşılaştır. Yonko, Amiral ve daha fazlası.',
+  title: 'Güç Sıralaması — Tier Listesi',
+  description:
+    'One Piece karakterlerinin tier bazlı güç sıralaması. Yonko, Komutan ve Supernova seviyeleri; stat bazında sırala.',
 }
 
 export default function PowerPage() {
@@ -28,6 +33,26 @@ export default function PowerPage() {
       <section className="relative px-6 py-16 sm:py-20">
         <div className="mx-auto max-w-4xl">
           <PowerLeaderboard />
+
+          {/* Detaylı stat analizine köprü — /power-ranking aksi halde
+              hiçbir yerden linkli olmayan bir orphan sayfaydı. */}
+          <Link
+            href="/power-ranking"
+            className="bento-card group mt-10 flex items-center gap-4 p-5 transition-colors hover:border-sea/25"
+          >
+            <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border border-sea/20 bg-sea/[0.08]">
+              <BarChart3 className="h-5 w-5 text-sea" />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-sm font-bold text-pirate-text transition-colors group-hover:text-sea">
+                Detaylı Stat Analizi
+              </span>
+              <span className="block text-xs text-pirate-muted">
+                Radar grafikleri ve karakter bazında altı stat kırılımı
+              </span>
+            </span>
+            <ArrowRight className="h-4 w-4 flex-shrink-0 text-sea transition-transform group-hover:translate-x-1" />
+          </Link>
         </div>
       </section>
     </main>

@@ -9,8 +9,12 @@ import { SAGAS } from '@/lib/constants/sagas'
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://onepiece-hub.vercel.app'
 
+  /* Yalnızca gerçekten var olan, indekslenebilir sayfalar.
+     `/login` ve `/profile` bilerek yok — biri auth duvarı, diğeri kişisel. */
   const staticPages = [
     '',
+    '/explore',
+    '/sagas',
     '/arcs',
     '/characters',
     '/devil-fruits',
@@ -18,19 +22,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/battles',
     '/bounties',
     '/haki',
+    '/techniques',
+    '/power',
+    '/power-ranking',
+    '/vs',
     '/timeline',
     '/world',
     '/guide',
     '/quiz',
-    '/search',
-    '/about',
     '/achievements',
-    '/power',
-    '/power-ranking',
-    '/sagas',
-    '/techniques',
-    '/vs',
     '/wanted-poster',
+    '/about',
   ]
 
   const staticEntries: MetadataRoute.Sitemap = staticPages.map((path) => ({
