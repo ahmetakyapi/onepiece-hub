@@ -3,6 +3,7 @@ import { ok, err, serverErr, parseJSON } from '@/lib/api'
 import { db } from '@/lib/db'
 import { quizScores } from '@/lib/schema'
 import { verifyToken } from '@/lib/token'
+import { getQuizQuestionCount } from '@/lib/validation'
 import { eq, and } from 'drizzle-orm'
 
 // GET /api/quiz-scores — kullanıcının tüm quiz skorlarını getir
@@ -42,8 +43,24 @@ export async function POST(req: NextRequest) {
       return err('arcSlug, score ve totalQ gerekli', 400)
     }
 
-    if (typeof score !== 'number' || typeof totalQ !== 'number' || score < 0 || score > totalQ) {
+    /* Quiz gerçekten var mı — ve kaç sorusu var? İstemcinin bildirdiği
+       totalQ'ya güvenmek "999999/999999" gibi uydurma skorlara izin
+       veriyordu. Doğru soru sayısı veriden okunur. */
+    const expectedTotal = getQuizQuestionCount(arcSlug)
+    if (expectedTotal === null) {
+      return err('Bu arc için quiz yok', 400)
+    }
+
+    if (typeof score !== 'number' || typeof totalQ !== 'number') {
       return err('Geçersiz skor değerleri', 400)
+    }
+
+    if (!Number.isInteger(score) || score < 0 || score > expectedTotal) {
+      return err('Geçersiz skor değerleri', 400)
+    }
+
+    if (totalQ !== expectedTotal) {
+      return err('Soru sayısı quiz ile uyuşmuyor', 400)
     }
 
     // Mevcut skor var mı kontrol et

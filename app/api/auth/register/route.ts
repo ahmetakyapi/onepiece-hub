@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { users } from '@/lib/schema'
 import { err, serverErr, parseJSON } from '@/lib/api'
-import { eq } from 'drizzle-orm'
+import { sql } from 'drizzle-orm'
 import { hashPassword } from '@/lib/password'
 import { createToken } from '@/lib/token'
+import { normalizeUsername, usernameKey, validateUsername } from '@/lib/validation'
 
 export async function POST(req: NextRequest) {
   try {
@@ -12,25 +13,28 @@ export async function POST(req: NextRequest) {
     if (!body) {
       return err('Geçersiz JSON', 400)
     }
-    const { username, password, name } = body
+    const { password, name } = body
 
-    if (!username || !password) {
+    if (!body.username || !password) {
       return err('Kullanıcı adı ve şifre gerekli', 400)
     }
 
-    if (username.length < 3 || username.length > 20) {
-      return err('Kullanıcı adı 3-20 karakter olmalı', 400)
+    const username = normalizeUsername(body.username)
+    const usernameError = validateUsername(username)
+    if (usernameError) {
+      return err(usernameError, 400)
     }
 
     if (password.length < 6) {
       return err('Şifre en az 6 karakter olmalı', 400)
     }
 
-    // Check if username exists
+    /* Benzersizlik büyük/küçük harf duyarsız — aksi halde "Ahmet" ve "ahmet"
+       ayrı hesap olarak açılabiliyor, bu da yorumlarda taklide kapı açıyor. */
     const existing = await db
       .select({ id: users.id })
       .from(users)
-      .where(eq(users.username, username))
+      .where(sql`lower(${users.username}) = ${usernameKey(username)}`)
       .limit(1)
 
     if (existing.length > 0) {
@@ -44,7 +48,7 @@ export async function POST(req: NextRequest) {
       .values({
         username,
         password: hashed,
-        name: name || username,
+        name: name?.trim() || username,
       })
       .returning({ id: users.id, username: users.username, name: users.name })
 

@@ -3,6 +3,7 @@ import { db } from '@/lib/db'
 import { watchProgress } from '@/lib/schema'
 import { ok, err, serverErr, parseJSON } from '@/lib/api'
 import { verifyToken } from '@/lib/token'
+import { resolveWatchTarget } from '@/lib/validation'
 import { eq, and } from 'drizzle-orm'
 
 // GET /api/progress — get all watched episodes for current user
@@ -40,10 +41,18 @@ export async function POST(req: NextRequest) {
 
     const body = await parseJSON<{ arcSlug: string; episodeSlug: string }>(req)
     if (!body) return err('Geçersiz JSON', 400)
-    const { arcSlug, episodeSlug } = body
-    if (!arcSlug || !episodeSlug) {
-      return err('arcSlug ve episodeSlug gerekli', 400)
+    if (!body.episodeSlug) {
+      return err('episodeSlug gerekli', 400)
     }
+
+    /* Bölüm gerçekten var mı? İstemcinin gönderdiği arcSlug'a güvenmiyoruz —
+       bölümün ait olduğu arc'ı veriden çözüyoruz. Doğrulama olmadan rastgele
+       slug'larla DB'ye sınırsız çöp satır yazılabiliyordu. */
+    const target = resolveWatchTarget(body.episodeSlug)
+    if (!target) {
+      return err('Böyle bir bölüm yok', 400)
+    }
+    const { arcSlug, episodeSlug } = target
 
     // Check if already watched
     const existing = await db
