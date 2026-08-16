@@ -7,7 +7,7 @@ import { getCharacterImage } from '@/lib/constants/images'
 const CREW_GRADIENTS: Record<string, string> = {
   'straw-hat': 'from-gold/40 to-gold-bright/20',
   'marine': 'from-sea/40 to-sea-light/20',
-  'shichibukai': 'from-purple-500/40 to-purple-400/20',
+  'shichibukai': 'from-fruit-strong/40 to-fruit/20',
   'yonko': 'from-luffy/40 to-gold/20',
   'revolutionary': 'from-emerald-500/40 to-emerald-400/20',
   'baroque-works': 'from-amber-600/40 to-amber-400/20',
@@ -25,7 +25,7 @@ const CREW_GRADIENTS: Record<string, string> = {
 const CREW_TEXT_COLORS: Record<string, string> = {
   'straw-hat': 'text-gold',
   'marine': 'text-sea',
-  'shichibukai': 'text-purple-400',
+  'shichibukai': 'text-fruit',
   'yonko': 'text-luffy',
   'revolutionary': 'text-emerald-400',
   'baroque-works': 'text-amber-400',

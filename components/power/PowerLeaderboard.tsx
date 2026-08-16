@@ -41,7 +41,7 @@ const getTier = (overall: number): TieredCharacter['tier'] => {
 const TierConfig: Record<TieredCharacter['tier'], { label: string; color: string; icon: typeof Crown; minScore: number }> = {
   yonko: { label: 'Yonko Seviyesi', color: 'from-gold/40 to-gold/20 border-gold/30', icon: Crown, minScore: 92 },
   admiral: { label: 'Komutan Seviyesi', color: 'from-sea/40 to-sea/20 border-sea/30', icon: Medal, minScore: 80 },
-  supernova: { label: 'Supernova Seviyesi', color: 'from-purple-500/40 to-purple-400/20 border-purple-500/30', icon: Sparkles, minScore: 65 },
+  supernova: { label: 'Supernova Seviyesi', color: 'from-fruit-strong/40 to-fruit/20 border-fruit-strong/30', icon: Sparkles, minScore: 65 },
   rookie: { label: 'Acemi Seviyesi', color: 'from-pirate-muted/40 to-pirate-muted/20 border-pirate-muted/30', icon: Sparkles, minScore: 0 },
 }
 

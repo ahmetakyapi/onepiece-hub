@@ -66,11 +66,11 @@ const CATEGORY_COLORS: Record<string, { border: string; bg: string; glow: string
     hex: '#e74c3c',
   },
   war: {
-    border: 'border-purple-400/40',
-    bg: 'bg-purple-400/10',
-    glow: 'rgba(139, 92, 246, 0.15)',
-    gradient: 'from-purple-400/80 to-purple-600/60',
-    hex: '#a78bfa',
+    border: 'border-fruit/40',
+    bg: 'bg-fruit/10',
+    glow: 'rgba(192, 132, 252, 0.15)',
+    gradient: 'from-fruit/80 to-fruit-deep/60',
+    hex: '#c084fc',
   },
   'turning-point': {
     border: 'border-emerald-400/40',

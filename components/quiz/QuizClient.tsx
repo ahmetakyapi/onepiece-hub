@@ -141,7 +141,7 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
   const getRank = () => {
     if (percentage >= 90) return { label: 'Yonko', icon: Crown, color: 'text-gold' }
     if (percentage >= 70) return { label: 'Supernova', icon: Flame, color: 'text-sea' }
-    if (percentage >= 50) return { label: 'Rookie', icon: Target, color: 'text-purple-400' }
+    if (percentage >= 50) return { label: 'Rookie', icon: Target, color: 'text-fruit' }
     return { label: 'Cabin Boy', icon: Zap, color: 'text-pirate-muted' }
   }
 
@@ -347,7 +347,7 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
                 <div className="mb-6 flex items-center gap-3">
                   <div className="flex-1 h-1 overflow-hidden rounded-full bg-ocean-surface">
                     <motion.div
-                      className="h-full rounded-full bg-gradient-to-r from-purple-500 to-gold"
+                      className="h-full rounded-full bg-gradient-to-r from-fruit-strong to-gold"
                       initial={{ width: 0 }}
                       animate={{ width: `${progress}%` }}
                       transition={{ duration: 0.4, ease: EASE }}
@@ -360,7 +360,7 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
 
                 {/* Question number */}
                 <div className="mb-3 flex items-center gap-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500/20 to-gold/20 text-sm font-bold text-gold">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-fruit-strong/20 to-gold/20 text-sm font-bold text-gold">
                     {currentQ + 1}
                   </span>
                   <span className="text-xs font-medium text-pirate-muted">{arc.name}</span>

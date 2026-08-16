@@ -8,8 +8,8 @@ const ACCENT_STYLES: Record<string, { border: string; bg: string; text: string }
   gold:        { border: 'border-gold/20',        bg: 'bg-gold/[0.06]',        text: 'text-gold' },
   sea:         { border: 'border-sea/20',         bg: 'bg-sea/[0.06]',         text: 'text-sea' },
   luffy:       { border: 'border-luffy/20',       bg: 'bg-luffy/[0.06]',       text: 'text-luffy' },
-  purple:      { border: 'border-purple-500/20',  bg: 'bg-purple-500/[0.06]',  text: 'text-purple-500' },
-  'purple-400':{ border: 'border-purple-400/20',  bg: 'bg-purple-400/[0.06]',  text: 'text-purple-400' },
+  purple:      { border: 'border-fruit-strong/20',  bg: 'bg-fruit-strong/[0.06]',  text: 'text-fruit-strong' },
+  'fruit':{ border: 'border-fruit/20',  bg: 'bg-fruit/[0.06]',  text: 'text-fruit' },
 } as const
 
 type Orb = {

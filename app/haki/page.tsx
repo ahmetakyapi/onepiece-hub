@@ -87,11 +87,11 @@ const HAKI_TYPES: HakiType[] = [
     japaneseName: '武装色の覇気',
     meaning: 'Silahlanma Haki\'si',
     icon: Shield,
-    color: 'text-purple-400',
-    colorHex: '#a78bfa',
-    bg: 'bg-purple-500/10',
-    borderColor: 'border-purple-500/30',
-    glowColor: 'rgba(139, 92, 246, 0.15)',
+    color: 'text-fruit',
+    colorHex: '#c084fc',
+    bg: 'bg-fruit-strong/10',
+    borderColor: 'border-fruit-strong/30',
+    glowColor: 'rgba(192, 132, 252, 0.15)',
     description: 'Vücudu veya silahları görünmez bir zırhla kaplama yeteneği. Saldırı gücünü ve savunmayı artırır. En önemlisi, Logia tipi Şeytan Meyvesi kullanıcılarının gerçek vücuduna dokunabilmeyi sağlar.',
     howItWorks: 'Kullanıcının irade gücünü fiziksel bir zırha dönüştürür. Bu zırh genellikle görünmezdir ancak ileri seviyede vücudu siyah metalik bir katmanla kaplar (Hardening). Haki kaplı saldırılar Logia kullanıcılarının elementel formunu bypass ederek gerçek vücutlarına ulaşır.',
     advancedForms: [
@@ -205,13 +205,13 @@ const FUN_FACTS: HakiFact[] = [
 const HERO_ORBS = [
   { color: 'rgba(30, 144, 255, 0.4)', size: 280, x: '5%', y: '10%', delay: 0 },
   { color: 'rgba(244, 163, 0, 0.35)', size: 220, x: '65%', y: '20%', delay: 1.5 },
-  { color: 'rgba(139, 92, 246, 0.3)', size: 200, x: '35%', y: '60%', delay: 3 },
+  { color: 'rgba(192, 132, 252, 0.3)', size: 200, x: '35%', y: '60%', delay: 3 },
   { color: 'rgba(30, 144, 255, 0.2)', size: 160, x: '80%', y: '70%', delay: 2 },
 ]
 
 const HAKI_COLOR_MAP: Record<string, { hex: string; label: string }> = {
   kenbunshoku: { hex: '#63b3ed', label: 'Gözlem' },
-  busoshoku: { hex: '#a78bfa', label: 'Silahlanma' },
+  busoshoku: { hex: '#c084fc', label: 'Silahlanma' },
   haoshoku: { hex: '#f4a300', label: 'Fatih' },
 }
 
@@ -222,9 +222,12 @@ function LevelBadge({ level, colorHex }: { level: string; colorHex: string }) {
   return (
     <div className="flex items-center gap-2.5">
       <div className="h-2 w-20 overflow-hidden rounded-full bg-ocean-surface">
+        {/* Dolgu `width` yerine `scaleX` ile — düz renk olduğu için görünüm
+            birebir aynı, ama animasyon layout tetiklemiyor. Degrade taşıyan
+            çubuklarda bu dönüşüm yapılamaz (degrade sıkışır). */}
         <div
-          className="h-full rounded-full transition-[width] duration-700 ease-out"
-          style={{ background: colorHex, width: `${config.percent}%` }}
+          className="h-full w-full origin-left rounded-full transition-transform duration-700 ease-out"
+          style={{ background: colorHex, transform: `scaleX(${config.percent / 100})` }}
         />
       </div>
       <span className={`text-xs font-bold uppercase tracking-wider ${config.color}`}>
@@ -295,7 +298,7 @@ export default function HakiPage() {
           >
             <div className="flex flex-wrap items-center gap-4">
               <div className="bento-card inline-flex items-center gap-3 rounded-xl px-5 py-3">
-                <Shield className="h-5 w-5 text-purple-400" />
+                <Shield className="h-5 w-5 text-fruit" />
                 <div>
                   <p className="text-[10px] uppercase tracking-wider text-pirate-muted">Haki Türü</p>
                   <p className="text-lg font-extrabold text-pirate-text stat-number">3</p>

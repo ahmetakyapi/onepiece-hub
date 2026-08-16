@@ -20,7 +20,7 @@ export default function AchievementsPage() {
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-pirate-border/20 bg-gradient-to-b from-ocean-surface/40 via-ocean-deep to-ocean-deep px-6 py-20 sm:py-28">
         <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-gold/[0.12] blur-[100px]" />
-        <div className="pointer-events-none absolute -left-32 -bottom-32 h-80 w-80 rounded-full bg-purple-500/[0.08] blur-[100px]" />
+        <div className="pointer-events-none absolute -left-32 -bottom-32 h-80 w-80 rounded-full bg-fruit-strong/[0.08] blur-[100px]" />
 
         <div className="relative mx-auto max-w-4xl text-center">
           <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-gold/70">
@@ -44,7 +44,7 @@ export default function AchievementsPage() {
             <span className="rounded-full border border-gold/30 bg-gold/10 px-3 py-1.5 text-xs font-bold text-gold">
               🥇 {totalByTier.gold ?? 0} Altın
             </span>
-            <span className="rounded-full border border-purple-400/30 bg-purple-400/10 px-3 py-1.5 text-xs font-bold text-purple-400">
+            <span className="rounded-full border border-fruit/30 bg-fruit/10 px-3 py-1.5 text-xs font-bold text-fruit">
               ⭐ {totalByTier.legendary ?? 0} Efsanevi
             </span>
           </div>

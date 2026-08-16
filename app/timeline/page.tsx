@@ -20,7 +20,7 @@ type TimelineEvent = {
 
 const CATEGORY_INFO: Record<string, { label: string; color: string; bg: string; border: string; ring: string; icon: typeof Clock; dot: string }> = {
   ancient:      { label: 'Antik Tarih',       color: 'text-amber-300',  bg: 'bg-amber-500/10',  border: 'border-amber-400/40',  ring: 'ring-amber-400/30',  icon: Crown,   dot: 'bg-amber-400' },
-  past:         { label: 'Geçmiş',            color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-400/40', ring: 'ring-purple-400/30', icon: Globe,   dot: 'bg-purple-400' },
+  past:         { label: 'Geçmiş',            color: 'text-fruit', bg: 'bg-fruit-strong/10', border: 'border-fruit/40', ring: 'ring-fruit/30', icon: Globe,   dot: 'bg-fruit' },
   'pre-story':  { label: 'Hikaye Öncesi',     color: 'text-sea',        bg: 'bg-sea/10',        border: 'border-sea/40',        ring: 'ring-sea/30',        icon: Anchor,  dot: 'bg-sea' },
   'east-blue':  { label: 'East Blue Macerası', color: 'text-blue-400',   bg: 'bg-blue-500/10',   border: 'border-blue-400/40',   ring: 'ring-blue-400/30',   icon: Compass, dot: 'bg-blue-400' },
   'grand-line': { label: 'Grand Line',        color: 'text-gold',       bg: 'bg-gold/10',       border: 'border-gold/40',       ring: 'ring-gold/30',       icon: Flame,   dot: 'bg-gold' },
@@ -177,7 +177,7 @@ export default function TimelinePage() {
                 <span className="text-pirate-muted">olay</span>
               </div>
               <div className="bento-card rounded-xl px-4 py-2 text-sm">
-                <span className="text-purple-400 font-bold">900+</span>{' '}
+                <span className="text-fruit font-bold">900+</span>{' '}
                 <span className="text-pirate-muted">yıl</span>
               </div>
               <div className="bento-card rounded-xl px-4 py-2 text-sm">
@@ -330,7 +330,7 @@ export default function TimelinePage() {
           <div className="relative pb-12">
             {/* Vertical gradient line — static, no traveling glow */}
             <div className="absolute left-6 top-0 bottom-0 w-0.5 overflow-hidden sm:left-6">
-              <div className="h-full w-full bg-gradient-to-b from-amber-400/40 via-purple-400/30 via-40% via-sea/30 via-55% via-blue-400/25 via-65% via-gold/35 via-80% to-luffy/30" />
+              <div className="h-full w-full bg-gradient-to-b from-amber-400/40 via-fruit/30 via-40% via-sea/30 via-55% via-blue-400/25 via-65% via-gold/35 via-80% to-luffy/30" />
             </div>
 
             {filtered.length === 0 && (

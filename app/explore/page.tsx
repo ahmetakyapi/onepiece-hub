@@ -280,9 +280,9 @@ export default function ExplorePage() {
             <motion.div variants={fadeUp}>
               <Link
                 href={`/devil-fruits/${picks.fruit.slug}`}
-                className="bento-card group relative flex flex-col overflow-hidden rounded-2xl transition-all hover:border-purple-500/25"
+                className="bento-card group relative flex flex-col overflow-hidden rounded-2xl transition-all hover:border-fruit-strong/25"
               >
-                <div className={`relative h-48 overflow-hidden ${DEVIL_FRUIT_TYPE_INFO[picks.fruit.type]?.bg ?? 'bg-purple-500/10'}`}>
+                <div className={`relative h-48 overflow-hidden ${DEVIL_FRUIT_TYPE_INFO[picks.fruit.type]?.bg ?? 'bg-fruit-strong/10'}`}>
                   {fruitUserImg ? (
                     <Image
                       src={fruitUserImg}
@@ -293,11 +293,11 @@ export default function ExplorePage() {
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center">
-                      <Cherry className={`h-20 w-20 opacity-20 ${DEVIL_FRUIT_TYPE_INFO[picks.fruit.type]?.color ?? 'text-purple-400'}`} />
+                      <Cherry className={`h-20 w-20 opacity-20 ${DEVIL_FRUIT_TYPE_INFO[picks.fruit.type]?.color ?? 'text-fruit'}`} />
                     </div>
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep via-ocean-deep/30 to-transparent" />
-                  <span className={`absolute left-3 top-3 rounded-full border border-purple-400/30 bg-ocean-deep/60 px-2.5 py-0.5 text-[10px] font-bold backdrop-blur-md ${DEVIL_FRUIT_TYPE_INFO[picks.fruit.type]?.color ?? 'text-purple-400'}`}>
+                  <span className={`absolute left-3 top-3 rounded-full border border-fruit/30 bg-ocean-deep/60 px-2.5 py-0.5 text-[10px] font-bold backdrop-blur-md ${DEVIL_FRUIT_TYPE_INFO[picks.fruit.type]?.color ?? 'text-fruit'}`}>
                     <Cherry className="mr-1 inline h-2.5 w-2.5" />
                     Meyve
                   </span>
@@ -313,10 +313,10 @@ export default function ExplorePage() {
                     {picks.fruit.description}
                   </p>
                   <div className="flex items-center justify-between">
-                    <span className={`tag border-purple-500/20 ${DEVIL_FRUIT_TYPE_INFO[picks.fruit.type]?.bg ?? 'bg-purple-500/10'} ${DEVIL_FRUIT_TYPE_INFO[picks.fruit.type]?.color ?? 'text-purple-400'}`}>
+                    <span className={`tag border-fruit-strong/20 ${DEVIL_FRUIT_TYPE_INFO[picks.fruit.type]?.bg ?? 'bg-fruit-strong/10'} ${DEVIL_FRUIT_TYPE_INFO[picks.fruit.type]?.color ?? 'text-fruit'}`}>
                       {DEVIL_FRUIT_TYPE_INFO[picks.fruit.type]?.label}
                     </span>
-                    <ArrowRight className="h-3.5 w-3.5 text-pirate-muted/40 transition-all group-hover:translate-x-0.5 group-hover:text-purple-400" />
+                    <ArrowRight className="h-3.5 w-3.5 text-pirate-muted/40 transition-all group-hover:translate-x-0.5 group-hover:text-fruit" />
                   </div>
                 </div>
               </Link>

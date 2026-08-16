@@ -51,9 +51,9 @@ export const TIER_CONFIG: Record<AchievementTier, { label: string; color: string
   },
   legendary: {
     label: 'Efsanevi',
-    color: 'text-purple-400',
-    bg: 'bg-purple-400/10',
-    border: 'border-purple-400/25',
+    color: 'text-fruit',
+    bg: 'bg-fruit/10',
+    border: 'border-fruit/25',
     glow: 'shadow-[0_0_20px_rgba(147,51,234,0.2)]',
   },
 }

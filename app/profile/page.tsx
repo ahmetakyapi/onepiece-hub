@@ -384,9 +384,9 @@ export default function ProfilePage() {
               className="mb-10"
             >
               <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
-                <BrainCircuit className="h-5 w-5 text-purple-400" />
+                <BrainCircuit className="h-5 w-5 text-fruit" />
                 Quiz Skorları
-                <span className="ml-1 rounded-full bg-purple-500/[0.06] px-2.5 py-0.5 text-[11px] font-semibold text-purple-400/70">
+                <span className="ml-1 rounded-full bg-fruit-strong/[0.06] px-2.5 py-0.5 text-[11px] font-semibold text-fruit/70">
                   {quizScores.length} tamamlandı
                 </span>
               </h2>

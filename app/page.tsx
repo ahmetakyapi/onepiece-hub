@@ -79,11 +79,11 @@ const TOOLS = [
     href: '/techniques',
     desc: 'Haki, meyve, kılıç — 200+ yetenek arşivi',
     tag: 'Filtre',
-    accent: 'text-purple-400',
-    hoverAccent: 'group-hover:text-purple-400',
-    accentBg: 'bg-purple-500/10',
-    accentBorder: 'border-purple-500/30',
-    glow: 'bg-purple-500/[0.12]',
+    accent: 'text-fruit',
+    hoverAccent: 'group-hover:text-fruit',
+    accentBg: 'bg-fruit-strong/10',
+    accentBorder: 'border-fruit-strong/30',
+    glow: 'bg-fruit-strong/[0.12]',
   },
   {
     icon: Swords,
@@ -102,7 +102,7 @@ const TOOLS = [
 /* ─── Wiki Section Data ───────────────────────────────────────────────── */
 /* `count` değerleri SITE_STATS'ten türetilir — elle sayı yazılmaz */
 const WIKI_ITEMS = [
-  { icon: Cherry, label: 'Şeytan Meyveleri', href: '/devil-fruits', count: String(SITE_STATS.devilFruits), desc: 'Tüm meyveler', color: 'text-purple-400', bg: 'from-purple-500/15 to-purple-500/5', borderHover: 'hover:border-purple-500/25' },
+  { icon: Cherry, label: 'Şeytan Meyveleri', href: '/devil-fruits', count: String(SITE_STATS.devilFruits), desc: 'Tüm meyveler', color: 'text-fruit', bg: 'from-fruit-strong/15 to-fruit-strong/5', borderHover: 'hover:border-fruit-strong/25' },
   { icon: Shield, label: 'Haki Rehberi', href: '/haki', count: '3', desc: 'Haki türleri', color: 'text-gold', bg: 'from-gold/15 to-gold/5', borderHover: 'hover:border-gold/25' },
   { icon: Globe, label: 'Dünya Haritası', href: '/world', count: String(SITE_STATS.locations), desc: 'Lokasyonlar', color: 'text-sea', bg: 'from-sea/15 to-sea/5', borderHover: 'hover:border-sea/25' },
   { icon: Anchor, label: 'Organizasyonlar', href: '/crews', count: String(SITE_STATS.crews), desc: 'Mürettebatlar', color: 'text-emerald-400', bg: 'from-emerald-400/15 to-emerald-400/5', borderHover: 'hover:border-emerald-400/25' },

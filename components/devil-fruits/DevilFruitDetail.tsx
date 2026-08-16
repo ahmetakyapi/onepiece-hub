@@ -58,7 +58,7 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
         <div className="absolute inset-0 bg-gradient-to-r from-ocean-deep/60 via-transparent to-ocean-deep/40" />
         <div className="absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-ocean-deep via-ocean-deep/80 to-transparent" />
 
-        <div className="pointer-events-none absolute -right-32 -top-24 h-80 w-80 rounded-full bg-purple-500/[0.08] blur-[80px]" />
+        <div className="pointer-events-none absolute -right-32 -top-24 h-80 w-80 rounded-full bg-fruit-strong/[0.08] blur-[80px]" />
         <div className="pointer-events-none absolute -left-24 -bottom-24 h-72 w-72 rounded-full bg-gold/[0.06] blur-[80px]" />
 
         <motion.div
@@ -119,7 +119,7 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
           {/* Description */}
           <motion.div variants={fadeUp} className="mb-10">
             <div className="bento-card relative overflow-hidden rounded-2xl p-6">
-              <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-gold/40 via-purple-400/20 to-transparent" />
+              <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-gold/40 via-fruit/20 to-transparent" />
               <div className="mb-3 flex items-center gap-2 pl-4">
                 <BookOpen className="h-4 w-4 text-gold" />
                 <h2 className="text-sm font-bold uppercase tracking-wider text-pirate-text">Açıklama</h2>
@@ -251,7 +251,7 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
           {/* Type info */}
           <motion.div variants={fadeUp}>
             <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
-              <Cherry className="h-5 w-5 text-purple-400" />
+              <Cherry className="h-5 w-5 text-fruit" />
               Meyve Türü
             </h2>
             <div className={`relative overflow-hidden rounded-2xl border ${typeInfo.bg} ${typeInfo.color} border-current/20 p-5`}>

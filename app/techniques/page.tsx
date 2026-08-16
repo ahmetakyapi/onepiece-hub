@@ -31,7 +31,7 @@ export default function TechniquesPage() {
     <main className="min-h-screen bg-ocean-deep">
       {/* Hero Section */}
       <section className="relative overflow-hidden border-b border-pirate-border/20 bg-gradient-to-b from-ocean-surface/60 via-ocean-deep to-ocean-deep px-6 py-20 sm:py-28">
-        <div className="pointer-events-none absolute -right-40 -top-40 h-96 w-96 rounded-full bg-purple-500/[0.08] blur-[100px]" />
+        <div className="pointer-events-none absolute -right-40 -top-40 h-96 w-96 rounded-full bg-fruit-strong/[0.08] blur-[100px]" />
         <div className="pointer-events-none absolute -left-32 -bottom-32 h-80 w-80 rounded-full bg-gold/[0.06] blur-[80px]" />
 
         <div className="relative mx-auto max-w-4xl text-center">
