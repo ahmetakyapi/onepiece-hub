@@ -127,7 +127,7 @@ export default function VoidCenturySection() {
           </Link>
           <Link
             href="/devil-fruits"
-            className="btn-ghost border-purple-400/20 bg-purple-400/[0.06] text-purple-300 group !py-2 !px-3 sm:!py-2.5 sm:!px-4"
+            className="btn-ghost border-fruit/20 bg-fruit/[0.06] text-fruit-light group !py-2 !px-3 sm:!py-2.5 sm:!px-4"
           >
             <Cherry className="h-3.5 w-3.5 transition-transform duration-500 group-hover:rotate-12 sm:h-4 sm:w-4" />
             Şeytan Meyveleri

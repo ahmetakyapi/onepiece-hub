@@ -196,8 +196,8 @@ function CharacterCard({ character }: Props) {
 
             {char.devilFruit && (
               <div className="mt-2 flex items-center gap-1.5">
-                <Sparkles className="h-3 w-3 text-purple-400/70" />
-                <span className="truncate text-[10px] text-purple-400/70">
+                <Sparkles className="h-3 w-3 text-fruit/70" />
+                <span className="truncate text-[10px] text-fruit/70">
                   {char.devilFruit.name}
                 </span>
               </div>

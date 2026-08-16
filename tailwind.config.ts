@@ -46,6 +46,22 @@ const config: Config = {
           muted:   '#8b8fa3',
           border:  '#1c3a5c',
         },
+        /* Şeytan Meyveleri · Haki · Şichibukai kategorilerinin vurgu rengi.
+           Daha önce ham `purple-300/400/500/600` sınıflarıyla 100+ yerde
+           yazılıyordu — palette tanımlı değildi, yani sistemin parçası değil
+           sızıntıydı. Değerler Tailwind karşılıklarıyla BİREBİR aynı, yani
+           token'lama görünümü değiştirmez.
+
+           Ekip kimlik renkleri (`CharacterAvatar` → CREW_GRADIENTS) ayrı bir
+           sistemdir ve buraya dahil değildir: orada 15 ekibin her birinin
+           kendi rengi var (emerald, amber, cyan, pink, teal…), o bir içerik
+           paleti — marka sistemi değil. */
+        fruit: {
+          light:   '#d8b4fe',  // purple-300
+          DEFAULT: '#c084fc',  // purple-400 — kategori metni, kenarlık
+          strong:  '#a855f7',  // purple-500 — dolgu, vurgu kenarlığı
+          deep:    '#9333ea',  // purple-600 — degrade ucu
+        },
       },
       backgroundImage: {
         'ocean-gradient': 'radial-gradient(circle at 20% 10%, rgba(244,163,0,0.08), transparent 30%), radial-gradient(circle at 80% 15%, rgba(30,144,255,0.12), transparent 28%), radial-gradient(circle at 50% 90%, rgba(231,76,60,0.05), transparent 25%)',

@@ -24,7 +24,7 @@ import RelatedCharacters from '@/components/related/RelatedCharacters'
 import { getRelatedCharacters } from '@/lib/related'
 
 const DEVIL_FRUIT_TYPE_COLORS: Record<string, string> = {
-  'Paramecia': 'bg-purple-500/20 text-purple-300',
+  'Paramecia': 'bg-fruit-strong/20 text-fruit-light',
   'Zoan': 'bg-green-500/20 text-green-300',
   'Logia': 'bg-yellow-500/20 text-yellow-300',
   'Mythical Zoan': 'bg-amber-500/20 text-amber-200',
@@ -33,7 +33,7 @@ const DEVIL_FRUIT_TYPE_COLORS: Record<string, string> = {
 } as const
 
 const ABILITY_CATEGORY_CONFIG: Record<string, { icon: typeof Zap; color: string }> = {
-  'Haki': { icon: Shield, color: 'text-purple-400' },
+  'Haki': { icon: Shield, color: 'text-fruit' },
   'Şeytan Meyvesi': { icon: Cherry, color: 'text-luffy' },
   'Kılıç': { icon: Sword, color: 'text-sea' },
   'Fiziksel': { icon: Zap, color: 'text-gold' },
@@ -320,7 +320,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
             Güç İstatistikleri
           </h2>
           <div className="bento-card relative overflow-hidden rounded-2xl p-6">
-            <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-gold/40 via-purple-400/20 to-transparent" />
+            <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-gold/40 via-fruit/20 to-transparent" />
             <div className="pl-4">
               <PowerStatBars slug={character.slug} />
             </div>

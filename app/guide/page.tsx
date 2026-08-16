@@ -82,7 +82,7 @@ const FULL_PATH: GuideStep[] = [
     title: 'Thriller Bark',
     episodes: '1 Arc', duration: '~24 bölüm',
     description: 'Brook mürettebata katılır! Moria\'nın dev gemi adasında korku ve komedi.',
-    icon: Skull, color: 'text-purple-400', hex: '#a855f7',
+    icon: Skull, color: 'text-fruit', hex: '#a855f7',
     highlights: ['Brook katılır', 'Zoro\'nun efsanevi fedakarlığı', '"Hiçbir şey olmadı" sahnesi'],
     arcSlugs: ['thriller-bark'],
   },

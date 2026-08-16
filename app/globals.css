@@ -241,49 +241,67 @@ body::after {
     background: rgba(244,163,0,0.06);
   }
 
-  /* ── Gradient Texts — refined with better shimmer ──────────────────── */
-  .text-gold-gradient {
-    background: linear-gradient(135deg, #f4a300 0%, #fbbf24 40%, #f4a300 80%);
-    background-size: 200% 100%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  /* ── Gradient Texts ───────────────────────────────────────────────────
+     Her biri ÖNCE solid rengini alır, degrade kırpması `@supports` içinde.
+
+     Neden: `-webkit-text-fill-color: transparent` koşulsuz yazılıyordu.
+     `background-clip: text` desteklenmeyen bir yerde harfin dolgusu şeffaf
+     kalıyor ama arkasına degrade basılmıyor — metin tamamen görünmez oluyordu.
+     Kırpma çalışmadığında geriye okunur bir renk kalmalı.
+
+     Aynı desen `acilis-zili`de zaten uygulanıyor; oradaki `.display-ink`
+     bu yüzden ekosistem yasağına belgeli istisna sayılıyor
+     (`knowledge/themes/acilis-zili.md` § 7). */
+  .text-gold-gradient { color: theme('colors.gold.DEFAULT'); }
+  .text-gold-shimmer  { color: theme('colors.gold.DEFAULT'); }
+  .text-sea-gradient  { color: theme('colors.sea.DEFAULT'); }
+  .text-fire-gradient { color: theme('colors.luffy.DEFAULT'); }
+
+  @supports (background-clip: text) or (-webkit-background-clip: text) {
+    .text-gold-gradient {
+      background: linear-gradient(135deg, #f4a300 0%, #fbbf24 40%, #f4a300 80%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Gold shimmer sweep — slow highlight that travels across the text */
+    .text-gold-shimmer {
+      background: linear-gradient(
+        110deg,
+        #f4a300 0%,
+        #f4a300 30%,
+        #ffe8a8 45%,
+        #fff5d1 50%,
+        #ffe8a8 55%,
+        #f4a300 70%,
+        #f4a300 100%
+      );
+      background-size: 220% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: text-shimmer-sweep 6s linear infinite;
+    }
+
+    .text-sea-gradient {
+      background: linear-gradient(135deg, #1e90ff, #60b8ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .text-fire-gradient {
+      background: linear-gradient(135deg, #e74c3c, #f4a300);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
   }
 
-  /* Gold shimmer sweep — slow highlight that travels across the text */
-  .text-gold-shimmer {
-    background: linear-gradient(
-      110deg,
-      #f4a300 0%,
-      #f4a300 30%,
-      #ffe8a8 45%,
-      #fff5d1 50%,
-      #ffe8a8 55%,
-      #f4a300 70%,
-      #f4a300 100%
-    );
-    background-size: 220% 100%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: text-shimmer-sweep 6s linear infinite;
-  }
   @media (prefers-reduced-motion: reduce) {
     .text-gold-shimmer { animation: none; }
-  }
-
-  .text-sea-gradient {
-    background: linear-gradient(135deg, #1e90ff, #60b8ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .text-fire-gradient {
-    background: linear-gradient(135deg, #e74c3c, #f4a300);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
   }
 
   /* ── Button System v2 — more premium feel ──────────────────────────── */
@@ -398,19 +416,24 @@ body::after {
     position: relative;
     text-decoration: none;
   }
+  /* Alt çizgi `width` yerine `scaleX` ile açılır: her hover'da layout
+     tetiklemek yerine GPU'da bileşiklenir. Degrade tam genişlikte durduğu
+     için açılırken sıkışık görünür, açıldığında birebir aynı. */
   .link-glow::after {
     content: '';
     position: absolute;
     bottom: -2px;
     left: 0;
-    width: 0;
+    width: 100%;
     height: 2px;
     border-radius: 999px;
     background: linear-gradient(90deg, #f4a300, #1e90ff);
-    transition: width 0.4s var(--ease-out-expo);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--ease-out-expo);
   }
   .link-glow:hover::after {
-    width: 100%;
+    transform: scaleX(1);
   }
 
   /* ── Shine sweep on hover — premium ────────────────────────────────── */

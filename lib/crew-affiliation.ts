@@ -57,9 +57,9 @@ export const CREW_AFFILIATIONS: CrewAffiliation[] = [
     tagline: 'Gölgelerin hükmü',
     icon: Skull,
     rgb: '148,139,200',
-    bg: 'bg-purple-500/[0.08]',
-    border: 'border-purple-500/30',
-    text: 'text-purple-400',
+    bg: 'bg-fruit-strong/[0.08]',
+    border: 'border-fruit-strong/30',
+    text: 'text-fruit',
   },
   {
     id: 'whitebeard',

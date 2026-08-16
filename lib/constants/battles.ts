@@ -4,7 +4,7 @@ export const BATTLE_CATEGORIES: Record<string, { label: string; color: string }>
   epic: { label: 'Destansı', color: 'text-gold' },
   emotional: { label: 'Duygusal', color: 'text-sea-light' },
   rivalry: { label: 'Rekabet', color: 'text-luffy' },
-  war: { label: 'Savaş', color: 'text-purple-400' },
+  war: { label: 'Savaş', color: 'text-fruit' },
   'turning-point': { label: 'Dönüm Noktası', color: 'text-emerald-400' },
 }
 

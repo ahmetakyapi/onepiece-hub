@@ -136,12 +136,12 @@ export const ACCENT_CLASSES: Record<SagaMeta['accent'], {
     gradient: 'from-sea/20 via-ocean-surface/40 to-ocean-deep',
   },
   purple: {
-    text: 'text-purple-400',
-    hoverText: 'group-hover:text-purple-400',
-    border: 'border-purple-500/30',
-    bg: 'bg-purple-500/10',
-    glow: 'bg-purple-500/[0.12]',
-    gradient: 'from-purple-500/20 via-ocean-surface/40 to-ocean-deep',
+    text: 'text-fruit',
+    hoverText: 'group-hover:text-fruit',
+    border: 'border-fruit-strong/30',
+    bg: 'bg-fruit-strong/10',
+    glow: 'bg-fruit-strong/[0.12]',
+    gradient: 'from-fruit-strong/20 via-ocean-surface/40 to-ocean-deep',
   },
   luffy: {
     text: 'text-luffy',

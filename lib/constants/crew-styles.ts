@@ -5,7 +5,7 @@ import {
 export const CREW_COLORS: Record<string, { border: string; bg: string; text: string; glow: string }> = {
   'straw-hat': { border: 'border-gold/30', bg: 'bg-gold/[0.06]', text: 'text-gold', glow: 'shadow-gold/10' },
   marine: { border: 'border-sea/30', bg: 'bg-sea/[0.06]', text: 'text-sea-light', glow: 'shadow-sea/10' },
-  shichibukai: { border: 'border-purple-400/30', bg: 'bg-purple-500/[0.06]', text: 'text-purple-400', glow: 'shadow-purple-500/10' },
+  shichibukai: { border: 'border-fruit/30', bg: 'bg-fruit-strong/[0.06]', text: 'text-fruit', glow: 'shadow-fruit-strong/10' },
   yonko: { border: 'border-luffy/30', bg: 'bg-luffy/[0.06]', text: 'text-luffy', glow: 'shadow-luffy/10' },
   revolutionary: { border: 'border-emerald-400/30', bg: 'bg-emerald-500/[0.06]', text: 'text-emerald-400', glow: 'shadow-emerald-500/10' },
   'baroque-works': { border: 'border-amber-400/30', bg: 'bg-amber-500/[0.06]', text: 'text-amber-400', glow: 'shadow-amber-500/10' },

@@ -19,14 +19,56 @@ Next.js 14 App Router · TypeScript strict · Tailwind 3.4 dark-only · Framer M
 
 ## Tema
 
-Dark-only "Okyanus Derinliği". Renk tokenları `app/globals.css` + `tailwind.config.ts` (gold/sea/luffy/ocean/pirate palet ailesi). Utility class'lar:
+Dark-only "Okyanus Derinliği". Renk tokenları `app/globals.css` + `tailwind.config.ts` (gold/sea/luffy/ocean/pirate/**fruit** palet ailesi). Utility class'lar:
 - **Layout**: `.glass`, `.glass-elevated`, `.surface`, `.bento-card`, `.wanted-poster`
 - **Butonlar**: `.btn-gold`, `.btn-luffy`, `.btn-ghost`
 - **Metin**: `.text-gold-gradient`, `.text-sea-gradient`, `.text-fire-gradient`, `.stat-number`
 - **Rozet/Badge**: `.chip`, `.tag`
-- **Efekt**: `.glass-lift`, `.shine-hover`, `.divider-glow`, `.link-glow`, `.orb`, `.scrollbar-thin`
+- **Efekt**: `.glass-lift`, `.shine-hover`, `.divider-glow`, `.orb`, `.scrollbar-thin`
+  (`.link-glow` tanımlı ama **hiçbir yerde kullanılmıyor** — Tailwind `@layer
+  components` kullanılmayan sınıfı purge ettiği için üretilen CSS'e hiç girmiyor)
 
 **Tailwind sınıflarını tercih et** — CSS variables sadece `globals.css` içinde kullanılmalı.
+
+### `fruit` — kategori vurgu rengi
+
+Şeytan Meyveleri · Haki · Şichibukai içeriklerinin rengi. Daha önce ham
+`purple-300/400/500/600` sınıflarıyla **109 yerde** yazılıyordu; palette
+tanımlı olmadığı için sistemin parçası değil sızıntıydı. Değerler Tailwind
+karşılıklarıyla birebir aynı, token'lama görünümü değiştirmedi.
+
+| Token | Hex | Eski karşılığı |
+|-------|-----|----------------|
+| `fruit-light` | `#d8b4fe` | `purple-300` |
+| `fruit` | `#c084fc` | `purple-400` |
+| `fruit-strong` | `#a855f7` | `purple-500` |
+| `fruit-deep` | `#9333ea` | `purple-600` |
+
+**Ham `purple-*` / `violet-*` sınıfı yazma** — `fruit` kullan.
+
+Ekip kimlik renkleri (`CharacterAvatar` → `CREW_GRADIENTS`) **ayrı bir
+sistemdir**: 15 ekibin her birinin kendi rengi var (emerald, amber, cyan, pink,
+teal…). O bir içerik paleti, marka sistemi değil — `fruit`'e çekilmemeli.
+
+### Degrade metin — fallback zorunlu
+
+`.text-*-gradient` utility'leri önce solid rengini alır, degrade kırpması
+`@supports` bloğunun içindedir. Bir dönem `-webkit-text-fill-color: transparent`
+koşulsuz yazılıyordu: `background-clip: text` desteklenmeyen yerde harfin
+dolgusu şeffaf kalıp arkasına degrade basılmadığı için **metin tamamen
+görünmez** oluyordu. Yeni utility eklerken aynı deseni koru.
+
+### Bilinen detector bulguları — kasıtlı, düzeltilmeyecek
+
+`npx impeccable detect app components lib` 13 bulgu raporlar. Hepsi incelendi:
+
+| Bulgu | Adet | Karar |
+|-------|------|-------|
+| `gradient-text` | 6 | Marka utility'leri; artık fallback'li ve `@supports` korumalı — `acilis-zili`'nin `.display-ink`'iyle aynı gerekçe |
+| `side-tab` | 4 | `border-l-4` kart vurguları. Gerçek bir kalıp uyarısı; düzeltmek görsel yeniden tasarım gerektirir, **açık madde** |
+| `ai-color-palette` | 1 | `CharacterAvatar` beast-pirates ekip degradesi — içerik paleti |
+| `bounce-easing` | 1 | `--ease-spring`, tek kullanım (`transform 0.2s`). Ekosistem kuralı Framer Motion içindir, bu CSS mikro-etkileşimi |
+| `layout-transition` | 1 | `.progress-bar-fill` degrade taşıyor; `scaleX` degradeyi sıkıştırır. Düz renkli çubuklar (`haki`) dönüştürüldü |
 
 **Tipografi tabanı** (`globals.css`, global — ayrıca class eklemene gerek yok): `h1-h4` → `text-wrap: balance` + kademeli negatif letter-spacing; `p`/`li` → `text-wrap: pretty`; `html` → `scroll-padding-top: 7.5rem` (sabit header in-page anchor'ları örtmesin).
 

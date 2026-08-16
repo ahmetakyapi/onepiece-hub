@@ -30,11 +30,11 @@ const CATEGORY_CONFIG: Record<string, {
 }> = {
   'Haki': {
     icon: Shield,
-    color: 'text-purple-400',
-    hover: 'group-hover:text-purple-400',
-    bg: 'bg-purple-500/10',
-    border: 'border-purple-500/30',
-    glow: 'bg-purple-500/[0.08]',
+    color: 'text-fruit',
+    hover: 'group-hover:text-fruit',
+    bg: 'bg-fruit-strong/10',
+    border: 'border-fruit-strong/30',
+    glow: 'bg-fruit-strong/[0.08]',
   },
   'Şeytan Meyvesi': {
     icon: Cherry,

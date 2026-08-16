@@ -18,8 +18,8 @@ export default function DevilFruitError({
   return (
     <main className="relative flex min-h-screen items-center justify-center px-4">
       <div className="text-center max-w-md mx-auto relative z-10">
-        <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-purple-500/20 bg-purple-500/[0.06]">
-          <AlertTriangle className="h-10 w-10 text-purple-400" />
+        <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-fruit-strong/20 bg-fruit-strong/[0.06]">
+          <AlertTriangle className="h-10 w-10 text-fruit" />
         </div>
 
         <h1 className="text-2xl font-bold text-pirate-text mb-3">

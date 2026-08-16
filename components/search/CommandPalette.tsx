@@ -63,7 +63,7 @@ const KIND_LABELS: Record<ResultKind, string> = {
 const KIND_COLORS: Record<ResultKind, string> = {
   character: 'text-sea-light',
   arc: 'text-gold',
-  fruit: 'text-purple-400',
+  fruit: 'text-fruit',
   page: 'text-pirate-muted',
 }
 

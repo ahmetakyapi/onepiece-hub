@@ -4,8 +4,8 @@ export const DEVIL_FRUIT_TYPE_INFO: Record<string, { label: string; description:
   'Paramecia': {
     label: 'Paramecia',
     description: 'Kullanıcıya vücut yapısını değiştirme, madde üretme veya çevreyi manipüle etme gibi çeşitli süper güçler veren meyveler. En yaygın Şeytan Meyvesi türüdür.',
-    color: 'text-purple-400',
-    bg: 'bg-purple-500/15',
+    color: 'text-fruit',
+    bg: 'bg-fruit-strong/15',
   },
   'Zoan': {
     label: 'Zoan',

@@ -125,8 +125,8 @@ export const CREWS: Crew[] = [
       'Impel Down Level 6 mahkumlarını serbest bırakma',
     ],
     jollyRoger: 'Üç kafataslı korsan bayrağı',
-    color: 'text-purple-400',
-    bg: 'bg-purple-500/10',
+    color: 'text-fruit',
+    bg: 'bg-fruit-strong/10',
   },
   {
     name: 'Big Mom Korsanları',

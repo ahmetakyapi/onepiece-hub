@@ -65,13 +65,13 @@ export default function DevilFruitsPage() {
             icon={Cherry}
             title="Şeytan Meyveleri"
             subtitle="Ansiklopedisi"
-            accentColor="purple-400"
+            accentColor="fruit"
             orbs={HERO_ORBS}
           >
             <div className="flex flex-wrap gap-3">
-              <div className="flex items-center gap-2 rounded-xl border border-purple-500/20 bg-purple-500/10 px-4 py-2">
-                <Cherry className="h-4 w-4 text-purple-400" />
-                <span className="text-sm font-bold text-purple-300">{DEVIL_FRUITS.length}</span>
+              <div className="flex items-center gap-2 rounded-xl border border-fruit-strong/20 bg-fruit-strong/10 px-4 py-2">
+                <Cherry className="h-4 w-4 text-fruit" />
+                <span className="text-sm font-bold text-fruit-light">{DEVIL_FRUITS.length}</span>
                 <span className="text-xs text-pirate-muted">Meyve</span>
               </div>
               <div className="flex items-center gap-2 rounded-xl border border-gold/20 bg-gold/10 px-4 py-2">
@@ -114,7 +114,7 @@ export default function DevilFruitsPage() {
                     <div className="mt-3 h-1 rounded-full bg-pirate-border/30">
                       <div
                         className={`h-full rounded-full bg-gradient-to-r animate-grow-bar ${
-                          info.color.includes('purple') ? 'from-purple-500 to-purple-400' :
+                          info.color.includes('purple') ? 'from-fruit-strong to-fruit' :
                           info.color.includes('sea') ? 'from-sea to-sea-light' :
                           info.color.includes('luffy') ? 'from-luffy to-red-400' :
                           info.color.includes('gold') ? 'from-gold to-gold-bright' :
