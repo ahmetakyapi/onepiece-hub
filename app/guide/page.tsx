@@ -24,10 +24,19 @@ type GuideStep = {
   description: string
   icon: typeof Play
   color: string
-  hex: string
+  /**
+   * Saga vurgu rengi — RGB **kanal üçlüsü** olarak tutulur ki `tone()` ile
+   * alfa verilebilsin. Marka karşılığı olanlar tema token'ına bağlanır
+   * (`var(--gold)`), token'ı olmayan saga kimlik renkleri ham kanal kalır —
+   * onlar içerik paleti, tema ile dönmemeli.
+   */
+  accent: string
   highlights: string[]
   arcSlugs: string[]
 }
+
+/** Kanal üçlüsünden (`var(--gold)` ya da `34 211 238`) alfa'lı renk üretir. */
+const tone = (accent: string, alpha = 1) => `rgb(${accent} / ${alpha})`
 
 type NetflixStep = {
   id: string
@@ -46,7 +55,7 @@ const FULL_PATH: GuideStep[] = [
     title: 'East Blue',
     episodes: '6 Arc', duration: '~61 bölüm',
     description: 'Luffy\'nin macerası burada başlıyor. Hasır Şapka mürettebatının ilk üyelerini topladığı efsanevi başlangıç.',
-    icon: Anchor, color: 'text-sea', hex: '#1e90ff',
+    icon: Anchor, color: 'text-sea', accent: 'var(--sea)',
     highlights: ['Luffy\'nin hikayesi başlıyor', 'Zoro, Nami, Usopp, Sanji katılır', 'Arlong Park — ilk büyük duygusal doruk'],
     arcSlugs: ['romance-dawn', 'orange-town', 'syrup-village', 'baratie', 'arlong-park', 'loguetown'],
   },
@@ -55,7 +64,7 @@ const FULL_PATH: GuideStep[] = [
     title: 'Alabasta',
     episodes: '5 Arc', duration: '~63 bölüm',
     description: 'Grand Line\'a giriş! Chopper katılır. Vivi\'nin krallığı için Crocodile\'a karşı destansı savaş.',
-    icon: Globe, color: 'text-gold', hex: '#f4a300',
+    icon: Globe, color: 'text-gold', accent: 'var(--gold)',
     highlights: ['Chopper katılır', 'Crocodile vs Luffy', 'Vivi\'nin fedakarlığı', 'Robin mürettebata katılır'],
     arcSlugs: ['reverse-mountain', 'whiskey-peak', 'little-garden', 'drum-island', 'arabasta'],
   },
@@ -64,7 +73,7 @@ const FULL_PATH: GuideStep[] = [
     title: 'Sky Island',
     episodes: '2 Arc', duration: '~43 bölüm',
     description: 'Gökyüzü adası Skypiea! Enel ile efsanevi savaş ve One Piece evreninin derinlikleri.',
-    icon: Sparkles, color: 'text-cyan-400', hex: '#22d3ee',
+    icon: Sparkles, color: 'text-accent-cyan', accent: '34 211 238',
     highlights: ['Skypiea — gökyüzü adası', 'Enel vs Luffy', 'Poneglyph\'ler ve kayıp tarih'],
     arcSlugs: ['jaya', 'skypiea'],
   },
@@ -73,7 +82,7 @@ const FULL_PATH: GuideStep[] = [
     title: 'Water 7 & Enies Lobby',
     episodes: '4 Arc', duration: '~80 bölüm',
     description: 'One Piece\'in en duygusal sagası. Robin\'in geçmişi, Going Merry\'nin vedası.',
-    icon: Heart, color: 'text-luffy', hex: '#e74c3c',
+    icon: Heart, color: 'text-luffy', accent: 'var(--luffy)',
     highlights: ['Franky katılır', 'Robin\'in "Yaşamak istiyorum!" sahnesi', 'CP9 vs Hasır Şapkalar', 'Going Merry\'ye veda'],
     arcSlugs: ['long-ring-long-land', 'water-seven', 'enies-lobby', 'post-enies-lobby'],
   },
@@ -82,7 +91,7 @@ const FULL_PATH: GuideStep[] = [
     title: 'Thriller Bark',
     episodes: '1 Arc', duration: '~24 bölüm',
     description: 'Brook mürettebata katılır! Moria\'nın dev gemi adasında korku ve komedi.',
-    icon: Skull, color: 'text-fruit', hex: '#a855f7',
+    icon: Skull, color: 'text-fruit', accent: 'var(--fruit-strong)',
     highlights: ['Brook katılır', 'Zoro\'nun efsanevi fedakarlığı', '"Hiçbir şey olmadı" sahnesi'],
     arcSlugs: ['thriller-bark'],
   },
@@ -91,7 +100,7 @@ const FULL_PATH: GuideStep[] = [
     title: 'Summit War',
     episodes: '5 Arc', duration: '~79 bölüm',
     description: 'En epik saga. Ace\'i kurtarmak için Impel Down, Marineford Savaşı ve serinin dönüm noktası.',
-    icon: Flame, color: 'text-orange-400', hex: '#fb923c',
+    icon: Flame, color: 'text-accent-orange', accent: '251 146 60',
     highlights: ['Impel Down cezaevi kaçışı', 'Marineford — tüm güçlerin savaşı', 'Ace\'in kaderi', '2 yıllık eğitim'],
     arcSlugs: ['sabaody-archipelago', 'amazon-lily', 'impel-down', 'marineford', 'post-war'],
   },
@@ -100,7 +109,7 @@ const FULL_PATH: GuideStep[] = [
     title: 'Fish-Man Island',
     episodes: '2 Arc', duration: '~32 bölüm',
     description: '2 yıllık eğitim sonrası mürettebat geri döner! Denizaltı macerası ve Jinbe.',
-    icon: Ship, color: 'text-teal-400', hex: '#2dd4bf',
+    icon: Ship, color: 'text-accent-teal', accent: '45 212 191',
     highlights: ['Mürettebat güçlenerek geri döner', 'Fish-Man Island', 'Jinbe ile ittifak'],
     arcSlugs: ['return-to-sabaody', 'fish-man-island'],
   },
@@ -109,7 +118,7 @@ const FULL_PATH: GuideStep[] = [
     title: 'Dressrosa',
     episodes: '2 Arc', duration: '~69 bölüm',
     description: 'Doflamingo\'nun imparatorluğuna karşı dev savaş! Law ittifakı ve Gear 4.',
-    icon: Swords, color: 'text-rose-400', hex: '#fb7185',
+    icon: Swords, color: 'text-accent-rose', accent: '251 113 133',
     highlights: ['Law-Luffy ittifakı', 'Doflamingo vs Luffy — Gear 4', 'Hasır Şapka Büyük Filosu kurulur'],
     arcSlugs: ['punk-hazard', 'dressrosa'],
   },
@@ -118,7 +127,7 @@ const FULL_PATH: GuideStep[] = [
     title: 'Four Emperors',
     episodes: '4 Arc', duration: '~130 bölüm',
     description: 'İmparatorlara meydan okuma! Big Mom, Kaido ve destansı Wano savaşı.',
-    icon: Crown, color: 'text-gold-bright', hex: '#fbbf24',
+    icon: Crown, color: 'text-gold-bright', accent: 'var(--gold-bright)',
     highlights: ['Sanji\'nin geçmişi ve kurtarılması', 'Wano — samuray ülkesi', 'Kaido vs Luffy — Gear 5', 'Luffy Yonko olur'],
     arcSlugs: ['zou', 'whole-cake-island', 'reverie', 'wano'],
   },
@@ -127,7 +136,7 @@ const FULL_PATH: GuideStep[] = [
     title: 'Final Saga',
     episodes: '1+ Arc', duration: 'Devam ediyor',
     description: 'Son saga! Vegapunk, Dünya Hükümeti sırları ve One Piece\'e giden yol.',
-    icon: Star, color: 'text-amber-300', hex: '#fcd34d',
+    icon: Star, color: 'text-accent-amber', accent: '252 211 77',
     highlights: ['Egghead — Vegapunk adası', 'Dünya Hükümeti\'nin sırları', 'Void Century ortaya çıkıyor'],
     arcSlugs: ['egghead'],
   },
@@ -184,16 +193,16 @@ function SagaCard({ step, index, total }: { step: GuideStep; index: number; tota
           transition={{ duration: 0.5, ease: EASE, delay: 0.1 + index * 0.06 }}
           className="relative z-10 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full sm:h-12 sm:w-12"
           style={{
-            background: `radial-gradient(circle, ${step.hex}22 0%, transparent 70%)`,
-            boxShadow: `0 0 20px ${step.hex}15, 0 0 40px ${step.hex}08`,
+            background: `radial-gradient(circle, ${tone(step.accent, 0.13)} 0%, transparent 70%)`,
+            boxShadow: `0 0 20px ${tone(step.accent, 0.08)}, 0 0 40px ${tone(step.accent, 0.03)}`,
           }}
         >
           <span
-            className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-extrabold sm:h-8 sm:w-8 sm:text-sm"
+            className="flex h-7 w-7 items-center justify-center rounded-full font-display text-xs font-extrabold sm:h-8 sm:w-8 sm:text-sm"
             style={{
-              background: `linear-gradient(135deg, ${step.hex}30, ${step.hex}10)`,
-              border: `1.5px solid ${step.hex}40`,
-              color: step.hex,
+              background: `linear-gradient(135deg, ${tone(step.accent, 0.19)}, ${tone(step.accent, 0.06)})`,
+              border: `1.5px solid ${tone(step.accent, 0.25)}`,
+              color: tone(step.accent),
             }}
           >
             {step.num}
@@ -208,7 +217,7 @@ function SagaCard({ step, index, total }: { step: GuideStep; index: number; tota
             transition={{ duration: 0.8, ease: EASE, delay: 0.3 + index * 0.06 }}
             className="w-px flex-1 origin-top"
             style={{
-              background: `linear-gradient(180deg, ${step.hex}30 0%, ${step.hex}08 100%)`,
+              background: `linear-gradient(180deg, ${tone(step.accent, 0.19)} 0%, ${tone(step.accent, 0.03)} 100%)`,
             }}
           />
         )}
@@ -220,7 +229,7 @@ function SagaCard({ step, index, total }: { step: GuideStep; index: number; tota
         animate={inView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
         transition={{ duration: 0.6, ease: EASE, delay: 0.15 + index * 0.06 }}
         onMouseMove={handleMouse}
-        className="group relative mb-6 flex-1 overflow-hidden rounded-2xl border border-white/[0.06] bg-gradient-to-br from-white/[0.04] to-white/[0.01] backdrop-blur-md transition-all duration-500 hover:border-white/[0.1] hover:shadow-[0_8px_40px_rgba(0,0,0,0.3)]"
+        className="group relative mb-6 flex-1 overflow-hidden rounded-2xl border border-ink/[0.06] bg-gradient-to-br from-ink/[0.04] to-ink/[0.01] backdrop-blur-md transition-all duration-500 hover:border-ink/[0.1] hover:shadow-[0_8px_40px_rgba(0,0,0,0.3)]"
       >
         {/* Mouse-follow glow */}
         <motion.div
@@ -228,7 +237,7 @@ function SagaCard({ step, index, total }: { step: GuideStep; index: number; tota
           style={{
             background: useTransform(
               [glowX, glowY],
-              ([x, y]) => `radial-gradient(400px circle at ${x} ${y}, ${step.hex}12, transparent 60%)`
+              ([x, y]) => `radial-gradient(400px circle at ${x} ${y}, ${tone(step.accent, 0.07)}, transparent 60%)`
             ),
           }}
         />
@@ -236,7 +245,7 @@ function SagaCard({ step, index, total }: { step: GuideStep; index: number; tota
         {/* Top color accent line */}
         <div
           className="h-[2px] w-full"
-          style={{ background: `linear-gradient(90deg, transparent, ${step.hex}50, transparent)` }}
+          style={{ background: `linear-gradient(90deg, transparent, ${tone(step.accent, 0.31)}, transparent)` }}
         />
 
         {/* Main content */}
@@ -248,8 +257,8 @@ function SagaCard({ step, index, total }: { step: GuideStep; index: number; tota
           <div
             className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl transition-transform duration-500 group-hover:scale-110 sm:h-12 sm:w-12"
             style={{
-              background: `linear-gradient(135deg, ${step.hex}18, ${step.hex}06)`,
-              border: `1px solid ${step.hex}20`,
+              background: `linear-gradient(135deg, ${tone(step.accent, 0.09)}, ${tone(step.accent, 0.02)})`,
+              border: `1px solid ${tone(step.accent, 0.13)}`,
             }}
           >
             <step.icon className={`h-5 w-5 ${step.color} sm:h-5 sm:w-5`} />
@@ -258,17 +267,19 @@ function SagaCard({ step, index, total }: { step: GuideStep; index: number; tota
           {/* Text */}
           <div className="flex-1 min-w-0">
             <div className="mb-1.5 flex flex-wrap items-center gap-2">
-              <h3 className="text-base font-bold text-pirate-text transition-colors duration-300 group-hover:text-white sm:text-lg">
+              {/* Eskiden `group-hover:text-white` idi — light temada beyaz
+                  üstüne beyaz düşüyordu; metin zaten `pirate-text`. */}
+              <h3 className="font-display text-base font-bold text-pirate-text sm:text-lg">
                 {step.title}
               </h3>
               <div className="flex items-center gap-1.5">
                 <span
-                  className="rounded-full px-2 py-0.5 text-[10px] font-bold"
-                  style={{ background: `${step.hex}15`, color: step.hex }}
+                  className="eyebrow rounded-full px-2 py-0.5"
+                  style={{ background: tone(step.accent, 0.08), color: tone(step.accent) }}
                 >
                   {step.episodes}
                 </span>
-                <span className="text-[10px] font-medium text-pirate-muted/50">
+                <span className="font-mono text-[10px] font-medium text-pirate-muted/50">
                   {step.duration}
                 </span>
               </div>
@@ -298,17 +309,17 @@ function SagaCard({ step, index, total }: { step: GuideStep; index: number; tota
               transition={{ duration: 0.35, ease: EASE }}
               className="overflow-hidden"
             >
-              <div className="relative z-10 border-t border-white/[0.04] px-4 pb-5 pt-4 sm:px-5">
+              <div className="relative z-10 border-t border-ink/[0.04] px-4 pb-5 pt-4 sm:px-5">
                 {/* Highlights */}
-                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.14em] text-pirate-muted/40">
-                  Bu sagada neler olacak
+                <p className="eyebrow mb-3 text-pirate-muted/40">
+                  Bu Sagada Neler Olacak
                 </p>
                 <div className="mb-5 grid gap-2 sm:grid-cols-2">
                   {step.highlights.map((h) => (
-                    <div key={h} className="flex items-start gap-2.5 rounded-lg bg-white/[0.02] px-3 py-2">
+                    <div key={h} className="flex items-start gap-2.5 rounded-lg bg-ink/[0.02] px-3 py-2">
                       <CheckCircle2
                         className="mt-0.5 h-3.5 w-3.5 flex-shrink-0"
-                        style={{ color: step.hex }}
+                        style={{ color: tone(step.accent) }}
                       />
                       <span className="text-xs leading-relaxed text-pirate-muted/80">{h}</span>
                     </div>
@@ -316,15 +327,15 @@ function SagaCard({ step, index, total }: { step: GuideStep; index: number; tota
                 </div>
 
                 {/* Arc links */}
-                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-pirate-muted/40">
-                  Arc&apos;ları keşfet
+                <p className="eyebrow mb-2 text-pirate-muted/40">
+                  Arc&apos;ları Keşfet
                 </p>
                 <div className="flex flex-wrap gap-1.5">
                   {step.arcSlugs.map((slug) => (
                     <Link
                       key={slug}
                       href={`/arcs/${slug}`}
-                      className="group/arc inline-flex items-center gap-1.5 rounded-lg border border-white/[0.06] bg-white/[0.02] px-2.5 py-1.5 text-[11px] font-medium text-pirate-muted/70 transition-all duration-300 hover:border-gold/20 hover:bg-gold/[0.04] hover:text-gold"
+                      className="group/arc inline-flex items-center gap-1.5 rounded-lg border border-ink/[0.06] bg-ink/[0.02] px-2.5 py-1.5 text-[11px] font-medium text-pirate-muted/70 transition-all duration-300 hover:border-gold/20 hover:bg-gold/[0.04] hover:text-gold"
                     >
                       <Play className="h-2.5 w-2.5 transition-transform group-hover/arc:scale-110" />
                       {slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
@@ -376,7 +387,7 @@ export default function GuidePage() {
               initial={{ scale: 0, rotate: -90 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ duration: 0.8, ease: EASE, delay: 0.1 }}
-              className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-gold/15 bg-gradient-to-br from-gold/[0.08] to-gold/[0.02] shadow-[0_0_40px_rgba(244,163,0,0.06)] sm:h-20 sm:w-20 sm:rounded-3xl"
+              className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-gold/15 bg-gradient-to-br from-gold/[0.08] to-gold/[0.02] shadow-[0_0_40px_rgb(var(--gold)/0.06)] sm:h-20 sm:w-20 sm:rounded-3xl"
             >
               <Compass className="h-7 w-7 text-gold sm:h-9 sm:w-9" />
             </motion.div>
@@ -385,7 +396,7 @@ export default function GuidePage() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: EASE, delay: 0.2 }}
-              className="mb-4 text-3xl font-extrabold leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl"
+              className="mb-4 font-display text-3xl font-extrabold leading-[1.1] sm:text-4xl lg:text-5xl"
             >
               <span className="text-gold-gradient">İzleme</span>{' '}
               <span className="text-pirate-text">Rehberi</span>
@@ -407,7 +418,7 @@ export default function GuidePage() {
               animate={{ scaleX: 1 }}
               transition={{ duration: 1.2, ease: EASE, delay: 0.5 }}
               className="mx-auto mt-8 h-px w-40 origin-center"
-              style={{ background: 'linear-gradient(90deg, transparent, rgba(244,163,0,0.35), rgba(30,144,255,0.35), transparent)' }}
+              style={{ background: 'linear-gradient(90deg, transparent, rgb(var(--gold) / 0.35), rgb(var(--sea) / 0.35), transparent)' }}
             />
           </motion.div>
 
@@ -418,7 +429,7 @@ export default function GuidePage() {
             transition={{ duration: 0.5, ease: EASE, delay: 0.4 }}
             className="mb-12 flex justify-center sm:mb-14"
           >
-            <div className="relative inline-flex rounded-2xl border border-white/[0.06] bg-white/[0.02] p-1.5 backdrop-blur-md">
+            <div className="relative inline-flex rounded-2xl border border-ink/[0.06] bg-ink/[0.02] p-1.5 backdrop-blur-md">
               {/* Active pill background */}
               <motion.div
                 layoutId="tab-pill"
@@ -427,12 +438,12 @@ export default function GuidePage() {
                   left: tab === 'scratch' ? '6px' : '50%',
                   right: tab === 'netflix' ? '6px' : '50%',
                   background: tab === 'scratch'
-                    ? 'linear-gradient(135deg, rgba(244,163,0,0.12), rgba(244,163,0,0.04))'
-                    : 'linear-gradient(135deg, rgba(231,76,60,0.12), rgba(231,76,60,0.04))',
-                  border: `1px solid ${tab === 'scratch' ? 'rgba(244,163,0,0.15)' : 'rgba(231,76,60,0.15)'}`,
+                    ? 'linear-gradient(135deg, rgb(var(--gold) / 0.12), rgb(var(--gold) / 0.04))'
+                    : 'linear-gradient(135deg, rgb(var(--luffy) / 0.12), rgb(var(--luffy) / 0.04))',
+                  border: `1px solid ${tab === 'scratch' ? 'rgb(var(--gold) / 0.15)' : 'rgb(var(--luffy) / 0.15)'}`,
                   boxShadow: tab === 'scratch'
-                    ? '0 0 24px rgba(244,163,0,0.06)'
-                    : '0 0 24px rgba(231,76,60,0.06)',
+                    ? '0 0 24px rgb(var(--gold) / 0.06)'
+                    : '0 0 24px rgb(var(--luffy) / 0.06)',
                 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 30 }}
               />
@@ -477,13 +488,13 @@ export default function GuidePage() {
                     transition={{ duration: 0.5, ease: EASE }}
                     className="mb-5 flex items-center gap-3"
                   >
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10 border border-emerald-500/15">
-                      <Eye className="h-3.5 w-3.5 text-emerald-400" />
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-haki/10 border border-haki/15">
+                      <Eye className="h-3.5 w-3.5 text-haki" />
                     </div>
-                    <h2 className="text-xs font-bold uppercase tracking-[0.12em] text-pirate-muted/60">
+                    <h2 className="eyebrow-lg text-pirate-muted/60">
                       Netflix&apos;te İzlediklerin
                     </h2>
-                    <div className="h-px flex-1 bg-gradient-to-r from-emerald-500/15 to-transparent" />
+                    <div className="h-px flex-1 bg-gradient-to-r from-haki/15 to-transparent" />
                   </motion.div>
 
                   {/* Netflix season cards */}
@@ -494,23 +505,23 @@ export default function GuidePage() {
                         initial={{ opacity: 0, y: 12 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, ease: EASE, delay: 0.1 + i * 0.08 }}
-                        className="group relative overflow-hidden rounded-2xl border border-emerald-500/10 bg-gradient-to-r from-emerald-500/[0.04] to-transparent"
+                        className="group relative overflow-hidden rounded-2xl border border-haki/10 bg-gradient-to-r from-haki/[0.04] to-transparent"
                       >
                         {/* Left accent */}
-                        <div className="absolute inset-y-0 left-0 w-[3px] bg-gradient-to-b from-emerald-400/60 to-emerald-400/20" />
+                        <div className="absolute inset-y-0 left-0 w-[3px] bg-gradient-to-b from-haki/60 to-haki/20" />
 
                         <div className="flex items-start gap-4 p-4 pl-5 sm:p-5 sm:pl-6">
-                          <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-emerald-500/10">
-                            <CheckCircle2 className="h-4.5 w-4.5 text-emerald-400" />
+                          <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-haki/10">
+                            <CheckCircle2 className="h-4.5 w-4.5 text-haki" />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="mb-1 flex items-center gap-2">
-                              <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
+                              <span className="eyebrow rounded-full bg-haki/10 px-2.5 py-0.5 text-haki">
                                 {item.season}
                               </span>
-                              <span className="text-[10px] font-semibold text-emerald-400/60">TAMAMLANDI</span>
+                              <span className="eyebrow text-haki/60">Tamamlandı</span>
                             </div>
-                            <h4 className="text-sm font-bold text-pirate-text">{item.title}</h4>
+                            <h4 className="font-display text-sm font-bold text-pirate-text">{item.title}</h4>
                             <p className="mt-1 text-xs text-pirate-muted/60 leading-relaxed">{item.description}</p>
                             <p className="mt-2 flex items-center gap-1.5 text-[11px] text-pirate-muted/40">
                               <BookOpen className="h-3 w-3" />
@@ -529,18 +540,18 @@ export default function GuidePage() {
                     transition={{ duration: 0.5, ease: EASE, delay: 0.3 }}
                     className="relative my-8 overflow-hidden rounded-2xl border border-gold/15 p-5 sm:p-6"
                     style={{
-                      background: 'linear-gradient(135deg, rgba(244,163,0,0.06) 0%, rgba(30,144,255,0.04) 50%, rgba(244,163,0,0.02) 100%)',
+                      background: 'linear-gradient(135deg, rgb(var(--gold) / 0.06) 0%, rgb(var(--sea) / 0.04) 50%, rgb(var(--gold) / 0.02) 100%)',
                     }}
                   >
                     {/* Mesh gradient */}
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,rgba(244,163,0,0.08),transparent_50%),radial-gradient(ellipse_at_80%_50%,rgba(30,144,255,0.06),transparent_50%)]" />
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,rgb(var(--gold)/0.08),transparent_50%),radial-gradient(ellipse_at_80%_50%,rgb(var(--sea)/0.06),transparent_50%)]" />
 
                     <div className="relative flex items-center gap-4">
-                      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl border border-gold/20 bg-gold/10 shadow-[0_0_24px_rgba(244,163,0,0.1)]">
+                      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl border border-gold/20 bg-gold/10 shadow-[0_0_24px_rgb(var(--gold)/0.1)]">
                         <MapPin className="h-5 w-5 text-gold" />
                       </div>
                       <div>
-                        <h3 className="text-base font-bold text-gold sm:text-lg">Buradan Devam Et</h3>
+                        <h3 className="font-display text-base font-bold text-gold sm:text-lg">Buradan Devam Et</h3>
                         <p className="mt-0.5 text-sm text-pirate-muted/70">
                           Anime ile Alabasta arc&apos;ından (Crocodile savaşı) devam edebilirsin.
                         </p>
@@ -553,7 +564,7 @@ export default function GuidePage() {
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gold/10 border border-gold/15">
                       <Compass className="h-3.5 w-3.5 text-gold" />
                     </div>
-                    <h2 className="text-xs font-bold uppercase tracking-[0.12em] text-pirate-muted/60">
+                    <h2 className="eyebrow-lg text-pirate-muted/60">
                       Anime ile Devam
                     </h2>
                     <div className="h-px flex-1 bg-gradient-to-r from-gold/15 to-transparent" />
@@ -567,18 +578,18 @@ export default function GuidePage() {
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, ease: EASE }}
-                  className="relative mb-10 overflow-hidden rounded-2xl border border-white/[0.06] bg-gradient-to-br from-white/[0.04] to-white/[0.01] p-5 backdrop-blur-md sm:p-6"
+                  className="relative mb-10 overflow-hidden rounded-2xl border border-ink/[0.06] bg-gradient-to-br from-ink/[0.04] to-ink/[0.01] p-5 backdrop-blur-md sm:p-6"
                 >
                   {/* Background mesh */}
-                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_0%_0%,rgba(244,163,0,0.06),transparent_50%),radial-gradient(ellipse_at_100%_100%,rgba(30,144,255,0.04),transparent_50%)]" />
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_0%_0%,rgb(var(--gold)/0.06),transparent_50%),radial-gradient(ellipse_at_100%_100%,rgb(var(--sea)/0.04),transparent_50%)]" />
 
                   <div className="relative">
                     <div className="mb-5 flex items-start gap-4">
-                      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl border border-gold/15 bg-gradient-to-br from-gold/15 to-gold/5 shadow-[0_0_24px_rgba(244,163,0,0.06)]">
+                      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl border border-gold/15 bg-gradient-to-br from-gold/15 to-gold/5 shadow-[0_0_24px_rgb(var(--gold)/0.06)]">
                         <Zap className="h-5 w-5 text-gold" />
                       </div>
                       <div>
-                        <h2 className="mb-1 text-lg font-bold text-pirate-text">Sıfırdan Anime Yolu</h2>
+                        <h2 className="mb-1 font-display text-lg font-bold text-pirate-text">Sıfırdan Anime Yolu</h2>
                         <p className="text-[13px] text-pirate-muted/60 leading-relaxed">
                           One Piece&apos;i en başından izlemek istiyorsan bu yol sana göre.
                           Filler&apos;sız, saf hikaye. Her saga adım adım.
@@ -589,18 +600,18 @@ export default function GuidePage() {
                     {/* Stats row */}
                     <div className="grid grid-cols-3 gap-2">
                       {[
-                        { value: String(SITE_STATS.sagas), label: 'Saga', color: '#f4a300' },
-                        { value: String(SITE_STATS.arcs), label: 'Arc', color: '#1e90ff' },
-                        { value: String(SITE_STATS.episodes), label: 'Bölüm', color: '#e74c3c' },
+                        { value: String(SITE_STATS.sagas), label: 'Saga', color: 'text-gold' },
+                        { value: String(SITE_STATS.arcs), label: 'Arc', color: 'text-sea' },
+                        { value: String(SITE_STATS.episodes), label: 'Bölüm', color: 'text-luffy' },
                       ].map((stat) => (
                         <div
                           key={stat.label}
-                          className="rounded-xl border border-white/[0.04] bg-white/[0.02] px-3 py-3 text-center"
+                          className="rounded-xl border border-ink/[0.04] bg-ink/[0.02] px-3 py-3 text-center"
                         >
-                          <p className="text-xl font-extrabold tabular-nums" style={{ color: stat.color }}>
+                          <p className={`font-display text-xl font-extrabold tabular-nums ${stat.color}`}>
                             {stat.value}
                           </p>
-                          <p className="text-[10px] font-medium text-pirate-muted/40">{stat.label}</p>
+                          <p className="eyebrow text-pirate-muted/40">{stat.label}</p>
                         </div>
                       ))}
                     </div>
@@ -643,7 +654,7 @@ export default function GuidePage() {
             transition={{ duration: 0.6, ease: EASE }}
             className="mt-20 mb-10 flex justify-center"
           >
-            <div className="inline-flex items-center gap-3 rounded-2xl border border-white/[0.04] bg-white/[0.02] px-5 py-3 backdrop-blur-sm">
+            <div className="inline-flex items-center gap-3 rounded-2xl border border-ink/[0.04] bg-ink/[0.02] px-5 py-3 backdrop-blur-sm">
               <Sparkles className="h-3.5 w-3.5 text-gold/40" />
               <p className="text-xs text-pirate-muted/50 sm:text-[13px]">
                 Tüm bölümler filler&apos;sız, OnePaceTR ile izlenebilir.{' '}

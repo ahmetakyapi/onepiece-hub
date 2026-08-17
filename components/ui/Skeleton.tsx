@@ -10,7 +10,10 @@ export function Skeleton({ className, style }: SkeletonProps) {
   return (
     <div
       className={cn(
-        'skeleton-shimmer rounded-lg bg-ocean-surface/60',
+        /* `ocean-surface` KULLANMA: light temada beyaza döner ve iskelet
+           beyaz `bento-card` üstünde tamamen görünmez olur. `pirate-border`
+           iki temada da zeminden bir tık ayrışan nötr bir blok verir. */
+        'skeleton-shimmer rounded-lg bg-pirate-border/50',
         className,
       )}
       style={style}

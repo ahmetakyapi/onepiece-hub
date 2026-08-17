@@ -16,10 +16,10 @@ const TYPES = Object.keys(DEVIL_FRUIT_TYPE_INFO)
 const TYPE_ORDER = ['Mythical Zoan', 'Logia', 'Ancient Zoan', 'Zoan', 'Paramecia', 'Special Paramecia']
 
 const HERO_ORBS = [
-  { color: 'rgba(168, 85, 247, 0.4)', size: 300, x: '70%', y: '10%', delay: 0 },
-  { color: 'rgba(244, 163, 0, 0.3)', size: 200, x: '10%', y: '60%', delay: 2 },
-  { color: 'rgba(30, 144, 255, 0.3)', size: 250, x: '85%', y: '70%', delay: 4 },
-  { color: 'rgba(231, 76, 60, 0.2)', size: 180, x: '40%', y: '20%', delay: 1 },
+  { color: 'rgb(var(--fruit-strong) / 0.4)', size: 300, x: '70%', y: '10%', delay: 0 },
+  { color: 'rgb(var(--gold) / 0.3)', size: 200, x: '10%', y: '60%', delay: 2 },
+  { color: 'rgb(var(--sea) / 0.3)', size: 250, x: '85%', y: '70%', delay: 4 },
+  { color: 'rgb(var(--luffy) / 0.2)', size: 180, x: '40%', y: '20%', delay: 1 },
 ]
 
 export default function DevilFruitsPage() {
@@ -71,12 +71,12 @@ export default function DevilFruitsPage() {
             <div className="flex flex-wrap gap-3">
               <div className="flex items-center gap-2 rounded-xl border border-fruit-strong/20 bg-fruit-strong/10 px-4 py-2">
                 <Cherry className="h-4 w-4 text-fruit" />
-                <span className="text-sm font-bold text-fruit-light">{DEVIL_FRUITS.length}</span>
+                <span className="font-display text-sm font-bold text-fruit-light">{DEVIL_FRUITS.length}</span>
                 <span className="text-xs text-pirate-muted">Meyve</span>
               </div>
               <div className="flex items-center gap-2 rounded-xl border border-gold/20 bg-gold/10 px-4 py-2">
                 <Sparkles className="h-4 w-4 text-gold" />
-                <span className="text-sm font-bold text-gold">{TYPES.length}</span>
+                <span className="font-display text-sm font-bold text-gold">{TYPES.length}</span>
                 <span className="text-xs text-pirate-muted">Tür</span>
               </div>
             </div>
@@ -99,12 +99,12 @@ export default function DevilFruitsPage() {
                   }`}
                 >
                   <div className={`absolute inset-0 ${info.bg} opacity-50 transition-opacity group-hover:opacity-80`} />
-                  <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gradient-to-br from-white/5 to-transparent" />
+                  <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gradient-to-br from-ink/5 to-transparent" />
 
                   <div className="relative z-10">
                     <div className="mb-3 flex items-center justify-between">
-                      <span className={`text-base font-extrabold ${info.color}`}>{info.label}</span>
-                      <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${info.bg} text-sm font-bold ${info.color}`}>
+                      <span className={`font-display text-base font-extrabold ${info.color}`}>{info.label}</span>
+                      <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${info.bg} font-display text-sm font-bold ${info.color}`}>
                         {count}
                       </span>
                     </div>
@@ -114,15 +114,15 @@ export default function DevilFruitsPage() {
                     <div className="mt-3 h-1 rounded-full bg-pirate-border/30">
                       <div
                         className={`h-full rounded-full bg-gradient-to-r animate-grow-bar ${
-                          info.color.includes('purple') ? 'from-fruit-strong to-fruit' :
+                          info.color.includes('fruit') ? 'from-fruit-strong to-fruit' :
                           info.color.includes('sea') ? 'from-sea to-sea-light' :
-                          info.color.includes('luffy') ? 'from-luffy to-red-400' :
+                          info.color.includes('luffy') ? 'from-luffy to-luffy' :
                           info.color.includes('gold') ? 'from-gold to-gold-bright' :
-                          info.color.includes('emerald') ? 'from-emerald-500 to-emerald-400' :
-                          info.color.includes('green') ? 'from-green-500 to-green-400' :
-                          info.color.includes('yellow') ? 'from-yellow-500 to-yellow-400' :
-                          info.color.includes('amber') ? 'from-amber-400 to-amber-300' :
-                          info.color.includes('pink') ? 'from-pink-500 to-pink-400' :
+                          info.color.includes('emerald') ? 'from-accent-emerald to-accent-emerald' :
+                          info.color.includes('green') ? 'from-accent-lime to-accent-lime' :
+                          info.color.includes('yellow') ? 'from-accent-amber to-accent-amber' :
+                          info.color.includes('amber') ? 'from-accent-amber to-accent-amber' :
+                          info.color.includes('pink') ? 'from-accent-pink to-accent-pink' :
                           'from-gold to-gold-bright'
                         }`}
                         style={{ width: `${(count / DEVIL_FRUITS.length) * 100}%` }}
@@ -177,10 +177,10 @@ export default function DevilFruitsPage() {
                       <div className={`flex h-9 w-9 items-center justify-center rounded-xl ${typeInfo.bg} border border-current/10`}>
                         <Cherry className={`h-4 w-4 ${typeInfo.color}`} />
                       </div>
-                      <h2 className={`text-lg font-extrabold ${typeInfo.color}`}>
+                      <h2 className={`font-display text-lg font-extrabold ${typeInfo.color}`}>
                         {typeInfo.label}
                       </h2>
-                      <span className="text-xs text-pirate-muted">({fruits.length})</span>
+                      <span className="font-mono text-xs text-pirate-muted">({fruits.length})</span>
                       <div className="h-px flex-1 bg-gradient-to-r from-pirate-border/30 to-transparent" />
                     </div>
                   )}
@@ -219,12 +219,12 @@ export default function DevilFruitsPage() {
                             )}
                             <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep via-ocean-deep/40 to-transparent" />
 
-                            <span className={`absolute right-3 top-3 rounded-lg px-2.5 py-1 text-[10px] font-bold backdrop-blur-sm ${typeInfo.bg} ${typeInfo.color} border border-current/10`}>
+                            <span className={`eyebrow absolute right-3 top-3 rounded-lg px-2.5 py-1 backdrop-blur-sm ${typeInfo.bg} ${typeInfo.color} border border-current/10`}>
                               {typeInfo.label}
                             </span>
 
                             <div className="absolute bottom-0 left-0 right-0 p-4">
-                              <h3 className="text-base font-bold text-pirate-text transition-colors group-hover:text-gold leading-tight">
+                              <h3 className="font-display text-base font-bold text-pirate-text transition-colors group-hover:text-gold leading-tight">
                                 {df.name}
                               </h3>
                               <p className="mt-0.5 text-xs text-pirate-muted/80">{df.meaning}</p>
@@ -255,10 +255,10 @@ export default function DevilFruitsPage() {
                                 )}
                               </div>
                               <div className="flex-1 min-w-0">
-                                <span className="text-sm font-semibold text-pirate-text truncate block">{df.user}</span>
+                                <span className="font-display text-sm font-semibold text-pirate-text truncate block">{df.user}</span>
                               </div>
                               {df.status === 'deceased' && (
-                                <span className="rounded-full bg-luffy/10 px-1.5 py-0.5 text-[9px] font-bold text-luffy">
+                                <span className="eyebrow rounded-full bg-luffy/10 px-1.5 py-0.5 text-luffy">
                                   Ölü
                                 </span>
                               )}

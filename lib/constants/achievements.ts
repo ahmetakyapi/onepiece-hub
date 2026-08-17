@@ -27,34 +27,45 @@ export interface UserStats {
   commentsCount: number
 }
 
+/* Madalya kademeleri — dört kademe, dört ayrı token.
+   Neden token: `bronze` ham `amber-600`, `silver` ham `gray-300` yazılıydı.
+   Gümüş rozet yazısı light temada parşömen/beyaz kart üstünde ~1.4:1'e
+   düşüp okunmaz oluyordu. Token light'ta 700/800 seviyeye dönüyor.
+
+   Ayırt edicilik: madalya semantiği birebir korundu — bronze→accent-bronze,
+   silver→accent-silver, gold→gold (marka altını), legendary→fruit. Dört
+   kademe dört farklı token; hiçbiri paylaşılmıyor.
+
+   `glow` gölgeleri de ham `rgba()` idi (temayla dönmüyordu). Token'lanan
+   değerler dark temada birebir aynı: #d97706 · #d1d5db · #f4a300 · #9333ea. */
 export const TIER_CONFIG: Record<AchievementTier, { label: string; color: string; bg: string; border: string; glow: string }> = {
   bronze: {
     label: 'Bronz',
-    color: 'text-amber-600',
-    bg: 'bg-amber-600/10',
-    border: 'border-amber-600/20',
-    glow: 'shadow-[0_0_12px_rgba(217,119,6,0.15)]',
+    color: 'text-accent-bronze',
+    bg: 'bg-accent-bronze/10',
+    border: 'border-accent-bronze/20',
+    glow: 'shadow-[0_0_12px_rgb(var(--accent-bronze)/0.15)]',
   },
   silver: {
     label: 'Gümüş',
-    color: 'text-gray-300',
-    bg: 'bg-gray-300/10',
-    border: 'border-gray-300/20',
-    glow: 'shadow-[0_0_12px_rgba(209,213,219,0.15)]',
+    color: 'text-accent-silver',
+    bg: 'bg-accent-silver/10',
+    border: 'border-accent-silver/20',
+    glow: 'shadow-[0_0_12px_rgb(var(--accent-silver)/0.15)]',
   },
   gold: {
     label: 'Altın',
     color: 'text-gold',
     bg: 'bg-gold/10',
     border: 'border-gold/25',
-    glow: 'shadow-[0_0_16px_rgba(244,163,0,0.2)]',
+    glow: 'shadow-[0_0_16px_rgb(var(--gold)/0.2)]',
   },
   legendary: {
     label: 'Efsanevi',
     color: 'text-fruit',
     bg: 'bg-fruit/10',
     border: 'border-fruit/25',
-    glow: 'shadow-[0_0_20px_rgba(147,51,234,0.2)]',
+    glow: 'shadow-[0_0_20px_rgb(var(--fruit-deep)/0.2)]',
   },
 }
 

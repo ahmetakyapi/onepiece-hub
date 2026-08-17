@@ -46,9 +46,9 @@ export default function QuizHubPage() {
             icon={BrainCircuit}
             accentColor="purple"
             orbs={[
-              { color: 'rgba(168, 85, 247, 0.4)', size: 280, x: '15%', y: '25%', delay: 0 },
-              { color: 'rgba(244, 163, 0, 0.2)', size: 200, x: '75%', y: '15%', delay: 1.5 },
-              { color: 'rgba(168, 85, 247, 0.15)', size: 220, x: '85%', y: '65%', delay: 3 },
+              { color: 'rgb(var(--fruit-strong) / 0.4)', size: 280, x: '15%', y: '25%', delay: 0 },
+              { color: 'rgb(var(--gold) / 0.2)', size: 200, x: '75%', y: '15%', delay: 1.5 },
+              { color: 'rgb(var(--fruit-strong) / 0.15)', size: 220, x: '85%', y: '65%', delay: 3 },
             ]}
           />
 
@@ -71,8 +71,8 @@ export default function QuizHubPage() {
                 className="glass rounded-xl p-4 text-center"
               >
                 <stat.icon className="w-5 h-5 mx-auto mb-2 text-gold" />
-                <span className="block text-2xl font-bold text-gold stat-number">{stat.value}</span>
-                <span className="block text-xs text-pirate-muted">{stat.label}</span>
+                <span className="font-display block text-2xl font-bold text-gold stat-number">{stat.value}</span>
+                <span className="eyebrow mt-1 block text-pirate-muted">{stat.label}</span>
               </motion.div>
             ))}
           </motion.div>
@@ -91,8 +91,8 @@ export default function QuizHubPage() {
               <motion.div key={saga.slug} variants={fadeUp}>
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-1 h-8 rounded-full bg-gradient-to-b from-gold to-gold/30" />
-                  <h2 className="text-xl font-bold text-pirate-text">{saga.name} Saga</h2>
-                  <span className="chip text-xs">{quizzes.length} quiz</span>
+                  <h2 className="font-display text-xl font-bold text-pirate-text">{saga.name} Saga</h2>
+                  <span className="chip eyebrow">{quizzes.length} quiz</span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -120,18 +120,18 @@ export default function QuizHubPage() {
                           <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep/90 via-ocean-deep/40 to-transparent" />
 
                           {/* Question count badge */}
-                          <div className="absolute top-3 right-3 glass rounded-lg px-2 py-1 text-xs font-medium text-pirate-text">
+                          <div className="absolute top-3 right-3 glass eyebrow rounded-lg px-2 py-1.5 text-pirate-text">
                             {quiz.questions.length} soru
                           </div>
                         </div>
 
                         {/* Content */}
                         <div className="p-4">
-                          <h3 className="text-sm font-bold text-pirate-text group-hover:text-gold transition-colors line-clamp-1">
+                          <h3 className="font-display text-sm font-bold text-pirate-text group-hover:text-gold transition-colors line-clamp-1">
                             {arc.name}
                           </h3>
                           <div className="flex items-center justify-between mt-2">
-                            <span className="text-xs text-pirate-muted">
+                            <span className="font-mono text-[11px] text-pirate-muted">
                               {arc.episodes?.length ?? 0} bölüm
                             </span>
                             <ChevronRight className="w-4 h-4 text-pirate-muted group-hover:text-gold group-hover:translate-x-1 transition-all" />

@@ -25,11 +25,11 @@ import { getRelatedCharacters } from '@/lib/related'
 
 const DEVIL_FRUIT_TYPE_COLORS: Record<string, string> = {
   'Paramecia': 'bg-fruit-strong/20 text-fruit-light',
-  'Zoan': 'bg-green-500/20 text-green-300',
-  'Logia': 'bg-yellow-500/20 text-yellow-300',
-  'Mythical Zoan': 'bg-amber-500/20 text-amber-200',
-  'Ancient Zoan': 'bg-emerald-500/20 text-emerald-300',
-  'Special Paramecia': 'bg-pink-500/20 text-pink-300',
+  'Zoan': 'bg-accent-lime/20 text-accent-lime',
+  'Logia': 'bg-accent-amber/20 text-accent-amber',
+  'Mythical Zoan': 'bg-accent-amber/20 text-accent-amber',
+  'Ancient Zoan': 'bg-accent-emerald/20 text-accent-emerald',
+  'Special Paramecia': 'bg-accent-pink/20 text-accent-pink',
 } as const
 
 const ABILITY_CATEGORY_CONFIG: Record<string, { icon: typeof Zap; color: string }> = {
@@ -39,7 +39,7 @@ const ABILITY_CATEGORY_CONFIG: Record<string, { icon: typeof Zap; color: string 
   'Fiziksel': { icon: Zap, color: 'text-gold' },
   'Silah': { icon: Anchor, color: 'text-pirate-muted' },
   'Özel': { icon: Sparkles, color: 'text-gold' },
-  'Bilim': { icon: BookOpen, color: 'text-green-400' },
+  'Bilim': { icon: BookOpen, color: 'text-haki' },
 } as const
 
 function groupAbilitiesByCategory(abilities: Ability[]): Record<string, Ability[]> {
@@ -53,8 +53,8 @@ function groupAbilitiesByCategory(abilities: Ability[]): Record<string, Ability[
 }
 
 /* ─── Stat Pill ──────────────────────────────────────────────────────── */
-function StatPill({ icon: Icon, label, value, color = 'text-sea' }: {
-  icon: typeof Zap; label: string; value: string; color?: string
+function StatPill({ icon: Icon, label, value, color = 'text-sea', mono = false }: {
+  icon: typeof Zap; label: string; value: string; color?: string; mono?: boolean
 }) {
   return (
     <div className="bento-card group flex items-center gap-3 rounded-2xl px-4 py-3 transition-all duration-500 hover:border-gold/15">
@@ -62,8 +62,8 @@ function StatPill({ icon: Icon, label, value, color = 'text-sea' }: {
         <Icon className="h-4 w-4" />
       </div>
       <div>
-        <p className="text-[10px] font-medium uppercase tracking-wider text-pirate-muted/50">{label}</p>
-        <p className="text-sm font-bold text-pirate-text">{value}</p>
+        <p className="eyebrow text-pirate-muted/50">{label}</p>
+        <p className={`text-sm font-bold text-pirate-text ${mono ? 'font-mono tabular-nums' : ''}`}>{value}</p>
       </div>
     </div>
   )
@@ -128,10 +128,10 @@ export default function CharacterDetailClient({ character }: { character: Charac
               <div className="orb absolute w-64 h-64 bg-gold/[0.05] animate-float-delayed" style={{ top: '30%', left: '40%' }} />
               <div className="relative z-10 flex flex-col items-center gap-3">
                 <div className="h-24 w-24 rounded-full border border-sea/20 bg-ocean-surface flex items-center justify-center shadow-sea-glow">
-                  <span className="text-4xl font-extrabold text-gold/60 select-none">{character.name.charAt(0)}</span>
+                  <span className="font-display text-4xl font-extrabold text-gold/60 select-none">{character.name.charAt(0)}</span>
                 </div>
                 {character.epithet && (
-                  <p className="text-xs font-semibold tracking-widest text-pirate-muted/40 uppercase">{character.epithet}</p>
+                  <p className="eyebrow text-pirate-muted/40">{character.epithet}</p>
                 )}
               </div>
             </div>
@@ -144,7 +144,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
         <div className="absolute inset-x-0 bottom-0 h-[50%] bg-gradient-to-t from-ocean-deep via-ocean-deep/90 to-transparent" />
 
         {/* Side vignette */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_40%,transparent_40%,rgba(6,14,26,0.7))]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_40%,transparent_40%,rgb(var(--ocean-deep)/0.7))]" />
 
         {/* Hero content — positioned at bottom */}
         <motion.div
@@ -160,7 +160,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
             >
               <Link
                 href="/characters"
-                className="mb-6 inline-flex items-center gap-1.5 text-sm text-white/60 transition-colors hover:text-gold"
+                className="mb-6 inline-flex items-center gap-1.5 text-sm text-pirate-text/60 transition-colors hover:text-gold"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Tüm Karakterler
@@ -186,13 +186,13 @@ export default function CharacterDetailClient({ character }: { character: Charac
               transition={{ duration: 0.7, ease: EASE, delay: 0.3 }}
             >
               <div className="mb-2 flex items-center gap-3">
-                <h1 className="text-4xl font-extrabold tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.5)] sm:text-5xl md:text-6xl">
+                <h1 className="font-display text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.5)] sm:text-5xl md:text-6xl">
                   {character.name}
                 </h1>
                 <FavoriteButton targetType="character" targetSlug={character.slug} className="mt-1" />
               </div>
               {character.epithet && (
-                <p className="mb-1 flex items-center gap-1.5 text-base italic text-gold drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] sm:text-lg">
+                <p className="mb-1 flex items-center gap-1.5 text-base italic text-gold drop-shadow-[0_2px_8px_rgb(var(--ocean-deep)/0.5)] sm:text-lg">
                   <Quote className="h-4 w-4" />
                   &quot;{character.epithet}&quot;
                 </p>
@@ -210,7 +210,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
               className="mt-5 flex flex-wrap gap-2"
             >
               {character.bounty && (
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/20 bg-gold/[0.08] px-3 py-1.5 text-xs font-bold text-gold backdrop-blur-sm">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/20 bg-gold/[0.08] px-3 py-1.5 font-mono text-xs font-bold tabular-nums text-gold backdrop-blur-sm">
                   <Skull className="h-3 w-3" />
                   {character.bounty} Berry
                 </span>
@@ -267,7 +267,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
                 <StatPill icon={Globe} label="Köken" value={character.origin} color="text-sea" />
               )}
               {character.bounty && (
-                <StatPill icon={Skull} label="Ödül" value={`${character.bounty} Berry`} color="text-gold" />
+                <StatPill icon={Skull} label="Ödül" value={`${character.bounty} Berry`} color="text-gold" mono />
               )}
             </div>
           </RevealSection>
@@ -276,7 +276,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
         {/* Backstory */}
         {character.backstory && (
           <RevealSection className="mb-10">
-            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+            <h2 className="mb-4 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
               <BookOpen className="h-5 w-5 text-gold" />
               Geçmiş Hikayesi
             </h2>
@@ -293,7 +293,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
         {/* Devil Fruit Detail */}
         {character.devilFruit && (
           <RevealSection className="mb-10">
-            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+            <h2 className="mb-4 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
               <Cherry className="h-5 w-5 text-luffy" />
               Şeytan Meyvesi
             </h2>
@@ -301,7 +301,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
               {/* Decorative glow */}
               <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-luffy/5 blur-[60px]" />
               <div className="mb-3 flex items-center gap-3">
-                <p className="text-base font-bold text-pirate-text sm:text-lg">{character.devilFruit.name}</p>
+                <p className="font-display text-base font-bold text-pirate-text sm:text-lg">{character.devilFruit.name}</p>
                 <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${DEVIL_FRUIT_TYPE_COLORS[character.devilFruit.type]}`}>
                   {character.devilFruit.type}
                 </span>
@@ -315,7 +315,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
 
         {/* Power Stats */}
         <RevealSection className="mb-10">
-          <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+          <h2 className="mb-4 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
             <Sparkles className="h-5 w-5 text-gold" />
             Güç İstatistikleri
           </h2>
@@ -329,7 +329,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
 
         {/* Abilities */}
         <RevealSection className="mb-10">
-          <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+          <h2 className="mb-4 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
             <Zap className="h-5 w-5 text-gold" />
             Yetenekler
           </h2>
@@ -342,8 +342,8 @@ export default function CharacterDetailClient({ character }: { character: Charac
                   {/* Category header */}
                   <div className="flex items-center gap-2 border-b border-pirate-border/10 px-5 py-3">
                     <CategoryIcon className={`h-4 w-4 ${config.color}`} />
-                    <h3 className={`text-sm font-bold ${config.color}`}>{category}</h3>
-                    <span className="ml-auto text-[10px] font-semibold text-pirate-muted/40">
+                    <h3 className={`font-display text-sm font-bold ${config.color}`}>{category}</h3>
+                    <span className="eyebrow ml-auto text-pirate-muted/40">
                       {abilities.length} yetenek
                     </span>
                   </div>
@@ -373,10 +373,10 @@ export default function CharacterDetailClient({ character }: { character: Charac
         {/* Arc Journey — saga-grouped appearance timeline */}
         {character.appearances && character.appearances.length > 0 && (
           <RevealSection className="mb-10">
-            <h2 className="mb-5 flex items-center gap-2 text-lg font-bold text-pirate-text">
+            <h2 className="mb-5 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
               <Film className="h-5 w-5 text-sea" />
               Arc Yolculuğu
-              <span className="ml-1 rounded-full bg-sea/[0.06] px-2.5 py-0.5 text-[11px] font-semibold text-sea/70">
+              <span className="ml-1 rounded-full bg-sea/[0.06] px-2.5 py-0.5 font-mono text-[11px] font-semibold tabular-nums text-sea/70">
                 {character.appearances.length}
               </span>
             </h2>
@@ -398,10 +398,10 @@ export default function CharacterDetailClient({ character }: { character: Charac
           if (charBattles.length === 0) return null
           return (
             <RevealSection className="mb-10">
-              <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+              <h2 className="mb-4 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
                 <Swords className="h-5 w-5 text-luffy" />
                 Katıldığı Savaşlar
-                <span className="ml-1 rounded-full bg-luffy/[0.06] px-2.5 py-0.5 text-[11px] font-semibold text-luffy/70">
+                <span className="ml-1 rounded-full bg-luffy/[0.06] px-2.5 py-0.5 font-mono text-[11px] font-semibold tabular-nums text-luffy/70">
                   {charBattles.length}
                 </span>
               </h2>
@@ -420,21 +420,21 @@ export default function CharacterDetailClient({ character }: { character: Charac
                       className="bento-card group flex items-center gap-4 rounded-2xl px-5 py-3.5"
                     >
                       <div className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl ${
-                        isWinnerSide ? 'bg-emerald-500/10' : isLoserSide ? 'bg-luffy/10' : 'bg-gold/10'
+                        isWinnerSide ? 'bg-haki/10' : isLoserSide ? 'bg-luffy/10' : 'bg-gold/10'
                       }`}>
                         <Swords className={`h-4 w-4 ${
-                          isWinnerSide ? 'text-emerald-400' : isLoserSide ? 'text-luffy' : 'text-gold'
+                          isWinnerSide ? 'text-haki' : isLoserSide ? 'text-luffy' : 'text-gold'
                         }`} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-pirate-text group-hover:text-gold transition-colors">
+                        <p className="font-display text-sm font-semibold text-pirate-text group-hover:text-gold transition-colors">
                           {battle.name}
                         </p>
-                        <p className="text-[11px] text-pirate-muted/50">{battle.arc}</p>
+                        <p className="eyebrow mt-0.5 text-pirate-muted/50">{battle.arc}</p>
                       </div>
-                      <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold ${
+                      <span className={`eyebrow rounded-full px-2.5 py-1 ${
                         isWinnerSide
-                          ? 'bg-emerald-500/10 text-emerald-400'
+                          ? 'bg-haki/10 text-haki'
                           : isLoserSide
                           ? 'bg-luffy/10 text-luffy'
                           : 'bg-gold/10 text-gold'

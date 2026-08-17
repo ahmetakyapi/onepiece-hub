@@ -48,18 +48,18 @@ function AchievementCard({ achievement, unlocked, index = 0 }: AchievementCardPr
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <p className={cn(
-              'text-sm font-bold truncate',
-              unlocked ? 'text-pirate-text' : 'text-pirate-muted/50',
+              'font-display text-sm font-bold truncate',
+              unlocked ? 'text-pirate-text' : 'text-pirate-muted/60',
             )}>
               {achievement.name}
             </p>
             {unlocked && (
-              <span className={cn('rounded-full px-1.5 py-0.5 text-[9px] font-bold uppercase', tier.bg, tier.color)}>
+              <span className={cn('eyebrow rounded-full px-1.5 py-1 text-[9px]', tier.bg, tier.color)}>
                 {tier.label}
               </span>
             )}
           </div>
-          <p className="text-xs text-pirate-muted/60 truncate">{achievement.description}</p>
+          <p className="text-xs text-pirate-muted/70 truncate">{achievement.description}</p>
         </div>
       </div>
     </motion.div>

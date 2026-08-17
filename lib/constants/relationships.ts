@@ -12,13 +12,21 @@ export interface CharacterRelation {
   label?: string
 }
 
-export const RELATION_CONFIG: Record<RelationType, { color: string; label: string; dash?: boolean }> = {
-  nakama: { color: '#1e90ff', label: 'Nakama' },
-  family: { color: '#22c55e', label: 'Aile' },
-  rival: { color: '#f4a300', label: 'Rakip', dash: true },
-  enemy: { color: '#e74c3c', label: 'Düşman', dash: true },
-  mentor: { color: '#a855f7', label: 'Mentor' },
-  ally: { color: '#60b8ff', label: 'Müttefik', dash: true },
+/* `token` = renk değişkeninin ADI, `color` = doğrudan kullanıma hazır hâli.
+   İkisi de burada tanımlı ki tek kaynak olsun: grafiğin kenarları rengi
+   opaklıkla harmanlaması gerekiyor (`rgb(var(--sea) / 0.4)`) ve bunun için
+   değişken adına ihtiyacı var. Daha önce bu eşleme bileşenin içinde ikinci
+   kez yazılıydı ve sürüklenmeye açıktı. */
+export const RELATION_CONFIG: Record<
+  RelationType,
+  { token: string; color: string; label: string; dash?: boolean }
+> = {
+  nakama: { token: '--sea', color: 'rgb(var(--sea))', label: 'Nakama' },
+  family: { token: '--haki', color: 'rgb(var(--haki))', label: 'Aile' },
+  rival: { token: '--gold', color: 'rgb(var(--gold))', label: 'Rakip', dash: true },
+  enemy: { token: '--luffy', color: 'rgb(var(--luffy))', label: 'Düşman', dash: true },
+  mentor: { token: '--fruit-strong', color: 'rgb(var(--fruit-strong))', label: 'Mentor' },
+  ally: { token: '--sea-light', color: 'rgb(var(--sea-light))', label: 'Müttefik', dash: true },
 }
 
 export const CHARACTER_RELATIONS: CharacterRelation[] = [

@@ -153,8 +153,8 @@ export const CREWS: Crew[] = [
       'Road Poneglyph\'lerden birine sahip olma',
     ],
     jollyRoger: 'Şapkalı kafatası, çapraz kemikler yerine lolipop',
-    color: 'text-pink-400',
-    bg: 'bg-pink-500/10',
+    color: 'text-accent-pink',
+    bg: 'bg-accent-pink/10',
   },
   {
     name: 'Beast Korsanları',
@@ -180,8 +180,8 @@ export const CREWS: Crew[] = [
       'Dünyanın en büyük savaş gücünü oluşturma',
     ],
     jollyRoger: 'Boynuzlu kafatası, çapraz kemikler',
-    color: 'text-emerald-400',
-    bg: 'bg-emerald-500/10',
+    color: 'text-accent-emerald',
+    bg: 'bg-accent-emerald/10',
   },
   {
     name: 'Roger Korsanları',
@@ -258,8 +258,8 @@ export const CREWS: Crew[] = [
       'Reverie\'de Celestial Dragon\'lara operasyon',
       'Kuma\'nın kurtarılması',
     ],
-    color: 'text-green-400',
-    bg: 'bg-green-500/10',
+    color: 'text-accent-lime',
+    bg: 'bg-accent-lime/10',
   },
   {
     name: 'Shichibukai (Yedi Savaş Lordu)',
@@ -285,8 +285,8 @@ export const CREWS: Crew[] = [
       'Dünya dengesinin üç sütunundan biri olma',
       'Marineford Savaşı\'nda kritik rol',
     ],
-    color: 'text-amber-400',
-    bg: 'bg-amber-500/10',
+    color: 'text-accent-amber',
+    bg: 'bg-accent-amber/10',
   },
   {
     name: 'Cross Guild',
@@ -329,8 +329,8 @@ export const CREWS: Crew[] = [
       'Rokushiki savaş tekniklerinin ustası',
       'Dünya Hükümeti\'nin en gizli operasyonları',
     ],
-    color: 'text-slate-400',
-    bg: 'bg-slate-500/10',
+    color: 'text-accent-silver',
+    bg: 'bg-accent-silver/10',
   },
 ]
 

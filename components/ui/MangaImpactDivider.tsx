@@ -36,7 +36,7 @@ export default function MangaImpactDivider({
         <span className="manga-sfx text-3xl font-black tracking-[0.12em] sm:text-5xl">
           {sfx}
         </span>
-        <span className="mt-1 text-[9px] font-semibold uppercase tracking-[0.3em] text-gold/60">
+        <span className="eyebrow mt-1 text-gold/60">
           {subtitle}
         </span>
       </motion.div>

@@ -95,7 +95,7 @@ export default function RouteLoadingIndicator() {
             aria-hidden
           >
             <motion.div
-              className="h-full w-1/3 rounded-full bg-gradient-to-r from-gold via-gold-bright to-sea-light shadow-[0_0_24px_rgba(244,163,0,0.55)]"
+              className="h-full w-1/3 rounded-full bg-gradient-to-r from-gold via-gold-bright to-sea-light shadow-[0_0_24px_rgb(var(--gold)/0.55)]"
               initial={{ x: '-120%' }}
               animate={{ x: '360%' }}
               transition={{ duration: 1.05, repeat: Infinity, ease: 'easeInOut' }}

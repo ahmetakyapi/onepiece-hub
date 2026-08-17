@@ -62,9 +62,9 @@ const ROUTES = [
     href: '/explore',
     cta: 'Arşivi keşfet',
     meta: 'wiki seçkisi',
-    accent: 'text-emerald-400',
-    border: 'border-emerald-400/25',
-    bg: 'from-emerald-400/[0.12] to-emerald-400/[0.03]',
+    accent: 'text-accent-emerald',
+    border: 'border-accent-emerald/25',
+    bg: 'from-accent-emerald/[0.12] to-accent-emerald/[0.03]',
   },
 ] as const
 
@@ -88,10 +88,10 @@ export default function RouteConcierge() {
           className="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between"
         >
           <div className="max-w-3xl">
-            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.28em] text-gold/70">
+            <p className="eyebrow-lg mb-3 text-gold/70">
               Seyir Masası
             </p>
-            <h2 className="max-w-[760px] text-balance text-2xl font-extrabold leading-tight tracking-tight text-pirate-text sm:text-3xl lg:text-4xl">
+            <h2 className="font-display max-w-[760px] text-balance text-2xl font-extrabold leading-tight text-pirate-text sm:text-3xl lg:text-4xl">
               <span className="block">One Piece yolculuğunu</span>
               <span className="block text-gold-gradient">daha net bir rotaya bağla</span>
             </h2>
@@ -109,11 +109,11 @@ export default function RouteConcierge() {
                 transition={{ duration: 0.5, ease: EASE, delay: 0.12 + i * 0.06 }}
                 className="rounded-xl border border-pirate-border/20 bg-ocean-surface/35 px-3 py-2.5"
               >
-                <div className="mb-1 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-pirate-muted/70">
+                <div className="eyebrow mb-1 flex items-center gap-1.5 text-pirate-muted/70">
                   <item.icon className="h-3 w-3 text-gold/70" />
                   {item.label}
                 </div>
-                <p className="text-sm font-extrabold text-pirate-text">{item.value}</p>
+                <p className="font-display text-sm font-extrabold text-pirate-text">{item.value}</p>
               </motion.div>
             ))}
           </div>
@@ -135,13 +135,13 @@ export default function RouteConcierge() {
                   <div className={`flex h-12 w-12 items-center justify-center rounded-xl border ${route.border} bg-ocean-deep/35 transition-transform duration-500 group-hover:scale-105`}>
                     <route.icon className={`h-5 w-5 ${route.accent}`} />
                   </div>
-                  <span className={`rounded-full border ${route.border} bg-ocean-deep/35 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.14em] ${route.accent}`}>
+                  <span className={`eyebrow rounded-full border ${route.border} bg-ocean-deep/35 px-2.5 py-1 ${route.accent}`}>
                     {route.eyebrow}
                   </span>
                 </div>
 
                 <div className="flex-1">
-                  <h3 className="mb-2 text-xl font-extrabold text-pirate-text transition-colors duration-300 group-hover:text-white">
+                  <h3 className="font-display mb-2 text-xl font-extrabold text-pirate-text transition-colors duration-300 group-hover:text-pirate-text">
                     {route.title}
                   </h3>
                   <p className="text-[13px] leading-relaxed text-pirate-muted">
@@ -149,8 +149,8 @@ export default function RouteConcierge() {
                   </p>
                 </div>
 
-                <div className="mt-6 flex items-center justify-between border-t border-white/[0.06] pt-4">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-pirate-muted/60">
+                <div className="mt-6 flex items-center justify-between border-t border-ink/[0.06] pt-4">
+                  <span className="eyebrow text-pirate-muted/60">
                     {route.meta}
                   </span>
                   <span className={`inline-flex items-center gap-1.5 text-xs font-extrabold ${route.accent}`}>

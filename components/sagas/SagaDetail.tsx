@@ -110,7 +110,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
           <div className="mx-auto max-w-5xl">
             <Link
               href="/sagas"
-              className="group inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-ocean-deep/50 px-4 py-2 text-[13px] text-white/70 backdrop-blur-md transition-all duration-300 hover:border-gold/30 hover:text-gold"
+              className="group inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-ocean-deep/50 px-4 py-2 text-[13px] text-pirate-text/70 backdrop-blur-md transition-all duration-300 hover:border-gold/30 hover:text-gold"
             >
               <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-1" />
               Tüm Sagalar
@@ -130,44 +130,44 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
             <div className="mb-4 flex flex-wrap items-center gap-3">
               <div className={`inline-flex items-center gap-2 rounded-full border ${cls.border} ${cls.bg} px-4 py-1.5 backdrop-blur-md`}>
                 <span className="text-lg">{data.iconEmoji}</span>
-                <span className={`text-[11px] font-bold uppercase tracking-[0.2em] ${cls.text}`}>
+                <span className={`eyebrow-lg ${cls.text}`}>
                   Saga {String(data.index).padStart(2, '0')} / {String(data.totalSagas).padStart(2, '0')}
                 </span>
               </div>
               {data.era && (
-                <span className="rounded-full border border-white/10 bg-ocean-deep/50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white/70 backdrop-blur-md">
+                <span className="eyebrow-lg rounded-full border border-ink/10 bg-ocean-deep/50 px-3 py-1 text-pirate-text/70 backdrop-blur-md">
                   {data.era}
                 </span>
               )}
             </div>
 
-            {/* Title */}
-            <h1 className="mb-3 text-5xl font-extrabold tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)] sm:text-6xl md:text-7xl">
+            {/* Title — scrim `ocean-deep` temayla dönüyor, metin de dönmeli */}
+            <h1 className="mb-3 font-display text-5xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.8)] sm:text-6xl md:text-7xl">
               {data.name}
             </h1>
             {data.tagline && (
-              <p className={`mb-5 text-lg font-semibold italic ${cls.text} drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-xl`}>
+              <p className={`mb-5 text-lg font-semibold italic ${cls.text} drop-shadow-[0_2px_12px_rgb(var(--ocean-deep)/0.6)] sm:text-xl`}>
                 &ldquo;{data.tagline}&rdquo;
               </p>
             )}
-            <p className="max-w-2xl text-sm leading-relaxed text-white/80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] sm:text-base">
+            <p className="max-w-2xl text-sm leading-relaxed text-pirate-text/80 drop-shadow-[0_2px_8px_rgb(var(--ocean-deep)/0.6)] sm:text-base">
               {data.description}
             </p>
 
             {/* Stats pills */}
             <div className="mt-6 flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-ocean-deep/60 px-3 py-1.5 text-xs font-semibold text-white/80 backdrop-blur-md">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-ocean-deep/60 px-3 py-1.5 text-xs font-semibold text-pirate-text/80 backdrop-blur-md">
                 <BookOpen className="h-3 w-3" />
-                <span className="tabular-nums">{data.arcs.length}</span> arc
+                <span className="font-display font-bold tabular-nums">{data.arcs.length}</span> arc
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-ocean-deep/60 px-3 py-1.5 text-xs font-semibold text-white/80 backdrop-blur-md">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-ocean-deep/60 px-3 py-1.5 text-xs font-semibold text-pirate-text/80 backdrop-blur-md">
                 <Film className="h-3 w-3" />
-                <span className="tabular-nums">{data.totalEpisodes}</span> bölüm
+                <span className="font-display font-bold tabular-nums">{data.totalEpisodes}</span> bölüm
               </span>
               {data.debutCharacters.length > 0 && (
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-ocean-deep/60 px-3 py-1.5 text-xs font-semibold text-white/80 backdrop-blur-md">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-ocean-deep/60 px-3 py-1.5 text-xs font-semibold text-pirate-text/80 backdrop-blur-md">
                   <Users className="h-3 w-3" />
-                  <span className="tabular-nums">{data.debutCharacters.length}</span> yeni karakter
+                  <span className="font-display font-bold tabular-nums">{data.debutCharacters.length}</span> yeni karakter
                 </span>
               )}
             </div>
@@ -184,7 +184,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
       >
         {/* Arcs Timeline */}
         <motion.section variants={fadeUp}>
-          <h2 className="mb-6 flex items-center gap-2 text-xl font-bold text-pirate-text sm:text-2xl">
+          <h2 className="mb-6 flex items-center gap-2 font-display text-xl font-bold text-pirate-text sm:text-2xl">
             <BookOpen className={`h-5 w-5 ${cls.text}`} />
             Arc Yolculuğu
             <span className={`ml-1 rounded-full ${cls.bg} border ${cls.border} px-2.5 py-0.5 text-[11px] font-bold ${cls.text}`}>
@@ -229,15 +229,15 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
 
                       <div className="p-5">
                         <div className="mb-2 flex items-center gap-2">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-pirate-muted/60">
+                          <span className="eyebrow text-pirate-muted/60">
                             Arc {String(i + 1).padStart(2, '0')}
                           </span>
-                          <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-sea">
+                          <span className="inline-flex items-center gap-1 font-mono text-[10px] font-bold text-sea">
                             <Film className="h-2.5 w-2.5" />
                             {arc.episodeCount} bölüm
                           </span>
                         </div>
-                        <h3 className={`mb-1.5 text-base font-extrabold text-pirate-text transition-colors duration-300 ${cls.hoverText} sm:text-lg`}>
+                        <h3 className={`mb-1.5 font-display text-base font-extrabold text-pirate-text transition-colors duration-300 ${cls.hoverText} sm:text-lg`}>
                           {arc.name}
                         </h3>
                         {arc.location && (
@@ -268,7 +268,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
         {/* Themes */}
         {data.themes.length > 0 && (
           <motion.section variants={fadeUp}>
-            <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-pirate-text sm:text-2xl">
+            <h2 className="mb-4 flex items-center gap-2 font-display text-xl font-bold text-pirate-text sm:text-2xl">
               <Sparkles className={`h-5 w-5 ${cls.text}`} />
               Temalar
             </h2>
@@ -288,7 +288,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
         {/* Debut Characters */}
         {data.debutCharacters.length > 0 && (
           <motion.section variants={fadeUp}>
-            <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-pirate-text sm:text-2xl">
+            <h2 className="mb-4 flex items-center gap-2 font-display text-xl font-bold text-pirate-text sm:text-2xl">
               <Users className={`h-5 w-5 ${cls.text}`} />
               Bu Saga'da Tanıtılan Karakterler
               <span className={`ml-1 rounded-full ${cls.bg} border ${cls.border} px-2.5 py-0.5 text-[11px] font-bold ${cls.text}`}>
@@ -320,7 +320,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
                       )}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-bold text-pirate-text transition-colors group-hover:text-gold">
+                      <p className="truncate font-display text-sm font-bold text-pirate-text transition-colors group-hover:text-gold">
                         {char.name}
                       </p>
                       {char.epithet && (
@@ -338,7 +338,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
         {/* Key Events */}
         {data.keyEvents.length > 0 && (
           <motion.section variants={fadeUp}>
-            <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-pirate-text sm:text-2xl">
+            <h2 className="mb-4 flex items-center gap-2 font-display text-xl font-bold text-pirate-text sm:text-2xl">
               <Star className={`h-5 w-5 ${cls.text}`} />
               Anahtar Olaylar
             </h2>
@@ -358,7 +358,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
                       </p>
                       <Link
                         href={`/arcs/${e.arcSlug}`}
-                        className="mt-0.5 inline-block text-[10px] font-semibold uppercase tracking-wider text-pirate-muted/60 hover:text-gold transition-colors"
+                        className="eyebrow mt-0.5 inline-block text-pirate-muted/60 hover:text-gold transition-colors"
                       >
                         {e.arcName} →
                       </Link>
@@ -379,17 +379,17 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
             >
               <ChevronLeft className="h-5 w-5 flex-shrink-0 text-pirate-muted transition-all group-hover:-translate-x-1 group-hover:text-gold" />
               <div className="min-w-0 flex-1">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-pirate-muted/60">
+                <p className="eyebrow text-pirate-muted/60">
                   Önceki Saga
                 </p>
-                <p className="truncate text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
+                <p className="truncate font-display text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
                   {data.prevSaga.name}
                 </p>
               </div>
             </Link>
           ) : (
             <div className="rounded-2xl border border-dashed border-pirate-border/15 bg-ocean-surface/10 p-4 text-center">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-pirate-muted/40">
+              <p className="eyebrow text-pirate-muted/40">
                 Yolculuğun Başı
               </p>
             </div>
@@ -400,10 +400,10 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
               className="group flex items-center gap-3 rounded-2xl border border-pirate-border/30 bg-ocean-surface/30 p-4 text-right transition-all hover:border-gold/40 hover:bg-ocean-surface/60"
             >
               <div className="min-w-0 flex-1">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-pirate-muted/60">
+                <p className="eyebrow text-pirate-muted/60">
                   Sonraki Saga
                 </p>
-                <p className="truncate text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
+                <p className="truncate font-display text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
                   {data.nextSaga.name}
                 </p>
               </div>
@@ -411,7 +411,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
             </Link>
           ) : (
             <div className="rounded-2xl border border-dashed border-gold/20 bg-gold/[0.03] p-4 text-center">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-gold/70">
+              <p className="eyebrow text-gold/70">
                 Büyük Final
               </p>
             </div>

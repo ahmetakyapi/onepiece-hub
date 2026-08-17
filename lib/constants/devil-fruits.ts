@@ -1,5 +1,11 @@
 import type { DevilFruitEntry } from '@/types'
 
+/* Tür renkleri token'lı: light temada beyaz kart üstünde ham 300-400
+   seviye Tailwind tonları 1.2-2.1:1 kontrasta düşüp tür rozetleri
+   görünmez oluyordu. Altı tür = altı AYRI token; filtre çiplerinin
+   birbirinden ayrılması bu skalanın tek işi.
+   Paramecia=fruit · Zoan=lime · Logia=sea · Efsanevi=amber ·
+   Kadim=emerald · Özel Paramecia=pink */
 export const DEVIL_FRUIT_TYPE_INFO: Record<string, { label: string; description: string; color: string; bg: string }> = {
   'Paramecia': {
     label: 'Paramecia',
@@ -10,32 +16,32 @@ export const DEVIL_FRUIT_TYPE_INFO: Record<string, { label: string; description:
   'Zoan': {
     label: 'Zoan',
     description: 'Kullanıcının bir hayvana dönüşmesini sağlayan meyveler. Üç form sunar: insan formu, hayvan formu ve hibrit form. Fiziksel güç ve dayanıklılığı artırır.',
-    color: 'text-green-400',
-    bg: 'bg-green-500/15',
+    color: 'text-accent-lime',
+    bg: 'bg-accent-lime/15',
   },
   'Logia': {
     label: 'Logia',
     description: 'Kullanıcının vücudunu bir doğa elementine dönüştürmesini sağlayan en nadir ve güçlü Şeytan Meyvesi türü. Fiziksel saldırılar vücuttan geçer.',
-    color: 'text-yellow-400',
-    bg: 'bg-yellow-500/15',
+    color: 'text-sea-light',
+    bg: 'bg-sea/15',
   },
   'Mythical Zoan': {
     label: 'Efsanevi Zoan',
     description: 'Efsanevi yaratıklara dönüşüm sağlayan ultra nadir Zoan alt türü. Logia\'dan bile nadir olan bu meyveler, dönüşümün yanı sıra özel güçler de verir.',
-    color: 'text-amber-300',
-    bg: 'bg-amber-500/15',
+    color: 'text-accent-amber',
+    bg: 'bg-accent-amber/15',
   },
   'Ancient Zoan': {
     label: 'Kadim Zoan',
     description: 'Nesli tükenmiş hayvanatlara dönüşüm sağlayan nadir Zoan alt türü. Olağanüstü dayanıklılık ve fiziksel güç sunar.',
-    color: 'text-emerald-400',
-    bg: 'bg-emerald-500/15',
+    color: 'text-accent-emerald',
+    bg: 'bg-accent-emerald/15',
   },
   'Special Paramecia': {
     label: 'Özel Paramecia',
     description: 'Logia benzeri özellikler gösteren nadir Paramecia alt türü. Vücut elementel bir maddeye dönüşebilir.',
-    color: 'text-pink-400',
-    bg: 'bg-pink-500/15',
+    color: 'text-accent-pink',
+    bg: 'bg-accent-pink/15',
   },
 }
 

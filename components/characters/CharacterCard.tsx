@@ -72,7 +72,7 @@ function CharacterCard({ character }: Props) {
 
   const spotX = useTransform(mouseX, [0, 1], ['0%', '100%'])
   const spotY = useTransform(mouseY, [0, 1], ['0%', '100%'])
-  const spotlight = useMotionTemplate`radial-gradient(520px circle at ${spotX} ${spotY}, rgba(244,163,0,0.20), rgba(30,144,255,0.10) 30%, transparent 60%)`
+  const spotlight = useMotionTemplate`radial-gradient(520px circle at ${spotX} ${spotY}, rgb(var(--gold) / 0.20), rgb(var(--sea) / 0.10) 30%, transparent 60%)`
 
   const imageScale = useTransform(hoverProgress, [0, 1], [1, 1.14])
   const ghostOpacity = useTransform(hoverProgress, [0, 0.5, 1], [0, 0.15, 0.28])
@@ -95,7 +95,7 @@ function CharacterCard({ character }: Props) {
             e.preventDefault()
             navigate(`/characters/${char.slug}`)
           }}
-          className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-pirate-border/20 bg-ocean-surface/30 backdrop-blur-sm transition-[border-color,box-shadow] duration-500 hover:border-pirate-border/40 hover:shadow-[0_24px_60px_rgba(2,6,23,0.55),0_0_0_1px_rgba(244,163,0,0.08)]"
+          className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-pirate-border/20 bg-ocean-surface/30 backdrop-blur-sm transition-[border-color,box-shadow] duration-500 hover:border-pirate-border/40 hover:shadow-[0_24px_60px_rgba(2,6,23,0.55),0_0_0_1px_rgb(var(--gold)/0.08)]"
         >
           <motion.div
             aria-hidden
@@ -149,7 +149,7 @@ function CharacterCard({ character }: Props) {
 
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               <div
-                className="absolute -left-full top-0 h-full w-2/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/[0.08] to-transparent transition-transform duration-[900ms] ease-out group-hover:translate-x-[260%]"
+                className="absolute -left-full top-0 h-full w-2/3 -skew-x-12 bg-gradient-to-r from-transparent via-ink/[0.08] to-transparent transition-transform duration-[900ms] ease-out group-hover:translate-x-[260%]"
               />
             </div>
 
@@ -163,7 +163,7 @@ function CharacterCard({ character }: Props) {
 
             {char.bounty && (
               <div className="absolute right-3 top-3 z-10">
-                <span className="inline-flex items-center gap-1 rounded-lg border border-gold/20 bg-ocean-deep/60 px-2 py-0.5 text-[10px] font-bold text-gold backdrop-blur-md">
+                <span className="inline-flex items-center gap-1 rounded-lg border border-gold/20 bg-ocean-deep/60 px-2 py-0.5 font-mono text-[10px] font-bold text-gold backdrop-blur-md">
                   <Skull className="h-2.5 w-2.5" />
                   {formatBounty(bountyValue)}
                 </span>
@@ -174,7 +174,7 @@ function CharacterCard({ character }: Props) {
               className="absolute bottom-0 left-0 right-0 z-10 p-4"
               style={{ y: nameLift }}
             >
-              <h3 className="text-base font-extrabold tracking-tight text-pirate-text transition-colors duration-300 group-hover:text-gold drop-shadow-[0_2px_12px_rgba(0,0,0,0.75)]">
+              <h3 className="font-display text-base font-extrabold text-pirate-text transition-colors duration-300 group-hover:text-gold drop-shadow-[0_2px_12px_rgba(0,0,0,0.75)]">
                 {char.name}
               </h3>
             </motion.div>
@@ -206,13 +206,13 @@ function CharacterCard({ character }: Props) {
             <div className="mt-auto flex items-center justify-between border-t border-pirate-border/10 pt-3 mt-3">
               {char.bounty ? (
                 <div className="flex items-baseline gap-1">
-                  <span className="text-[10px] text-pirate-muted/40">Ödül</span>
-                  <span className="text-xs font-bold text-gold tabular-nums">
+                  <span className="eyebrow text-pirate-muted/40">Ödül</span>
+                  <span className="font-mono text-xs font-bold text-gold tabular-nums">
                     {char.bounty}
                   </span>
                 </div>
               ) : (
-                <span className="text-[10px] text-pirate-muted/30">Ödül bilinmiyor</span>
+                <span className="eyebrow text-pirate-muted/30">Ödül bilinmiyor</span>
               )}
               <div className="flex items-center gap-1 text-[10px] text-pirate-muted/30 transition-all duration-300 group-hover:text-gold/60">
                 <span className="hidden sm:inline">Detay</span>

@@ -34,7 +34,7 @@ export default function VoidCenturySection() {
         style={{ y: bgY, scale: bgScale }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-ocean-deep via-ocean-surface/80 to-ocean-deep" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,rgba(244,163,0,0.08),transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,rgb(var(--gold)/0.08),transparent_70%)]" />
       </motion.div>
 
       {/* Poneglyph overlay — scroll-progress driven */}
@@ -61,7 +61,7 @@ export default function VoidCenturySection() {
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold/60" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
           </span>
-          <span className="text-[10px] font-semibold tracking-[0.22em] text-sea-light sm:text-[11px]">
+          <span className="eyebrow text-sea-light sm:text-[11px]">
             POSEIDON&apos;UN SESİ
           </span>
         </motion.div>
@@ -71,9 +71,9 @@ export default function VoidCenturySection() {
           initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
           animate={inView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
           transition={{ duration: 0.9, ease: EASE, delay: 0.15 }}
-          className="mb-5 text-[28px] font-extrabold leading-[1.05] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.75)] sm:text-5xl md:text-6xl"
+          className="font-display mb-5 text-[28px] font-extrabold leading-[1.05] drop-shadow-[0_4px_24px_rgba(0,0,0,0.75)] sm:text-5xl md:text-6xl"
         >
-          <span className="block text-white/90">Void Century&apos;nin</span>
+          <span className="block text-pirate-text/90">Void Century&apos;nin</span>
           <span className="block text-gold-gradient">sırları burada.</span>
         </motion.h2>
 
@@ -84,7 +84,7 @@ export default function VoidCenturySection() {
           transition={{ duration: 1.2, ease: EASE, delay: 0.5 }}
           className="mx-auto mb-6 h-px w-32 origin-center"
           style={{
-            background: 'linear-gradient(90deg, transparent, rgba(244,163,0,0.6), rgba(30,144,255,0.5), transparent)',
+            background: 'linear-gradient(90deg, transparent, rgb(var(--gold) / 0.6), rgb(var(--sea) / 0.5), transparent)',
           }}
         />
 
@@ -93,7 +93,7 @@ export default function VoidCenturySection() {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease: EASE, delay: 0.35 }}
-          className="mx-auto mb-8 max-w-xl text-[13px] leading-relaxed text-white/75 sm:text-base"
+          className="mx-auto mb-8 max-w-xl text-[13px] leading-relaxed text-pirate-text/75 sm:text-base"
         >
           800 yıl önce kaybolan bir çağ. {SITE_STATS.arcs} arc&apos;lık destansı yolculuk.
           <span className="text-gold">

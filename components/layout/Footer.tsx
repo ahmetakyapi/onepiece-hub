@@ -1,8 +1,8 @@
 'use client'
 
 import { ArrowUpRight, Github, Skull } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
+import { BrandLockup } from '@/components/brand/CompassMark'
 import { FOOTER_SECTIONS } from '@/lib/constants/navigation'
 
 export default function Footer() {
@@ -19,7 +19,7 @@ export default function Footer() {
         >
           <path
             d="M0,15 C240,5 480,25 720,15 C960,5 1200,25 1440,15 L1440,0 L0,0 Z"
-            fill="rgba(244,163,0,0.06)"
+            fill="rgb(var(--gold) / 0.06)"
           />
         </svg>
       </div>
@@ -37,13 +37,11 @@ export default function Footer() {
         <div className="grid gap-12 md:grid-cols-5">
           {/* Logo + tagline — spans 2 cols */}
           <div className="md:col-span-2 flex flex-col items-center md:items-start animate-fade-in-up">
-            <Link href="/" className="group mb-4">
-              <Image
-                src="/logo.webp"
-                alt="One Piece Hub"
-                width={220}
-                height={88}
-                className="h-20 w-auto transition-all duration-500 group-hover:drop-shadow-[0_0_24px_rgba(244,163,0,0.2)] sm:h-24"
+            <Link href="/" aria-label="One Piece Hub — ana sayfa" className="group mb-4">
+              <BrandLockup
+                markSize={32}
+                size="md"
+                className="transition-all duration-500 group-hover:drop-shadow-[0_0_24px_rgb(var(--gold)/0.25)]"
               />
             </Link>
             <p className="mb-2 text-sm text-pirate-muted text-center md:text-left">
@@ -61,7 +59,7 @@ export default function Footer() {
               className="animate-fade-in-up"
               style={{ animationDelay: `${0.1 + sectionIdx * 0.08}s` }}
             >
-              <h3 className="mb-4 text-[11px] font-bold uppercase tracking-[0.12em] text-pirate-text/80">
+              <h3 className="eyebrow mb-4 text-pirate-text/80">
                 {section.title}
               </h3>
               <nav className="space-y-2.5">

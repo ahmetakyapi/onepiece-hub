@@ -69,7 +69,7 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
           <div className="mx-auto max-w-4xl">
             <Link
               href="/crews"
-              className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-ocean-deep/50 px-4 py-2 text-[13px] text-white/70 backdrop-blur-md transition-all duration-300 hover:border-gold/30 hover:text-gold group"
+              className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-ocean-deep/50 px-4 py-2 text-[13px] text-pirate-text/70 backdrop-blur-md transition-all duration-300 hover:border-gold/30 hover:text-gold group"
             >
               <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-1" />
               Tüm Organizasyonlar
@@ -89,12 +89,12 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
                 {CREW_TYPE_LABELS[crew.type]}
               </span>
               <span className={`rounded-full border px-3 py-1 text-xs font-semibold backdrop-blur-md ${
-                crew.status === 'active' ? 'border-emerald-400/30 bg-emerald-500/10 text-emerald-400' :
+                crew.status === 'active' ? 'border-accent-emerald/30 bg-accent-emerald/10 text-accent-emerald' :
                 crew.status === 'disbanded' ? 'border-pirate-muted/30 bg-pirate-muted/10 text-pirate-muted' :
                 'border-luffy/30 bg-luffy/10 text-luffy'
               }`}>
                 <span className={`mr-1 inline-block h-1.5 w-1.5 rounded-full ${
-                  crew.status === 'active' ? 'bg-emerald-400 animate-pulse' :
+                  crew.status === 'active' ? 'bg-accent-emerald animate-pulse' :
                   crew.status === 'disbanded' ? 'bg-pirate-muted/60' : 'bg-luffy'
                 }`} />
                 {crew.status === 'active' ? 'Aktif' :
@@ -104,15 +104,17 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
             </div>
 
             <div className="mb-2 flex flex-wrap items-center gap-3">
-              <h1 className={`text-4xl font-extrabold tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:text-5xl md:text-6xl ${crew.color}`}>
+              {/* Kaptan fotoğrafının üstünde duran metin — okunabilirlik
+                  gölgesi token'lı, iki temada da doğru yöne düşer. */}
+              <h1 className={`font-display text-4xl font-extrabold drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.6)] sm:text-5xl md:text-6xl ${crew.color}`}>
                 {crew.name}
               </h1>
               <FavoriteButton targetType="crew" targetSlug={crew.slug} />
             </div>
-            <p className="mb-4 font-mono text-sm text-white/50 drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]">
+            <p className="mb-4 font-mono text-sm text-pirate-text/50 drop-shadow-[0_2px_6px_rgb(var(--ocean-deep)/0.5)]">
               {crew.japaneseName}
             </p>
-            <p className="max-w-2xl text-sm leading-relaxed text-white/80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] sm:text-base">
+            <p className="max-w-2xl text-sm leading-relaxed text-pirate-text/80 drop-shadow-[0_2px_8px_rgb(var(--ocean-deep)/0.5)] sm:text-base">
               {crew.description}
             </p>
           </div>
@@ -129,13 +131,13 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
                   <Crown className="h-4 w-4 text-gold" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-pirate-muted/60">Lider</p>
+                  <p className="eyebrow text-pirate-muted/60">Lider</p>
                   {crew.captainSlug ? (
-                    <Link href={`/characters/${crew.captainSlug}`} className="text-sm font-bold text-gold hover:text-gold-bright transition-colors truncate block">
+                    <Link href={`/characters/${crew.captainSlug}`} className="font-display block truncate text-sm font-bold text-gold transition-colors hover:text-gold-bright">
                       {crew.captain}
                     </Link>
                   ) : (
-                    <p className="truncate text-sm font-bold text-pirate-text">{crew.captain}</p>
+                    <p className="font-display truncate text-sm font-bold text-pirate-text">{crew.captain}</p>
                   )}
                 </div>
               </div>
@@ -146,8 +148,8 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
                   <Trophy className="h-4 w-4 text-gold" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-pirate-muted/60">Toplam Ödül</p>
-                  <p className="text-sm font-bold text-gold stat-number">{crew.totalBounty} Berry</p>
+                  <p className="eyebrow text-pirate-muted/60">Toplam Ödül</p>
+                  <p className="stat-number font-mono text-sm font-bold text-gold">{crew.totalBounty} Berry</p>
                 </div>
               </div>
             )}
@@ -156,15 +158,15 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
                 <Users className="h-4 w-4 text-sea" />
               </div>
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-pirate-muted/60">Bilinen Üye</p>
-                <p className="text-sm font-bold text-sea">{crew.notableMembers.length} korsan</p>
+                <p className="eyebrow text-pirate-muted/60">Bilinen Üye</p>
+                <p className="stat-number font-mono text-sm font-bold text-sea">{crew.notableMembers.length} korsan</p>
               </div>
             </div>
           </motion.div>
 
           {/* History */}
           <motion.div variants={fadeUp} className="mb-10">
-            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+            <h2 className="font-display mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
               <BookOpen className="h-5 w-5 text-gold" />
               Tarihçe
             </h2>
@@ -178,10 +180,10 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
 
           {/* Members — avatar grid */}
           <motion.div variants={fadeUp} className="mb-10">
-            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+            <h2 className="font-display mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
               <Users className="h-5 w-5 text-gold" />
               Önemli Üyeler
-              <span className={`ml-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${crew.bg} ${crew.color}`}>
+              <span className={`ml-1 rounded-full px-2.5 py-0.5 font-mono text-[11px] font-semibold ${crew.bg} ${crew.color}`}>
                 {crew.notableMembers.length}
               </span>
             </h2>
@@ -206,7 +208,7 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
                       )}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-bold text-pirate-text transition-colors group-hover:text-gold">
+                      <p className="font-display truncate text-sm font-bold text-pirate-text transition-colors group-hover:text-gold">
                         {member.name}
                       </p>
                       <p className="truncate text-[11px] text-pirate-muted">{member.role}</p>
@@ -230,7 +232,7 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
           {/* Territory */}
           {crew.territory && crew.territory.length > 0 && (
             <motion.div variants={fadeUp} className="mb-10">
-              <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+              <h2 className="font-display mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
                 <MapPin className="h-5 w-5 text-sea" />
                 Topraklar
               </h2>
@@ -249,7 +251,7 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
 
           {/* Achievements */}
           <motion.div variants={fadeUp} className="mb-10">
-            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+            <h2 className="font-display mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
               <Trophy className="h-5 w-5 text-gold" />
               Başarılar
             </h2>
@@ -272,7 +274,7 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
           {/* Jolly Roger — dramatic showcase */}
           {crew.jollyRoger && (
             <motion.div variants={fadeUp} className="mb-10">
-              <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+              <h2 className="font-display mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
                 <Skull className="h-5 w-5 text-pirate-text" />
                 Jolly Roger
               </h2>
@@ -286,7 +288,7 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
                     <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-gold/[0.08] to-transparent" />
                   </div>
                   <div className="flex-1 text-center sm:text-left">
-                    <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.25em] text-gold/70">
+                    <p className="eyebrow mb-2 text-gold/70">
                       Sembol
                     </p>
                     <p className="text-sm leading-relaxed text-pirate-text sm:text-base">

@@ -15,13 +15,15 @@ export default function VsPage() {
         <div className="pointer-events-none absolute -left-32 -bottom-32 h-80 w-80 rounded-full bg-gold/[0.1] blur-[100px]" />
 
         <div className="relative mx-auto max-w-4xl text-center">
-          <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-luffy/80">
+          <p className="eyebrow-lg mb-3 text-luffy/80">
             ⚔️ Karşı Karşıya
           </p>
-          <h1 className="mb-4 text-4xl font-extrabold tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:text-5xl md:text-6xl">
+          {/* Beyaz metin + siyah drop-shadow ikilisi light temada kayboluyordu;
+              ikisi de token'a çekildi. */}
+          <h1 className="font-display mb-4 text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.6)] sm:text-5xl md:text-6xl">
             Kim Daha <span className="text-luffy">Güçlü</span>?
           </h1>
-          <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/70 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] sm:text-base">
+          <p className="mx-auto max-w-xl text-sm leading-relaxed text-pirate-text/70 drop-shadow-[0_2px_8px_rgb(var(--ocean-deep)/0.4)] sm:text-base">
             İki karakter seç, tüm istatistiklerini yan yana karşılaştır.
             Ödül, güç seviyesi, yetenek sayısı — hepsi detaylı.
           </p>

@@ -7,6 +7,7 @@ import { User, Lock, ArrowRight, Loader2, Compass, Anchor } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { fadeUp, staggerContainer } from '@/lib/variants'
+import { BrandLockup } from '@/components/brand/CompassMark'
 import { useAuth } from '@/hooks/useAuth'
 import {
   CREW_AFFILIATIONS,
@@ -88,7 +89,7 @@ export default function LoginPage() {
               >
                 <path
                   d="M0,60 C240,90 480,30 720,60 C960,90 1200,30 1440,60 L1440,120 L0,120 Z"
-                  fill="rgba(30,144,255,0.08)"
+                  fill="rgb(var(--sea) / 0.08)"
                 />
               </svg>
               <svg
@@ -99,7 +100,7 @@ export default function LoginPage() {
               >
                 <path
                   d="M0,80 C360,50 720,100 1080,70 C1260,55 1380,85 1440,80 L1440,120 L0,120 Z"
-                  fill="rgba(244,163,0,0.05)"
+                  fill="rgb(var(--gold) / 0.05)"
                 />
               </svg>
             </div>
@@ -121,7 +122,7 @@ export default function LoginPage() {
                   {/* Outer glow ring */}
                   <div className="absolute -inset-2 rounded-full bg-gold/[0.04] blur-xl animate-pulse" />
                 </div>
-                <h2 className="mb-3 text-2xl font-extrabold text-pirate-text">
+                <h2 className="font-display mb-3 text-2xl font-bold text-pirate-text">
                   Grand Line&apos;a
                   <br />
                   <span className="text-gold-gradient">Hoş Geldin</span>
@@ -148,18 +149,11 @@ export default function LoginPage() {
               initial="hidden"
               animate="visible"
             >
-              {/* Logo */}
+              {/* Marka kilidi — pusula işareti + wordmark */}
               <motion.div variants={fadeUp} className="mb-8 text-center lg:text-left">
-                <Image
-                  src="/logo.webp"
-                  alt="One Piece Hub"
-                  width={280}
-                  height={112}
-                  className="mx-auto mb-5 h-28 w-auto drop-shadow-2xl sm:h-32 lg:mx-0"
-                  priority
-                />
-                <h1 className="text-xl font-extrabold text-pirate-text sm:text-2xl">
-                  {isRegister ? 'Mürettebata Katıl' : 'Maceraya Devam'}
+                <BrandLockup markSize={44} size="lg" className="mb-6" />
+                <h1 className="font-display text-xl font-bold text-pirate-text sm:text-2xl">
+                  {isRegister ? 'Tayfaya Katıl' : 'Maceraya Devam'}
                 </h1>
                 <p className="mt-1.5 text-sm text-pirate-muted">
                   {isRegister
@@ -227,7 +221,7 @@ export default function LoginPage() {
 
                 {isRegister && (
                   <div>
-                    <label className="mb-2 block text-xs font-semibold text-pirate-muted">
+                    <label className="eyebrow mb-2 block text-pirate-muted">
                       Mürettebatını Seç
                     </label>
                     <div className="grid grid-cols-3 gap-2">

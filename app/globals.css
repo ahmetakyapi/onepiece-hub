@@ -2,24 +2,144 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Design Tokens: Okyanus Derinligi v2 ─────────────────────────────── */
-/* Fonts loaded via next/font/google in layout.tsx — no external CSS import needed */
-:root {
-  --font-sans: 'Manrope';
-  --font-mono: 'IBM Plex Mono';
+/* ═══ Design Tokens: Sinematik Okyanus ═══════════════════════════════════
+   Renkler RGB KANAL ÜÇLÜSÜ olarak yazılır (`6 14 26`, `#060e1a` değil).
+   Sebep: `tailwind.config.ts` bunları `rgb(var(--x) / <alpha-value>)` ile
+   sarar — böylece hem `bg-ocean-deep` hem `bg-ocean-deep/40` çalışır ve
+   ikisi de tema değişince kendiliğinden döner. Kanal formatını bozma.
 
-  /* Core palette */
-  --bg-deep:       #060e1a;
-  --bg-surface:    #0c1829;
-  --bg-elevated:   #111f36;
-  --color-gold:    #f4a300;
-  --color-gold-bright: #fbbf24;
-  --color-sea:     #1e90ff;
-  --color-sea-light: #60b8ff;
-  --color-luffy:   #e74c3c;
-  --color-text:    #e8eaf0;
-  --color-muted:   rgba(232,234,240,0.55);
-  --color-border:  rgba(30,144,255,0.12);
+   `:root`  = dark "gece seferi" (varsayılan)
+   `[data-theme='light']` = light "gündüz seferi"
+
+   Tema `<html data-theme>` üzerinden sürülür; `ThemeProvider` ve
+   `layout.tsx`'teki blocking script'e bak.
+   ─────────────────────────────────────────────────────────────────────── */
+:root {
+  --font-display: 'Cinzel';
+  --font-sans: 'Manrope';
+  --font-mono: 'Space Mono';
+
+  /* ── Zemin merdiveni ────────────────────────────────────────────────
+     deep = sayfa zemini · surface/elevated = kart · mid/shallow/light =
+     dekoratif degrade dolguları (yukarı çıktıkça görsel ağırlık artar). */
+  --ocean-deep:      6 14 26;      /* #060e1a */
+  --ocean-surface:  12 24 41;      /* #0c1829 */
+  --ocean-elevated: 17 31 54;      /* #111f36 */
+  --ocean-mid:      20 48 82;      /* #143052 */
+  --ocean-shallow:  26 64 112;     /* #1a4070 */
+  --ocean-light:    30 74 122;     /* #1e4a7a */
+
+  /* ── Vurgu: altın pusula ─────────────────────────────────────────── */
+  --gold:          244 163 0;      /* #f4a300 */
+  --gold-bright:   251 191 36;     /* #fbbf24 */
+  --gold-dim:      179 121 0;      /* #b37900 */
+  --gold-soft:      61 42 0;       /* #3d2a00 — koyu dolgu */
+  --gold-glow:     122 82 0;       /* #7a5200 */
+
+  /* ── Vurgu: deniz ────────────────────────────────────────────────── */
+  --sea:            30 144 255;    /* #1e90ff */
+  --sea-light:      96 184 255;    /* #60b8ff — metin olarak okunan varyant */
+  --sea-soft:       10 42 77;      /* #0a2a4d */
+  --sea-glow:       13 58 107;     /* #0d3a6b */
+
+  /* ── Vurgu: luffy kırmızısı ──────────────────────────────────────── */
+  --luffy:         231 76 60;      /* #e74c3c */
+  --luffy-soft:     61 20 16;      /* #3d1410 */
+  --luffy-glow:    122 40 32;      /* #7a2820 */
+
+  /* ── Metin merdiveni ─────────────────────────────────────────────── */
+  --pirate-text:   232 234 240;    /* #e8eaf0 */
+  --pirate-muted:  139 143 163;    /* #8b8fa3 */
+  --pirate-dim:     61 90 122;     /* #3d5a7a — pasif/izlenmemiş */
+  --pirate-border:  28 58 92;      /* #1c3a5c */
+
+  /* ── Kategori: şeytan meyvesi · haki · şichibukai ─────────────────── */
+  --fruit-light:   216 180 254;    /* #d8b4fe */
+  --fruit:         192 132 252;    /* #c084fc */
+  --fruit-strong:  168 85 247;     /* #a855f7 */
+  --fruit-deep:    147 51 234;     /* #9333ea */
+
+  /* ── Durum: izlendi / tamamlandı ─────────────────────────────────── */
+  --haki:           34 197 94;     /* #22c55e */
+  --haki-deep:      22 163 74;     /* #16a34a */
+
+  /* Güç istatistik skalasının altıncı tonu (dayanıklılık). Marka paletinde
+     beş renk var; altıncı istatistik için turuncu gerekiyor. Yalnızca
+     `STAT_LABELS` kullanır. */
+  --stat-endurance: 249 115 22;    /* #f97316 */
+
+  /* ── İçerik vurgu skalası ─────────────────────────────────────────────
+     10 saga · 4 deniz · 6 meyve türü · 5 tehlike seviyesi · 4 başarım
+     kademesi gibi ÇOK ÖĞELİ içerik sınıflandırmaları için ayırt edici
+     renk skalası. Marka paleti (gold/sea/luffy/fruit/haki) beş renk taşır,
+     bu sınıflandırmalar daha fazlasını istiyor.
+
+     Neden token: bunlar daha önce ham `cyan-400` / `emerald-400` /
+     `amber-300` gibi 300-400 seviye Tailwind sınıflarıyla yazılıyordu.
+     Koyu zeminde okunuyorlardı ama light temada parşömen/beyaz üstünde
+     1.2–1.8:1 kontrasta düşüp GÖRÜNMEZ oluyorlardı. `fruit` token'ında
+     çözülen aynı sızıntının tekrarı — çözüm de aynı: light'ta 700-800
+     seviye koyu karşılığa dönen token.
+
+     Ham `cyan-*` / `emerald-*` / `amber-*` / `teal-*` / `rose-*` /
+     `pink-*` / `indigo-*` / `orange-*` sınıfı YAZMA — bunları kullan.
+
+     Ekip kimlik renkleri (`CREW_GRADIENTS`) hâlâ AYRI: onlar degradeli
+     görsel kimlik, metin kontrastı taşımıyorlar. */
+  --accent-cyan:    34 211 238;    /* #22d3ee */
+  --accent-teal:    45 212 191;    /* #2dd4bf */
+  --accent-emerald: 52 211 153;    /* #34d399 */
+  --accent-lime:    74 222 128;    /* #4ade80 */
+  --accent-amber:  251 191 36;     /* #fbbf24 */
+  --accent-orange: 251 146 60;     /* #fb923c */
+  --accent-rose:   251 113 133;    /* #fb7185 */
+  --accent-pink:   244 114 182;    /* #f472b6 */
+  --accent-indigo: 129 140 248;    /* #818cf8 */
+  --accent-silver: 209 213 219;    /* #d1d5db */
+  --accent-bronze: 217 119 6;      /* #d97706 */
+
+  /* Dünya haritasının okyanus zemini. Sayfa zemininden AYRI token, çünkü
+     harita light temada da "deniz" gibi görünmeli: `ocean-deep`e bağlıyken
+     light'ta parşömen üstüne parşömen çiziliyordu ve harita kayboluyordu.
+     Tasarım dokümanı light haritayı mavi tonlu açık zemin olarak veriyor. */
+  --map-ground-outer:  6 14 26;    /* #060e1a */
+  --map-ground-inner: 12 24 41;    /* #0c1829 */
+
+  /* Metin yönünde saydam katman — dark'ta beyaz yıkama */
+  --ink: 255 255 255;
+
+  /* ── Yüzey reçeteleri (tema başına yeniden yazılır) ───────────────── */
+  --glass-bg:          linear-gradient(168deg, rgb(12 24 41 / 0.88) 0%, rgb(8 16 30 / 0.82) 100%);
+  --glass-border:      rgb(var(--sea) / 0.10);
+  --glass-shadow:      inset 0 1px 0 rgb(255 255 255 / 0.03), inset 0 -1px 0 rgb(0 0 0 / 0.1), 0 8px 32px rgb(2 6 23 / 0.4), 0 2px 8px rgb(2 6 23 / 0.2);
+
+  --elevated-bg:       linear-gradient(168deg, rgb(14 28 48 / 0.95) 0%, rgb(8 16 30 / 0.92) 100%);
+  --elevated-border:   rgb(var(--sea) / 0.14);
+  --elevated-shadow:   inset 0 1px 0 rgb(255 255 255 / 0.04), 0 24px 48px rgb(2 6 23 / 0.5), 0 12px 24px rgb(2 6 23 / 0.3), 0 0 0 1px rgb(0 0 0 / 0.1);
+
+  --surface-bg:        linear-gradient(168deg, rgb(14 28 48 / 0.97) 0%, rgb(6 14 26 / 0.98) 100%);
+  --surface-border:    rgb(var(--sea) / 0.15);
+  --surface-shadow:    0 32px 64px rgb(2 6 23 / 0.6), 0 0 0 1px rgb(0 0 0 / 0.15);
+
+  --bento-bg:          linear-gradient(168deg, rgb(12 24 41 / 0.85) 0%, rgb(8 16 30 / 0.78) 100%);
+  --bento-border:      rgb(var(--sea) / 0.08);
+
+  --chip-bg:           rgb(12 24 41 / 0.6);
+  --chip-border:       rgb(var(--sea) / 0.15);
+
+  --shadow-card:       0 14px 34px rgb(2 6 23 / 0.3);
+  --shadow-card-hover: 0 24px 48px rgb(2 6 23 / 0.4), 0 0 60px rgb(var(--gold) / 0.04);
+  --shadow-inner-glow: inset 0 1px 0 rgb(255 255 255 / 0.04), inset 0 -1px 0 rgb(0 0 0 / 0.08);
+  --shadow-lift:       inset 0 1px 0 rgb(255 255 255 / 0.05), 0 24px 48px rgb(2 6 23 / 0.5), 0 12px 24px rgb(2 6 23 / 0.3), 0 0 0 1px rgb(var(--gold) / 0.06);
+
+  /* Birincil CTA — dark'ta altın zemin üstünde koyu metin */
+  --btn-gold-fg:       rgb(var(--ocean-deep));
+  --btn-gold-bg:       linear-gradient(135deg, rgb(var(--gold)) 0%, rgb(232 150 10) 100%);
+
+  /* Dekoratif zemin yoğunlukları */
+  --noise-opacity: 0.2;
+  --noise-blend: overlay;
+  --orb-opacity: 0.7;
 
   /* Radius system */
   --radius-sm: 8px;
@@ -40,6 +160,107 @@
   --noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
 }
 
+/* ═══ Light — "gündüz seferi" ════════════════════════════════════════════
+   Sıcak parşömen zemin, beyaz kartlar, koyulaştırılmış altın ve deniz.
+   Yalnızca token değerleri değişir; hiçbir bileşen sınıfı değişmez.
+
+   Dikkat: `--pirate-border` burada ÖNCEDEN HARMANLANMIŞ opak bir renk
+   (`rgba(6,14,26,.1)`'in parşömen üstündeki karşılığı). Kanal üçlüsü opak
+   olmak zorunda çünkü `border-pirate-border` opaklık modifier'ı olmadan da
+   kullanılıyor — orada ham lacivert çok sert bir çizgi yapardı.
+   ─────────────────────────────────────────────────────────────────────── */
+[data-theme='light'] {
+  --ocean-deep:     244 241 232;   /* #f4f1e8 parşömen — sayfa zemini */
+  --ocean-surface:  255 255 255;   /* #ffffff kart */
+  --ocean-elevated: 255 255 255;   /* light'ta yükseklik gölgeyle kurulur */
+  --ocean-mid:      219 231 242;   /* #dbe7f2 */
+  --ocean-shallow:  195 216 234;   /* #c3d8ea */
+  --ocean-light:    169 200 224;   /* #a9c8e0 */
+
+  --gold:          192 127 0;      /* #c07f00 */
+  --gold-bright:   224 169 46;     /* #e0a92e */
+  --gold-dim:      138 91 0;       /* #8a5b00 */
+  --gold-soft:     247 239 219;    /* #f7efdb — açık dolgu */
+  --gold-glow:     243 226 189;    /* #f3e2bd */
+
+  --sea:            30 91 158;     /* #1e5b9e */
+  --sea-light:      26 84 144;     /* #1a5490 — parşömende okunan varyant */
+  --sea-soft:      219 231 242;    /* #dbe7f2 */
+  --sea-glow:      195 216 234;    /* #c3d8ea */
+
+  --luffy:         192 57 43;      /* #c0392b */
+  --luffy-soft:    250 234 229;    /* #faeae5 */
+  --luffy-glow:    243 213 205;    /* #f3d5cd */
+
+  --pirate-text:    16 28 45;      /* #101c2d */
+  --pirate-muted:   90 100 114;    /* #5a6472 */
+  --pirate-dim:    154 167 181;    /* #9aa7b5 */
+  --pirate-border: 220 218 211;    /* rgba(6,14,26,.1) ⊕ parşömen */
+
+  --fruit-light:   139 92 246;     /* #8b5cf6 */
+  --fruit:         124 58 237;     /* #7c3aed */
+  --fruit-strong:  109 40 217;     /* #6d28d9 */
+  --fruit-deep:     91 33 182;     /* #5b21b6 */
+
+  --haki:           22 163 74;     /* #16a34a */
+  --haki-deep:      21 128 61;     /* #15803d */
+
+  --stat-endurance: 194 65 12;     /* #c2410c — parşömende okunur turuncu */
+
+  /* İçerik vurgu skalasının light karşılıkları — 700/800 seviye.
+     Aynı ayırt ediciliği korur ama beyaz kart / parşömen üstünde
+     WCAG AA (4.5:1) eşiğini geçer. */
+  --accent-cyan:     14 116 144;   /* #0e7490 cyan-700 */
+  --accent-teal:     15 118 110;   /* #0f766e teal-700 */
+  --accent-emerald:   4 120 87;    /* #047857 emerald-700 */
+  --accent-lime:     21 128 61;    /* #15803d green-700 */
+  --accent-amber:   180 83 9;      /* #b45309 amber-700 */
+  --accent-orange:  194 65 12;     /* #c2410c orange-700 */
+  --accent-rose:    190 18 60;     /* #be123c rose-700 */
+  --accent-pink:    190 24 93;     /* #be185d pink-700 */
+  --accent-indigo:   67 56 202;    /* #4338ca indigo-700 */
+  --accent-silver:   71 85 105;    /* #475569 slate-600 */
+  --accent-bronze:  146 64 14;     /* #92400e amber-800 */
+
+  /* Light harita zemini — mavi tonlu açık deniz (tasarım § 10). */
+  --map-ground-outer: 232 238 243; /* #e8eef3 */
+  --map-ground-inner: 220 233 244; /* #dce9f4 */
+
+  --ink: 6 14 26;                  /* light'ta koyu yıkama */
+
+  /* Cam yerine kâğıt: beyaz yüzey + yumuşak gölge, blur korunur */
+  --glass-bg:          linear-gradient(168deg, rgb(255 255 255 / 0.86) 0%, rgb(255 255 255 / 0.74) 100%);
+  --glass-border:      rgb(6 14 26 / 0.10);
+  --glass-shadow:      0 2px 8px rgb(6 14 26 / 0.04), 0 1px 2px rgb(6 14 26 / 0.03);
+
+  --elevated-bg:       linear-gradient(168deg, rgb(255 255 255 / 0.97) 0%, rgb(252 251 247 / 0.95) 100%);
+  --elevated-border:   rgb(6 14 26 / 0.12);
+  --elevated-shadow:   0 12px 32px rgb(6 14 26 / 0.10), 0 4px 10px rgb(6 14 26 / 0.05);
+
+  --surface-bg:        linear-gradient(168deg, rgb(255 255 255 / 0.99) 0%, rgb(250 248 243 / 0.98) 100%);
+  --surface-border:    rgb(6 14 26 / 0.14);
+  --surface-shadow:    0 24px 64px rgb(6 14 26 / 0.16), 0 0 0 1px rgb(6 14 26 / 0.04);
+
+  --bento-bg:          linear-gradient(168deg, rgb(255 255 255 / 0.9) 0%, rgb(252 251 247 / 0.8) 100%);
+  --bento-border:      rgb(6 14 26 / 0.09);
+
+  --chip-bg:           rgb(255 255 255 / 0.8);
+  --chip-border:       rgb(6 14 26 / 0.12);
+
+  --shadow-card:       0 2px 8px rgb(6 14 26 / 0.05), 0 1px 2px rgb(6 14 26 / 0.03);
+  --shadow-card-hover: 0 10px 26px rgb(6 14 26 / 0.10), 0 2px 6px rgb(6 14 26 / 0.04);
+  --shadow-inner-glow: inset 0 1px 0 rgb(255 255 255 / 0.9), inset 0 -1px 0 rgb(6 14 26 / 0.04);
+  --shadow-lift:       0 14px 32px rgb(6 14 26 / 0.12), 0 4px 10px rgb(6 14 26 / 0.05), 0 0 0 1px rgb(var(--gold) / 0.12);
+
+  /* Light'ta altın koyu → üstündeki metin beyaz olmalı */
+  --btn-gold-fg:       #ffffff;
+  --btn-gold-bg:       linear-gradient(120deg, rgb(var(--gold)) 0%, rgb(var(--gold-dim)) 100%);
+
+  --noise-opacity: 0.5;
+  --noise-blend: multiply;
+  --orb-opacity: 0.55;
+}
+
 /* ─── Base ──────────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 
@@ -48,7 +269,12 @@ html {
   /* Sabit header (h-24/h-28) in-page anchor'ları örtmesin — #id linkleri ve
      scrollIntoView bu kadar boşluk bırakır. */
   scroll-padding-top: 7.5rem;
+  background: rgb(var(--ocean-deep));
+  /* Tarayıcı UI'ı (adres çubuğu, scrollbar) da temayı izlesin */
+  color-scheme: dark;
 }
+[data-theme='light'] { color-scheme: light; }
+
 @media (prefers-reduced-motion: no-preference) {
   /* Smooth scroll only when user hasn't opted out AND is on a larger screen.
      On mobile, smooth-scroll during sticky/parallax sections causes jank. */
@@ -63,20 +289,32 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   letter-spacing: -0.01em;
-  background: var(--bg-deep);
-  color: var(--color-text);
+  background: rgb(var(--ocean-deep));
+  color: rgb(var(--pirate-text));
   overflow-x: hidden;
+  /* Tema geçişi ani sıçramasın — yalnızca zemin/metin, animasyon değil */
+  transition: background-color 0.4s var(--ease-smooth), color 0.4s var(--ease-smooth);
 }
 
 /* ─── Tipografi ritmi ──────────────────────────────────────────────────────
    Başlıklar büyüdükçe harf aralığı sıkışır (optik düzeltme) ve satır sonları
-   dengelenir — "tek kelime alt satırda kalmış" başlıklar kaybolur. */
+   dengelenir — "tek kelime alt satırda kalmış" başlıklar kaybolur.
+
+   Display ailesi (Cinzel) `font-display` sınıfıyla ELLE verilir; burada
+   global olarak dayatılmaz çünkü gövde başlıkları (kart içi h3/h4) Manrope
+   kalmalı — tasarımda Cinzel yalnızca ekran başlıkları, kart adları ve
+   istatistik rakamlarında. */
 h1, h2, h3, h4 {
   text-wrap: balance;
 }
 h1 { letter-spacing: -0.035em; line-height: 1.06; }
 h2 { letter-spacing: -0.028em; line-height: 1.14; }
 h3 { letter-spacing: -0.02em;  line-height: 1.22; }
+
+/* Cinzel serif bir display ailesi — negatif letter-spacing ona zarar verir.
+   `font-display` alan başlıklarda optik düzeltmeyi sıfırla. */
+.font-display { letter-spacing: 0; }
+h1.font-display { letter-spacing: 0.005em; }
 
 p, li {
   text-wrap: pretty; /* tek kelimelik son satırları (orphan) engeller */
@@ -96,30 +334,30 @@ body::before {
   background-size: 200px 200px;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.2;
-  mix-blend-mode: overlay;
+  opacity: var(--noise-opacity);
+  mix-blend-mode: var(--noise-blend);
   will-change: auto;
 }
 
 /* Ambient gradient orbs — unique to each page scroll position.
-   Kept subtle (opacity 0.7) to avoid sustained compositing cost on scroll
-   while preserving the signature ocean-glow look. */
+   Kept subtle to avoid sustained compositing cost on scroll while
+   preserving the signature ocean-glow look. */
 body::after {
   content: '';
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse 600px 400px at 15% 10%, rgba(244,163,0,0.07), transparent),
-    radial-gradient(ellipse 500px 500px at 85% 20%, rgba(30,144,255,0.09), transparent),
-    radial-gradient(ellipse 400px 300px at 50% 85%, rgba(231,76,60,0.04), transparent);
-  opacity: 0.7;
+    radial-gradient(ellipse 600px 400px at 15% 10%, rgb(var(--gold) / 0.07), transparent),
+    radial-gradient(ellipse 500px 500px at 85% 20%, rgb(var(--sea) / 0.09), transparent),
+    radial-gradient(ellipse 400px 300px at 50% 85%, rgb(var(--luffy) / 0.04), transparent);
+  opacity: var(--orb-opacity);
   pointer-events: none;
   z-index: 0;
 }
 
 /* ─── Selection ─────────────────────────────────────────────────────────── */
 ::selection {
-  background: rgba(244,163,0,0.24);
+  background: rgb(var(--gold) / 0.24);
   color: inherit;
 }
 
@@ -127,15 +365,15 @@ body::after {
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, rgba(244,163,0,0.3), rgba(30,144,255,0.3));
+  background: linear-gradient(180deg, rgb(var(--gold) / 0.3), rgb(var(--sea) / 0.3));
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, rgba(244,163,0,0.5), rgba(30,144,255,0.5));
+  background: linear-gradient(180deg, rgb(var(--gold) / 0.5), rgb(var(--sea) / 0.5));
 }
 
 .scrollbar-thin::-webkit-scrollbar { width: 3px; height: 3px; }
-.scrollbar-thin { scrollbar-width: thin; scrollbar-color: rgba(244,163,0,0.2) transparent; }
+.scrollbar-thin { scrollbar-width: thin; scrollbar-color: rgb(var(--gold) / 0.2) transparent; }
 
 /* ─── Mobile performance fixes ─────────────────────────────────────────── */
 @media (max-width: 640px) {
@@ -143,7 +381,7 @@ body::after {
   /* Disable noise overlay on mobile — mix-blend-mode is expensive */
   body::before { display: none; }
   /* Simplify ambient orbs on mobile */
-  body::after { opacity: 0.5; }
+  body::after { opacity: calc(var(--orb-opacity) * 0.7); }
   /* Reduce blur intensity on mobile for smoother compositing */
   .glass { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
   .glass-elevated { backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
@@ -166,19 +404,34 @@ body::after {
 /* ─── Components ────────────────────────────────────────────────────────── */
 @layer components {
 
-  /* ── Glass v2: Multi-layer glassmorphism ─────────────────────────────── */
+  /* ── Eyebrow — Space Mono etiket ──────────────────────────────────────
+     Tasarımdaki her ekranın üstünde duran mono mikro-etiket
+     ("36 ARC · 463 BÖLÜM · %0 FILLER"). Kapsam dışı: Title Case kuralı
+     buraya işlemez, bunlar zaten büyük harf veri etiketleri. */
+  .eyebrow {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-weight: 700;
+    font-size: 0.625rem;
+    line-height: 1.2;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .eyebrow-lg {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-weight: 700;
+    font-size: 0.6875rem;
+    line-height: 1.2;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  /* ── Glass v2: Multi-layer glassmorphism ─────────────────────────────
+     Light temada "cam" yerine kâğıt reçetesi devreye girer (bkz. token
+     bloğu) — blur korunur ama zemin beyaz, gölge yumuşar. */
   .glass {
-    background: linear-gradient(
-      168deg,
-      rgba(12,24,41,0.88) 0%,
-      rgba(8,16,30,0.82) 100%
-    );
-    border: 1px solid rgba(30,144,255,0.10);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.03),
-      inset 0 -1px 0 rgba(0,0,0,0.1),
-      0 8px 32px rgba(2,6,23,0.4),
-      0 2px 8px rgba(2,6,23,0.2);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
     backdrop-filter: blur(16px) saturate(1.25);
     -webkit-backdrop-filter: blur(16px) saturate(1.25);
     border-radius: var(--radius-lg);
@@ -186,17 +439,9 @@ body::after {
 
   /* Elevated glass — modals, dropdowns, popovers */
   .glass-elevated {
-    background: linear-gradient(
-      168deg,
-      rgba(14,28,48,0.95) 0%,
-      rgba(8,16,30,0.92) 100%
-    );
-    border: 1px solid rgba(30,144,255,0.14);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.04),
-      0 24px 48px rgba(2,6,23,0.5),
-      0 12px 24px rgba(2,6,23,0.3),
-      0 0 0 1px rgba(0,0,0,0.1);
+    background: var(--elevated-bg);
+    border: 1px solid var(--elevated-border);
+    box-shadow: var(--elevated-shadow);
     backdrop-filter: blur(20px) saturate(1.3);
     -webkit-backdrop-filter: blur(20px) saturate(1.3);
     border-radius: var(--radius-lg);
@@ -204,15 +449,9 @@ body::after {
 
   /* Surface v2 — strong background for modals/panels */
   .surface {
-    background: linear-gradient(
-      168deg,
-      rgba(14,28,48,0.97) 0%,
-      rgba(6,14,26,0.98) 100%
-    );
-    border: 1px solid rgba(30,144,255,0.15);
-    box-shadow:
-      0 32px 64px rgba(2,6,23,0.6),
-      0 0 0 1px rgba(0,0,0,0.15);
+    background: var(--surface-bg);
+    border: 1px solid var(--surface-border);
+    box-shadow: var(--surface-shadow);
     backdrop-filter: blur(24px) saturate(1.4);
     -webkit-backdrop-filter: blur(24px) saturate(1.4);
     border-radius: var(--radius-xl);
@@ -224,12 +463,12 @@ body::after {
     align-items: center;
     gap: 0.4rem;
     border-radius: 999px;
-    border: 1px solid rgba(30,144,255,0.15);
-    background: rgba(12,24,41,0.6);
+    border: 1px solid var(--chip-border);
+    background: var(--chip-bg);
     padding: 0.5rem 0.9rem;
     font-size: 0.75rem;
     font-weight: 600;
-    color: #e8eaf0;
+    color: rgb(var(--pirate-text));
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     transition: all 0.3s var(--ease-smooth);
@@ -237,8 +476,8 @@ body::after {
     user-select: none;
   }
   .chip:hover {
-    border-color: rgba(244,163,0,0.25);
-    background: rgba(244,163,0,0.06);
+    border-color: rgb(var(--gold) / 0.35);
+    background: rgb(var(--gold) / 0.08);
   }
 
   /* ── Gradient Texts ───────────────────────────────────────────────────
@@ -249,17 +488,15 @@ body::after {
      kalıyor ama arkasına degrade basılmıyor — metin tamamen görünmez oluyordu.
      Kırpma çalışmadığında geriye okunur bir renk kalmalı.
 
-     Aynı desen `acilis-zili`de zaten uygulanıyor; oradaki `.display-ink`
-     bu yüzden ekosistem yasağına belgeli istisna sayılıyor
-     (`knowledge/themes/acilis-zili.md` § 7). */
-  .text-gold-gradient { color: theme('colors.gold.DEFAULT'); }
-  .text-gold-shimmer  { color: theme('colors.gold.DEFAULT'); }
-  .text-sea-gradient  { color: theme('colors.sea.DEFAULT'); }
-  .text-fire-gradient { color: theme('colors.luffy.DEFAULT'); }
+     Degradeler de token'lı: light temada koyu altın/deniz uçlarına döner. */
+  .text-gold-gradient { color: rgb(var(--gold)); }
+  .text-gold-shimmer  { color: rgb(var(--gold)); }
+  .text-sea-gradient  { color: rgb(var(--sea)); }
+  .text-fire-gradient { color: rgb(var(--luffy)); }
 
   @supports (background-clip: text) or (-webkit-background-clip: text) {
     .text-gold-gradient {
-      background: linear-gradient(135deg, #f4a300 0%, #fbbf24 40%, #f4a300 80%);
+      background: linear-gradient(135deg, rgb(var(--gold)) 0%, rgb(var(--gold-bright)) 40%, rgb(var(--gold)) 80%);
       background-size: 200% 100%;
       -webkit-background-clip: text;
       background-clip: text;
@@ -270,13 +507,13 @@ body::after {
     .text-gold-shimmer {
       background: linear-gradient(
         110deg,
-        #f4a300 0%,
-        #f4a300 30%,
-        #ffe8a8 45%,
-        #fff5d1 50%,
-        #ffe8a8 55%,
-        #f4a300 70%,
-        #f4a300 100%
+        rgb(var(--gold)) 0%,
+        rgb(var(--gold)) 30%,
+        rgb(var(--gold-bright)) 45%,
+        rgb(var(--gold-bright)) 50%,
+        rgb(var(--gold-bright)) 55%,
+        rgb(var(--gold)) 70%,
+        rgb(var(--gold)) 100%
       );
       background-size: 220% 100%;
       -webkit-background-clip: text;
@@ -286,14 +523,14 @@ body::after {
     }
 
     .text-sea-gradient {
-      background: linear-gradient(135deg, #1e90ff, #60b8ff);
+      background: linear-gradient(135deg, rgb(var(--sea)), rgb(var(--sea-light)));
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .text-fire-gradient {
-      background: linear-gradient(135deg, #e74c3c, #f4a300);
+      background: linear-gradient(135deg, rgb(var(--luffy)), rgb(var(--gold)));
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -306,7 +543,10 @@ body::after {
 
   /* ── Button System v2 — more premium feel ──────────────────────────── */
 
-  /* Gold CTA — primary action */
+  /* Gold CTA — primary action.
+     Metin rengi token: dark'ta altın zemin açık → koyu metin; light'ta
+     altın koyulaşıyor → beyaz metin. Sabit `#060e1a` bırakılırsa light
+     temada kontrast düşüyordu. */
   .btn-gold {
     position: relative;
     display: inline-flex;
@@ -314,15 +554,15 @@ body::after {
     justify-content: center;
     gap: 0.5rem;
     border-radius: var(--radius-md);
-    background: linear-gradient(135deg, #f4a300 0%, #e8960a 100%);
+    background: var(--btn-gold-bg);
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
     font-weight: 700;
-    color: #060e1a;
+    color: var(--btn-gold-fg);
     box-shadow:
-      0 4px 16px rgba(244,163,0,0.3),
-      0 1px 3px rgba(244,163,0,0.2),
-      inset 0 1px 0 rgba(255,255,255,0.2);
+      0 4px 16px rgb(var(--gold) / 0.3),
+      0 1px 3px rgb(var(--gold) / 0.2),
+      inset 0 1px 0 rgb(255 255 255 / 0.2);
     transition: all 0.35s var(--ease-out-expo);
     overflow: hidden;
     isolation: isolate;
@@ -331,21 +571,21 @@ body::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 50%);
+    background: linear-gradient(135deg, rgb(255 255 255 / 0.25) 0%, transparent 50%);
     opacity: 0;
     transition: opacity 0.35s var(--ease-out-expo);
   }
   .btn-gold:hover {
     transform: translateY(-2px);
     box-shadow:
-      0 8px 32px rgba(244,163,0,0.4),
-      0 4px 12px rgba(244,163,0,0.25),
-      inset 0 1px 0 rgba(255,255,255,0.3);
+      0 8px 32px rgb(var(--gold) / 0.4),
+      0 4px 12px rgb(var(--gold) / 0.25),
+      inset 0 1px 0 rgb(255 255 255 / 0.3);
   }
   .btn-gold:hover::before { opacity: 1; }
   .btn-gold:active {
     transform: translateY(0) scale(0.97);
-    box-shadow: 0 2px 8px rgba(244,163,0,0.2);
+    box-shadow: 0 2px 8px rgb(var(--gold) / 0.2);
   }
 
   /* Luffy red CTA */
@@ -356,19 +596,19 @@ body::after {
     justify-content: center;
     gap: 0.5rem;
     border-radius: var(--radius-md);
-    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    background: linear-gradient(135deg, rgb(var(--luffy)) 0%, rgb(192 57 43) 100%);
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
     font-weight: 700;
     color: white;
     box-shadow:
-      0 4px 16px rgba(231,76,60,0.3),
-      inset 0 1px 0 rgba(255,255,255,0.15);
+      0 4px 16px rgb(var(--luffy) / 0.3),
+      inset 0 1px 0 rgb(255 255 255 / 0.15);
     transition: all 0.35s var(--ease-out-expo);
   }
   .btn-luffy:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(231,76,60,0.4);
+    box-shadow: 0 8px 32px rgb(var(--luffy) / 0.4);
   }
   .btn-luffy:active { transform: translateY(0) scale(0.97); }
 
@@ -379,20 +619,20 @@ body::after {
     justify-content: center;
     gap: 0.5rem;
     border-radius: var(--radius-md);
-    background: rgba(12,24,41,0.4);
-    border: 1px solid rgba(30,144,255,0.12);
+    background: rgb(var(--ocean-surface) / 0.4);
+    border: 1px solid rgb(var(--sea) / 0.16);
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--color-text);
+    color: rgb(var(--pirate-text));
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     transition: all 0.35s var(--ease-out-expo);
   }
   .btn-ghost:hover {
-    background: rgba(30,144,255,0.08);
-    border-color: rgba(30,144,255,0.25);
-    color: white;
+    background: rgb(var(--sea) / 0.08);
+    border-color: rgb(var(--sea) / 0.3);
+    color: rgb(var(--sea));
     transform: translateY(-1px);
   }
   .btn-ghost:active { transform: scale(0.97); }
@@ -401,13 +641,13 @@ body::after {
   .progress-bar {
     height: 4px;
     border-radius: 999px;
-    background: rgba(30,144,255,0.1);
+    background: rgb(var(--pirate-border) / 0.5);
     overflow: hidden;
   }
   .progress-bar-fill {
     height: 100%;
     border-radius: 999px;
-    background: linear-gradient(90deg, #1e90ff, #f4a300);
+    background: linear-gradient(90deg, rgb(var(--gold-dim)), rgb(var(--gold-bright)));
     transition: width 0.5s var(--ease-out-expo);
   }
 
@@ -427,7 +667,7 @@ body::after {
     width: 100%;
     height: 2px;
     border-radius: 999px;
-    background: linear-gradient(90deg, #f4a300, #1e90ff);
+    background: linear-gradient(90deg, rgb(var(--gold)), rgb(var(--sea)));
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.4s var(--ease-out-expo);
@@ -451,9 +691,9 @@ body::after {
     background: linear-gradient(
       105deg,
       transparent 20%,
-      rgba(244,163,0,0.06) 40%,
-      rgba(244,163,0,0.12) 50%,
-      rgba(244,163,0,0.06) 60%,
+      rgb(var(--gold) / 0.06) 40%,
+      rgb(var(--gold) / 0.12) 50%,
+      rgb(var(--gold) / 0.06) 60%,
       transparent 80%
     );
     transition: left 0.7s var(--ease-out-expo);
@@ -473,11 +713,7 @@ body::after {
   }
   .glass-lift:hover {
     transform: translateY(-6px);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.05),
-      0 24px 48px rgba(2,6,23,0.5),
-      0 12px 24px rgba(2,6,23,0.3),
-      0 0 0 1px rgba(244,163,0,0.06);
+    box-shadow: var(--shadow-lift);
   }
 
   /* ── Glow pulse for featured items ─────────────────────────────────── */
@@ -491,8 +727,8 @@ body::after {
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(244,163,0,0.25) 30%,
-      rgba(30,144,255,0.25) 70%,
+      rgb(var(--gold) / 0.25) 30%,
+      rgb(var(--sea) / 0.25) 70%,
       transparent 100%
     );
     position: relative;
@@ -511,12 +747,8 @@ body::after {
     position: relative;
     overflow: hidden;
     border-radius: var(--radius-xl);
-    background: linear-gradient(
-      168deg,
-      rgba(12,24,41,0.85) 0%,
-      rgba(8,16,30,0.78) 100%
-    );
-    border: 1px solid rgba(30,144,255,0.08);
+    background: var(--bento-bg);
+    border: 1px solid var(--bento-border);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     transition: all 0.5s var(--ease-out-expo);
@@ -529,8 +761,8 @@ body::after {
     padding: 1px;
     background: linear-gradient(
       135deg,
-      rgba(244,163,0,0.08),
-      rgba(30,144,255,0.08),
+      rgb(var(--gold) / 0.12),
+      rgb(var(--sea) / 0.12),
       transparent 60%
     );
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -541,10 +773,8 @@ body::after {
     transition: opacity 0.5s var(--ease-out-expo);
   }
   .bento-card:hover {
-    border-color: rgba(30,144,255,0.15);
-    box-shadow:
-      0 16px 40px rgba(2,6,23,0.4),
-      0 0 60px rgba(244,163,0,0.03);
+    border-color: rgb(var(--sea) / 0.2);
+    box-shadow: var(--shadow-card-hover);
   }
   .bento-card:hover::before {
     opacity: 1;
@@ -561,9 +791,9 @@ body::after {
     font-weight: 600;
     letter-spacing: 0.02em;
     text-transform: uppercase;
-    background: rgba(30,144,255,0.08);
-    color: rgba(232,234,240,0.7);
-    border: 1px solid rgba(30,144,255,0.06);
+    background: rgb(var(--sea) / 0.1);
+    color: rgb(var(--pirate-text) / 0.75);
+    border: 1px solid rgb(var(--sea) / 0.1);
   }
 
   /* ── Scroll reveal line (decorative) ───────────────────────────────── */
@@ -572,8 +802,8 @@ body::after {
     background: linear-gradient(
       180deg,
       transparent,
-      rgba(244,163,0,0.4) 20%,
-      rgba(30,144,255,0.4) 80%,
+      rgb(var(--gold) / 0.4) 20%,
+      rgb(var(--sea) / 0.4) 80%,
       transparent
     );
     border-radius: 999px;
@@ -599,22 +829,16 @@ body::after {
   .wanted-poster {
     position: relative;
     background-image:
-      radial-gradient(circle at 30% 20%, rgba(244,163,0,0.06), transparent 60%),
-      radial-gradient(circle at 70% 80%, rgba(244,163,0,0.04), transparent 50%);
-    box-shadow:
-      0 8px 32px rgba(0,0,0,0.5),
-      0 2px 8px rgba(0,0,0,0.3),
-      inset 0 1px 0 rgba(244,163,0,0.08),
-      inset 0 -1px 0 rgba(0,0,0,0.3);
+      radial-gradient(circle at 30% 20%, rgb(var(--gold) / 0.06), transparent 60%),
+      radial-gradient(circle at 70% 80%, rgb(var(--gold) / 0.04), transparent 50%);
+    box-shadow: var(--shadow-card), var(--shadow-inner-glow);
     transition: all 0.5s var(--ease-out-expo);
   }
   .wanted-poster:hover {
     box-shadow:
-      0 16px 48px rgba(0,0,0,0.6),
-      0 4px 12px rgba(0,0,0,0.4),
-      0 0 40px rgba(244,163,0,0.08),
-      inset 0 1px 0 rgba(244,163,0,0.12),
-      inset 0 -1px 0 rgba(0,0,0,0.3);
+      var(--shadow-card-hover),
+      0 0 40px rgb(var(--gold) / 0.08),
+      var(--shadow-inner-glow);
     transform: translateY(-4px);
   }
 }
@@ -644,10 +868,10 @@ body::after {
   pointer-events: none;
 }
 .ocean-glow-sea {
-  background: radial-gradient(circle, rgba(30,144,255,0.8), transparent 70%);
+  background: radial-gradient(circle, rgb(var(--sea) / 0.8), transparent 70%);
 }
 .ocean-glow-gold {
-  background: radial-gradient(circle, rgba(244,163,0,0.6), transparent 70%);
+  background: radial-gradient(circle, rgb(var(--gold) / 0.6), transparent 70%);
 }
 
 .section-ocean {
@@ -661,12 +885,12 @@ body::after {
   left: -10%;
   width: 120%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(30,144,255,0.15), rgba(244,163,0,0.1), transparent);
+  background: linear-gradient(90deg, transparent, rgb(var(--sea) / 0.15), rgb(var(--gold) / 0.1), transparent);
 }
 
 /* ─── Focus states — premium ring ─────────────────────────────────────── */
 *:focus-visible {
-  outline: 2px solid rgba(244,163,0,0.5);
+  outline: 2px solid rgb(var(--gold) / 0.5);
   outline-offset: 3px;
   border-radius: 6px;
 }
@@ -681,7 +905,7 @@ textarea {
 }
 input:focus,
 textarea:focus {
-  box-shadow: 0 0 0 3px rgba(244,163,0,0.08);
+  box-shadow: 0 0 0 3px rgb(var(--gold) / 0.12);
 }
 
 /* ─── Manga Panel System ───────────────────────────────────────────────── */
@@ -690,10 +914,10 @@ textarea:focus {
   .manga-grid {
     display: grid;
     gap: 4px;
-    border: 3px solid rgba(232,234,240,0.1);
+    border: 3px solid rgb(var(--pirate-text) / 0.1);
     border-radius: var(--radius-lg);
     overflow: hidden;
-    background: rgba(232,234,240,0.03);
+    background: rgb(var(--pirate-text) / 0.03);
   }
   .manga-grid-classic {
     grid-template-columns: 1fr 1fr;
@@ -711,15 +935,15 @@ textarea:focus {
   /* Single panel */
   .manga-panel {
     position: relative;
-    border: 2px solid rgba(232,234,240,0.08);
-    background: var(--bg-surface);
+    border: 2px solid rgb(var(--pirate-text) / 0.08);
+    background: rgb(var(--ocean-surface));
     transition: border-color 0.3s var(--ease-smooth);
   }
-  .manga-panel:hover { border-color: rgba(244,163,0,0.2); }
+  .manga-panel:hover { border-color: rgb(var(--gold) / 0.25); }
   .manga-panel-diagonal { clip-path: polygon(0 0, 100% 4%, 100% 100%, 0 96%); }
   .manga-panel-highlight {
-    border-color: rgba(244,163,0,0.25);
-    box-shadow: inset 0 0 30px rgba(244,163,0,0.05);
+    border-color: rgb(var(--gold) / 0.3);
+    box-shadow: inset 0 0 30px rgb(var(--gold) / 0.05);
   }
 
   /* Speed lines */
@@ -727,7 +951,7 @@ textarea:focus {
   .manga-speed-line {
     position: absolute;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(232,234,240,0.2) 20%, rgba(232,234,240,0.2) 80%, transparent);
+    background: linear-gradient(90deg, transparent, rgb(var(--pirate-text) / 0.2) 20%, rgb(var(--pirate-text) / 0.2) 80%, transparent);
     animation: speed-line-dash 0.6s var(--ease-out-expo) both;
   }
 
@@ -737,10 +961,10 @@ textarea:focus {
     width: 80px;
     height: 80px;
     background:
-      linear-gradient(0deg, transparent 44%, rgba(244,163,0,0.3) 44%, rgba(244,163,0,0.3) 56%, transparent 56%),
-      linear-gradient(90deg, transparent 44%, rgba(244,163,0,0.3) 44%, rgba(244,163,0,0.3) 56%, transparent 56%),
-      linear-gradient(45deg, transparent 44%, rgba(244,163,0,0.15) 44%, rgba(244,163,0,0.15) 56%, transparent 56%),
-      linear-gradient(-45deg, transparent 44%, rgba(244,163,0,0.15) 44%, rgba(244,163,0,0.15) 56%, transparent 56%);
+      linear-gradient(0deg, transparent 44%, rgb(var(--gold) / 0.3) 44%, rgb(var(--gold) / 0.3) 56%, transparent 56%),
+      linear-gradient(90deg, transparent 44%, rgb(var(--gold) / 0.3) 44%, rgb(var(--gold) / 0.3) 56%, transparent 56%),
+      linear-gradient(45deg, transparent 44%, rgb(var(--gold) / 0.15) 44%, rgb(var(--gold) / 0.15) 56%, transparent 56%),
+      linear-gradient(-45deg, transparent 44%, rgb(var(--gold) / 0.15) 44%, rgb(var(--gold) / 0.15) 56%, transparent 56%);
   }
 
   /* Shout bubble jitter */
@@ -750,10 +974,10 @@ textarea:focus {
 
   /* SFX text */
   .manga-sfx {
-    color: var(--color-gold);
+    color: rgb(var(--gold));
     text-shadow:
-      2px 2px 0 rgba(6,14,26,0.4),
-      -1px -1px 0 rgba(6,14,26,0.2);
+      2px 2px 0 rgb(var(--ocean-deep) / 0.4),
+      -1px -1px 0 rgb(var(--ocean-deep) / 0.2);
   }
 
   /* Speech tail (normal variant) */
@@ -782,8 +1006,8 @@ textarea:focus {
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(30,144,255,0.06) 40%,
-      rgba(244,163,0,0.06) 60%,
+      rgb(var(--sea) / 0.06) 40%,
+      rgb(var(--gold) / 0.06) 60%,
       transparent 100%
     );
     background-size: 200% 100%;
@@ -802,8 +1026,8 @@ textarea:focus {
     50%       { opacity: 0; }
   }
   @keyframes glow-pulse {
-    0%, 100% { box-shadow: 0 0 20px rgba(244,163,0,0.08); }
-    50%       { box-shadow: 0 0 50px rgba(244,163,0,0.2); }
+    0%, 100% { box-shadow: 0 0 20px rgb(var(--gold) / 0.08); }
+    50%       { box-shadow: 0 0 50px rgb(var(--gold) / 0.2); }
   }
   @keyframes shimmer {
     0% { background-position: -200% 0; }
@@ -903,9 +1127,9 @@ textarea:focus {
 .border-gradient-animated {
   border-image: linear-gradient(
     var(--border-angle, 0deg),
-    rgba(244,163,0,0.35),
-    rgba(30,144,255,0.35),
-    rgba(244,163,0,0.35)
+    rgb(var(--gold) / 0.35),
+    rgb(var(--sea) / 0.35),
+    rgb(var(--gold) / 0.35)
   ) 1;
   animation: border-rotate 6s linear infinite;
 }
@@ -923,7 +1147,7 @@ textarea:focus {
   -webkit-appearance: none;
   appearance: none;
   height: 6px;
-  background: linear-gradient(90deg, rgba(30,144,255,0.2), rgba(244,163,0,0.3), rgba(231,76,60,0.3));
+  background: linear-gradient(90deg, rgb(var(--sea) / 0.2), rgb(var(--gold) / 0.3), rgb(var(--luffy) / 0.3));
   border-radius: 999px;
   outline: none;
   cursor: pointer;
@@ -933,9 +1157,9 @@ textarea:focus {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #f4a300, #e8960a);
-  box-shadow: 0 2px 8px rgba(244,163,0,0.4);
-  border: 2px solid rgba(255,255,255,0.15);
+  background: linear-gradient(135deg, rgb(var(--gold)), rgb(var(--gold-dim)));
+  box-shadow: 0 2px 8px rgb(var(--gold) / 0.4);
+  border: 2px solid rgb(255 255 255 / 0.15);
   cursor: grab;
   transition: transform 0.2s var(--ease-spring);
 }
@@ -950,9 +1174,9 @@ textarea:focus {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #f4a300, #e8960a);
-  box-shadow: 0 2px 8px rgba(244,163,0,0.4);
-  border: 2px solid rgba(255,255,255,0.15);
+  background: linear-gradient(135deg, rgb(var(--gold)), rgb(var(--gold-dim)));
+  box-shadow: 0 2px 8px rgb(var(--gold) / 0.4);
+  border: 2px solid rgb(255 255 255 / 0.15);
   cursor: grab;
 }
 
@@ -976,7 +1200,7 @@ textarea:focus {
 .btn-ripple {
   position: absolute;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 70%);
+  background: radial-gradient(circle, rgb(var(--ink) / 0.35) 0%, rgb(var(--ink) / 0) 70%);
   transform: scale(0);
   animation: btn-ripple 0.65s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
@@ -1005,11 +1229,11 @@ textarea:focus {
   gap: 0.75rem;
   padding: 0.9rem 1.1rem;
   border-radius: var(--radius-lg);
-  background: linear-gradient(145deg, rgba(14,28,48,0.95), rgba(8,16,30,0.92));
-  border: 1px solid rgba(244,163,0,0.3);
-  box-shadow: 0 16px 44px rgba(2,6,23,0.55), inset 0 1px 0 rgba(255,255,255,0.05);
+  background: var(--elevated-bg);
+  border: 1px solid rgb(var(--gold) / 0.3);
+  box-shadow: var(--elevated-shadow);
   backdrop-filter: blur(24px) saturate(1.4);
-  color: var(--color-text);
+  color: rgb(var(--pirate-text));
   animation: toast-enter 0.35s var(--ease-out-expo) both;
   max-width: 22rem;
 }
@@ -1017,10 +1241,10 @@ textarea:focus {
   animation: toast-exit 0.25s var(--ease-out-expo) both;
 }
 .toast-item.toast-error {
-  border-color: rgba(231,76,60,0.35);
+  border-color: rgb(var(--luffy) / 0.35);
 }
 .toast-item.toast-success {
-  border-color: rgba(52,211,153,0.35);
+  border-color: rgb(var(--haki) / 0.35);
 }
 @keyframes toast-enter {
   from { opacity: 0; transform: translateX(40px) scale(0.96); filter: blur(4px); }

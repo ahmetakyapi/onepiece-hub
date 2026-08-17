@@ -17,12 +17,12 @@ export interface PowerStats {
 }
 
 export const STAT_LABELS: Record<string, { label: string; color: string }> = {
-  strength: { label: 'Güç', color: '#e74c3c' },
-  speed: { label: 'Hız', color: '#1e90ff' },
-  haki: { label: 'Haki', color: '#a855f7' },
-  devilFruit: { label: 'Şeytan Meyvesi', color: '#f4a300' },
-  intelligence: { label: 'Zeka', color: '#22c55e' },
-  endurance: { label: 'Dayanıklılık', color: '#f97316' },
+  strength: { label: 'Güç', color: 'rgb(var(--luffy))' },
+  speed: { label: 'Hız', color: 'rgb(var(--sea))' },
+  haki: { label: 'Haki', color: 'rgb(var(--fruit-strong))' },
+  devilFruit: { label: 'Şeytan Meyvesi', color: 'rgb(var(--gold))' },
+  intelligence: { label: 'Zeka', color: 'rgb(var(--haki))' },
+  endurance: { label: 'Dayanıklılık', color: 'rgb(var(--stat-endurance))' },
 }
 
 export const POWER_LEVELS: PowerStats[] = [

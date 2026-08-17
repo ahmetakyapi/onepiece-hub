@@ -70,7 +70,7 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
           <div className="mx-auto max-w-4xl">
             <Link
               href="/devil-fruits"
-              className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-ocean-deep/50 px-4 py-2 text-[13px] text-white/70 backdrop-blur-md transition-all duration-300 hover:border-gold/30 hover:text-gold group"
+              className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-ocean-deep/50 px-4 py-2 text-[13px] text-pirate-text/70 backdrop-blur-md transition-all duration-300 hover:border-gold/30 hover:text-gold group"
             >
               <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-1" />
               Tüm Şeytan Meyveleri
@@ -99,12 +99,12 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
             </div>
 
             <div className="mb-2 flex flex-wrap items-center gap-3">
-              <h1 className="text-4xl font-extrabold tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:text-5xl md:text-6xl">
+              <h1 className="font-display text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:text-5xl md:text-6xl">
                 {fruit.name}
               </h1>
               <FavoriteButton targetType="devil-fruit" targetSlug={fruit.slug} />
             </div>
-            <p className="mb-1 font-mono text-sm text-white/50 drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]">
+            <p className="mb-1 font-mono text-sm text-pirate-text/50 drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]">
               {fruit.japaneseName}
             </p>
             <p className="text-base font-semibold text-gold drop-shadow-[0_2px_8px_rgba(0,0,0,0.55)] sm:text-lg">
@@ -122,7 +122,7 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
               <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-gold/40 via-fruit/20 to-transparent" />
               <div className="mb-3 flex items-center gap-2 pl-4">
                 <BookOpen className="h-4 w-4 text-gold" />
-                <h2 className="text-sm font-bold uppercase tracking-wider text-pirate-text">Açıklama</h2>
+                <h2 className="eyebrow-lg text-pirate-text">Açıklama</h2>
               </div>
               <p className="pl-4 text-sm leading-relaxed text-pirate-muted sm:text-[15px]">
                 {fruit.description}
@@ -132,7 +132,7 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
 
           {/* User card — spotlight */}
           <motion.div variants={fadeUp} className="mb-10">
-            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+            <h2 className="mb-4 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
               <Skull className="h-5 w-5 text-sea" />
               Kullanıcı
             </h2>
@@ -158,10 +158,10 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
                 </div>
 
                 <div className="flex-1 text-center sm:text-left">
-                  <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.22em] text-sea/70">
+                  <p className="eyebrow mb-1 text-sea/70">
                     Meyve Sahibi
                   </p>
-                  <p className="mb-3 text-2xl font-extrabold text-pirate-text sm:text-3xl">
+                  <p className="mb-3 font-display text-2xl font-extrabold text-pirate-text sm:text-3xl">
                     {fruit.user}
                   </p>
                   <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
@@ -186,10 +186,10 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
 
           {/* Abilities */}
           <motion.div variants={fadeUp} className="mb-10">
-            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+            <h2 className="mb-4 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
               <Zap className="h-5 w-5 text-gold" />
               Yetenekler
-              <span className="ml-1 rounded-full bg-gold/[0.08] px-2.5 py-0.5 text-[11px] font-semibold text-gold">
+              <span className="ml-1 rounded-full bg-gold/[0.08] px-2.5 py-0.5 font-mono text-[11px] font-semibold text-gold">
                 {fruit.abilities.length}
               </span>
             </h2>
@@ -223,7 +223,7 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-luffy/10 border border-luffy/25">
                       <AlertTriangle className="h-4 w-4 text-luffy" />
                     </div>
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-luffy">Zayıf Nokta</h3>
+                    <h3 className="eyebrow-lg text-luffy">Zayıf Nokta</h3>
                   </div>
                   <p className="text-sm leading-relaxed text-pirate-muted">
                     {fruit.weakness}
@@ -238,7 +238,7 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gold/15 border border-gold/35">
                       <Star className="h-4 w-4 text-gold" />
                     </div>
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-gold">Uyanış</h3>
+                    <h3 className="eyebrow-lg text-gold">Uyanış</h3>
                   </div>
                   <p className="text-sm leading-relaxed text-pirate-muted">
                     {fruit.awakening}
@@ -250,13 +250,13 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
 
           {/* Type info */}
           <motion.div variants={fadeUp}>
-            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+            <h2 className="mb-4 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
               <Cherry className="h-5 w-5 text-fruit" />
               Meyve Türü
             </h2>
             <div className={`relative overflow-hidden rounded-2xl border ${typeInfo.bg} ${typeInfo.color} border-current/20 p-5`}>
               <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-current/[0.08] blur-[60px]" />
-              <p className={`mb-2 text-base font-extrabold ${typeInfo.color}`}>{typeInfo.label}</p>
+              <p className={`mb-2 font-display text-base font-extrabold ${typeInfo.color}`}>{typeInfo.label}</p>
               <p className="text-sm leading-relaxed text-pirate-muted">
                 {typeInfo.description}
               </p>

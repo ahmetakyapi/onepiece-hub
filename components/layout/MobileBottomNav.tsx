@@ -22,6 +22,7 @@ export default function MobileBottomNav() {
   const { user } = useAuth()
 
   const profileHref = user ? '/profile' : '/login'
+  const profileActive = isActive(pathname, profileHref)
 
   return (
     <nav
@@ -39,7 +40,10 @@ export default function MobileBottomNav() {
             <Link
               key={tab.href}
               href={tab.href}
-              className="group relative flex flex-1 flex-col items-center gap-0.5 rounded-xl px-3 py-2.5"
+              aria-current={active ? 'page' : undefined}
+              className={`group relative flex flex-1 flex-col items-center gap-0.5 rounded-xl px-3 py-2.5 transition-colors ${
+                active ? 'bg-gold/[0.06]' : ''
+              }`}
             >
               {active && (
                 <span
@@ -65,9 +69,12 @@ export default function MobileBottomNav() {
 
         <Link
           href={profileHref}
-          className="group relative flex flex-1 flex-col items-center gap-0.5 rounded-xl px-2 py-1.5"
+          aria-current={profileActive ? 'page' : undefined}
+          className={`group relative flex flex-1 flex-col items-center gap-0.5 rounded-xl px-2 py-1.5 transition-colors ${
+            profileActive ? 'bg-gold/[0.06]' : ''
+          }`}
         >
-          {isActive(pathname, profileHref) && (
+          {profileActive && (
             <span
               className="absolute inset-x-3 top-0 h-[2px] rounded-full bg-gradient-to-r from-transparent via-gold to-transparent"
               aria-hidden
@@ -75,12 +82,12 @@ export default function MobileBottomNav() {
           )}
           <User
             className={`h-5 w-5 transition-all ${
-              isActive(pathname, profileHref) ? 'text-gold' : 'text-pirate-muted/60 group-active:scale-90'
+              profileActive ? 'text-gold' : 'text-pirate-muted/60 group-active:scale-90'
             }`}
           />
           <span
             className={`text-[10.5px] font-semibold tracking-wide transition-colors ${
-              isActive(pathname, profileHref) ? 'text-gold' : 'text-pirate-muted/60'
+              profileActive ? 'text-gold' : 'text-pirate-muted/60'
             }`}
           >
             {user ? 'Profil' : 'Giriş'}

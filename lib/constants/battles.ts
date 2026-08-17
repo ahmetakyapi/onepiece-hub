@@ -5,7 +5,7 @@ export const BATTLE_CATEGORIES: Record<string, { label: string; color: string }>
   emotional: { label: 'Duygusal', color: 'text-sea-light' },
   rivalry: { label: 'Rekabet', color: 'text-luffy' },
   war: { label: 'Savaş', color: 'text-fruit' },
-  'turning-point': { label: 'Dönüm Noktası', color: 'text-emerald-400' },
+  'turning-point': { label: 'Dönüm Noktası', color: 'text-accent-emerald' },
 }
 
 export const BATTLES: Battle[] = [

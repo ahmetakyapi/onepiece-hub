@@ -13,7 +13,7 @@ export default function Loading() {
           <div className="absolute inset-2 rounded-full border border-sea/10" />
           <div className="absolute inset-[12px] rounded-full bg-gold/10" />
         </div>
-        <p className="relative z-10 text-[10px] font-black uppercase tracking-[0.3em] text-gold">
+        <p className="eyebrow relative z-10 text-gold">
           Rotayı hesaplıyor
         </p>
       </div>

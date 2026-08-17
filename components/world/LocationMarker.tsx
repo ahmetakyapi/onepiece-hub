@@ -2,6 +2,10 @@ import { memo } from 'react'
 import type { Location } from '@/types'
 import { SEA_MARKER_COLORS, SEA_MARKER_GLOW } from './map-data'
 
+/* Marker rengi bölge kimliğinden gelir (içerik paleti, `map-data.ts`).
+   Yedek değerler ve tüm çerçeve/etiket boyası token'dan okunur — böylece
+   işaretçi light temada da zeminden ayrışır. */
+
 function LocationMarkerInner({
   location,
   position,
@@ -19,8 +23,8 @@ function LocationMarkerInner({
   onHover: () => void
   onLeave: () => void
 }) {
-  const color = SEA_MARKER_COLORS[location.sea] ?? '#f4a300'
-  const glowColor = SEA_MARKER_GLOW[location.sea] ?? 'rgba(244,163,0,0.6)'
+  const color = SEA_MARKER_COLORS[location.sea] ?? 'rgb(var(--gold))'
+  const glowColor = SEA_MARKER_GLOW[location.sea] ?? 'rgb(var(--gold) / 0.6)'
   const isActive = isSelected || isHovered
 
   return (
@@ -92,13 +96,13 @@ function LocationMarkerInner({
         style={{ transition: 'all 0.3s ease-out' }}
       />
 
-      {/* Main dot */}
+      {/* Main dot — aktif halka metin renginde: dark'ta açık, light'ta koyu */}
       <circle
         cx={position.x}
         cy={position.y}
         r={isActive ? 5 : 3.5}
         fill={color}
-        stroke={isActive ? '#fff' : 'transparent'}
+        stroke={isActive ? 'rgb(var(--pirate-text))' : 'transparent'}
         strokeWidth={isActive ? 1 : 0}
         style={{ transition: 'all 0.3s ease-out' }}
       />
@@ -112,8 +116,9 @@ function LocationMarkerInner({
             width={100}
             height={20}
             rx="6"
-            fill="rgba(6,14,26,0.9)"
-            stroke={`${color}40`}
+            fill="rgb(var(--ocean-deep) / 0.9)"
+            stroke={color}
+            strokeOpacity="0.25"
             strokeWidth="1"
           />
           <text
@@ -123,7 +128,7 @@ function LocationMarkerInner({
             fill={color}
             fontSize="9"
             fontWeight="700"
-            fontFamily="var(--font-sans), sans-serif"
+            fontFamily="var(--font-display), Georgia, serif"
           >
             {location.name}
           </text>
@@ -139,18 +144,19 @@ function LocationMarkerInner({
             width={110}
             height={22}
             rx="7"
-            fill="rgba(6,14,26,0.95)"
-            stroke={`${color}50`}
+            fill="rgb(var(--ocean-deep) / 0.95)"
+            stroke={color}
+            strokeOpacity="0.31"
             strokeWidth="1.5"
           />
           <text
             x={position.x}
             y={position.y - 19}
             textAnchor="middle"
-            fill="#e8eaf0"
+            fill="rgb(var(--pirate-text))"
             fontSize="9.5"
             fontWeight="800"
-            fontFamily="var(--font-sans), sans-serif"
+            fontFamily="var(--font-display), Georgia, serif"
           >
             {location.name}
           </text>

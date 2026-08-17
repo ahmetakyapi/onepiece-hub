@@ -24,20 +24,20 @@ import { EASE } from '@/lib/variants'
 
 const DANGER_COLORS = [
   '',
-  'text-green-400',
-  'text-yellow-400',
-  'text-orange-400',
+  'text-accent-lime',
+  'text-accent-amber',
+  'text-accent-orange',
   'text-luffy',
-  'text-red-500',
+  'text-luffy',
 ] as const
 
 const DANGER_BAR_COLORS = [
   '',
-  'from-green-500 to-green-400',
-  'from-green-400 to-yellow-400',
-  'from-yellow-400 to-orange-400',
-  'from-orange-400 to-red-500',
-  'from-red-500 to-red-600',
+  'from-accent-lime to-accent-lime',
+  'from-accent-lime to-accent-amber',
+  'from-accent-amber to-accent-orange',
+  'from-accent-orange to-luffy',
+  'from-luffy to-luffy',
 ] as const
 
 const DANGER_LABELS = ['', 'Güvenli', 'Düşük', 'Orta', 'Yüksek', 'Ölümcül'] as const
@@ -56,40 +56,44 @@ const SEA_BORDER_COLORS: Record<string, string> = {
   'calm-belt': 'border-l-pirate-muted', 'red-line': 'border-l-luffy',
 }
 
+/* Dört Deniz'in mavi/turuncu/cyan/yeşili İÇERİK paletidir — her denizin kendi
+   kimlik rengi var, tema ile dönmez. Buna karşılık Grand Line (altın), New
+   World + Red Line (luffy kırmızısı) ve Calm Belt (nötr gri) marka
+   token'larıdır; ham `slate-*` / `red-*` yerine token yazılır. */
 const SEA_GRADIENT_BG: Record<string, string> = {
-  'east-blue': 'from-blue-500/20 via-blue-600/10 to-transparent', 'west-blue': 'from-orange-500/20 via-orange-600/10 to-transparent',
-  'north-blue': 'from-cyan-500/20 via-cyan-600/10 to-transparent', 'south-blue': 'from-green-500/20 via-green-600/10 to-transparent',
+  'east-blue': 'from-sea/20 via-sea/10 to-transparent', 'west-blue': 'from-accent-orange/20 via-accent-orange/10 to-transparent',
+  'north-blue': 'from-accent-cyan/20 via-accent-cyan/10 to-transparent', 'south-blue': 'from-accent-lime/20 via-accent-lime/10 to-transparent',
   'grand-line': 'from-gold/20 via-gold/10 to-transparent', 'new-world': 'from-luffy/20 via-luffy/10 to-transparent',
-  'calm-belt': 'from-slate-500/15 via-slate-600/10 to-transparent', 'red-line': 'from-red-500/20 via-red-600/10 to-transparent',
+  'calm-belt': 'from-pirate-muted/15 via-pirate-muted/10 to-transparent', 'red-line': 'from-luffy/20 via-luffy/10 to-transparent',
 }
 
 const SEA_ACCENT_BG: Record<string, string> = {
-  'east-blue': 'bg-blue-400/10 border-blue-400/20', 'west-blue': 'bg-orange-400/10 border-orange-400/20',
-  'north-blue': 'bg-cyan-400/10 border-cyan-400/20', 'south-blue': 'bg-green-400/10 border-green-400/20',
+  'east-blue': 'bg-sea/10 border-sea/20', 'west-blue': 'bg-accent-orange/10 border-accent-orange/20',
+  'north-blue': 'bg-accent-cyan/10 border-accent-cyan/20', 'south-blue': 'bg-accent-lime/10 border-accent-lime/20',
   'grand-line': 'bg-gold/10 border-gold/20', 'new-world': 'bg-luffy/10 border-luffy/20',
-  'calm-belt': 'bg-slate-400/10 border-slate-400/20', 'red-line': 'bg-red-400/10 border-red-400/20',
+  'calm-belt': 'bg-pirate-muted/10 border-pirate-muted/20', 'red-line': 'bg-luffy/10 border-luffy/20',
 }
 
 const HERO_ORBS = [
-  { color: 'rgba(30, 144, 255, 0.4)', size: 300, x: '5%', y: '10%', delay: 0 },
-  { color: 'rgba(30, 144, 255, 0.25)', size: 200, x: '70%', y: '20%', delay: 1.5 },
-  { color: 'rgba(244, 163, 0, 0.2)', size: 180, x: '85%', y: '60%', delay: 3 },
-  { color: 'rgba(6, 182, 212, 0.2)', size: 160, x: '30%', y: '70%', delay: 2 },
+  { color: 'rgb(var(--sea) / 0.4)', size: 300, x: '5%', y: '10%', delay: 0 },
+  { color: 'rgb(var(--sea) / 0.25)', size: 200, x: '70%', y: '20%', delay: 1.5 },
+  { color: 'rgb(var(--gold) / 0.2)', size: 180, x: '85%', y: '60%', delay: 3 },
+  { color: 'rgb(var(--sea-light) / 0.2)', size: 160, x: '30%', y: '70%', delay: 2 },
 ]
 
 const WORLD_STRUCTURE_ITEMS = [
   { label: 'Red Line', color: 'text-luffy', bgColor: 'bg-luffy/10 border-luffy/30', description: 'Dünyayı dikey olarak ikiye bölen devasa kırmızı kıta. Mary Geoise üzerindedir.' },
   { label: 'Grand Line', color: 'text-gold', bgColor: 'bg-gold/10 border-gold/30', description: 'Dünyayı yatay ikiye ayıran "Korsan Mezarlığı". Paradise ve New World olarak iki yarıya ayrılır.' },
-  { label: 'Calm Belt', color: 'text-pirate-muted', bgColor: 'bg-slate-400/10 border-slate-400/30', description: 'Grand Line\'in iki yanındaki rüzgarsız kuşak. Dev Deniz Kralları\'nın yaşadığı alan.' },
+  { label: 'Calm Belt', color: 'text-pirate-muted', bgColor: 'bg-pirate-muted/10 border-pirate-muted/30', description: 'Grand Line\'in iki yanındaki rüzgarsız kuşak. Dev Deniz Kralları\'nın yaşadığı alan.' },
   { label: 'Paradise', color: 'text-sea', bgColor: 'bg-sea/10 border-sea/30', description: 'Grand Line\'in ilk yarısı. New World\'e kıyasla cennet gibi kaldığı için bu isim verilmiştir.' },
   { label: 'New World', color: 'text-luffy', bgColor: 'bg-luffy/10 border-luffy/30', description: 'Dört İmparator\'un hüküm sürdüğü, dünyanın en tehlikeli bölgesi.' },
 ]
 
 const FOUR_SEAS = [
-  { name: 'East Blue', color: 'text-blue-400', bgColor: 'bg-blue-400' },
-  { name: 'West Blue', color: 'text-orange-400', bgColor: 'bg-orange-400' },
-  { name: 'North Blue', color: 'text-cyan-400', bgColor: 'bg-cyan-400' },
-  { name: 'South Blue', color: 'text-green-400', bgColor: 'bg-green-400' },
+  { name: 'East Blue', color: 'text-sea', bgColor: 'bg-sea' },
+  { name: 'West Blue', color: 'text-accent-orange', bgColor: 'bg-accent-orange' },
+  { name: 'North Blue', color: 'text-accent-cyan', bgColor: 'bg-accent-cyan' },
+  { name: 'South Blue', color: 'text-accent-lime', bgColor: 'bg-accent-lime' },
 ]
 
 export default function WorldPage() {
@@ -160,17 +164,17 @@ export default function WorldPage() {
                       </div>
                       {locationCount > 0 && (
                         <div className="flex flex-col items-end">
-                          <span className={`text-2xl font-extrabold ${sea.color}`}>
+                          <span className={`font-display text-2xl font-extrabold ${sea.color}`}>
                             {locationCount}
                           </span>
-                          <span className="text-[10px] font-medium uppercase tracking-wider text-pirate-muted">
+                          <span className="eyebrow text-pirate-muted">
                             lokasyon
                           </span>
                         </div>
                       )}
                     </div>
 
-                    <h3 className={`mb-1.5 text-base font-bold ${sea.color}`}>{sea.name}</h3>
+                    <h3 className={`mb-1.5 font-display text-base font-bold ${sea.color}`}>{sea.name}</h3>
                     <p className="text-xs leading-relaxed text-pirate-muted line-clamp-2">
                       {sea.description}
                     </p>
@@ -195,7 +199,7 @@ export default function WorldPage() {
                 <Globe className="h-5 w-5 text-sea" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-pirate-text">Dünya Yapısı</h2>
+                <h2 className="font-display text-xl font-bold text-pirate-text">Dünya Yapısı</h2>
                 <p className="text-xs text-pirate-muted">One Piece evreninin coğrafyası</p>
               </div>
             </div>
@@ -203,7 +207,7 @@ export default function WorldPage() {
             <div className="bento-card overflow-hidden">
               <div className="border-b border-pirate-border/50 bg-gradient-to-br from-ocean-surface/50 to-transparent p-6 sm:p-8">
                 <div className="mb-6">
-                  <p className="mb-3 text-[11px] font-bold uppercase tracking-widest text-pirate-muted">
+                  <p className="eyebrow-lg mb-3 text-pirate-muted">
                     Dört Deniz
                   </p>
                   <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -266,15 +270,19 @@ export default function WorldPage() {
                   <div
                     className={`glass-lift relative mb-6 overflow-hidden rounded-2xl border ${SEA_ACCENT_BG[sea.slug]} bg-gradient-to-r ${SEA_GRADIENT_BG[sea.slug]} p-6 sm:p-8 shadow-card-hover`}
                   >
-                    {/* Ambient glow behind */}
-                    <div className="pointer-events-none absolute -right-20 -top-20 h-40 w-40 rounded-full blur-3xl" style={{ background: `${sea.color}20` }} />
+                    {/* Ambient glow behind — `sea.color` bir Tailwind sınıfı
+                        olduğu için eskiden inline `background` ile geçersiz CSS
+                        üretiliyordu; artık `bg-current` ile o renkten besleniyor. */}
+                    <div className={`pointer-events-none absolute -right-20 -top-20 h-40 w-40 rounded-full bg-current opacity-10 blur-3xl ${sea.color}`} />
 
                     <div className="relative z-10 flex items-center gap-4">
                       <div className={`flex h-14 w-14 items-center justify-center rounded-xl border-2 ${SEA_ACCENT_BG[sea.slug]} shadow-gold-glow`}>
                         <Compass className={`h-7 w-7 ${sea.color}`} />
                       </div>
                       <div className="flex-1">
-                        <h2 className={`text-2xl font-extrabold sm:text-3xl bg-gradient-to-r from-current to-current/60 bg-clip-text text-transparent ${sea.color}`}>
+                        {/* Düz renk — degrade metin `background-clip` desteklenmeyen
+                            yerde harfi tamamen görünmez bırakıyordu. */}
+                        <h2 className={`font-display text-2xl font-extrabold sm:text-3xl ${sea.color}`}>
                           {sea.name}
                         </h2>
                         <p className="mt-1 text-sm font-medium text-pirate-muted/70">
@@ -287,7 +295,7 @@ export default function WorldPage() {
                         <path
                           d="M0,15 C200,30 400,0 600,15 C700,22 800,8 800,15 L800,30 L0,30 Z"
                           fill="currentColor"
-                          className={sea.color.replace('text-', 'text-')}
+                          className={sea.color}
                         />
                       </svg>
                     </div>
@@ -306,7 +314,7 @@ export default function WorldPage() {
                                 <TypeIcon className={`h-4 w-4 ${sea.color}`} />
                               </div>
                               <div>
-                                <h3 className="text-sm font-bold text-pirate-text">{loc.name}</h3>
+                                <h3 className="font-display text-sm font-bold text-pirate-text">{loc.name}</h3>
                                 <span className="text-[10px] text-pirate-muted">
                                   {TYPE_LABELS[loc.type]}
                                 </span>
@@ -327,7 +335,7 @@ export default function WorldPage() {
                                   Tehlike: {DANGER_LABELS[loc.dangerLevel]}
                                 </span>
                               </div>
-                              <span className={`text-[10px] font-bold ${DANGER_COLORS[loc.dangerLevel]}`}>
+                              <span className={`font-mono text-[10px] font-bold ${DANGER_COLORS[loc.dangerLevel]}`}>
                                 {loc.dangerLevel}/5
                               </span>
                             </div>
@@ -340,14 +348,14 @@ export default function WorldPage() {
                           </div>
 
                           <div className="mb-3">
-                            <p className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-pirate-muted">
+                            <p className="eyebrow mb-1.5 text-pirate-muted">
                               Önemli Olaylar
                             </p>
                             <ul className="space-y-1.5">
                               {loc.significance.slice(0, 3).map((sig, idx) => (
                                 <li key={sig} className="flex gap-2 text-[11px] text-pirate-muted">
                                   <span
-                                    className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[9px] font-bold ${SEA_ACCENT_BG[sea.slug]} ${sea.color}`}
+                                    className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full font-mono text-[9px] font-bold ${SEA_ACCENT_BG[sea.slug]} ${sea.color}`}
                                   >
                                     {idx + 1}
                                   </span>

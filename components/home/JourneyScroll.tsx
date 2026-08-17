@@ -15,7 +15,7 @@ const MILESTONES = [
     icon: Anchor,
     color: 'text-sea',
     bg: 'from-sea/20 to-sea/5',
-    glowColor: 'rgba(30,144,255,0.3)',
+    glowColor: 'rgb(var(--sea) / 0.3)',
   },
   {
     era: 'Büyük Macera',
@@ -25,7 +25,7 @@ const MILESTONES = [
     icon: Compass,
     color: 'text-gold',
     bg: 'from-gold/20 to-gold/5',
-    glowColor: 'rgba(244,163,0,0.3)',
+    glowColor: 'rgb(var(--gold) / 0.3)',
   },
   {
     era: 'Fırtına',
@@ -35,7 +35,7 @@ const MILESTONES = [
     icon: Swords,
     color: 'text-luffy',
     bg: 'from-luffy/20 to-luffy/5',
-    glowColor: 'rgba(231,76,60,0.3)',
+    glowColor: 'rgb(var(--luffy) / 0.3)',
   },
   {
     era: 'Yeni Dünya',
@@ -45,7 +45,7 @@ const MILESTONES = [
     icon: Crown,
     color: 'text-gold-bright',
     bg: 'from-gold-bright/20 to-gold-bright/5',
-    glowColor: 'rgba(251,191,36,0.3)',
+    glowColor: 'rgb(var(--gold-bright) / 0.3)',
   },
   {
     era: 'Uyanış',
@@ -55,7 +55,7 @@ const MILESTONES = [
     icon: Flame,
     color: 'text-gold',
     bg: 'from-gold/20 to-gold/5',
-    glowColor: 'rgba(244,163,0,0.4)',
+    glowColor: 'rgb(var(--gold) / 0.4)',
   },
   {
     era: 'Son Yolculuk',
@@ -65,7 +65,7 @@ const MILESTONES = [
     icon: Skull,
     color: 'text-pirate-text',
     bg: 'from-pirate-text/10 to-pirate-text/5',
-    glowColor: 'rgba(232,234,240,0.2)',
+    glowColor: 'rgb(var(--pirate-text) / 0.2)',
   },
 ]
 
@@ -111,10 +111,10 @@ function MilestoneCard({ milestone, index }: { milestone: typeof MILESTONES[0]; 
         transition={{ duration: 0.8, ease: EASE, delay: 0.3 }}
         className={`hidden w-[calc(50%-3rem)] md:block ${isLeft ? 'mr-auto text-right' : 'ml-auto text-left'}`}
       >
-        <span className={`mb-1 inline-block rounded-full bg-gradient-to-r ${milestone.bg} px-3 py-1 text-[10px] font-bold uppercase tracking-widest ${milestone.color}`}>
+        <span className={`eyebrow mb-1 inline-block rounded-full bg-gradient-to-r ${milestone.bg} px-3 py-1 ${milestone.color}`}>
           {milestone.era}
         </span>
-        <h3 className="mb-1 text-xl font-extrabold text-pirate-text lg:text-2xl">
+        <h3 className="font-display mb-1 text-xl font-extrabold text-pirate-text lg:text-2xl">
           {milestone.title}
         </h3>
         <p className="mb-2 text-xs font-semibold text-pirate-muted/50">{milestone.subtitle}</p>
@@ -130,10 +130,10 @@ function MilestoneCard({ milestone, index }: { milestone: typeof MILESTONES[0]; 
         transition={{ duration: 0.6, ease: EASE, delay: 0.3 }}
         className="ml-16 block w-full md:hidden"
       >
-        <span className={`mb-1 inline-block rounded-full bg-gradient-to-r ${milestone.bg} px-3 py-1 text-[10px] font-bold uppercase tracking-widest ${milestone.color}`}>
+        <span className={`eyebrow mb-1 inline-block rounded-full bg-gradient-to-r ${milestone.bg} px-3 py-1 ${milestone.color}`}>
           {milestone.era}
         </span>
-        <h3 className="mb-1 text-lg font-extrabold text-pirate-text">
+        <h3 className="font-display mb-1 text-lg font-extrabold text-pirate-text">
           {milestone.title}
         </h3>
         <p className="mb-1 text-xs font-semibold text-pirate-muted/50">{milestone.subtitle}</p>
@@ -175,7 +175,7 @@ export default function JourneyScroll() {
             initial={{ opacity: 0, y: 20 }}
             animate={headerInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
-            className="mb-3 text-2xl font-extrabold sm:text-3xl lg:text-4xl"
+            className="font-display mb-3 text-2xl font-extrabold sm:text-3xl lg:text-4xl"
           >
             <span className="text-pirate-text">Luffy&apos;nin </span>
             <span className="text-gold-gradient">Yolculuğu</span>

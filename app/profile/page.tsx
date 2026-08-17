@@ -128,7 +128,7 @@ export default function ProfilePage() {
             <motion.div variants={fadeUp}>
               <Anchor className="mx-auto mb-4 h-12 w-12 text-pirate-muted" />
             </motion.div>
-            <motion.h1 variants={fadeUp} className="mb-2 text-xl font-bold text-pirate-text">
+            <motion.h1 variants={fadeUp} className="font-display mb-2 text-xl font-bold text-pirate-text">
               Giriş Yapmanız Gerekiyor
             </motion.h1>
             <motion.p variants={fadeUp} className="mb-6 text-sm text-pirate-muted">
@@ -201,8 +201,8 @@ export default function ProfilePage() {
                       style={{
                         background: affiliation
                           ? `linear-gradient(135deg, rgba(${affiliation.rgb},0.25), rgba(${affiliation.rgb},0.08) 60%, transparent)`
-                          : 'linear-gradient(135deg, rgba(244,163,0,0.2), rgba(30,144,255,0.15), rgba(244,163,0,0.1))',
-                        borderColor: affiliation ? `rgba(${affiliation.rgb},0.4)` : 'rgba(244,163,0,0.2)',
+                          : 'linear-gradient(135deg, rgb(var(--gold) / 0.2), rgb(var(--sea) / 0.15), rgb(var(--gold) / 0.1))',
+                        borderColor: affiliation ? `rgba(${affiliation.rgb},0.4)` : 'rgb(var(--gold) / 0.2)',
                         boxShadow: affiliation ? `0 0 24px rgba(${affiliation.rgb},0.15)` : undefined,
                       }}
                     >
@@ -212,12 +212,12 @@ export default function ProfilePage() {
                         <User className="h-9 w-9 text-gold" />
                       )}
                     </div>
-                    <div className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/20 border border-emerald-500/30">
-                      <Sparkles className="h-3 w-3 text-emerald-400" />
+                    <div className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-haki/20 border border-haki/30">
+                      <Sparkles className="h-3 w-3 text-haki" />
                     </div>
                   </div>
                   <div>
-                    <h1 className="text-2xl font-extrabold text-pirate-text sm:text-3xl">
+                    <h1 className="font-display text-2xl font-bold text-pirate-text sm:text-3xl">
                       {user.name || user.username}
                     </h1>
                     <div className="mt-1 flex flex-wrap items-center gap-2">
@@ -231,7 +231,7 @@ export default function ProfilePage() {
                         </span>
                       )}
                     </div>
-                    <div className="mt-1.5 flex items-center gap-1.5 text-xs text-pirate-muted/60">
+                    <div className="mt-1.5 flex items-center gap-1.5 font-mono text-[11px] text-pirate-muted/60">
                       <Calendar className="h-3 w-3" />
                       {user.createdAt
                         ? `Katılım: ${formatDate(user.createdAt as Date | string)}`
@@ -264,15 +264,15 @@ export default function ProfilePage() {
             {[
               { label: 'İzlenen Bölüm', value: totalWatched.toString(), icon: Film, color: 'text-sea', bg: 'from-sea/10 to-sea/5' },
               { label: 'Tamamlanan Arc', value: completedArcs.toString(), icon: Compass, color: 'text-gold', bg: 'from-gold/10 to-gold/5' },
-              { label: 'Toplam Saat', value: `${totalHours}+`, icon: Clock, color: 'text-emerald-400', bg: 'from-emerald-400/10 to-emerald-400/5' },
+              { label: 'Toplam Saat', value: `${totalHours}+`, icon: Clock, color: 'text-haki', bg: 'from-haki/10 to-haki/5' },
               { label: 'Toplam Arc', value: `${arcProgress.length}/${ARCS.length}`, icon: Trophy, color: 'text-luffy', bg: 'from-luffy/10 to-luffy/5' },
             ].map((stat) => (
               <motion.div key={stat.label} variants={fadeUp} className="bento-card rounded-xl p-5 text-center">
                 <div className={`mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${stat.bg}`}>
                   <stat.icon className={`h-5 w-5 ${stat.color}`} />
                 </div>
-                <p className="text-2xl font-extrabold text-pirate-text">{stat.value}</p>
-                <p className="text-xs text-pirate-muted">{stat.label}</p>
+                <p className="font-display stat-number text-2xl font-bold text-pirate-text">{stat.value}</p>
+                <p className="eyebrow mt-1 text-pirate-muted">{stat.label}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -302,7 +302,7 @@ export default function ProfilePage() {
               viewport={{ once: true }}
               className="mb-10"
             >
-              <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+              <h2 className="font-display mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
                 <Play className="h-5 w-5 text-gold" />
                 Kaldığın Yerden Devam Et
               </h2>
@@ -319,11 +319,12 @@ export default function ProfilePage() {
                           <Play className="h-4 w-4 text-gold" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-semibold text-pirate-text group-hover:text-gold transition-colors">
+                          <p className="font-display text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
                             {arc.name}
                           </p>
                           <p className="text-xs text-pirate-muted">
-                            Sonraki: {nextEpisode!.title} — {watchedCount}/{arc.episodeCount} izlendi
+                            Sonraki: {nextEpisode!.title} —{' '}
+                            <span className="font-mono">{watchedCount}/{arc.episodeCount}</span> izlendi
                           </p>
                         </div>
                         {/* Progress */}
@@ -334,7 +335,7 @@ export default function ProfilePage() {
                               style={{ width: `${(watchedCount / arc.episodeCount) * 100}%` }}
                             />
                           </div>
-                          <span className="text-xs text-pirate-muted">{Math.round((watchedCount / arc.episodeCount) * 100)}%</span>
+                          <span className="font-mono text-xs text-pirate-muted">%{Math.round((watchedCount / arc.episodeCount) * 100)}</span>
                         </div>
                         <ArrowRight className="h-4 w-4 flex-shrink-0 text-pirate-muted group-hover:text-gold transition-colors" />
                       </Link>
@@ -353,8 +354,8 @@ export default function ProfilePage() {
               viewport={{ once: true }}
               className="mb-10"
             >
-              <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
-                <Trophy className="h-5 w-5 text-emerald-400" />
+              <h2 className="font-display mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+                <Trophy className="h-5 w-5 text-haki" />
                 Tamamlanan Arc&apos;lar
               </h2>
               <div className="flex flex-wrap gap-2">
@@ -364,7 +365,7 @@ export default function ProfilePage() {
                     <Link
                       key={arc.slug}
                       href={`/arcs/${arc.slug}`}
-                      className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-3 py-1.5 text-xs font-medium text-emerald-400 transition-all hover:bg-emerald-500/10"
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-haki/20 bg-haki/5 px-3 py-1.5 font-display text-xs font-bold text-haki transition-all hover:bg-haki/10"
                     >
                       <Compass className="h-3 w-3" />
                       {arc.name}
@@ -383,10 +384,10 @@ export default function ProfilePage() {
               viewport={{ once: true }}
               className="mb-10"
             >
-              <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+              <h2 className="font-display mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
                 <BrainCircuit className="h-5 w-5 text-fruit" />
                 Quiz Skorları
-                <span className="ml-1 rounded-full bg-fruit-strong/[0.06] px-2.5 py-0.5 text-[11px] font-semibold text-fruit/70">
+                <span className="eyebrow ml-1 rounded-full bg-fruit-strong/[0.06] px-2.5 py-1 text-fruit/70">
                   {quizScores.length} tamamlandı
                 </span>
               </h2>
@@ -404,20 +405,20 @@ export default function ProfilePage() {
                           className="bento-card group flex items-center gap-3 px-4 py-3"
                         >
                           <div className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border ${
-                            isGood ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-gold/10 border-gold/20'
+                            isGood ? 'bg-haki/10 border-haki/20' : 'bg-gold/10 border-gold/20'
                           }`}>
-                            <BrainCircuit className={`h-4 w-4 ${isGood ? 'text-emerald-400' : 'text-gold'}`} />
+                            <BrainCircuit className={`h-4 w-4 ${isGood ? 'text-haki' : 'text-gold'}`} />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-pirate-text group-hover:text-gold transition-colors truncate">
+                            <p className="font-display text-sm font-bold text-pirate-text group-hover:text-gold transition-colors truncate">
                               {arc?.name ?? entry.arcSlug}
                             </p>
                             <p className="text-xs text-pirate-muted">
-                              {entry.score}/{entry.totalQ} doğru
+                              <span className="font-mono">{entry.score}/{entry.totalQ}</span> doğru
                             </p>
                           </div>
-                          <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${
-                            isGood ? 'bg-emerald-500/10 text-emerald-400' : 'bg-gold/10 text-gold'
+                          <span className={`font-display stat-number rounded-full px-2.5 py-1 text-xs font-bold ${
+                            isGood ? 'bg-haki/10 text-haki' : 'bg-gold/10 text-gold'
                           }`}>
                             %{pct}
                           </span>
@@ -438,10 +439,10 @@ export default function ProfilePage() {
               viewport={{ once: true }}
               className="mb-10"
             >
-              <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+              <h2 className="font-display mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
                 <Heart className="h-5 w-5 text-luffy" />
                 Favoriler
-                <span className="ml-1 rounded-full bg-luffy/[0.06] px-2.5 py-0.5 text-[11px] font-semibold text-luffy/70">
+                <span className="eyebrow ml-1 rounded-full bg-luffy/[0.06] px-2.5 py-1 text-luffy/70">
                   {favs.length}
                 </span>
               </h2>
@@ -454,7 +455,7 @@ export default function ProfilePage() {
                     <Link
                       key={`${fav.targetType}-${fav.targetSlug}`}
                       href={href}
-                      className="inline-flex items-center gap-1.5 rounded-lg border border-luffy/15 bg-luffy/5 px-3 py-1.5 text-xs font-medium text-pirate-text transition-all hover:bg-luffy/10 hover:border-luffy/25"
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-luffy/15 bg-luffy/5 px-3 py-1.5 font-display text-xs font-bold text-pirate-text transition-all hover:bg-luffy/10 hover:border-luffy/25"
                     >
                       <Heart className="h-3 w-3 text-luffy fill-luffy" />
                       {label}
@@ -494,7 +495,7 @@ export default function ProfilePage() {
             viewport={{ once: true }}
             className="mb-10"
           >
-            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+            <h2 className="font-display mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
               <Film className="h-5 w-5 text-sea" />
               Son İzlenenler
             </h2>
@@ -519,16 +520,16 @@ export default function ProfilePage() {
                         href={`/arcs/${info.arc.slug}/${entry.episodeSlug}`}
                         className="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all hover:bg-sea/5"
                       >
-                        <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-sea/10 text-xs font-bold text-sea">
+                        <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-sea/10 font-mono text-xs font-bold text-sea">
                           {info.episodeNumber}
                         </span>
                         <div className="flex-1 min-w-0">
-                          <p className="truncate text-sm font-medium text-pirate-text group-hover:text-gold transition-colors">
+                          <p className="font-display truncate text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
                             {info.episodeTitle}
                           </p>
                           <p className="text-xs text-pirate-muted">{info.arc.name}</p>
                         </div>
-                        <span className="text-xs text-pirate-muted/60 flex-shrink-0">{timeAgo}</span>
+                        <span className="font-mono text-[11px] text-pirate-muted/60 flex-shrink-0">{timeAgo}</span>
                       </Link>
                     </motion.div>
                   )

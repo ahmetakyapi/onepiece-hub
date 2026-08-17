@@ -48,6 +48,11 @@ const lineReveal = {
 }
 
 /* ─── Interactive Tools Section Data ──────────────────────────────────── */
+/* Dört aracın vurgu rengi bir sınıflandırma skalasıdır — kartları birbirinden
+   ayırır. Üçü zaten marka token'ı (gold · fruit · luffy); dördüncüsü ham
+   `cyan-*` yazılıydı, light temada beyaz kart üstünde CTA metni ve rozet
+   okunmuyordu. `accent-cyan` tema ile 400 → 700 seviyeye döner, dört rengin
+   ayrımı iki temada da korunur. */
 const TOOLS = [
   {
     icon: BookOpen,
@@ -55,11 +60,11 @@ const TOOLS = [
     href: '/sagas',
     desc: 'One Piece\'in 10 destansı sagası, cinematic showcase',
     tag: 'Yeni',
-    accent: 'text-cyan-400',
-    hoverAccent: 'group-hover:text-cyan-400',
-    accentBg: 'bg-cyan-500/10',
-    accentBorder: 'border-cyan-500/30',
-    glow: 'bg-cyan-500/[0.12]',
+    accent: 'text-accent-cyan',
+    hoverAccent: 'group-hover:text-accent-cyan',
+    accentBg: 'bg-accent-cyan/10',
+    accentBorder: 'border-accent-cyan/30',
+    glow: 'bg-accent-cyan/[0.12]',
   },
   {
     icon: Swords,
@@ -105,11 +110,11 @@ const WIKI_ITEMS = [
   { icon: Cherry, label: 'Şeytan Meyveleri', href: '/devil-fruits', count: String(SITE_STATS.devilFruits), desc: 'Tüm meyveler', color: 'text-fruit', bg: 'from-fruit-strong/15 to-fruit-strong/5', borderHover: 'hover:border-fruit-strong/25' },
   { icon: Shield, label: 'Haki Rehberi', href: '/haki', count: '3', desc: 'Haki türleri', color: 'text-gold', bg: 'from-gold/15 to-gold/5', borderHover: 'hover:border-gold/25' },
   { icon: Globe, label: 'Dünya Haritası', href: '/world', count: String(SITE_STATS.locations), desc: 'Lokasyonlar', color: 'text-sea', bg: 'from-sea/15 to-sea/5', borderHover: 'hover:border-sea/25' },
-  { icon: Anchor, label: 'Organizasyonlar', href: '/crews', count: String(SITE_STATS.crews), desc: 'Mürettebatlar', color: 'text-emerald-400', bg: 'from-emerald-400/15 to-emerald-400/5', borderHover: 'hover:border-emerald-400/25' },
+  { icon: Anchor, label: 'Organizasyonlar', href: '/crews', count: String(SITE_STATS.crews), desc: 'Mürettebatlar', color: 'text-accent-emerald', bg: 'from-accent-emerald/15 to-accent-emerald/5', borderHover: 'hover:border-accent-emerald/25' },
   { icon: Swords, label: 'Efsanevi Savaşlar', href: '/battles', count: String(SITE_STATS.battles), desc: 'İkonik dövüşler', color: 'text-luffy', bg: 'from-luffy/15 to-luffy/5', borderHover: 'hover:border-luffy/25' },
   { icon: Trophy, label: 'Ödül Sıralaması', href: '/bounties', count: String(SITE_STATS.bounties), desc: 'Bounty listesi', color: 'text-gold-bright', bg: 'from-gold-bright/15 to-gold-bright/5', borderHover: 'hover:border-gold-bright/25' },
-  { icon: Clock, label: 'Zaman Çizelgesi', href: '/timeline', count: '25+', desc: 'Kronolojik olaylar', color: 'text-cyan-400', bg: 'from-cyan-400/15 to-cyan-400/5', borderHover: 'hover:border-cyan-400/25' },
-  { icon: Map, label: 'İzleme Rehberi', href: '/guide', count: 'Yeni', desc: 'Nereden başla?', color: 'text-emerald-400', bg: 'from-emerald-400/15 to-emerald-400/5', borderHover: 'hover:border-emerald-400/25' },
+  { icon: Clock, label: 'Zaman Çizelgesi', href: '/timeline', count: '25+', desc: 'Kronolojik olaylar', color: 'text-accent-cyan', bg: 'from-accent-cyan/15 to-accent-cyan/5', borderHover: 'hover:border-accent-cyan/25' },
+  { icon: Map, label: 'İzleme Rehberi', href: '/guide', count: 'Yeni', desc: 'Nereden başla?', color: 'text-accent-emerald', bg: 'from-accent-emerald/15 to-accent-emerald/5', borderHover: 'hover:border-accent-emerald/25' },
   { icon: Compass, label: 'Tüm Arc\'lar', href: '/arcs', count: String(SITE_STATS.arcs), desc: 'Arc rehberi', color: 'text-sea-light', bg: 'from-sea-light/15 to-sea-light/5', borderHover: 'hover:border-sea-light/25' },
   { icon: Skull, label: 'Wanted Poster', href: '/wanted-poster', count: 'Oluştur', desc: 'Kendi ödülünü tasarla', color: 'text-gold', bg: 'from-gold/15 to-gold/5', borderHover: 'hover:border-gold/30' },
 ] as const
@@ -182,7 +187,7 @@ export default function Home() {
               className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/[0.06] px-4 py-1.5 backdrop-blur-md"
             >
               <Sparkles className="h-3 w-3 text-gold" />
-              <span className="text-[11px] font-semibold tracking-wide text-gold">
+              <span className="eyebrow-lg text-gold">
                 FILLER&apos;SIZ ARC BAZLI
               </span>
             </motion.div>
@@ -190,7 +195,7 @@ export default function Home() {
             <div className="flex-1" />
 
             <div className="max-w-3xl pb-16 sm:pb-28 md:pb-32">
-              <h1 className="mb-4 text-4xl font-extrabold leading-[1.1] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] sm:mb-6 sm:text-5xl md:text-6xl lg:text-7xl">
+              <h1 className="font-display mb-4 text-4xl font-extrabold leading-[1.1] drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] sm:mb-6 sm:text-5xl md:text-6xl lg:text-7xl">
                 {['One', 'Piece'].map((word, i) => (
                   <motion.span
                     key={word}
@@ -211,7 +216,7 @@ export default function Home() {
                     variants={wordVariants}
                     initial="hidden"
                     animate="visible"
-                    className="inline-block text-white mr-3 drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)]"
+                    className="inline-block text-pirate-text mr-3 drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)]"
                   >
                     {word}
                   </motion.span>
@@ -234,7 +239,7 @@ export default function Home() {
                 animate="visible"
                 className="mx-auto mb-6 h-px w-32 origin-left"
                 style={{
-                  background: 'linear-gradient(90deg, transparent, rgba(244,163,0,0.5), rgba(30,144,255,0.5), transparent)',
+                  background: 'linear-gradient(90deg, transparent, rgb(var(--gold) / 0.5), rgb(var(--sea) / 0.5), transparent)',
                 }}
               />
 
@@ -242,7 +247,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1, duration: 0.7, ease: EASE }}
-                className="mx-auto mb-6 max-w-lg text-sm leading-relaxed text-white/80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] sm:mb-8 sm:text-base"
+                className="mx-auto mb-6 max-w-lg text-sm leading-relaxed text-pirate-text/80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] sm:mb-8 sm:text-base"
               >
                 Filler&apos;sız arc bazlı bölümler, karakter ansiklopedisi,
                 izleme takibi ve daha fazlası.
@@ -256,7 +261,7 @@ export default function Home() {
               >
                 <Link
                   href="/arcs"
-                  className="btn-gold shine-hover group relative !px-7 !py-3.5 text-sm shadow-[0_10px_40px_-8px_rgba(244,163,0,0.55)] sm:min-w-[220px] sm:text-base"
+                  className="btn-gold shine-hover group relative !px-7 !py-3.5 text-sm shadow-[0_10px_40px_-8px_rgb(var(--gold)/0.55)] sm:min-w-[220px] sm:text-base"
                 >
                   <Play className="relative z-[2] h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
                   <span className="relative z-[2]">İzlemeye Başla</span>
@@ -264,7 +269,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/characters"
-                  className="btn-ghost shine-hover group !px-7 !py-3.5 text-sm text-white !border-white/15 hover:!border-gold/40 sm:min-w-[220px] sm:text-base"
+                  className="btn-ghost shine-hover group !px-7 !py-3.5 text-sm text-pirate-text !border-ink/15 hover:!border-gold/40 sm:min-w-[220px] sm:text-base"
                 >
                   <Compass className="relative z-[2] h-4 w-4 text-gold transition-transform duration-500 group-hover:rotate-90" />
                   <span className="relative z-[2]">Karakterleri Keşfet</span>
@@ -280,7 +285,7 @@ export default function Home() {
             transition={{ delay: 1.6, duration: 0.8 }}
             className="pointer-events-none absolute inset-x-0 bottom-6 z-20 flex flex-col items-center gap-1.5 sm:bottom-8"
           >
-            <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/50 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
+            <span className="eyebrow text-pirate-text/50 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
               Keşfetmeye başla
             </span>
             <motion.div
@@ -346,11 +351,11 @@ export default function Home() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={toolsInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, ease: EASE, delay: 0.1 }}
-                className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-gold/70"
+                className="eyebrow-lg mb-3 text-gold/70"
               >
                 ⚡ Etkileşimli Araçlar
               </motion.p>
-              <h2 className="mb-3 text-2xl font-extrabold sm:text-3xl lg:text-4xl">
+              <h2 className="font-display mb-3 text-2xl font-extrabold sm:text-3xl lg:text-4xl">
                 <span className="text-gold-gradient">Araştır</span>{' '}
                 <span className="text-pirate-text">& Karşılaştır</span>
               </h2>
@@ -427,7 +432,7 @@ export default function Home() {
               >
                 <Sparkles className="h-6 w-6 text-gold" />
               </motion.div>
-              <h2 className="mb-3 text-2xl font-extrabold sm:text-3xl lg:text-4xl">
+              <h2 className="font-display mb-3 text-2xl font-extrabold sm:text-3xl lg:text-4xl">
                 <span className="text-gold-gradient">Ansiklopedi</span>{' '}
                 <span className="text-pirate-text">& Wiki</span>
               </h2>
@@ -455,12 +460,12 @@ export default function Home() {
                       <item.icon className={`h-5 w-5 ${item.color} transition-transform duration-500 group-hover:rotate-12`} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-bold text-pirate-text transition-colors duration-300 group-hover:text-white">
+                      <p className="text-sm font-bold text-pirate-text transition-colors duration-300 group-hover:text-pirate-text">
                         {item.label}
                       </p>
                       <p className="text-[10px] text-pirate-muted/60">{item.desc}</p>
                     </div>
-                    <span className={`text-lg font-extrabold ${item.color} opacity-60 transition-opacity group-hover:opacity-100`}>
+                    <span className={`font-display text-lg font-extrabold ${item.color} opacity-60 transition-opacity group-hover:opacity-100`}>
                       {item.count}
                     </span>
                   </Link>

@@ -70,19 +70,19 @@ const CATEGORY_CONFIG: Record<string, {
   },
   'Özel': {
     icon: Sparkles,
-    color: 'text-amber-400',
-    hover: 'group-hover:text-amber-400',
-    bg: 'bg-amber-500/10',
-    border: 'border-amber-500/30',
-    glow: 'bg-amber-500/[0.08]',
+    color: 'text-accent-amber',
+    hover: 'group-hover:text-accent-amber',
+    bg: 'bg-accent-amber/10',
+    border: 'border-accent-amber/30',
+    glow: 'bg-accent-amber/[0.08]',
   },
   'Bilim': {
     icon: BookOpen,
-    color: 'text-emerald-400',
-    hover: 'group-hover:text-emerald-400',
-    bg: 'bg-emerald-500/10',
-    border: 'border-emerald-500/30',
-    glow: 'bg-emerald-500/[0.08]',
+    color: 'text-accent-emerald',
+    hover: 'group-hover:text-accent-emerald',
+    bg: 'bg-accent-emerald/10',
+    border: 'border-accent-emerald/30',
+    glow: 'bg-accent-emerald/[0.08]',
   },
 }
 
@@ -100,15 +100,15 @@ function TechniqueCard({ technique }: { technique: TechniqueEntry }) {
 
       {/* Category badge */}
       <div className="relative mb-4 flex items-center justify-between">
-        <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${config.bg} ${config.color}`}>
+        <span className={`eyebrow inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 ${config.bg} ${config.color}`}>
           <CategoryIcon className="h-3 w-3" />
           {technique.category}
         </span>
-        <ArrowRight className={`h-4 w-4 text-pirate-muted/30 transition-all group-hover:translate-x-1 ${config.hover}`} />
+        <ArrowRight className={`h-4 w-4 text-pirate-dim transition-all group-hover:translate-x-1 ${config.hover}`} />
       </div>
 
       {/* Technique name */}
-      <h3 className={`relative mb-2 text-base font-extrabold leading-tight text-pirate-text transition-colors ${config.hover} sm:text-lg`}>
+      <h3 className={`relative mb-2 font-display text-base font-extrabold leading-tight text-pirate-text transition-colors ${config.hover} sm:text-lg`}>
         {technique.name}
       </h3>
 
@@ -131,14 +131,14 @@ function TechniqueCard({ technique }: { technique: TechniqueEntry }) {
           </div>
         ) : (
           <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-ocean-surface/50">
-            <Sparkles className="h-3 w-3 text-pirate-muted/40" />
+            <Sparkles className="h-3 w-3 text-pirate-dim" />
           </div>
         )}
         <div className="min-w-0 flex-1">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-pirate-muted/60">
+          <p className="eyebrow text-pirate-muted">
             Kullanıcı
           </p>
-          <p className="truncate text-xs font-bold text-pirate-text">
+          <p className="mt-0.5 truncate font-display text-xs font-bold text-pirate-text">
             {technique.characterName}
           </p>
         </div>
@@ -208,7 +208,7 @@ function TechniqueGrid({ techniques }: { techniques: TechniqueEntry[] }) {
           }`}
         >
           Tümü
-          <span className="rounded-full bg-ocean-deep/20 px-1.5 py-0.5 text-[10px] font-bold tabular-nums">
+          <span className="rounded-full bg-ocean-deep/20 px-1.5 py-0.5 font-mono text-[10px] font-bold tabular-nums">
             {techniques.length}
           </span>
         </button>
@@ -230,7 +230,7 @@ function TechniqueGrid({ techniques }: { techniques: TechniqueEntry[] }) {
             >
               <CategoryIcon className="h-3 w-3" />
               {cat}
-              <span className="rounded-full bg-ocean-deep/40 px-1.5 py-0.5 text-[10px] font-bold tabular-nums">
+              <span className="rounded-full bg-ocean-deep/40 px-1.5 py-0.5 font-mono text-[10px] font-bold tabular-nums">
                 {count}
               </span>
             </button>
@@ -241,7 +241,7 @@ function TechniqueGrid({ techniques }: { techniques: TechniqueEntry[] }) {
       {/* Results Count */}
       <motion.div variants={fadeUp} className="flex items-center justify-between">
         <p className="text-sm text-pirate-muted">
-          <span className="font-bold text-gold">{filtered.length}</span> teknik gösteriliyor
+          <span className="font-mono font-bold text-gold">{filtered.length}</span> teknik gösteriliyor
         </p>
         {(search || activeCategory) && (
           <button
@@ -249,7 +249,7 @@ function TechniqueGrid({ techniques }: { techniques: TechniqueEntry[] }) {
             className="text-xs font-semibold text-pirate-muted hover:text-gold transition-colors inline-flex items-center gap-1"
           >
             <X className="h-3 w-3" />
-            Filtreleri temizle
+            Filtreleri Temizle
           </button>
         )}
       </motion.div>
@@ -266,7 +266,7 @@ function TechniqueGrid({ techniques }: { techniques: TechniqueEntry[] }) {
           <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gold/10 border border-gold/20">
             <Search className="h-6 w-6 text-gold/70" />
           </div>
-          <p className="mb-1 text-lg font-bold text-pirate-text">Sonuç bulunamadı</p>
+          <p className="mb-1 font-display text-lg font-bold text-pirate-text">Sonuç Bulunamadı</p>
           <p className="mb-4 text-sm text-pirate-muted">Arama veya filtreleri değiştirerek tekrar deneyin.</p>
           <button
             onClick={() => { setSearch(''); setActiveCategory(null) }}

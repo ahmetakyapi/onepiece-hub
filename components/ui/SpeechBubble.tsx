@@ -14,8 +14,12 @@ interface SpeechBubbleProps {
   character?: string
 }
 
+/* `normal` balon manga kâğıdıdır: zemin her iki temada da beyaz kalır
+   (kuyruğun `::after` dolgusu globals.css'te beyaz sabitli). Bu yüzden
+   üstündeki metin ve kenarlık da sabit koyu — `text-ocean-deep` light temada
+   parşömen tonuna dönüp beyaz üstünde kayboluyordu. */
 const variantStyles: Record<Variant, string> = {
-  normal: 'border-2 border-pirate-text bg-white text-ocean-deep',
+  normal: 'border-2 border-black/80 bg-white text-black',
   shout: 'border-[3px] border-ocean-deep bg-gold text-ocean-deep font-extrabold manga-shout',
   thought: 'border-2 border-dashed border-pirate-muted/40 bg-ocean-surface/90 text-pirate-text',
   whisper: 'border border-pirate-border/30 bg-ocean-surface/60 text-pirate-muted italic backdrop-blur-sm',

@@ -1,29 +1,40 @@
 import type { Sea, Location } from '@/types'
 
+/* Bölge kimlik renkleri — token'lı. Daha önce ham `blue-400` / `orange-400` /
+   `cyan-400` / `green-400` yazılıyordu; bunlar parşömen ve beyaz kart üstünde
+   1.2–1.8:1 kontrasta düşüp okunmaz oluyordu. Token light temada 700 seviyeye
+   dönüyor, dark'ta eski 400 tonunu koruyor.
+
+   Ayırt edicilik: Dört Deniz'in her biri AYRI token alır — East (sea, marka
+   mavisi) · West (accent-orange) · North (accent-cyan) · South (accent-lime).
+   Grand Line (gold), New World + Red Line (luffy) ve Calm Belt (pirate-muted)
+   zaten marka token'ıydı; New World ile Red Line'ın kırmızıyı paylaşması
+   kanonik ("Kızıl Hat" ile Yeni Dünya aynı tehlike kuşağı) ve eskiden beri
+   böyleydi. */
 export const SEAS: Sea[] = [
   {
     name: 'East Blue',
     slug: 'east-blue',
     description: 'Dört denizin en zayıfı olarak bilinir ancak Korsanlar Kralı Gol D. Roger, Monkey D. Luffy ve Roronoa Zoro gibi efsanelerin doğduğu denizdir. "Rüyaların denizi" olarak da anılır.',
-    color: 'text-blue-400',
+    color: 'text-sea',
   },
   {
     name: 'West Blue',
     slug: 'west-blue',
     description: 'Nico Robin ve Brook\'un memleketi. Ohara Adası\'nın (Void Century araştırma merkezi) ve Shanks\'ın doğduğu deniz.',
-    color: 'text-orange-400',
+    color: 'text-accent-orange',
   },
   {
     name: 'North Blue',
     slug: 'north-blue',
     description: 'Trafalgar Law, Sanji ve Doflamingo\'nun doğduğu deniz. Germa Krallığı ve Flevance (Beyaz Şehir) buradadır.',
-    color: 'text-cyan-400',
+    color: 'text-accent-cyan',
   },
   {
     name: 'South Blue',
     slug: 'south-blue',
     description: 'Franky ve Eustass Kid\'in doğduğu deniz. Briss Krallığı ve Torino Krallığı buradadır.',
-    color: 'text-green-400',
+    color: 'text-accent-lime',
   },
   {
     name: 'Grand Line',

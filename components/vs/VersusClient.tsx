@@ -173,7 +173,7 @@ function VersusClient() {
 
         {/* VS badge (desktop only) */}
         <div className="pointer-events-none absolute left-1/2 top-1/2 z-10 hidden -translate-x-1/2 -translate-y-1/2 items-center justify-center sm:flex">
-          <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-gold/50 bg-ocean-deep shadow-[0_0_30px_rgba(244,163,0,0.3)]">
+          <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-gold/50 bg-ocean-deep shadow-[0_0_30px_rgb(var(--gold)/0.3)]">
             <Swords className="h-6 w-6 text-gold" />
           </div>
         </div>
@@ -200,22 +200,22 @@ function VersusClient() {
               <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-gold/[0.12] blur-[60px]" />
 
               <Trophy className="mx-auto mb-3 h-8 w-8 text-gold" />
-              <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.3em] text-gold/70">
+              <p className="eyebrow mb-2 text-gold/70">
                 Sonuç
               </p>
               {overallWinner === 'tie' ? (
-                <p className="text-2xl font-extrabold text-pirate-text sm:text-3xl">
+                <p className="font-display text-2xl font-extrabold text-pirate-text sm:text-3xl">
                   Berabere! Yakın Dövüş
                 </p>
               ) : (
                 <>
-                  <p className="text-3xl font-extrabold sm:text-4xl">
+                  <p className="font-display text-3xl font-extrabold sm:text-4xl">
                     <span className={overallWinner === 'left' ? 'text-luffy' : 'text-sea'}>
                       {overallWinner === 'left' ? left.name : right.name}
                     </span>
                   </p>
                   <p className="mt-2 text-sm text-pirate-muted sm:text-base">
-                    <span className="font-bold text-gold">{Math.max(leftWins, rightWins)}</span> / {rows.length} kategoride galip geldi
+                    <span className="font-mono font-bold text-gold">{Math.max(leftWins, rightWins)}</span> / {rows.length} kategoride galip geldi
                   </p>
                 </>
               )}
@@ -239,8 +239,8 @@ function VersusClient() {
                     <div className={`text-right ${
                       row.winner === 'left' ? 'text-luffy' : 'text-pirate-muted'
                     }`}>
-                      <p className={`text-xs font-bold sm:text-base ${
-                        row.winner === 'left' ? 'drop-shadow-[0_0_8px_rgba(231,76,60,0.5)]' : ''
+                      <p className={`font-mono text-xs font-bold sm:text-base ${
+                        row.winner === 'left' ? 'drop-shadow-[0_0_8px_rgb(var(--luffy)/0.5)]' : ''
                       }`}>
                         {row.leftDisplay}
                       </p>
@@ -251,7 +251,7 @@ function VersusClient() {
                       <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gold/10 border border-gold/20">
                         <Icon className="h-3.5 w-3.5 text-gold" />
                       </div>
-                      <p className="text-[9px] font-bold uppercase tracking-wider text-pirate-muted/80 sm:text-xs">
+                      <p className="eyebrow text-pirate-muted/80">
                         {row.label}
                       </p>
                     </div>
@@ -260,8 +260,8 @@ function VersusClient() {
                     <div className={`text-left ${
                       row.winner === 'right' ? 'text-sea' : 'text-pirate-muted'
                     }`}>
-                      <p className={`text-xs font-bold sm:text-base ${
-                        row.winner === 'right' ? 'drop-shadow-[0_0_8px_rgba(30,144,255,0.5)]' : ''
+                      <p className={`font-mono text-xs font-bold sm:text-base ${
+                        row.winner === 'right' ? 'drop-shadow-[0_0_8px_rgb(var(--sea)/0.5)]' : ''
                       }`}>
                         {row.rightDisplay}
                       </p>
@@ -280,15 +280,15 @@ function VersusClient() {
                 className="rounded-2xl border border-pirate-border/20 bg-ocean-surface/30 p-5 sm:p-6"
               >
                 <div className="mb-5 flex items-center justify-center gap-2 sm:justify-between">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-luffy truncate max-w-[30%]">
+                  <p className="eyebrow max-w-[30%] truncate text-luffy">
                     {left.name}
                   </p>
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <Zap className="h-4 w-4 text-gold" />
-                    <p className="hidden text-xs font-bold uppercase tracking-wider text-gold sm:inline">Stat Karşılaştırması</p>
-                    <p className="text-xs font-bold uppercase tracking-wider text-gold sm:hidden">vs</p>
+                    <p className="eyebrow-lg hidden text-gold sm:inline">Stat Karşılaştırması</p>
+                    <p className="eyebrow-lg text-gold sm:hidden">vs</p>
                   </div>
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-sea truncate max-w-[30%] text-right">
+                  <p className="eyebrow max-w-[30%] truncate text-right text-sea">
                     {right.name}
                   </p>
                 </div>
@@ -303,13 +303,13 @@ function VersusClient() {
                     return (
                       <div key={key} className="space-y-1.5">
                         <div className="flex items-center justify-between text-xs">
-                          <span className={`tabular-nums font-bold ${leftWin ? 'text-luffy' : 'text-pirate-muted/70'}`}>
+                          <span className={`font-mono tabular-nums font-bold ${leftWin ? 'text-luffy' : 'text-pirate-muted/70'}`}>
                             {lVal}
                           </span>
-                          <span className="font-semibold uppercase tracking-wider text-pirate-muted/60">
+                          <span className="eyebrow text-pirate-muted/60">
                             {meta.label}
                           </span>
-                          <span className={`tabular-nums font-bold ${rightWin ? 'text-sea' : 'text-pirate-muted/70'}`}>
+                          <span className={`font-mono tabular-nums font-bold ${rightWin ? 'text-sea' : 'text-pirate-muted/70'}`}>
                             {rVal}
                           </span>
                         </div>
@@ -317,22 +317,16 @@ function VersusClient() {
                           {/* Left bar (reversed) */}
                           <div className="h-2 flex-1 rounded-full bg-ocean-deep/50 overflow-hidden">
                             <div
-                              className="h-full ml-auto rounded-full transition-all"
-                              style={{
-                                width: `${lVal}%`,
-                                backgroundColor: leftWin ? '#e74c3c' : 'rgba(231,76,60,0.3)',
-                              }}
+                              className={`ml-auto h-full rounded-full transition-all ${leftWin ? 'bg-luffy' : 'bg-luffy/30'}`}
+                              style={{ width: `${lVal}%` }}
                             />
                           </div>
                           <div className="h-2 w-2 rounded-full bg-pirate-border/30" />
                           {/* Right bar */}
                           <div className="h-2 flex-1 rounded-full bg-ocean-deep/50 overflow-hidden">
                             <div
-                              className="h-full rounded-full transition-all"
-                              style={{
-                                width: `${rVal}%`,
-                                backgroundColor: rightWin ? '#1e90ff' : 'rgba(30,144,255,0.3)',
-                              }}
+                              className={`h-full rounded-full transition-all ${rightWin ? 'bg-sea' : 'bg-sea/30'}`}
+                              style={{ width: `${rVal}%` }}
                             />
                           </div>
                         </div>
@@ -349,14 +343,14 @@ function VersusClient() {
                 href={`/characters/${left.slug}`}
                 className="group flex items-center justify-between rounded-xl border border-luffy/30 bg-luffy/[0.05] p-4 transition-all hover:bg-luffy/[0.1]"
               >
-                <span className="text-sm font-bold text-luffy">{left.name} Profili</span>
+                <span className="font-display text-sm font-bold text-luffy">{left.name} Profili</span>
                 <ArrowRight className="h-4 w-4 text-luffy transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
                 href={`/characters/${right.slug}`}
                 className="group flex items-center justify-between rounded-xl border border-sea/30 bg-sea/[0.05] p-4 transition-all hover:bg-sea/[0.1]"
               >
-                <span className="text-sm font-bold text-sea">{right.name} Profili</span>
+                <span className="font-display text-sm font-bold text-sea">{right.name} Profili</span>
                 <ArrowRight className="h-4 w-4 text-sea transition-transform group-hover:translate-x-1" />
               </Link>
             </div>

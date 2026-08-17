@@ -79,7 +79,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
             <div className="mx-auto max-w-5xl">
               <Link
                 href="/arcs"
-                className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-ocean-deep/50 px-4 py-2 text-[13px] text-white/70 backdrop-blur-md transition-all duration-300 hover:border-gold/30 hover:text-gold group"
+                className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-ocean-deep/50 px-4 py-2 text-[13px] text-pirate-text/70 backdrop-blur-md transition-all duration-300 hover:border-gold/30 hover:text-gold group"
               >
                 <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-1" />
                 Tüm Arc&apos;lar
@@ -100,17 +100,17 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                 </span>
               )}
               <div className="mb-3 flex flex-wrap items-center gap-3">
-                <h1 className="text-4xl font-extrabold tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:text-5xl md:text-6xl">
+                <h1 className="font-display text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.7)] sm:text-5xl md:text-6xl">
                   {arc.name}
                 </h1>
                 <FavoriteButton targetType="arc" targetSlug={arc.slug} />
               </div>
-              <div className="flex flex-wrap items-center gap-4 text-sm text-white/80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
-                <span className="flex items-center gap-1.5">
+              <div className="flex flex-wrap items-center gap-4 text-sm text-pirate-text/80 drop-shadow-[0_2px_8px_rgb(var(--ocean-deep)/0.6)]">
+                <span className="flex items-center gap-1.5 font-mono">
                   <Film className="h-4 w-4 text-sea-light" />
                   {arc.episodeCount} Bölüm
                 </span>
-                <span className="flex items-center gap-1.5">
+                <span className="flex items-center gap-1.5 font-mono">
                   <Clock className="h-4 w-4 text-gold" />
                   {arcRuntime}
                 </span>
@@ -140,8 +140,8 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                   <MapPin className="h-4 w-4 text-sea" />
                 </div>
                 <div>
-                  <p className="text-[10px] text-pirate-muted/60">Konum</p>
-                  <p className="text-sm font-semibold text-pirate-text">{arc.location}</p>
+                  <p className="eyebrow text-pirate-muted/60">Konum</p>
+                  <p className="font-display text-sm font-semibold text-pirate-text">{arc.location}</p>
                 </div>
               </div>
             )}
@@ -151,8 +151,8 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                   <Skull className="h-4 w-4 text-luffy" />
                 </div>
                 <div>
-                  <p className="text-[10px] text-pirate-muted/60">Ana Düşman</p>
-                  <p className="text-sm font-semibold text-pirate-text">{arc.villain}</p>
+                  <p className="eyebrow text-pirate-muted/60">Ana Düşman</p>
+                  <p className="font-display text-sm font-semibold text-pirate-text">{arc.villain}</p>
                 </div>
               </div>
             )}
@@ -162,7 +162,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                   <Users className="h-4 w-4 text-sea" />
                 </div>
                 <div>
-                  <p className="text-[10px] text-pirate-muted/60">Öne Çıkan Karakterler</p>
+                  <p className="eyebrow text-pirate-muted/60">Öne Çıkan Karakterler</p>
                   <div className="mt-1 flex flex-wrap gap-1.5">
                     {arc.characters.map((slug) => (
                       <Link
@@ -215,10 +215,10 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
           {/* ─── Episode List ──────────────────────────────────────── */}
           <section className="mb-10">
             <div className="mb-5 flex items-center justify-between">
-              <h2 className="flex items-center gap-2 text-lg font-bold text-pirate-text">
+              <h2 className="font-display flex items-center gap-2 text-lg font-bold text-pirate-text">
                 <Film className="h-5 w-5 text-sea" />
                 Bölümler
-                <span className="ml-1 rounded-full bg-sea/[0.06] px-2.5 py-0.5 text-[11px] font-semibold text-sea/70">
+                <span className="ml-1 rounded-full bg-sea/[0.06] px-2.5 py-0.5 font-mono text-[11px] font-semibold text-sea/70">
                   {arc.episodeCount}
                 </span>
               </h2>
@@ -241,13 +241,13 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                     className="bento-card group flex items-center gap-4 px-4 py-3.5"
                   >
                     {/* Episode number */}
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-ocean-surface/80 border border-pirate-border/20 text-sm font-bold text-sea transition-all duration-300 group-hover:border-gold/20 group-hover:text-gold">
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-ocean-surface/80 border border-pirate-border/20 font-mono text-sm font-bold text-sea transition-all duration-300 group-hover:border-gold/20 group-hover:text-gold">
                       {globalEp}
                     </div>
 
                     {/* Title + summary */}
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-pirate-text transition-colors duration-300 group-hover:text-gold">
+                      <p className="font-display text-sm font-semibold text-pirate-text transition-colors duration-300 group-hover:text-gold">
                         {ep.title}
                       </p>
                       {ep.summary && (
@@ -255,7 +255,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                           {ep.summary}
                         </p>
                       )}
-                      <p className="mt-0.5 text-[11px] text-pirate-muted/40">{ep.duration}</p>
+                      <p className="mt-0.5 font-mono text-[11px] text-pirate-muted/40">{ep.duration}</p>
                     </div>
 
                     {/* Play icon */}
@@ -321,10 +321,10 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, ease: EASE }}
                 >
-                  <h2 className="mb-5 flex items-center gap-2 text-lg font-bold text-pirate-text">
+                  <h2 className="font-display mb-5 flex items-center gap-2 text-lg font-bold text-pirate-text">
                     <Swords className="h-5 w-5 text-luffy" />
                     Bu Arc&apos;taki Savaşlar
-                    <span className="ml-1 rounded-full bg-luffy/[0.06] px-2.5 py-0.5 text-[11px] font-semibold text-luffy/70">
+                    <span className="ml-1 rounded-full bg-luffy/[0.06] px-2.5 py-0.5 font-mono text-[11px] font-semibold text-luffy/70">
                       {arcBattles.length}
                     </span>
                   </h2>
@@ -339,7 +339,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                           <Swords className="h-4 w-4 text-luffy" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
+                          <p className="font-display text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
                             {battle.name}
                           </p>
                           <p className="text-[11px] text-pirate-muted/60 line-clamp-1 mt-0.5">
@@ -347,7 +347,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                           </p>
                         </div>
                         <div className="flex items-center gap-1.5 text-xs text-pirate-muted/50">
-                          {battle.episodes && <span>{battle.episodes}</span>}
+                          {battle.episodes && <span className="font-mono">{battle.episodes}</span>}
                           <ChevronRight className="h-3.5 w-3.5 group-hover:text-gold group-hover:translate-x-1 transition-all" />
                         </div>
                       </Link>
@@ -379,8 +379,8 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                   >
                     <ArrowLeft className="h-4 w-4 text-pirate-muted group-hover:text-gold group-hover:-translate-x-1 transition-all" />
                     <div className="min-w-0">
-                      <p className="text-[10px] text-pirate-muted/50">Önceki Arc</p>
-                      <p className="text-xs font-semibold text-pirate-text group-hover:text-gold transition-colors truncate">{prevArc.name}</p>
+                      <p className="eyebrow text-pirate-muted/50">Önceki Arc</p>
+                      <p className="font-display text-xs font-semibold text-pirate-text group-hover:text-gold transition-colors truncate">{prevArc.name}</p>
                     </div>
                   </Link>
                 ) : <div />}
@@ -390,8 +390,8 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                     className="bento-card group flex items-center justify-end gap-3 px-4 py-3 text-right"
                   >
                     <div className="min-w-0">
-                      <p className="text-[10px] text-pirate-muted/50">Sonraki Arc</p>
-                      <p className="text-xs font-semibold text-pirate-text group-hover:text-gold transition-colors truncate">{nextArc.name}</p>
+                      <p className="eyebrow text-pirate-muted/50">Sonraki Arc</p>
+                      <p className="font-display text-xs font-semibold text-pirate-text group-hover:text-gold transition-colors truncate">{nextArc.name}</p>
                     </div>
                     <ArrowRight className="h-4 w-4 text-pirate-muted group-hover:text-gold group-hover:translate-x-1 transition-all" />
                   </Link>

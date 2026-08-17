@@ -23,22 +23,22 @@ export default function AchievementsPage() {
         <div className="pointer-events-none absolute -left-32 -bottom-32 h-80 w-80 rounded-full bg-fruit-strong/[0.08] blur-[100px]" />
 
         <div className="relative mx-auto max-w-4xl text-center">
-          <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-gold/70">
-            🏆 Hedefler & Rozetler
+          <p className="eyebrow-lg mb-3 text-gold/70">
+            🏆 Hedefler &amp; Rozetler
           </p>
-          <h1 className="mb-4 text-4xl font-extrabold tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:text-5xl md:text-6xl">
+          <h1 className="font-display mb-4 text-4xl font-bold text-pirate-text sm:text-5xl md:text-6xl">
             Başarımlar
           </h1>
-          <p className="mx-auto max-w-2xl text-sm leading-relaxed text-white/70 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] sm:text-base">
+          <p className="mx-auto max-w-2xl text-sm leading-relaxed text-pirate-muted sm:text-base">
             İzleme ilerlemen, quiz başarıların ve keşiflerinle rozetleri kazan. Her bronz bronzdan büyür, her efsane efsaneden geçer.
           </p>
 
           {/* Tier stats */}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-            <span className="rounded-full border border-amber-600/30 bg-amber-600/10 px-3 py-1.5 text-xs font-bold text-amber-500">
+            <span className="rounded-full border border-accent-amber/30 bg-accent-amber/10 px-3 py-1.5 text-xs font-bold text-accent-amber">
               🥉 {totalByTier.bronze ?? 0} Bronz
             </span>
-            <span className="rounded-full border border-gray-300/30 bg-gray-300/10 px-3 py-1.5 text-xs font-bold text-gray-300">
+            <span className="rounded-full border border-accent-silver/30 bg-accent-silver/10 px-3 py-1.5 text-xs font-bold text-accent-silver">
               🥈 {totalByTier.silver ?? 0} Gümüş
             </span>
             <span className="rounded-full border border-gold/30 bg-gold/10 px-3 py-1.5 text-xs font-bold text-gold">

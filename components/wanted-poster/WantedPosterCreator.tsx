@@ -133,7 +133,7 @@ export default function WantedPosterCreator() {
         </Link>
 
         <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-10 text-center">
-          <h1 className="mb-3 text-3xl font-extrabold sm:text-4xl">
+          <h1 className="font-display mb-3 text-3xl font-extrabold sm:text-4xl">
             <span className="text-gold-gradient">Wanted Poster</span>{' '}
             <span className="text-pirate-text">Oluşturucu</span>
           </h1>
@@ -209,8 +209,8 @@ export default function WantedPosterCreator() {
             {/* Bounty */}
             <div>
               <label className="mb-2 block text-sm font-semibold text-pirate-text">
-                Ödül: <span className="text-gold">{bounty.toLocaleString('tr-TR')} Berry</span>
-                <span className="ml-1.5 text-xs text-pirate-muted">({formatBounty(bounty)})</span>
+                Ödül: <span className="stat-number font-mono text-gold">{bounty.toLocaleString('tr-TR')} Berry</span>
+                <span className="ml-1.5 font-mono text-xs text-pirate-muted">({formatBounty(bounty)})</span>
               </label>
               <input
                 type="range"
@@ -221,7 +221,7 @@ export default function WantedPosterCreator() {
                 onChange={(e) => setBounty(Number(e.target.value))}
                 className="wanted-range w-full"
               />
-              <div className="mt-1 flex justify-between text-[10px] text-pirate-muted/40">
+              <div className="mt-1 flex justify-between font-mono text-[10px] text-pirate-muted/40">
                 <span>1M</span>
                 <span>100M</span>
                 <span>1B</span>

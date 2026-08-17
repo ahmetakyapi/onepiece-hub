@@ -66,7 +66,7 @@ export default function SpoilerGateWidget() {
               animate="visible"
               exit="hidden"
               onClick={() => setOpen(false)}
-              className="fixed inset-0 z-[60] bg-ocean-deep/80 backdrop-blur-md"
+              className="fixed inset-0 z-[60] bg-black/70 backdrop-blur-md"
             />
             <div className="pointer-events-none fixed inset-0 z-[70] flex items-center justify-center p-4">
               <motion.div
@@ -85,7 +85,7 @@ export default function SpoilerGateWidget() {
                   <Shield className="h-5 w-5 text-gold" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h2 id="spoiler-gate-title" className="text-lg font-extrabold text-pirate-text">
+                  <h2 id="spoiler-gate-title" className="font-display text-lg font-bold text-pirate-text">
                     Spoiler Koruması
                   </h2>
                   <p className="mt-0.5 text-xs text-pirate-muted sm:text-sm">
@@ -117,10 +117,12 @@ export default function SpoilerGateWidget() {
                   role="switch"
                   aria-checked={enabled}
                 >
+                  {/* Topuz `ink` ile sürülüyor: dark'ta beyaz, light'ta lacivert —
+                      iki temada da kendi rayının üstünde görünür kalıyor. */}
                   <motion.span
                     animate={{ x: enabled ? 22 : 2 }}
                     transition={{ duration: 0.25, ease: EASE }}
-                    className="absolute top-1 h-5 w-5 rounded-full bg-white shadow"
+                    className="absolute top-1 h-5 w-5 rounded-full bg-ink shadow"
                   />
                 </button>
               </div>
@@ -128,13 +130,13 @@ export default function SpoilerGateWidget() {
               {/* Arc picker (only when enabled) */}
               <div className={`transition-all ${enabled ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}>
                 <div className="px-5 pb-2 pt-4">
-                  <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-gold/70">
+                  <p className="eyebrow mb-2 text-gold/70">
                     Son İzlediğin Arc
                   </p>
                   {currentArc && (
                     <div className="mb-3 inline-flex items-center gap-2 rounded-lg border border-gold/20 bg-gold/[0.06] px-3 py-1.5">
                       <Check className="h-3 w-3 text-gold" />
-                      <span className="text-xs font-semibold text-gold">
+                      <span className="font-display text-xs font-bold text-gold">
                         {currentArc.name}
                       </span>
                     </div>
@@ -143,7 +145,7 @@ export default function SpoilerGateWidget() {
                 <div className="max-h-72 overflow-y-auto scrollbar-thin px-5 pb-5 space-y-3">
                   {groupedArcs.map(({ saga, arcs }) => (
                     <div key={saga.slug}>
-                      <p className="mb-1.5 text-[9px] font-bold uppercase tracking-wider text-pirate-muted/60">
+                      <p className="eyebrow mb-1.5 text-[9px] text-pirate-muted/70">
                         {saga.name}
                       </p>
                       <div className="flex flex-wrap gap-1.5">
@@ -155,7 +157,7 @@ export default function SpoilerGateWidget() {
                               onClick={() => setCurrentArc(isCurrent ? null : arc.slug)}
                               className={`rounded-lg border px-2.5 py-1 text-[11px] font-semibold transition-all ${
                                 isCurrent
-                                  ? 'border-gold/40 bg-gold/15 text-gold shadow-[0_0_16px_rgba(244,163,0,0.2)]'
+                                  ? 'border-gold/40 bg-gold/15 text-gold shadow-[0_0_16px_rgb(var(--gold)/0.2)]'
                                   : 'border-pirate-border/30 bg-ocean-surface/40 text-pirate-muted hover:border-gold/30 hover:text-pirate-text'
                               }`}
                             >

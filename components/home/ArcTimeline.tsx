@@ -29,11 +29,11 @@ function SagaSection({ saga, index }: { saga: typeof SAGAS[number]; index: numbe
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sea/[0.08] border border-sea/10">
           <Anchor className="h-3.5 w-3.5 text-sea" />
         </div>
-        <h3 className="text-sm font-bold uppercase tracking-[0.1em] text-sea">
+        <h3 className="font-display text-sm font-bold uppercase tracking-[0.1em] text-sea">
           {saga.name}
         </h3>
         <div className="h-px flex-1 bg-gradient-to-r from-sea/15 to-transparent" />
-        <span className="rounded-full bg-sea/[0.06] px-2.5 py-0.5 text-[10px] font-semibold text-sea/70">
+        <span className="rounded-full bg-sea/[0.06] px-2.5 py-0.5 font-mono text-[10px] font-semibold text-sea/70">
           {totalEps} bölüm
         </span>
       </div>
@@ -74,14 +74,14 @@ function SagaSection({ saga, index }: { saga: typeof SAGAS[number]; index: numbe
                 <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep via-ocean-deep/20 to-transparent" />
 
                 {/* Episode badge — floating pill */}
-                <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-ocean-deep/70 px-2.5 py-1 text-[10px] font-bold text-sea backdrop-blur-md border border-sea/10">
+                <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-ocean-deep/70 px-2.5 py-1 font-mono text-[10px] font-bold text-sea backdrop-blur-md border border-sea/10">
                   <Film className="h-2.5 w-2.5" />
                   {arc.episodeCount}
                 </span>
 
                 {/* Name overlay at bottom */}
                 <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <h4 className="text-sm font-bold text-white transition-colors duration-300 group-hover:text-gold leading-tight drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">
+                  <h4 className="font-display text-sm font-bold text-pirate-text transition-colors duration-300 group-hover:text-gold leading-tight drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">
                     {arc.name}
                   </h4>
                 </div>
@@ -139,7 +139,7 @@ export default function ArcTimeline() {
           >
             <Compass className="h-6 w-6 text-gold" />
           </motion.div>
-          <h2 className="mb-3 text-3xl font-extrabold text-pirate-text sm:text-4xl">
+          <h2 className="font-display mb-3 text-3xl font-extrabold text-pirate-text sm:text-4xl">
             <span className="text-gold-gradient">Grand Line</span> Rotası
           </h2>
           <p className="mx-auto max-w-md text-sm text-pirate-muted sm:text-base">

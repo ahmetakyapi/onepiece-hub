@@ -55,7 +55,7 @@ export default function UpNextCard({
                 cx="20"
                 cy="20"
                 r={RADIUS}
-                className="fill-none stroke-white/10"
+                className="fill-none stroke-ink/10"
                 strokeWidth="3"
               />
               <circle
@@ -70,7 +70,7 @@ export default function UpNextCard({
                 style={{ transition: 'stroke-dashoffset 1s linear' }}
               />
             </svg>
-            <span className="stat-number absolute inset-0 flex items-center justify-center text-[11px] font-black text-gold">
+            <span className="absolute inset-0 flex items-center justify-center font-mono text-[11px] font-bold text-gold">
               {countdown}
             </span>
           </div>
@@ -81,11 +81,13 @@ export default function UpNextCard({
         )}
 
         <div className="min-w-0 flex-1">
-          <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-gold/70">
-            {countdown !== null ? 'Sıradaki bölüm başlıyor' : 'Sıradaki bölüm'}
+          <p className="eyebrow text-gold/70">
+            {countdown !== null ? 'Sıradaki Bölüm Başlıyor' : 'Sıradaki Bölüm'}
           </p>
-          <p className="truncate text-[13px] font-bold text-pirate-text">{episodeTitle}</p>
-          <p className="text-[10px] text-pirate-muted">Bölüm {globalEpisode}</p>
+          <p className="truncate font-display text-[13px] font-bold text-pirate-text">
+            {episodeTitle}
+          </p>
+          <p className="font-mono text-[10px] text-pirate-muted">Bölüm {globalEpisode}</p>
         </div>
 
         <div className="flex flex-shrink-0 items-center gap-1.5">
@@ -93,7 +95,7 @@ export default function UpNextCard({
             onClick={onSkipNow}
             className="btn-gold !rounded-lg !px-2.5 !py-1.5 text-[11px]"
           >
-            {countdown !== null ? 'Şimdi geç' : 'İzle'}
+            {countdown !== null ? 'Şimdi Geç' : 'İzle'}
           </button>
           <button
             onClick={onCancel}

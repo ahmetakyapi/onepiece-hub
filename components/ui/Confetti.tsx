@@ -2,7 +2,18 @@
 
 import { useEffect, useRef } from 'react'
 
-const COLORS = ['#f4a300', '#fbbf24', '#1e90ff', '#60b8ff', '#e74c3c', '#10b981']
+/* Canvas boya alamayan bir yüzey — Tailwind sınıfı geçmez, gerçek renk ister.
+   Bu yüzden token'lar çizimden önce bir kez hesaplanır; aktif temanın
+   (`data-theme`) değerlerini alır. */
+const CONFETTI_TOKENS = ['--gold', '--gold-bright', '--sea', '--sea-light', '--luffy', '--haki'] as const
+
+function readPaletteColors(): string[] {
+  const styles = getComputedStyle(document.documentElement)
+  return CONFETTI_TOKENS.map((token) => {
+    const channels = styles.getPropertyValue(token).trim()
+    return channels ? `rgb(${channels})` : 'rgb(244 163 0)'
+  })
+}
 
 interface Particle {
   x: number
@@ -35,6 +46,7 @@ export default function Confetti({ particleCount = 80 }: { particleCount?: numbe
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
 
+    const colors = readPaletteColors()
     const particles: Particle[] = []
     const cx = canvas.width / 2
     const cy = canvas.height * 0.3
@@ -51,7 +63,7 @@ export default function Confetti({ particleCount = 80 }: { particleCount?: numbe
         gravity: 0.12,
         rotation: Math.random() * 360,
         rotationSpeed: (Math.random() - 0.5) * 12,
-        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        color: colors[Math.floor(Math.random() * colors.length)],
         opacity: 1,
         width: Math.random() * 8 + 4,
         height: Math.random() * 4 + 2,

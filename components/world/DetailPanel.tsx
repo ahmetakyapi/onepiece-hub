@@ -8,7 +8,6 @@ import { getArcBySlug } from '@/lib/constants/arcs'
 import { EASE } from '@/lib/variants'
 import {
   SEA_MARKER_COLORS,
-  SEA_MARKER_GLOW,
   TYPE_ICONS,
   TYPE_LABELS,
   DANGER_COLORS,
@@ -25,6 +24,9 @@ export default function DetailPanel({
 }) {
   const sea = SEAS.find((s) => s.slug === location.sea)
   const TypeIcon = TYPE_ICONS[location.type] ?? MapPin
+  /* Bölge kimlik rengi — içerik paleti (`map-data.ts`). Aşağıda `${markerColor}30`
+     gibi 8 haneli hex alfa ekiyle kullanıldığı için yedek değer de hex kalmalı;
+     `rgb(var(--x))` yazılsaydı bu birleştirme geçersiz CSS üretirdi. */
   const markerColor = SEA_MARKER_COLORS[location.sea] ?? '#f4a300'
 
   return (
@@ -82,20 +84,17 @@ export default function DetailPanel({
                   <TypeIcon className="h-5 w-5" style={{ color: markerColor }} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-extrabold text-pirate-text">
+                  <h3 className="font-display text-lg font-extrabold text-pirate-text">
                     {location.name}
                   </h3>
                   <div className="flex items-center gap-2">
-                    <span
-                      className="text-[10px] font-bold uppercase tracking-wider"
-                      style={{ color: markerColor }}
-                    >
+                    <span className="eyebrow" style={{ color: markerColor }}>
                       {TYPE_LABELS[location.type]}
                     </span>
                     <span className="text-pirate-muted/30">·</span>
                     <span
                       className="text-[10px] font-semibold"
-                      style={{ color: SEA_MARKER_COLORS[location.sea] ?? '#e8eaf0' }}
+                      style={{ color: SEA_MARKER_COLORS[location.sea] ?? 'rgb(var(--pirate-text))' }}
                     >
                       {sea?.name}
                     </span>
@@ -135,7 +134,7 @@ export default function DetailPanel({
                 </span>
               </div>
               <span
-                className="text-xs font-bold"
+                className="font-mono text-xs font-bold"
                 style={{ color: DANGER_COLORS[location.dangerLevel] }}
               >
                 {location.dangerLevel}/5
@@ -154,14 +153,14 @@ export default function DetailPanel({
           {/* Significance */}
           {location.significance.length > 0 && (
             <div>
-              <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-pirate-muted">
+              <p className="eyebrow mb-2 text-pirate-muted">
                 Önemli Olaylar
               </p>
               <ul className="space-y-2">
                 {location.significance.map((sig, idx) => (
                   <li key={sig} className="flex gap-2.5 text-xs text-pirate-muted">
                     <span
-                      className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[9px] font-bold"
+                      className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full font-mono text-[9px] font-bold"
                       style={{
                         background: `${markerColor}15`,
                         border: `1px solid ${markerColor}30`,
@@ -180,7 +179,7 @@ export default function DetailPanel({
           {/* Related arcs */}
           {location.relatedArcs.length > 0 && (
             <div>
-              <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-pirate-muted">
+              <p className="eyebrow mb-2 text-pirate-muted">
                 İlgili Arc&apos;lar
               </p>
               <div className="flex flex-wrap gap-1.5">

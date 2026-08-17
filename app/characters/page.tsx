@@ -37,9 +37,9 @@ const SORT_LABELS: Record<SortMode, string> = {
 /* ─── Hero Orbs ──────────────────────────────────────────────── */
 
 const HERO_ORBS = [
-  { color: 'radial-gradient(circle, rgba(244,163,0,0.4), transparent 70%)', size: 280, x: '5%', y: '10%', delay: 0 },
-  { color: 'radial-gradient(circle, rgba(30,144,255,0.3), transparent 70%)', size: 220, x: '75%', y: '20%', delay: 1.5 },
-  { color: 'radial-gradient(circle, rgba(231,76,60,0.25), transparent 70%)', size: 180, x: '60%', y: '60%', delay: 3 },
+  { color: 'radial-gradient(circle, rgb(var(--gold) / 0.4), transparent 70%)', size: 280, x: '5%', y: '10%', delay: 0 },
+  { color: 'radial-gradient(circle, rgb(var(--sea) / 0.3), transparent 70%)', size: 220, x: '75%', y: '20%', delay: 1.5 },
+  { color: 'radial-gradient(circle, rgb(var(--luffy) / 0.25), transparent 70%)', size: 180, x: '60%', y: '60%', delay: 3 },
 ]
 
 /* ─── Page Component ─────────────────────────────────────────── */
@@ -109,8 +109,8 @@ export default function CharactersPage() {
           >
             <div className="mb-4 flex items-center gap-2">
               <Users className="h-5 w-5 text-sea" />
-              <h2 className="text-lg font-bold text-pirate-text">Karakter İlişkileri</h2>
-              <span className="text-xs text-pirate-muted/50">Etkileşimli grafik</span>
+              <h2 className="font-display text-lg font-bold text-pirate-text">Karakter İlişkileri</h2>
+              <span className="eyebrow text-pirate-muted/50">Etkileşimli Grafik</span>
             </div>
             <RelationshipGraph />
           </motion.div>
@@ -190,7 +190,7 @@ export default function CharactersPage() {
             animate={{ opacity: 1 }}
             className="mb-4 flex items-center justify-between"
           >
-            <span className="text-xs text-pirate-muted">
+            <span className="eyebrow text-pirate-muted">
               {filtered.length} karakter gösteriliyor
             </span>
           </motion.div>

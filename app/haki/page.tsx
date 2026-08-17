@@ -34,7 +34,8 @@ type HakiType = {
   meaning: string
   icon: typeof Shield
   color: string
-  colorHex: string
+  /** Tema token'ının kanal adı — ör. `--gold`. Hex değil ki iki temada da dönsün. */
+  colorToken: string
   bg: string
   borderColor: string
   glowColor: string
@@ -46,6 +47,9 @@ type HakiType = {
   rarity: string
 }
 
+/** Token kanallarından (ör. `--gold`) alfa'lı renk üretir — inline style için. */
+const tone = (token: string, alpha = 1) => `rgb(var(${token}) / ${alpha})`
+
 /* ─── Data ───────────────────────────────────────────────────── */
 
 const HAKI_TYPES: HakiType[] = [
@@ -56,10 +60,10 @@ const HAKI_TYPES: HakiType[] = [
     meaning: 'Gözlem Haki\'si',
     icon: Eye,
     color: 'text-sea-light',
-    colorHex: '#63b3ed',
+    colorToken: '--sea-light',
     bg: 'bg-sea/10',
     borderColor: 'border-sea/30',
-    glowColor: 'rgba(30, 144, 255, 0.15)',
+    glowColor: 'rgb(var(--sea) / 0.15)',
     description: 'Çevredeki canlıların varlığını, duygularını ve niyetlerini hissetme yeteneği. İleri seviyede birkaç saniye geleceği görebilir. "Mantra" olarak da bilinir (Skypiea\'da).',
     howItWorks: 'Kullanıcının zihinsel farkındalığını genişleterek çevresindeki yaşam enerjilerini (aura) algılamasını sağlar. Her canlının benzersiz bir aurası vardır ve deneyimli kullanıcılar bu auraları uzak mesafelerden bile algılayabilir. Duygusal durum, niyet ve hatta düşünceler bile ileri seviye kullanıcılar tarafından okunabilir.',
     advancedForms: [
@@ -88,10 +92,10 @@ const HAKI_TYPES: HakiType[] = [
     meaning: 'Silahlanma Haki\'si',
     icon: Shield,
     color: 'text-fruit',
-    colorHex: '#c084fc',
+    colorToken: '--fruit',
     bg: 'bg-fruit-strong/10',
     borderColor: 'border-fruit-strong/30',
-    glowColor: 'rgba(192, 132, 252, 0.15)',
+    glowColor: 'rgb(var(--fruit) / 0.15)',
     description: 'Vücudu veya silahları görünmez bir zırhla kaplama yeteneği. Saldırı gücünü ve savunmayı artırır. En önemlisi, Logia tipi Şeytan Meyvesi kullanıcılarının gerçek vücuduna dokunabilmeyi sağlar.',
     howItWorks: 'Kullanıcının irade gücünü fiziksel bir zırha dönüştürür. Bu zırh genellikle görünmezdir ancak ileri seviyede vücudu siyah metalik bir katmanla kaplar (Hardening). Haki kaplı saldırılar Logia kullanıcılarının elementel formunu bypass ederek gerçek vücutlarına ulaşır.',
     advancedForms: [
@@ -121,10 +125,10 @@ const HAKI_TYPES: HakiType[] = [
     meaning: 'Fatih Haki\'si / Kralın Haki\'si',
     icon: Crown,
     color: 'text-gold',
-    colorHex: '#f4a300',
+    colorToken: '--gold',
     bg: 'bg-gold/10',
     borderColor: 'border-gold/30',
-    glowColor: 'rgba(244, 163, 0, 0.15)',
+    glowColor: 'rgb(var(--gold) / 0.15)',
     description: 'Milyonda bir kişide bulunan en nadir Haki türü. Kullanıcının iradesini başkalarına dayatmasını sağlar. Zayıf iradeli kişiler bayılır. İleri seviyede saldırılara Haki akıtılarak yıkıcı güç elde edilir.',
     howItWorks: 'Haoshoku Haki, kullanıcının ruhani iradesinin fiziksel bir güç olarak dışa vurumudur. Eğitimle öğrenilemez — ya doğastan sahipsinizdir ya da değilsinizdir. Temel formda iradenizi dalgalar halinde yayarak zayıf iradeliyi bayıltırsınız. İleri seviyede fiziksel temas olmadan saldırı yapılabilir.',
     advancedForms: [
@@ -203,21 +207,21 @@ const FUN_FACTS: HakiFact[] = [
 ]
 
 const HERO_ORBS = [
-  { color: 'rgba(30, 144, 255, 0.4)', size: 280, x: '5%', y: '10%', delay: 0 },
-  { color: 'rgba(244, 163, 0, 0.35)', size: 220, x: '65%', y: '20%', delay: 1.5 },
-  { color: 'rgba(192, 132, 252, 0.3)', size: 200, x: '35%', y: '60%', delay: 3 },
-  { color: 'rgba(30, 144, 255, 0.2)', size: 160, x: '80%', y: '70%', delay: 2 },
+  { color: 'rgb(var(--sea) / 0.4)', size: 280, x: '5%', y: '10%', delay: 0 },
+  { color: 'rgb(var(--gold) / 0.35)', size: 220, x: '65%', y: '20%', delay: 1.5 },
+  { color: 'rgb(var(--fruit) / 0.3)', size: 200, x: '35%', y: '60%', delay: 3 },
+  { color: 'rgb(var(--sea) / 0.2)', size: 160, x: '80%', y: '70%', delay: 2 },
 ]
 
-const HAKI_COLOR_MAP: Record<string, { hex: string; label: string }> = {
-  kenbunshoku: { hex: '#63b3ed', label: 'Gözlem' },
-  busoshoku: { hex: '#c084fc', label: 'Silahlanma' },
-  haoshoku: { hex: '#f4a300', label: 'Fatih' },
+const HAKI_COLOR_MAP: Record<string, { token: string; label: string }> = {
+  kenbunshoku: { token: '--sea-light', label: 'Gözlem' },
+  busoshoku: { token: '--fruit', label: 'Silahlanma' },
+  haoshoku: { token: '--gold', label: 'Fatih' },
 }
 
 /* ─── Helper Components ──────────────────────────────────────── */
 
-function LevelBadge({ level, colorHex }: { level: string; colorHex: string }) {
+function LevelBadge({ level, colorToken }: { level: string; colorToken: string }) {
   const config = LEVEL_CONFIG[level]
   return (
     <div className="flex items-center gap-2.5">
@@ -227,17 +231,17 @@ function LevelBadge({ level, colorHex }: { level: string; colorHex: string }) {
             çubuklarda bu dönüşüm yapılamaz (degrade sıkışır). */}
         <div
           className="h-full w-full origin-left rounded-full transition-transform duration-700 ease-out"
-          style={{ background: colorHex, transform: `scaleX(${config.percent / 100})` }}
+          style={{ background: tone(colorToken), transform: `scaleX(${config.percent / 100})` }}
         />
       </div>
-      <span className={`text-xs font-bold uppercase tracking-wider ${config.color}`}>
+      <span className={`eyebrow ${config.color}`}>
         {config.label}
       </span>
     </div>
   )
 }
 
-function UserCard({ user, colorHex }: { user: HakiUser; colorHex: string }) {
+function UserCard({ user, colorToken }: { user: HakiUser; colorToken: string }) {
   const img = user.slug ? getCharacterImage(user.slug) : ''
 
   const content = (
@@ -249,22 +253,25 @@ function UserCard({ user, colorHex }: { user: HakiUser; colorHex: string }) {
       ) : (
         <div
           className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl border border-pirate-border/40"
-          style={{ background: `${colorHex}10` }}
+          style={{ background: tone(colorToken, 0.06) }}
         >
-          <span className="text-sm font-bold" style={{ color: colorHex }}>
+          <span className="font-display text-sm font-bold" style={{ color: tone(colorToken) }}>
             {user.name.charAt(0)}
           </span>
         </div>
       )}
       <div className="min-w-0 flex-1">
-        <p className="truncate text-base font-bold text-pirate-text transition-colors group-hover:text-white">
+        {/* Eskiden `group-hover:text-white` idi — light temada beyaz üstüne
+            beyaz düşüyordu. Metin zaten `pirate-text`, ayrıca hover rengi
+            gerekmiyor. */}
+        <p className="truncate font-display text-base font-bold text-pirate-text">
           {user.name}
         </p>
         {user.note && (
           <p className="mt-1 truncate text-sm text-pirate-muted">{user.note}</p>
         )}
       </div>
-      <LevelBadge level={user.level} colorHex={colorHex} />
+      <LevelBadge level={user.level} colorToken={colorToken} />
     </div>
   )
 
@@ -300,22 +307,22 @@ export default function HakiPage() {
               <div className="bento-card inline-flex items-center gap-3 rounded-xl px-5 py-3">
                 <Shield className="h-5 w-5 text-fruit" />
                 <div>
-                  <p className="text-[10px] uppercase tracking-wider text-pirate-muted">Haki Türü</p>
-                  <p className="text-lg font-extrabold text-pirate-text stat-number">3</p>
+                  <p className="eyebrow text-pirate-muted">Haki Türü</p>
+                  <p className="font-display text-lg font-extrabold text-pirate-text stat-number">3</p>
                 </div>
               </div>
               <div className="bento-card inline-flex items-center gap-3 rounded-xl px-5 py-3">
                 <Users className="h-5 w-5 text-sea" />
                 <div>
-                  <p className="text-[10px] uppercase tracking-wider text-pirate-muted">Bilinen Kullanıcı</p>
-                  <p className="text-lg font-extrabold text-sea stat-number">{totalUsers}</p>
+                  <p className="eyebrow text-pirate-muted">Bilinen Kullanıcı</p>
+                  <p className="font-display text-lg font-extrabold text-sea stat-number">{totalUsers}</p>
                 </div>
               </div>
               <div className="bento-card inline-flex items-center gap-3 rounded-xl px-5 py-3">
                 <Crown className="h-5 w-5 text-gold" />
                 <div>
-                  <p className="text-[10px] uppercase tracking-wider text-pirate-muted">Üç Haki Ustası</p>
-                  <p className="text-lg font-extrabold text-gold stat-number">{masterCount}</p>
+                  <p className="eyebrow text-pirate-muted">Üç Haki Ustası</p>
+                  <p className="font-display text-lg font-extrabold text-gold stat-number">{masterCount}</p>
                 </div>
               </div>
             </div>
@@ -325,7 +332,7 @@ export default function HakiPage() {
           <div className="bento-card mb-10 p-6 sm:p-8 animate-fade-in-up">
             <div className="mb-4 flex items-center gap-2">
               <BookOpen className="h-5 w-5 text-gold" />
-              <h2 className="text-base font-bold text-pirate-text">Haki Nedir?</h2>
+              <h2 className="font-display text-base font-bold text-pirate-text">Haki Nedir?</h2>
             </div>
             <p className="text-sm leading-relaxed text-pirate-muted">
               Haki (覇気), tüm canlılarda potansiyel olarak bulunan gizemli bir güçtür.
@@ -357,7 +364,7 @@ export default function HakiPage() {
                       layoutId="haki-tab-glow"
                       className="absolute inset-0 rounded-2xl"
                       style={{
-                        boxShadow: `0 0 40px ${haki.glowColor}, inset 0 1px 0 ${haki.colorHex}15`,
+                        boxShadow: `0 0 40px ${haki.glowColor}, inset 0 1px 0 ${tone(haki.colorToken, 0.08)}`,
                       }}
                       transition={{ duration: 0.4, ease: EASE }}
                     />
@@ -373,7 +380,7 @@ export default function HakiPage() {
                         <TabIcon className={`h-5 w-5 transition-colors ${isActive ? haki.color : 'text-pirate-muted group-hover:text-pirate-text'}`} />
                       </div>
                       <div className="min-w-0">
-                        <p className={`text-sm font-bold transition-colors sm:text-base ${isActive ? haki.color : 'text-pirate-muted group-hover:text-pirate-text'}`}>
+                        <p className={`font-display text-sm font-bold transition-colors sm:text-base ${isActive ? haki.color : 'text-pirate-muted group-hover:text-pirate-text'}`}>
                           {haki.meaning}
                         </p>
                         <p className="hidden text-[10px] text-pirate-muted/60 sm:block">{haki.japaneseName}</p>
@@ -387,7 +394,7 @@ export default function HakiPage() {
                   <div
                     className="absolute inset-x-0 bottom-0 h-0.5 transition-opacity duration-500"
                     style={{
-                      background: `linear-gradient(90deg, transparent, ${haki.colorHex}, transparent)`,
+                      background: `linear-gradient(90deg, transparent, ${tone(haki.colorToken)}, transparent)`,
                       opacity: isActive ? 1 : 0,
                     }}
                   />
@@ -420,7 +427,7 @@ export default function HakiPage() {
                   <HakiIcon className={`h-8 w-8 ${activeHaki.color}`} />
                 </div>
                 <div>
-                  <h2 className={`text-2xl font-extrabold sm:text-3xl ${activeHaki.color}`}>{activeHaki.name}</h2>
+                  <h2 className={`font-display text-2xl font-extrabold sm:text-3xl ${activeHaki.color}`}>{activeHaki.name}</h2>
                   <p className="font-mono text-xs text-pirate-muted/60">
                     {activeHaki.japaneseName} — {activeHaki.meaning}
                   </p>
@@ -430,11 +437,11 @@ export default function HakiPage() {
               {/* Description + How it works */}
               <div className="relative z-10 mb-8 grid gap-4 sm:grid-cols-2">
                 <div className="bento-card p-6">
-                  <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-pirate-text">Açıklama</h3>
+                  <h3 className="eyebrow mb-3 text-pirate-text">Açıklama</h3>
                   <p className="text-sm leading-relaxed text-pirate-muted">{activeHaki.description}</p>
                 </div>
                 <div className="bento-card p-6">
-                  <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-pirate-text">Nasıl Çalışır?</h3>
+                  <h3 className="eyebrow mb-3 text-pirate-text">Nasıl Çalışır?</h3>
                   <p className="text-sm leading-relaxed text-pirate-muted">{activeHaki.howItWorks}</p>
                 </div>
               </div>
@@ -442,22 +449,22 @@ export default function HakiPage() {
               {/* Meta info */}
               <div className="relative z-10 mb-8 flex flex-wrap gap-3">
                 <div className="bento-card rounded-xl px-5 py-3">
-                  <p className="text-[10px] uppercase tracking-wider text-pirate-muted">İlk Görünüm</p>
+                  <p className="eyebrow text-pirate-muted">İlk Görünüm</p>
                   <p className="text-sm font-semibold text-pirate-text">{activeHaki.firstSeen}</p>
                 </div>
                 <div className="bento-card rounded-xl px-5 py-3">
-                  <p className="text-[10px] uppercase tracking-wider text-pirate-muted">Nadirlik</p>
+                  <p className="eyebrow text-pirate-muted">Nadirlik</p>
                   <p className={`text-sm font-semibold ${activeHaki.color}`}>{activeHaki.rarity}</p>
                 </div>
                 <div className="bento-card rounded-xl px-5 py-3">
-                  <p className="text-[10px] uppercase tracking-wider text-pirate-muted">Kullanıcı Sayısı</p>
-                  <p className={`text-sm font-semibold ${activeHaki.color}`}>{activeHaki.users.length}</p>
+                  <p className="eyebrow text-pirate-muted">Kullanıcı Sayısı</p>
+                  <p className={`font-display text-sm font-semibold ${activeHaki.color}`}>{activeHaki.users.length}</p>
                 </div>
               </div>
 
               {/* Advanced Forms */}
               <div className="relative z-10 mb-8">
-                <h3 className="mb-5 flex items-center gap-2 text-base font-bold text-pirate-text">
+                <h3 className="mb-5 flex items-center gap-2 font-display text-base font-bold text-pirate-text">
                   <Star className={`h-4 w-4 ${activeHaki.color}`} />
                   İleri Seviye Formlar
                 </h3>
@@ -471,16 +478,16 @@ export default function HakiPage() {
                       >
                         <div
                           className="absolute inset-x-0 top-0 h-0.5"
-                          style={{ background: `linear-gradient(90deg, ${activeHaki.colorHex}, transparent)` }}
+                          style={{ background: `linear-gradient(90deg, ${tone(activeHaki.colorToken)}, transparent)` }}
                         />
                         <div className="mb-3 flex items-center gap-2">
                           <div
                             className="flex h-8 w-8 items-center justify-center rounded-lg"
-                            style={{ background: `${activeHaki.colorHex}15` }}
+                            style={{ background: tone(activeHaki.colorToken, 0.08) }}
                           >
                             <FormIcon className={`h-4 w-4 ${activeHaki.color}`} />
                           </div>
-                          <h4 className={`text-sm font-bold ${activeHaki.color}`}>{form.name}</h4>
+                          <h4 className={`font-display text-sm font-bold ${activeHaki.color}`}>{form.name}</h4>
                         </div>
                         <p className="text-xs leading-relaxed text-pirate-muted">{form.description}</p>
                       </div>
@@ -491,13 +498,13 @@ export default function HakiPage() {
 
               {/* Known Users */}
               <div className="relative z-10">
-                <h3 className="mb-6 flex items-center gap-2 text-lg font-extrabold text-pirate-text">
+                <h3 className="mb-6 flex items-center gap-2 font-display text-lg font-extrabold text-pirate-text">
                   <Users className={`h-5 w-5 ${activeHaki.color}`} />
                   Bilinen Kullanıcılar
                 </h3>
                 <div className="grid gap-3 sm:grid-cols-2">
                   {activeHaki.users.map((user) => (
-                    <UserCard key={user.name} user={user} colorHex={activeHaki.colorHex} />
+                    <UserCard key={user.name} user={user} colorToken={activeHaki.colorToken} />
                   ))}
                 </div>
               </div>
@@ -513,7 +520,7 @@ export default function HakiPage() {
               </div>
             </div>
 
-            <h2 className="mb-3 text-center text-2xl font-extrabold text-pirate-text sm:text-3xl">
+            <h2 className="mb-3 text-center font-display text-2xl font-extrabold text-pirate-text sm:text-3xl">
               Haki <span className="text-gold-gradient">Ustaları</span>
             </h2>
             <p className="mx-auto mb-8 max-w-xl text-center text-sm text-pirate-muted">
@@ -531,7 +538,7 @@ export default function HakiPage() {
                     href={master.slug ? `/characters/${master.slug}` : '#'}
                     className={`group flex items-center gap-4 rounded-2xl border p-4 transition-all duration-300 ${
                       isTriple
-                        ? 'border-gold/25 bg-gradient-to-r from-gold/[0.04] to-transparent hover:border-gold/40 hover:shadow-[0_0_30px_rgba(244,163,0,0.08)]'
+                        ? 'border-gold/25 bg-gradient-to-r from-gold/[0.04] to-transparent hover:border-gold/40 hover:shadow-[0_0_30px_rgb(var(--gold)/0.08)]'
                         : 'border-pirate-border/30 bg-ocean-surface/40 hover:border-pirate-border/60 hover:bg-ocean-surface/60'
                     }`}
                   >
@@ -548,7 +555,7 @@ export default function HakiPage() {
                     )}
 
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-bold text-pirate-text transition-colors group-hover:text-white">
+                      <p className="font-display text-sm font-bold text-pirate-text">
                         {master.name}
                       </p>
                       <p className={`text-[11px] ${isTriple ? 'text-gold/70' : 'text-pirate-muted/70'}`}>
@@ -559,7 +566,7 @@ export default function HakiPage() {
                           const hakiInfo = HAKI_COLOR_MAP[t.id]
                           return (
                             <div key={t.id} className="flex items-center gap-1">
-                              <div className="h-2 w-2 rounded-full" style={{ background: hakiInfo.hex }} />
+                              <div className="h-2 w-2 rounded-full" style={{ background: tone(hakiInfo.token) }} />
                               <span className="text-[9px] font-semibold text-pirate-muted">{hakiInfo.label}</span>
                             </div>
                           )
@@ -570,7 +577,7 @@ export default function HakiPage() {
                     <div className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg ${
                       isTriple ? 'bg-gold/15' : 'bg-ocean-surface'
                     }`}>
-                      <span className={`text-xs font-extrabold ${isTriple ? 'text-gold' : 'text-pirate-muted'}`}>
+                      <span className={`font-display text-xs font-extrabold ${isTriple ? 'text-gold' : 'text-pirate-muted'}`}>
                         {master.types.length}
                       </span>
                     </div>
@@ -591,7 +598,7 @@ export default function HakiPage() {
               </div>
             </div>
 
-            <h2 className="mb-3 text-center text-2xl font-extrabold text-pirate-text sm:text-3xl">
+            <h2 className="mb-3 text-center font-display text-2xl font-extrabold text-pirate-text sm:text-3xl">
               Haki <span className="text-gold-gradient">Efsaneleri</span>
             </h2>
             <p className="mx-auto mb-8 max-w-lg text-center text-sm text-pirate-muted">
@@ -600,8 +607,8 @@ export default function HakiPage() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               {FUN_FACTS.map((fact, i) => {
-                const hakiInfo = HAKI_COLOR_MAP[fact.hakiType] ?? { hex: '#f4a300', label: 'Haki' }
-                const colorHex = fact.hakiType === 'all' ? '#f4a300' : hakiInfo.hex
+                const hakiInfo = HAKI_COLOR_MAP[fact.hakiType] ?? { token: '--gold', label: 'Haki' }
+                const colorToken = fact.hakiType === 'all' ? '--gold' : hakiInfo.token
                 const img = fact.slug ? getCharacterImage(fact.slug) : ''
 
                 return (
@@ -611,37 +618,37 @@ export default function HakiPage() {
                   >
                     <div
                       className="h-0.5 w-full"
-                      style={{ background: `linear-gradient(90deg, ${colorHex}, transparent)` }}
+                      style={{ background: `linear-gradient(90deg, ${tone(colorToken)}, transparent)` }}
                     />
 
                     <div className="flex items-center gap-4 p-5">
                       {img ? (
                         <div
                           className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-xl border bg-ocean-deep"
-                          style={{ borderColor: `${colorHex}30` }}
+                          style={{ borderColor: tone(colorToken, 0.19) }}
                         >
                           <Image src={img} alt={fact.character} fill className="object-cover object-top" sizes="64px" />
                         </div>
                       ) : (
                         <div
                           className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-xl border"
-                          style={{ borderColor: `${colorHex}30`, background: `${colorHex}08` }}
+                          style={{ borderColor: tone(colorToken, 0.19), background: tone(colorToken, 0.03) }}
                         >
-                          <Zap className="h-6 w-6" style={{ color: colorHex }} />
+                          <Zap className="h-6 w-6" style={{ color: tone(colorToken) }} />
                         </div>
                       )}
 
                       <div className="min-w-0 flex-1">
                         <div className="mb-1.5 flex items-center gap-2">
-                          <span className="text-sm font-bold text-pirate-text">{fact.character}</span>
+                          <span className="font-display text-sm font-bold text-pirate-text">{fact.character}</span>
                           <span
-                            className="rounded-md px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider"
-                            style={{ background: `${colorHex}15`, color: colorHex }}
+                            className="eyebrow rounded-md px-1.5 py-0.5"
+                            style={{ background: tone(colorToken, 0.08), color: tone(colorToken) }}
                           >
                             {fact.hakiType === 'all' ? 'Tüm Haki' : hakiInfo.label}
                           </span>
                           {fact.arc && (
-                            <span className="hidden text-[10px] text-pirate-muted/50 sm:inline">
+                            <span className="hidden font-mono text-[10px] text-pirate-muted/50 sm:inline">
                               {fact.arc}
                             </span>
                           )}

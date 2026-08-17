@@ -26,10 +26,10 @@ function RelatedCharacters({ characters, title = 'İlgili Karakterler', descript
       viewport={{ once: true, margin: '-80px' }}
     >
       <motion.div variants={fadeUp} className="mb-5">
-        <h2 className="mb-1 flex items-center gap-2 text-lg font-bold text-pirate-text">
+        <h2 className="mb-1 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
           <Users className="h-5 w-5 text-gold" />
           {title}
-          <span className="ml-1 rounded-full bg-gold/[0.08] px-2.5 py-0.5 text-[11px] font-semibold text-gold/80">
+          <span className="ml-1 rounded-full bg-gold/[0.08] px-2.5 py-0.5 font-mono text-[11px] font-semibold tabular-nums text-gold/80">
             {characters.length}
           </span>
         </h2>
@@ -66,14 +66,14 @@ function RelatedCharacters({ characters, title = 'İlgili Karakterler', descript
                 </div>
 
                 <div className="relative min-w-0 flex-1">
-                  <p className="truncate text-sm font-bold text-pirate-text transition-colors group-hover:text-gold">
+                  <p className="truncate font-display text-sm font-bold text-pirate-text transition-colors group-hover:text-gold">
                     {char.name}
                   </p>
                   {char.epithet && (
                     <p className="truncate text-[11px] text-pirate-muted">{char.epithet}</p>
                   )}
                   {char.bounty && (
-                    <p className="mt-0.5 truncate text-[10px] font-semibold text-gold/70 stat-number">
+                    <p className="mt-0.5 truncate font-mono text-[10px] font-semibold text-gold/70 stat-number">
                       {char.bounty}
                     </p>
                   )}

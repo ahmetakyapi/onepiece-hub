@@ -29,22 +29,37 @@ export default function ParticleField() {
       dy: number
       opacity: number
       opacityDir: number
-      color: string
+      /* Palet indeksi — renk string'i değil, böylece tema değişince
+         parçacıkları yeniden üretmeden yeni kanal değerleri kullanılır */
+      colorIndex: number
       hasBokeh: boolean
     }
 
     const particles: Particle[] = []
 
-    const PALETTE = [
-      'rgba(244,163,0,',
-      'rgba(30,144,255,',
-      'rgba(251,191,36,',
-      'rgba(96,184,255,',
-      'rgba(168,85,247,',
-    ]
+    /* Renkler tema token'larından okunur: `--gold` gibi değişkenler RGB kanal
+       üçlüsü tutar ("244 163 0"), canvas'a `rgb(244 163 0 / 0.3)` olarak verilir. */
+    const PALETTE_TOKENS = [
+      '--gold',
+      '--sea',
+      '--gold-bright',
+      '--sea-light',
+      '--fruit-strong',
+    ] as const
+    const FALLBACK_CHANNELS = '244 163 0'
+    /* Bağlantı çizgileri sea-light tonunda — palet dizisindeki karşılığı */
+    const LINK_COLOR_INDEX = 3
+
+    let palette: string[] = PALETTE_TOKENS.map(() => FALLBACK_CHANNELS)
+
+    function readPalette() {
+      const styles = getComputedStyle(document.documentElement)
+      palette = PALETTE_TOKENS.map(
+        (name) => styles.getPropertyValue(name).trim() || FALLBACK_CHANNELS,
+      )
+    }
 
     const CONNECTION_DIST_SQ = 120 * 120
-    const CONNECTION_DIST = 120
 
     function resize() {
       const dpr = Math.min(window.devicePixelRatio, 2)
@@ -73,7 +88,7 @@ export default function ParticleField() {
           dy: (Math.random() - 0.5) * 0.15 - 0.08,
           opacity: Math.random() * 0.4 + 0.08,
           opacityDir: (Math.random() - 0.5) * 0.006,
-          color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
+          colorIndex: Math.floor(Math.random() * PALETTE_TOKENS.length),
           hasBokeh: r > 1.2,
         })
       }
@@ -113,7 +128,7 @@ export default function ParticleField() {
               ctx!.beginPath()
               ctx!.moveTo(pi.x, pi.y)
               ctx!.lineTo(pj.x, pj.y)
-              ctx!.strokeStyle = `rgba(96,184,255,${alpha})`
+              ctx!.strokeStyle = `rgb(${palette[LINK_COLOR_INDEX]} / ${alpha})`
               ctx!.stroke()
             }
           }
@@ -133,17 +148,19 @@ export default function ParticleField() {
         if (p.y < -20) p.y = height + 20
         if (p.y > height + 20) p.y = -20
 
+        const channels = palette[p.colorIndex]
+
         // Core dot
         ctx!.beginPath()
         ctx!.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx!.fillStyle = `${p.color}${p.opacity})`
+        ctx!.fillStyle = `rgb(${channels} / ${p.opacity})`
         ctx!.fill()
 
         // Bokeh glow — only on desktop for larger particles
         if (p.hasBokeh && !isMobileDevice) {
           const gradient = ctx!.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 6)
-          gradient.addColorStop(0, `${p.color}${p.opacity * 0.2})`)
-          gradient.addColorStop(1, `${p.color}0)`)
+          gradient.addColorStop(0, `rgb(${channels} / ${p.opacity * 0.2})`)
+          gradient.addColorStop(1, `rgb(${channels} / 0)`)
           ctx!.beginPath()
           ctx!.arc(p.x, p.y, p.r * 6, 0, Math.PI * 2)
           ctx!.fillStyle = gradient
@@ -168,6 +185,14 @@ export default function ParticleField() {
     )
     observer.observe(canvas)
 
+    // `data-theme` değişince palet kanallarını yeniden oku
+    const themeObserver = new MutationObserver(readPalette)
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    })
+
+    readPalette()
     resize()
     createParticles()
     draw()
@@ -186,6 +211,7 @@ export default function ParticleField() {
       cancelAnimationFrame(animId)
       window.removeEventListener('resize', onResize)
       observer.disconnect()
+      themeObserver.disconnect()
       clearTimeout(resizeTimer)
     }
   }, [])

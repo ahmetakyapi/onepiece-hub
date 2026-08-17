@@ -30,7 +30,7 @@ const ICONS: Record<ToastKind, typeof Info> = {
 
 const ICON_COLORS: Record<ToastKind, string> = {
   info: 'text-sea',
-  success: 'text-emerald-400',
+  success: 'text-haki',
   error: 'text-luffy',
 }
 

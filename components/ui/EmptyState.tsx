@@ -75,7 +75,7 @@ export default function EmptyState({
       >
         <span
           className="block font-mono text-5xl text-pirate-muted/40"
-          style={{ textShadow: '0 4px 24px rgba(244,163,0,0.1)' }}
+          style={{ textShadow: '0 4px 24px rgb(var(--gold) / 0.1)' }}
         >
           {config.emoji}
         </span>
@@ -94,7 +94,7 @@ export default function EmptyState({
         ))}
       </div>
 
-      <h3 className="mb-2 text-lg font-bold text-pirate-text">
+      <h3 className="mb-2 font-display text-lg font-bold text-pirate-text">
         {title ?? config.defaultTitle}
       </h3>
       <p className="mb-6 max-w-sm text-sm leading-relaxed text-pirate-muted">

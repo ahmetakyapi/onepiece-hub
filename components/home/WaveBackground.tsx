@@ -2,13 +2,15 @@
 
 import { memo } from 'react'
 
-// Pre-allocated style objects to avoid re-creation on every render
+// Pre-allocated style objects to avoid re-creation on every render.
+// `fill` de burada: token'lı renk SVG presentation attribute'ı yerine inline
+// style'dan verilir, böylece `data-theme` değişince dalga tonu da döner.
 const CONTAINER_STYLE = { height: 140 } as const
 const LAYER_STYLES = [
-  { height: 140 },
-  { height: 100 },
-  { height: 60 },
-  { height: 35 },
+  { height: 140, fill: 'rgb(var(--sea) / 0.08)' },
+  { height: 100, fill: 'rgb(var(--sea) / 0.05)' },
+  { height: 60, fill: 'rgb(var(--gold) / 0.04)' },
+  { height: 35, fill: 'rgb(var(--gold) / 0.02)' },
 ] as const
 
 /**
@@ -27,7 +29,6 @@ export default memo(function WaveBackground() {
       >
         <path
           d="M0,100 C180,140 360,60 540,100 C720,140 900,60 1080,100 C1260,140 1380,80 1440,100 C1620,140 1800,60 1980,100 C2160,140 2340,60 2520,100 C2700,140 2820,80 2880,100 L2880,200 L0,200 Z"
-          fill="rgba(30,144,255,0.08)"
         />
       </svg>
 
@@ -40,7 +41,6 @@ export default memo(function WaveBackground() {
       >
         <path
           d="M0,120 C240,80 480,150 720,120 C960,90 1200,150 1440,120 C1680,90 1920,150 2160,120 C2400,90 2640,150 2880,120 L2880,200 L0,200 Z"
-          fill="rgba(30,144,255,0.05)"
         />
       </svg>
 
@@ -53,7 +53,6 @@ export default memo(function WaveBackground() {
       >
         <path
           d="M0,150 C360,130 720,170 1080,150 C1260,140 1380,160 1440,150 C1800,130 2160,170 2520,150 C2700,140 2820,160 2880,150 L2880,200 L0,200 Z"
-          fill="rgba(244,163,0,0.04)"
         />
       </svg>
 
@@ -66,7 +65,6 @@ export default memo(function WaveBackground() {
       >
         <path
           d="M0,170 C200,155 400,185 600,170 C800,155 1000,185 1200,170 C1400,155 1500,175 1440,170 C1640,155 1840,185 2040,170 C2240,155 2440,185 2640,170 C2840,155 2940,175 2880,170 L2880,200 L0,200 Z"
-          fill="rgba(244,163,0,0.02)"
         />
       </svg>
     </div>
