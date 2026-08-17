@@ -1,6 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    /* Vercel'in görsel optimizasyonu hesabın kotası dolduğu için 402
+       (OPTIMIZED_IMAGE_REQUEST_PAYMENT_REQUIRED) dönüyordu — /_next/image
+       üzerinden geçen HER görsel production'da kırıktı, ham dosyalar ise
+       200 veriyordu. Optimizasyonu kapatınca next/image dosyayı olduğu gibi
+       servis ediyor. Kaynaklar zaten .webp.
+
+       Bedeli: responsive yeniden boyutlandırma ve AVIF yok, yani tam boyut
+       iniyor (arc görselleri ort. 136 KB). Kota tekrar açılırsa bu satırı
+       kaldırmak yeterli — başka hiçbir yeri değiştirmeye gerek yok. */
+    unoptimized: true,
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       { protocol: 'https', hostname: 'avatars.githubusercontent.com' },

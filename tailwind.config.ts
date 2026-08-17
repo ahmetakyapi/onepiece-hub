@@ -23,8 +23,6 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        /* Display — Cinzel. Başlıklar, kart adları, istatistik rakamları. */
-        display: ['var(--font-display)', 'Cinzel', 'Georgia', 'serif'],
         sans: ['var(--font-sans)', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         /* Etiket / veri — Space Mono. Eyebrow'lar, ödüller, bölüm numaraları. */
         mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],

@@ -128,7 +128,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
               <div className="orb absolute w-64 h-64 bg-gold/[0.05] animate-float-delayed" style={{ top: '30%', left: '40%' }} />
               <div className="relative z-10 flex flex-col items-center gap-3">
                 <div className="h-24 w-24 rounded-full border border-sea/20 bg-ocean-surface flex items-center justify-center shadow-sea-glow">
-                  <span className="font-display text-4xl font-extrabold text-gold/60 select-none">{character.name.charAt(0)}</span>
+                  <span className="text-4xl font-extrabold text-gold/60 select-none">{character.name.charAt(0)}</span>
                 </div>
                 {character.epithet && (
                   <p className="eyebrow text-pirate-muted/40">{character.epithet}</p>
@@ -186,7 +186,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
               transition={{ duration: 0.7, ease: EASE, delay: 0.3 }}
             >
               <div className="mb-2 flex items-center gap-3">
-                <h1 className="font-display text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.5)] sm:text-5xl md:text-6xl">
+                <h1 className="text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.5)] sm:text-5xl md:text-6xl">
                   {character.name}
                 </h1>
                 <FavoriteButton targetType="character" targetSlug={character.slug} className="mt-1" />
@@ -276,7 +276,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
         {/* Backstory */}
         {character.backstory && (
           <RevealSection className="mb-10">
-            <h2 className="mb-4 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
+            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
               <BookOpen className="h-5 w-5 text-gold" />
               Geçmiş Hikayesi
             </h2>
@@ -293,7 +293,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
         {/* Devil Fruit Detail */}
         {character.devilFruit && (
           <RevealSection className="mb-10">
-            <h2 className="mb-4 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
+            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
               <Cherry className="h-5 w-5 text-luffy" />
               Şeytan Meyvesi
             </h2>
@@ -301,7 +301,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
               {/* Decorative glow */}
               <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-luffy/5 blur-[60px]" />
               <div className="mb-3 flex items-center gap-3">
-                <p className="font-display text-base font-bold text-pirate-text sm:text-lg">{character.devilFruit.name}</p>
+                <p className="text-base font-bold text-pirate-text sm:text-lg">{character.devilFruit.name}</p>
                 <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${DEVIL_FRUIT_TYPE_COLORS[character.devilFruit.type]}`}>
                   {character.devilFruit.type}
                 </span>
@@ -315,7 +315,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
 
         {/* Power Stats */}
         <RevealSection className="mb-10">
-          <h2 className="mb-4 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
+          <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
             <Sparkles className="h-5 w-5 text-gold" />
             Güç İstatistikleri
           </h2>
@@ -329,7 +329,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
 
         {/* Abilities */}
         <RevealSection className="mb-10">
-          <h2 className="mb-4 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
+          <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
             <Zap className="h-5 w-5 text-gold" />
             Yetenekler
           </h2>
@@ -342,7 +342,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
                   {/* Category header */}
                   <div className="flex items-center gap-2 border-b border-pirate-border/10 px-5 py-3">
                     <CategoryIcon className={`h-4 w-4 ${config.color}`} />
-                    <h3 className={`font-display text-sm font-bold ${config.color}`}>{category}</h3>
+                    <h3 className={`text-sm font-bold ${config.color}`}>{category}</h3>
                     <span className="eyebrow ml-auto text-pirate-muted/40">
                       {abilities.length} yetenek
                     </span>
@@ -373,7 +373,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
         {/* Arc Journey — saga-grouped appearance timeline */}
         {character.appearances && character.appearances.length > 0 && (
           <RevealSection className="mb-10">
-            <h2 className="mb-5 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
+            <h2 className="mb-5 flex items-center gap-2 text-lg font-bold text-pirate-text">
               <Film className="h-5 w-5 text-sea" />
               Arc Yolculuğu
               <span className="ml-1 rounded-full bg-sea/[0.06] px-2.5 py-0.5 font-mono text-[11px] font-semibold tabular-nums text-sea/70">
@@ -398,7 +398,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
           if (charBattles.length === 0) return null
           return (
             <RevealSection className="mb-10">
-              <h2 className="mb-4 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
+              <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
                 <Swords className="h-5 w-5 text-luffy" />
                 Katıldığı Savaşlar
                 <span className="ml-1 rounded-full bg-luffy/[0.06] px-2.5 py-0.5 font-mono text-[11px] font-semibold tabular-nums text-luffy/70">
@@ -427,7 +427,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
                         }`} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-display text-sm font-semibold text-pirate-text group-hover:text-gold transition-colors">
+                        <p className="text-sm font-semibold text-pirate-text group-hover:text-gold transition-colors">
                           {battle.name}
                         </p>
                         <p className="eyebrow mt-0.5 text-pirate-muted/50">{battle.arc}</p>

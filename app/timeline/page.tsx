@@ -175,15 +175,15 @@ export default function TimelinePage() {
           >
             <div className="flex flex-wrap gap-4">
               <div className="bento-card rounded-xl px-4 py-2 text-sm">
-                <span className="stat-number font-display font-bold text-gold">{TIMELINE.length}</span>{' '}
+                <span className="stat-number font-bold text-gold">{TIMELINE.length}</span>{' '}
                 <span className="text-pirate-muted">olay</span>
               </div>
               <div className="bento-card rounded-xl px-4 py-2 text-sm">
-                <span className="stat-number font-display font-bold text-fruit">900+</span>{' '}
+                <span className="stat-number font-bold text-fruit">900+</span>{' '}
                 <span className="text-pirate-muted">yıl</span>
               </div>
               <div className="bento-card rounded-xl px-4 py-2 text-sm">
-                <span className="stat-number font-display font-bold text-sea">6</span>{' '}
+                <span className="stat-number font-bold text-sea">6</span>{' '}
                 <span className="text-pirate-muted">dönem</span>
               </div>
             </div>
@@ -271,7 +271,7 @@ export default function TimelinePage() {
           {/* Results count */}
           {hasActiveFilters && (
             <div className="mb-6 flex items-center gap-2 text-xs text-pirate-muted">
-              <span className="stat-number font-display font-bold text-gold">{filtered.length}</span>
+              <span className="stat-number font-bold text-gold">{filtered.length}</span>
               <span>olay bulundu</span>
               <span className="text-pirate-muted/40">/ {TIMELINE.length} toplam</span>
             </div>
@@ -409,7 +409,7 @@ export default function TimelinePage() {
                               )}
                             </div>
 
-                            <h3 className={`mb-2 font-display text-base font-bold sm:text-lg ${
+                            <h3 className={`mb-2 text-base font-bold sm:text-lg ${
                               isImportant ? 'text-pirate-text' : 'text-pirate-text/90'
                             }`}>
                               {event.title}

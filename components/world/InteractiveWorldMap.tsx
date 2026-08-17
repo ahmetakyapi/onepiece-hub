@@ -152,11 +152,11 @@ export default function InteractiveWorldMap() {
             <rect x="0" y="56" width="100" height="4" fill="rgb(var(--pirate-muted) / 0.04)" />
 
             {/* Labels — bölge adları kartografik display tipi (Cinzel) */}
-            <text x="85" y="30" fill="rgba(59,130,246,0.3)" fontSize="2.5" fontWeight="bold" fontFamily="var(--font-display), Georgia, serif">EAST BLUE</text>
-            <text x="5" y="30" fill="rgba(249,115,22,0.3)" fontSize="2.5" fontWeight="bold" fontFamily="var(--font-display), Georgia, serif">WEST BLUE</text>
-            <text x="50" y="15" fill="rgba(34,211,238,0.3)" fontSize="2.5" fontWeight="bold" textAnchor="middle" fontFamily="var(--font-display), Georgia, serif">NORTH BLUE</text>
-            <text x="50" y="90" fill="rgba(34,197,94,0.3)" fontSize="2.5" fontWeight="bold" textAnchor="middle" fontFamily="var(--font-display), Georgia, serif">SOUTH BLUE</text>
-            <text x="50" y="51" fill="rgb(var(--gold) / 0.15)" fontSize="3" fontWeight="bold" textAnchor="middle" fontFamily="var(--font-display), Georgia, serif">GRAND LINE</text>
+            <text x="85" y="30" fill="rgba(59,130,246,0.3)" fontSize="2.5" fontWeight="bold" fontFamily="var(--), Georgia, serif">EAST BLUE</text>
+            <text x="5" y="30" fill="rgba(249,115,22,0.3)" fontSize="2.5" fontWeight="bold" fontFamily="var(--), Georgia, serif">WEST BLUE</text>
+            <text x="50" y="15" fill="rgba(34,211,238,0.3)" fontSize="2.5" fontWeight="bold" textAnchor="middle" fontFamily="var(--), Georgia, serif">NORTH BLUE</text>
+            <text x="50" y="90" fill="rgba(34,197,94,0.3)" fontSize="2.5" fontWeight="bold" textAnchor="middle" fontFamily="var(--), Georgia, serif">SOUTH BLUE</text>
+            <text x="50" y="51" fill="rgb(var(--gold) / 0.15)" fontSize="3" fontWeight="bold" textAnchor="middle" fontFamily="var(--), Georgia, serif">GRAND LINE</text>
 
             {/* Location dots */}
             {filteredLocations.map((loc) => {
@@ -205,7 +205,7 @@ export default function InteractiveWorldMap() {
                       fontSize="1.8"
                       fontWeight="600"
                       textAnchor="middle"
-                      fontFamily="var(--font-display), Georgia, serif"
+                      fontFamily="var(--), Georgia, serif"
                       className="pointer-events-none"
                     >
                       {loc.name}
@@ -238,7 +238,7 @@ export default function InteractiveWorldMap() {
                 <div>
                   <div className="mb-1 flex items-center gap-2">
                     <MapPin className="h-4 w-4" style={{ color: SEA_COLORS[selectedLocation.sea] }} />
-                    <h3 className="font-display text-lg font-bold text-pirate-text">{selectedLocation.name}</h3>
+                    <h3 className="text-lg font-bold text-pirate-text">{selectedLocation.name}</h3>
                     <span className="rounded-full bg-ocean-surface px-2 py-0.5 text-[10px] font-semibold text-pirate-muted">
                       {SEAS.find(s => s.slug === selectedLocation.sea)?.name}
                     </span>

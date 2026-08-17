@@ -23,7 +23,7 @@ export default function PowerPage() {
           {/* Metin rengi token'a bağlandı: eskiden `text-white` + siyah
               drop-shadow vardı, light temada parşömen zeminde kayboluyordu.
               Gölge de ocean-deep'e bağlı — light'ta kendiliğinden sönüyor. */}
-          <h1 className="mb-3 font-display text-5xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.6)] sm:text-6xl md:text-7xl">
+          <h1 className="mb-3 text-5xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.6)] sm:text-6xl md:text-7xl">
             Güç Sıralaması
           </h1>
           <p className="mx-auto max-w-2xl text-base leading-relaxed text-pirate-text/70 drop-shadow-[0_2px_8px_rgb(var(--ocean-deep)/0.4)] sm:text-lg">
@@ -47,7 +47,7 @@ export default function PowerPage() {
               <BarChart3 className="h-5 w-5 text-sea" />
             </span>
             <span className="min-w-0 flex-1">
-              <span className="block font-display text-sm font-bold text-pirate-text transition-colors group-hover:text-sea">
+              <span className="block text-sm font-bold text-pirate-text transition-colors group-hover:text-sea">
                 Detaylı Stat Analizi
               </span>
               <span className="block text-xs text-pirate-muted">

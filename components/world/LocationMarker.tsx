@@ -128,7 +128,7 @@ function LocationMarkerInner({
             fill={color}
             fontSize="9"
             fontWeight="700"
-            fontFamily="var(--font-display), Georgia, serif"
+            fontFamily="var(--), Georgia, serif"
           >
             {location.name}
           </text>
@@ -156,7 +156,7 @@ function LocationMarkerInner({
             fill="rgb(var(--pirate-text))"
             fontSize="9.5"
             fontWeight="800"
-            fontFamily="var(--font-display), Georgia, serif"
+            fontFamily="var(--), Georgia, serif"
           >
             {location.name}
           </text>

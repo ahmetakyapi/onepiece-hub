@@ -142,7 +142,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
             </div>
 
             {/* Title — scrim `ocean-deep` temayla dönüyor, metin de dönmeli */}
-            <h1 className="mb-3 font-display text-5xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.8)] sm:text-6xl md:text-7xl">
+            <h1 className="mb-3 text-5xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.8)] sm:text-6xl md:text-7xl">
               {data.name}
             </h1>
             {data.tagline && (
@@ -158,16 +158,16 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
             <div className="mt-6 flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-ocean-deep/60 px-3 py-1.5 text-xs font-semibold text-pirate-text/80 backdrop-blur-md">
                 <BookOpen className="h-3 w-3" />
-                <span className="font-display font-bold tabular-nums">{data.arcs.length}</span> arc
+                <span className="font-bold tabular-nums">{data.arcs.length}</span> arc
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-ocean-deep/60 px-3 py-1.5 text-xs font-semibold text-pirate-text/80 backdrop-blur-md">
                 <Film className="h-3 w-3" />
-                <span className="font-display font-bold tabular-nums">{data.totalEpisodes}</span> bölüm
+                <span className="font-bold tabular-nums">{data.totalEpisodes}</span> bölüm
               </span>
               {data.debutCharacters.length > 0 && (
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-ocean-deep/60 px-3 py-1.5 text-xs font-semibold text-pirate-text/80 backdrop-blur-md">
                   <Users className="h-3 w-3" />
-                  <span className="font-display font-bold tabular-nums">{data.debutCharacters.length}</span> yeni karakter
+                  <span className="font-bold tabular-nums">{data.debutCharacters.length}</span> yeni karakter
                 </span>
               )}
             </div>
@@ -184,7 +184,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
       >
         {/* Arcs Timeline */}
         <motion.section variants={fadeUp}>
-          <h2 className="mb-6 flex items-center gap-2 font-display text-xl font-bold text-pirate-text sm:text-2xl">
+          <h2 className="mb-6 flex items-center gap-2 text-xl font-bold text-pirate-text sm:text-2xl">
             <BookOpen className={`h-5 w-5 ${cls.text}`} />
             Arc Yolculuğu
             <span className={`ml-1 rounded-full ${cls.bg} border ${cls.border} px-2.5 py-0.5 text-[11px] font-bold ${cls.text}`}>
@@ -237,7 +237,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
                             {arc.episodeCount} bölüm
                           </span>
                         </div>
-                        <h3 className={`mb-1.5 font-display text-base font-extrabold text-pirate-text transition-colors duration-300 ${cls.hoverText} sm:text-lg`}>
+                        <h3 className={`mb-1.5 text-base font-extrabold text-pirate-text transition-colors duration-300 ${cls.hoverText} sm:text-lg`}>
                           {arc.name}
                         </h3>
                         {arc.location && (
@@ -268,7 +268,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
         {/* Themes */}
         {data.themes.length > 0 && (
           <motion.section variants={fadeUp}>
-            <h2 className="mb-4 flex items-center gap-2 font-display text-xl font-bold text-pirate-text sm:text-2xl">
+            <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-pirate-text sm:text-2xl">
               <Sparkles className={`h-5 w-5 ${cls.text}`} />
               Temalar
             </h2>
@@ -288,7 +288,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
         {/* Debut Characters */}
         {data.debutCharacters.length > 0 && (
           <motion.section variants={fadeUp}>
-            <h2 className="mb-4 flex items-center gap-2 font-display text-xl font-bold text-pirate-text sm:text-2xl">
+            <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-pirate-text sm:text-2xl">
               <Users className={`h-5 w-5 ${cls.text}`} />
               Bu Saga'da Tanıtılan Karakterler
               <span className={`ml-1 rounded-full ${cls.bg} border ${cls.border} px-2.5 py-0.5 text-[11px] font-bold ${cls.text}`}>
@@ -320,7 +320,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
                       )}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate font-display text-sm font-bold text-pirate-text transition-colors group-hover:text-gold">
+                      <p className="truncate text-sm font-bold text-pirate-text transition-colors group-hover:text-gold">
                         {char.name}
                       </p>
                       {char.epithet && (
@@ -338,7 +338,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
         {/* Key Events */}
         {data.keyEvents.length > 0 && (
           <motion.section variants={fadeUp}>
-            <h2 className="mb-4 flex items-center gap-2 font-display text-xl font-bold text-pirate-text sm:text-2xl">
+            <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-pirate-text sm:text-2xl">
               <Star className={`h-5 w-5 ${cls.text}`} />
               Anahtar Olaylar
             </h2>
@@ -382,7 +382,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
                 <p className="eyebrow text-pirate-muted/60">
                   Önceki Saga
                 </p>
-                <p className="truncate font-display text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
+                <p className="truncate text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
                   {data.prevSaga.name}
                 </p>
               </div>
@@ -403,7 +403,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
                 <p className="eyebrow text-pirate-muted/60">
                   Sonraki Saga
                 </p>
-                <p className="truncate font-display text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
+                <p className="truncate text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
                   {data.nextSaga.name}
                 </p>
               </div>

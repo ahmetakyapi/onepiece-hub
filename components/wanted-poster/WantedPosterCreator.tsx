@@ -133,7 +133,7 @@ export default function WantedPosterCreator() {
         </Link>
 
         <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-10 text-center">
-          <h1 className="font-display mb-3 text-3xl font-extrabold sm:text-4xl">
+          <h1 className="mb-3 text-3xl font-extrabold sm:text-4xl">
             <span className="text-gold-gradient">Wanted Poster</span>{' '}
             <span className="text-pirate-text">Oluşturucu</span>
           </h1>

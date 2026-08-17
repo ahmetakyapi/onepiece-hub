@@ -106,7 +106,7 @@ export default function StatsBar() {
             </div>
 
             {/* Number — Cinzel rakam */}
-            <span className="font-display text-2xl font-extrabold text-pirate-text sm:text-4xl">
+            <span className="text-2xl font-extrabold text-pirate-text sm:text-4xl">
               <AnimatedNumber value={stat.value} suffix={stat.suffix} inView={inView} />
             </span>
 

@@ -101,7 +101,7 @@ function PowerLeaderboard() {
 
       {/* Podium — Top 3 */}
       <motion.div variants={fadeUp}>
-        <h2 className="mb-6 font-display text-2xl font-bold text-gold drop-shadow-[0_2px_8px_rgb(var(--gold)/0.2)]">
+        <h2 className="mb-6 text-2xl font-bold text-gold drop-shadow-[0_2px_8px_rgb(var(--gold)/0.2)]">
           🏆 Zirve
         </h2>
         <div className="grid gap-4 sm:grid-cols-3">
@@ -132,7 +132,7 @@ function PowerLeaderboard() {
                   <p className="eyebrow mb-1 text-center text-gold/80">
                     #{idx + 1}
                   </p>
-                  <p className="mb-3 text-center font-display text-lg font-bold text-pirate-text group-hover:text-gold transition-colors">
+                  <p className="mb-3 text-center text-lg font-bold text-pirate-text group-hover:text-gold transition-colors">
                     {char.name}
                   </p>
                   <div className="mb-4 h-1 w-full rounded-full bg-ocean-surface/50">
@@ -141,7 +141,7 @@ function PowerLeaderboard() {
                       style={{ width: `${(char.stat ?? 0) / 100 * 100}%` }}
                     />
                   </div>
-                  <p className="text-center font-display text-2xl font-extrabold text-gold stat-number">
+                  <p className="text-center text-2xl font-extrabold text-gold stat-number">
                     {char.stat}
                   </p>
                   <Link
@@ -172,7 +172,7 @@ function PowerLeaderboard() {
               <div className={`flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br ${config.color} border`}>
                 <TierIcon className={`h-4 w-4 ${config.text}`} />
               </div>
-              <h3 className={`font-display text-lg font-bold ${config.text}`}>
+              <h3 className={`text-lg font-bold ${config.text}`}>
                 {config.label}
               </h3>
               <span className="ml-auto text-xs font-semibold text-pirate-muted">
@@ -203,7 +203,7 @@ function PowerLeaderboard() {
                     )}
 
                     <div className="flex-1 min-w-0">
-                      <p className="truncate font-display text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
+                      <p className="truncate text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
                         {char.name}
                       </p>
                       <div className="mt-1 flex items-center gap-2">

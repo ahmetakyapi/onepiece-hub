@@ -59,7 +59,7 @@ export default function WorldMap() {
           <Compass className="h-5 w-5 text-gold" />
         </div>
         <div>
-          <h2 className="font-display text-xl font-bold text-pirate-text">İnteraktif Harita</h2>
+          <h2 className="text-xl font-bold text-pirate-text">İnteraktif Harita</h2>
           <p className="text-xs text-pirate-muted">
             Lokasyonlara tıklayarak detaylı bilgi alın
           </p>

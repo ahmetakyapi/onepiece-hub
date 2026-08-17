@@ -346,7 +346,7 @@ export default function RelationshipGraph() {
                   <Users className="h-4 w-4 text-gold sm:h-5 sm:w-5" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="truncate font-display text-base font-bold text-pirate-text sm:text-lg">{selected.name}</h3>
+                  <h3 className="truncate text-base font-bold text-pirate-text sm:text-lg">{selected.name}</h3>
                   <span className="eyebrow text-pirate-muted/60">
                     {filteredSelectedRelations.length} ilişki bağlantısı
                   </span>
@@ -385,7 +385,7 @@ export default function RelationshipGraph() {
                         }}
                       />
                       <div className="min-w-0 flex-1">
-                        <p className="truncate font-display text-base font-bold text-pirate-text transition-colors group-hover:text-gold sm:text-base">
+                        <p className="truncate text-base font-bold text-pirate-text transition-colors group-hover:text-gold sm:text-base">
                           {rel.name}
                         </p>
                         <p className="eyebrow mt-1 text-pirate-muted/60">{config.label}</p>

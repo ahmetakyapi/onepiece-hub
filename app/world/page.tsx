@@ -164,7 +164,7 @@ export default function WorldPage() {
                       </div>
                       {locationCount > 0 && (
                         <div className="flex flex-col items-end">
-                          <span className={`font-display text-2xl font-extrabold ${sea.color}`}>
+                          <span className={`text-2xl font-extrabold ${sea.color}`}>
                             {locationCount}
                           </span>
                           <span className="eyebrow text-pirate-muted">
@@ -174,7 +174,7 @@ export default function WorldPage() {
                       )}
                     </div>
 
-                    <h3 className={`mb-1.5 font-display text-base font-bold ${sea.color}`}>{sea.name}</h3>
+                    <h3 className={`mb-1.5 text-base font-bold ${sea.color}`}>{sea.name}</h3>
                     <p className="text-xs leading-relaxed text-pirate-muted line-clamp-2">
                       {sea.description}
                     </p>
@@ -199,7 +199,7 @@ export default function WorldPage() {
                 <Globe className="h-5 w-5 text-sea" />
               </div>
               <div>
-                <h2 className="font-display text-xl font-bold text-pirate-text">Dünya Yapısı</h2>
+                <h2 className="text-xl font-bold text-pirate-text">Dünya Yapısı</h2>
                 <p className="text-xs text-pirate-muted">One Piece evreninin coğrafyası</p>
               </div>
             </div>
@@ -282,7 +282,7 @@ export default function WorldPage() {
                       <div className="flex-1">
                         {/* Düz renk — degrade metin `background-clip` desteklenmeyen
                             yerde harfi tamamen görünmez bırakıyordu. */}
-                        <h2 className={`font-display text-2xl font-extrabold sm:text-3xl ${sea.color}`}>
+                        <h2 className={`text-2xl font-extrabold sm:text-3xl ${sea.color}`}>
                           {sea.name}
                         </h2>
                         <p className="mt-1 text-sm font-medium text-pirate-muted/70">
@@ -314,7 +314,7 @@ export default function WorldPage() {
                                 <TypeIcon className={`h-4 w-4 ${sea.color}`} />
                               </div>
                               <div>
-                                <h3 className="font-display text-sm font-bold text-pirate-text">{loc.name}</h3>
+                                <h3 className="text-sm font-bold text-pirate-text">{loc.name}</h3>
                                 <span className="text-[10px] text-pirate-muted">
                                   {TYPE_LABELS[loc.type]}
                                 </span>

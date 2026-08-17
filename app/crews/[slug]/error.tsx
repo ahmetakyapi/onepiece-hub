@@ -22,7 +22,7 @@ export default function CrewError({
           <AlertTriangle className="h-10 w-10 text-sea" />
         </div>
 
-        <h1 className="font-display mb-3 text-2xl font-bold text-pirate-text">
+        <h1 className="mb-3 text-2xl font-bold text-pirate-text">
           Mürettebat bilgileri yüklenemedi!
         </h1>
         <p className="text-pirate-muted mb-8">

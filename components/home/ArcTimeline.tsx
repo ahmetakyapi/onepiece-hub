@@ -29,7 +29,7 @@ function SagaSection({ saga, index }: { saga: typeof SAGAS[number]; index: numbe
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sea/[0.08] border border-sea/10">
           <Anchor className="h-3.5 w-3.5 text-sea" />
         </div>
-        <h3 className="font-display text-sm font-bold uppercase tracking-[0.1em] text-sea">
+        <h3 className="text-sm font-bold uppercase tracking-[0.1em] text-sea">
           {saga.name}
         </h3>
         <div className="h-px flex-1 bg-gradient-to-r from-sea/15 to-transparent" />
@@ -81,7 +81,7 @@ function SagaSection({ saga, index }: { saga: typeof SAGAS[number]; index: numbe
 
                 {/* Name overlay at bottom */}
                 <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <h4 className="font-display text-sm font-bold text-pirate-text transition-colors duration-300 group-hover:text-gold leading-tight drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">
+                  <h4 className="text-sm font-bold text-pirate-text transition-colors duration-300 group-hover:text-gold leading-tight drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">
                     {arc.name}
                   </h4>
                 </div>
@@ -139,7 +139,7 @@ export default function ArcTimeline() {
           >
             <Compass className="h-6 w-6 text-gold" />
           </motion.div>
-          <h2 className="font-display mb-3 text-3xl font-extrabold text-pirate-text sm:text-4xl">
+          <h2 className="mb-3 text-3xl font-extrabold text-pirate-text sm:text-4xl">
             <span className="text-gold-gradient">Grand Line</span> Rotası
           </h2>
           <p className="mx-auto max-w-md text-sm text-pirate-muted sm:text-base">

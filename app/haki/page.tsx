@@ -255,7 +255,7 @@ function UserCard({ user, colorToken }: { user: HakiUser; colorToken: string }) 
           className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl border border-pirate-border/40"
           style={{ background: tone(colorToken, 0.06) }}
         >
-          <span className="font-display text-sm font-bold" style={{ color: tone(colorToken) }}>
+          <span className="text-sm font-bold" style={{ color: tone(colorToken) }}>
             {user.name.charAt(0)}
           </span>
         </div>
@@ -264,7 +264,7 @@ function UserCard({ user, colorToken }: { user: HakiUser; colorToken: string }) 
         {/* Eskiden `group-hover:text-white` idi — light temada beyaz üstüne
             beyaz düşüyordu. Metin zaten `pirate-text`, ayrıca hover rengi
             gerekmiyor. */}
-        <p className="truncate font-display text-base font-bold text-pirate-text">
+        <p className="truncate text-base font-bold text-pirate-text">
           {user.name}
         </p>
         {user.note && (
@@ -308,21 +308,21 @@ export default function HakiPage() {
                 <Shield className="h-5 w-5 text-fruit" />
                 <div>
                   <p className="eyebrow text-pirate-muted">Haki Türü</p>
-                  <p className="font-display text-lg font-extrabold text-pirate-text stat-number">3</p>
+                  <p className="text-lg font-extrabold text-pirate-text stat-number">3</p>
                 </div>
               </div>
               <div className="bento-card inline-flex items-center gap-3 rounded-xl px-5 py-3">
                 <Users className="h-5 w-5 text-sea" />
                 <div>
                   <p className="eyebrow text-pirate-muted">Bilinen Kullanıcı</p>
-                  <p className="font-display text-lg font-extrabold text-sea stat-number">{totalUsers}</p>
+                  <p className="text-lg font-extrabold text-sea stat-number">{totalUsers}</p>
                 </div>
               </div>
               <div className="bento-card inline-flex items-center gap-3 rounded-xl px-5 py-3">
                 <Crown className="h-5 w-5 text-gold" />
                 <div>
                   <p className="eyebrow text-pirate-muted">Üç Haki Ustası</p>
-                  <p className="font-display text-lg font-extrabold text-gold stat-number">{masterCount}</p>
+                  <p className="text-lg font-extrabold text-gold stat-number">{masterCount}</p>
                 </div>
               </div>
             </div>
@@ -332,7 +332,7 @@ export default function HakiPage() {
           <div className="bento-card mb-10 p-6 sm:p-8 animate-fade-in-up">
             <div className="mb-4 flex items-center gap-2">
               <BookOpen className="h-5 w-5 text-gold" />
-              <h2 className="font-display text-base font-bold text-pirate-text">Haki Nedir?</h2>
+              <h2 className="text-base font-bold text-pirate-text">Haki Nedir?</h2>
             </div>
             <p className="text-sm leading-relaxed text-pirate-muted">
               Haki (覇気), tüm canlılarda potansiyel olarak bulunan gizemli bir güçtür.
@@ -380,7 +380,7 @@ export default function HakiPage() {
                         <TabIcon className={`h-5 w-5 transition-colors ${isActive ? haki.color : 'text-pirate-muted group-hover:text-pirate-text'}`} />
                       </div>
                       <div className="min-w-0">
-                        <p className={`font-display text-sm font-bold transition-colors sm:text-base ${isActive ? haki.color : 'text-pirate-muted group-hover:text-pirate-text'}`}>
+                        <p className={`text-sm font-bold transition-colors sm:text-base ${isActive ? haki.color : 'text-pirate-muted group-hover:text-pirate-text'}`}>
                           {haki.meaning}
                         </p>
                         <p className="hidden text-[10px] text-pirate-muted/60 sm:block">{haki.japaneseName}</p>
@@ -427,7 +427,7 @@ export default function HakiPage() {
                   <HakiIcon className={`h-8 w-8 ${activeHaki.color}`} />
                 </div>
                 <div>
-                  <h2 className={`font-display text-2xl font-extrabold sm:text-3xl ${activeHaki.color}`}>{activeHaki.name}</h2>
+                  <h2 className={`text-2xl font-extrabold sm:text-3xl ${activeHaki.color}`}>{activeHaki.name}</h2>
                   <p className="font-mono text-xs text-pirate-muted/60">
                     {activeHaki.japaneseName} — {activeHaki.meaning}
                   </p>
@@ -458,13 +458,13 @@ export default function HakiPage() {
                 </div>
                 <div className="bento-card rounded-xl px-5 py-3">
                   <p className="eyebrow text-pirate-muted">Kullanıcı Sayısı</p>
-                  <p className={`font-display text-sm font-semibold ${activeHaki.color}`}>{activeHaki.users.length}</p>
+                  <p className={`text-sm font-semibold ${activeHaki.color}`}>{activeHaki.users.length}</p>
                 </div>
               </div>
 
               {/* Advanced Forms */}
               <div className="relative z-10 mb-8">
-                <h3 className="mb-5 flex items-center gap-2 font-display text-base font-bold text-pirate-text">
+                <h3 className="mb-5 flex items-center gap-2 text-base font-bold text-pirate-text">
                   <Star className={`h-4 w-4 ${activeHaki.color}`} />
                   İleri Seviye Formlar
                 </h3>
@@ -487,7 +487,7 @@ export default function HakiPage() {
                           >
                             <FormIcon className={`h-4 w-4 ${activeHaki.color}`} />
                           </div>
-                          <h4 className={`font-display text-sm font-bold ${activeHaki.color}`}>{form.name}</h4>
+                          <h4 className={`text-sm font-bold ${activeHaki.color}`}>{form.name}</h4>
                         </div>
                         <p className="text-xs leading-relaxed text-pirate-muted">{form.description}</p>
                       </div>
@@ -498,7 +498,7 @@ export default function HakiPage() {
 
               {/* Known Users */}
               <div className="relative z-10">
-                <h3 className="mb-6 flex items-center gap-2 font-display text-lg font-extrabold text-pirate-text">
+                <h3 className="mb-6 flex items-center gap-2 text-lg font-extrabold text-pirate-text">
                   <Users className={`h-5 w-5 ${activeHaki.color}`} />
                   Bilinen Kullanıcılar
                 </h3>
@@ -520,7 +520,7 @@ export default function HakiPage() {
               </div>
             </div>
 
-            <h2 className="mb-3 text-center font-display text-2xl font-extrabold text-pirate-text sm:text-3xl">
+            <h2 className="mb-3 text-center text-2xl font-extrabold text-pirate-text sm:text-3xl">
               Haki <span className="text-gold-gradient">Ustaları</span>
             </h2>
             <p className="mx-auto mb-8 max-w-xl text-center text-sm text-pirate-muted">
@@ -555,7 +555,7 @@ export default function HakiPage() {
                     )}
 
                     <div className="min-w-0 flex-1">
-                      <p className="font-display text-sm font-bold text-pirate-text">
+                      <p className="text-sm font-bold text-pirate-text">
                         {master.name}
                       </p>
                       <p className={`text-[11px] ${isTriple ? 'text-gold/70' : 'text-pirate-muted/70'}`}>
@@ -577,7 +577,7 @@ export default function HakiPage() {
                     <div className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg ${
                       isTriple ? 'bg-gold/15' : 'bg-ocean-surface'
                     }`}>
-                      <span className={`font-display text-xs font-extrabold ${isTriple ? 'text-gold' : 'text-pirate-muted'}`}>
+                      <span className={`text-xs font-extrabold ${isTriple ? 'text-gold' : 'text-pirate-muted'}`}>
                         {master.types.length}
                       </span>
                     </div>
@@ -598,7 +598,7 @@ export default function HakiPage() {
               </div>
             </div>
 
-            <h2 className="mb-3 text-center font-display text-2xl font-extrabold text-pirate-text sm:text-3xl">
+            <h2 className="mb-3 text-center text-2xl font-extrabold text-pirate-text sm:text-3xl">
               Haki <span className="text-gold-gradient">Efsaneleri</span>
             </h2>
             <p className="mx-auto mb-8 max-w-lg text-center text-sm text-pirate-muted">
@@ -640,7 +640,7 @@ export default function HakiPage() {
 
                       <div className="min-w-0 flex-1">
                         <div className="mb-1.5 flex items-center gap-2">
-                          <span className="font-display text-sm font-bold text-pirate-text">{fact.character}</span>
+                          <span className="text-sm font-bold text-pirate-text">{fact.character}</span>
                           <span
                             className="eyebrow rounded-md px-1.5 py-0.5"
                             style={{ background: tone(colorToken, 0.08), color: tone(colorToken) }}

@@ -52,17 +52,17 @@ export default function ArcsPage() {
             <div className="flex flex-wrap gap-3">
               <div className="flex items-center gap-2 rounded-xl border border-sea/20 bg-sea/10 px-4 py-2">
                 <Compass className="h-4 w-4 text-sea" />
-                <span className="font-display text-sm font-bold text-sea">{ARCS.length}</span>
+                <span className="text-sm font-bold text-sea">{ARCS.length}</span>
                 <span className="eyebrow text-pirate-muted">Arc</span>
               </div>
               <div className="flex items-center gap-2 rounded-xl border border-gold/20 bg-gold/10 px-4 py-2">
                 <Film className="h-4 w-4 text-gold" />
-                <span className="font-display text-sm font-bold text-gold">{SITE_STATS.episodes}</span>
+                <span className="text-sm font-bold text-gold">{SITE_STATS.episodes}</span>
                 <span className="eyebrow text-pirate-muted">Bölüm</span>
               </div>
               <div className="flex items-center gap-2 rounded-xl border border-luffy/20 bg-luffy/10 px-4 py-2">
                 <Anchor className="h-4 w-4 text-luffy" />
-                <span className="font-display text-sm font-bold text-luffy">{SAGAS.length}</span>
+                <span className="text-sm font-bold text-luffy">{SAGAS.length}</span>
                 <span className="eyebrow text-pirate-muted">Saga</span>
               </div>
               <div className="flex items-center gap-2 rounded-xl border border-pirate-border/40 bg-ocean-surface/40 px-4 py-2">
@@ -138,7 +138,7 @@ export default function ArcsPage() {
                       <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sea/[0.08] border border-sea/10">
                         <Anchor className="h-3.5 w-3.5 text-sea" />
                       </div>
-                      <h2 className="font-display text-sm font-bold uppercase text-sea">
+                      <h2 className="text-sm font-bold uppercase text-sea">
                         {saga.name}
                       </h2>
                       <div className="h-px flex-1 bg-gradient-to-r from-sea/15 to-transparent" />

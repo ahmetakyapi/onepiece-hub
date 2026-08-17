@@ -90,7 +90,7 @@ export default function CommentSection({ targetType, targetSlug }: Props) {
 
   return (
     <section className="mb-16" aria-label="Yorumlar">
-      <h2 className="mb-5 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
+      <h2 className="mb-5 flex items-center gap-2 text-lg font-bold text-pirate-text">
         <MessageCircle className="h-5 w-5 text-gold" />
         Yorumlar
         {comments.length > 0 && (

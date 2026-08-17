@@ -5,7 +5,7 @@ Türkçe One Piece fan platformu. Arc bazlı filler'sız bölüm düzeni (OnePac
 ## Stack
 
 Next.js 14 App Router · TypeScript strict · Tailwind 3.4 **dark + light** ·
-Cinzel / Manrope / Space Mono · Framer Motion 11 · Drizzle ORM + Neon
+Manrope / Space Mono · Framer Motion 11 · Drizzle ORM + Neon
 (**`@neondatabase/serverless`** — `pg` değil) · Custom JWT (jose + bcryptjs) ·
 OnePaceTR iframe · Vercel.
 
@@ -79,14 +79,19 @@ paketlendi. Eski `/logo.webp` silindi.
 
 | Aile | Sınıf | Nerede |
 |------|-------|--------|
-| Cinzel | `font-display` | Ekran başlıkları, kart adları, istatistik rakamları |
-| Manrope | (varsayılan) | Gövde, açıklama, buton, nav, form |
+| Manrope | (varsayılan) | Başlıklar dahil her şey — gövde, buton, nav, form |
 | Space Mono | `font-mono` · `.eyebrow` · `.eyebrow-lg` | Eyebrow etiketleri, ödüller, bölüm no, süre |
 
 `.eyebrow` = Space Mono 700, uppercase, `0.2em` tracking. Tasarımdaki
 "36 ARC · 463 BÖLÜM · %0 FILLER" tipi mikro etiketler için.
 
-**Üç fontta da `subsets: ['latin', 'latin-ext']` ŞART** — Google'ın `latin`
+**Cinzel KULLANILMIYOR.** Tasarım dokümanı başlıklar için Cinzel (serif
+display) öneriyordu ve bir süre uygulandı, ama render edildiğinde beğenilmedi
+— başlıklar Manrope'a geri alındı. `font-display` sınıfı ve `--font-display`
+token'ı kaldırıldı; geri getirmek istersen tasarım dokümanı § marka temeli.
+Space Mono etiket katmanı KALDI, o beğenildi.
+
+**İki fontta da `subsets: ['latin', 'latin-ext']` ŞART** — Google'ın `latin`
 aralığı `ı` içerir ama `ğ Ğ ş Ş İ` İÇERMEZ. Eksikse Türkçe başlıklarda
 kelime ortasında fallback fonta düşer.
 
@@ -212,6 +217,17 @@ Canvas/window erişimi yapan bileşenler **mutlaka** `dynamic(..., { ssr: false 
 ### 5. Body Pseudo-element Z-Index
 `body::before` = noise texture (`z-9999`). `body::after` = ambient gradient orb'lar (`z-0`). İçerik `z-10+` olmalı, yoksa noise overlay'in altında kalır.
 
+### 5b. next/image Optimizasyonu KAPALI
+`next.config.mjs` → `images.unoptimized: true`. Vercel'in görsel optimizasyon
+kotası dolduğu için `/_next/image` üzerinden geçen her görsel production'da
+**HTTP 402** (`OPTIMIZED_IMAGE_REQUEST_PAYMENT_REQUIRED`) dönüyordu; ham
+dosyalar 200 veriyordu. Kapatınca `next/image` dosyayı olduğu gibi servis
+ediyor (kaynaklar zaten `.webp`).
+
+Bedeli: responsive yeniden boyutlandırma ve AVIF yok — tam boyut iniyor
+(arc görselleri ort. 136 KB, en büyük 207 KB). Kota tekrar açılırsa tek
+satırı kaldırmak yeterli. Yerelde bu hata GÖRÜNMEZ, sadece Vercel'de olur.
+
 ### 6. Next/Image Remote Host Whitelist
 `next.config.mjs` → `remotePatterns`: `avatars.githubusercontent.com`, `static.wikia.nocookie.net`, `i.imgur.com`, `cdn.myanimelist.net`. Yeni dış host → ekle. Format: AVIF > WebP.
 
@@ -223,6 +239,12 @@ Canvas/window erişimi yapan bileşenler **mutlaka** `dynamic(..., { ssr: false 
 
 ### 9. EraShowcase (Timeline) Sticky
 `components/timeline/EraShowcase.tsx` → `h-[490vh] sm:h-[630vh]` = 7 era × 70/90vh. Mobilde kısaltıldı. Timeline sayfasında PageHero'dan sonra "sinema modu" intro banner var — kullanıcı sticky sekansın geldiğini anlar.
+
+### 9b. Karakterler Sayfası Sekmeli
+`app/characters/page.tsx` iki sekme: **Karakterler** (arama + mürettebat
+filtresi + grid) ve **İlişkiler** (`RelationshipGraph`). Grafik eskiden
+listenin üstünde duruyordu, ağır bir blok olduğu için listeye ulaşmayı
+uzatıyordu. Sekme state'i `useState`, URL'e yazılmıyor.
 
 ### 10. Relationship Graph Mobile Switch
 `components/characters/RelationshipGraph.tsx` `matchMedia('(max-width: 767px)')` ile mobilde circular SVG yerine avatar rail + relation list gösterir. Desktop'ta orijinal 1200×1200 viewBox SVG.

@@ -94,7 +94,7 @@ export default function EmptyState({
         ))}
       </div>
 
-      <h3 className="mb-2 font-display text-lg font-bold text-pirate-text">
+      <h3 className="mb-2 text-lg font-bold text-pirate-text">
         {title ?? config.defaultTitle}
       </h3>
       <p className="mb-6 max-w-sm text-sm leading-relaxed text-pirate-muted">

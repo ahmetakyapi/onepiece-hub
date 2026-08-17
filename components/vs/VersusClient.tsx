@@ -204,12 +204,12 @@ function VersusClient() {
                 Sonuç
               </p>
               {overallWinner === 'tie' ? (
-                <p className="font-display text-2xl font-extrabold text-pirate-text sm:text-3xl">
+                <p className="text-2xl font-extrabold text-pirate-text sm:text-3xl">
                   Berabere! Yakın Dövüş
                 </p>
               ) : (
                 <>
-                  <p className="font-display text-3xl font-extrabold sm:text-4xl">
+                  <p className="text-3xl font-extrabold sm:text-4xl">
                     <span className={overallWinner === 'left' ? 'text-luffy' : 'text-sea'}>
                       {overallWinner === 'left' ? left.name : right.name}
                     </span>
@@ -343,14 +343,14 @@ function VersusClient() {
                 href={`/characters/${left.slug}`}
                 className="group flex items-center justify-between rounded-xl border border-luffy/30 bg-luffy/[0.05] p-4 transition-all hover:bg-luffy/[0.1]"
               >
-                <span className="font-display text-sm font-bold text-luffy">{left.name} Profili</span>
+                <span className="text-sm font-bold text-luffy">{left.name} Profili</span>
                 <ArrowRight className="h-4 w-4 text-luffy transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
                 href={`/characters/${right.slug}`}
                 className="group flex items-center justify-between rounded-xl border border-sea/30 bg-sea/[0.05] p-4 transition-all hover:bg-sea/[0.1]"
               >
-                <span className="font-display text-sm font-bold text-sea">{right.name} Profili</span>
+                <span className="text-sm font-bold text-sea">{right.name} Profili</span>
                 <ArrowRight className="h-4 w-4 text-sea transition-transform group-hover:translate-x-1" />
               </Link>
             </div>

@@ -195,7 +195,7 @@ export default function Home() {
             <div className="flex-1" />
 
             <div className="max-w-3xl pb-16 sm:pb-28 md:pb-32">
-              <h1 className="font-display mb-4 text-4xl font-extrabold leading-[1.1] drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] sm:mb-6 sm:text-5xl md:text-6xl lg:text-7xl">
+              <h1 className="mb-4 text-4xl font-extrabold leading-[1.1] drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] sm:mb-6 sm:text-5xl md:text-6xl lg:text-7xl">
                 {['One', 'Piece'].map((word, i) => (
                   <motion.span
                     key={word}
@@ -355,7 +355,7 @@ export default function Home() {
               >
                 ⚡ Etkileşimli Araçlar
               </motion.p>
-              <h2 className="font-display mb-3 text-2xl font-extrabold sm:text-3xl lg:text-4xl">
+              <h2 className="mb-3 text-2xl font-extrabold sm:text-3xl lg:text-4xl">
                 <span className="text-gold-gradient">Araştır</span>{' '}
                 <span className="text-pirate-text">& Karşılaştır</span>
               </h2>
@@ -432,7 +432,7 @@ export default function Home() {
               >
                 <Sparkles className="h-6 w-6 text-gold" />
               </motion.div>
-              <h2 className="font-display mb-3 text-2xl font-extrabold sm:text-3xl lg:text-4xl">
+              <h2 className="mb-3 text-2xl font-extrabold sm:text-3xl lg:text-4xl">
                 <span className="text-gold-gradient">Ansiklopedi</span>{' '}
                 <span className="text-pirate-text">& Wiki</span>
               </h2>
@@ -465,7 +465,7 @@ export default function Home() {
                       </p>
                       <p className="text-[10px] text-pirate-muted/60">{item.desc}</p>
                     </div>
-                    <span className={`font-display text-lg font-extrabold ${item.color} opacity-60 transition-opacity group-hover:opacity-100`}>
+                    <span className={`text-lg font-extrabold ${item.color} opacity-60 transition-opacity group-hover:opacity-100`}>
                       {item.count}
                     </span>
                   </Link>

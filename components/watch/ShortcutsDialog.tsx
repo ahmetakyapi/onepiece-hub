@@ -44,7 +44,7 @@ export default function ShortcutsDialog({ onClose }: Props) {
                 <Keyboard className="h-4 w-4 text-gold" />
               </span>
               <div>
-                <h2 id="shortcuts-title" className="font-display text-sm font-bold text-pirate-text">
+                <h2 id="shortcuts-title" className="text-sm font-bold text-pirate-text">
                   Klavye Kısayolları
                 </h2>
                 <p className="text-[11px] text-pirate-muted">

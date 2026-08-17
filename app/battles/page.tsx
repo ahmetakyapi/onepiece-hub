@@ -195,21 +195,21 @@ export default function BattlesPage() {
                 <Swords className="h-5 w-5 text-luffy" />
                 <div>
                   <p className="eyebrow text-pirate-muted">Toplam Savaş</p>
-                  <p className="mt-1 font-display text-lg font-extrabold text-luffy stat-number">{BATTLES.length}</p>
+                  <p className="mt-1 text-lg font-extrabold text-luffy stat-number">{BATTLES.length}</p>
                 </div>
               </div>
               <div className="bento-card inline-flex items-center gap-3 rounded-xl px-5 py-3">
                 <Zap className="h-5 w-5 text-gold" />
                 <div>
                   <p className="eyebrow text-pirate-muted">Ort. Güç</p>
-                  <p className="mt-1 font-display text-lg font-extrabold text-gold stat-number">{avgPower}/5</p>
+                  <p className="mt-1 text-lg font-extrabold text-gold stat-number">{avgPower}/5</p>
                 </div>
               </div>
               <div className="bento-card inline-flex items-center gap-3 rounded-xl px-5 py-3">
                 <Heart className="h-5 w-5 text-sea-light" />
                 <div>
                   <p className="eyebrow text-pirate-muted">Ort. Duygu</p>
-                  <p className="mt-1 font-display text-lg font-extrabold text-sea-light stat-number">{avgEmotion}/5</p>
+                  <p className="mt-1 text-lg font-extrabold text-sea-light stat-number">{avgEmotion}/5</p>
                 </div>
               </div>
             </div>
@@ -219,7 +219,7 @@ export default function BattlesPage() {
           <section className="mb-12 animate-fade-in-up">
             <div className="mb-6 flex items-center gap-2">
               <Trophy className="h-5 w-5 text-gold" />
-              <h2 className="font-display text-lg font-extrabold text-pirate-text">Destansı Düello</h2>
+              <h2 className="text-lg font-extrabold text-pirate-text">Destansı Düello</h2>
             </div>
 
             {(() => {
@@ -251,7 +251,7 @@ export default function BattlesPage() {
                           <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${catColors.bg} border ${catColors.border}`}>
                             <Swords className={`h-5 w-5 ${catInfo.color}`} />
                           </div>
-                          <h3 className="font-display text-xl font-extrabold text-pirate-text sm:text-2xl lg:text-3xl">
+                          <h3 className="text-xl font-extrabold text-pirate-text sm:text-2xl lg:text-3xl">
                             {battle.name}
                           </h3>
                         </div>
@@ -368,7 +368,7 @@ export default function BattlesPage() {
                           <p className="eyebrow text-pirate-muted">
                             {isWinner ? 'Kazanan' : 'Sonuç'}
                           </p>
-                          <p className={`mt-0.5 font-display text-sm font-extrabold ${isWinner ? 'text-gold' : 'text-pirate-muted'}`}>
+                          <p className={`mt-0.5 text-sm font-extrabold ${isWinner ? 'text-gold' : 'text-pirate-muted'}`}>
                             {winnerName}{isWinner && ' kazandı'}
                           </p>
                         </div>
@@ -509,7 +509,7 @@ export default function BattlesPage() {
                           <div className={`flex h-9 w-9 items-center justify-center rounded-lg ${catColors.bg} border ${catColors.border}`}>
                             <Swords className={`h-4 w-4 ${catInfo.color}`} />
                           </div>
-                          <h2 className="font-display text-xl font-extrabold text-pirate-text sm:text-2xl">
+                          <h2 className="text-xl font-extrabold text-pirate-text sm:text-2xl">
                             {battle.name}
                           </h2>
                         </div>
@@ -624,7 +624,7 @@ export default function BattlesPage() {
                           <p className="eyebrow text-pirate-muted">
                             {isWinner ? 'Kazanan' : 'Sonuç'}
                           </p>
-                          <p className={`mt-0.5 font-display text-sm font-extrabold ${isWinner ? 'text-gold' : 'text-pirate-muted'}`}>
+                          <p className={`mt-0.5 text-sm font-extrabold ${isWinner ? 'text-gold' : 'text-pirate-muted'}`}>
                             {winnerName}{isWinner && ' kazandı'}
                           </p>
                         </div>

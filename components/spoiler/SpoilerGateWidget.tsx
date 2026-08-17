@@ -85,7 +85,7 @@ export default function SpoilerGateWidget() {
                   <Shield className="h-5 w-5 text-gold" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h2 id="spoiler-gate-title" className="font-display text-lg font-bold text-pirate-text">
+                  <h2 id="spoiler-gate-title" className="text-lg font-bold text-pirate-text">
                     Spoiler Koruması
                   </h2>
                   <p className="mt-0.5 text-xs text-pirate-muted sm:text-sm">
@@ -136,7 +136,7 @@ export default function SpoilerGateWidget() {
                   {currentArc && (
                     <div className="mb-3 inline-flex items-center gap-2 rounded-lg border border-gold/20 bg-gold/[0.06] px-3 py-1.5">
                       <Check className="h-3 w-3 text-gold" />
-                      <span className="font-display text-xs font-bold text-gold">
+                      <span className="text-xs font-bold text-gold">
                         {currentArc.name}
                       </span>
                     </div>
