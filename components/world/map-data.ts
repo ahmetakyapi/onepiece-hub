@@ -64,15 +64,29 @@ export const SEA_MARKER_GLOW: Record<string, string> = {
 
 /* ─── Danger Level ─────────────────────────────────────────────────────── */
 
-export const DANGER_COLORS = ['', '#4ade80', '#facc15', '#fb923c', '#ef4444', '#dc2626'] as const
+/* Tehlike skalası — SIRALI ve token'lı. Metin rengi olarak da basılıyor
+   (DetailPanel, InteractiveWorldMap), bu yüzden ham hex kalamazdı:
+   light temada beyaz kart üstünde 1.4-1.6:1'e düşüp okunmuyordu.
+   Sıra korunuyor: güvenli → ölümcül. */
+export const DANGER_COLORS = [
+  '',
+  'rgb(var(--accent-lime))',
+  'rgb(var(--accent-amber))',
+  'rgb(var(--accent-orange))',
+  'rgb(var(--accent-rose))',
+  'rgb(var(--luffy))',
+] as const
 export const DANGER_LABELS = ['', 'Güvenli', 'Düşük', 'Orta', 'Yüksek', 'Ölümcül'] as const
+/* Çubuk degradeleri `DANGER_COLORS` ile aynı basamakları izler: her seviye
+   kendi tonundan bir sonrakine geçer, böylece skala okunurken renk sırası
+   metinle çubuk arasında tutarlı kalır. */
 export const DANGER_BAR_GRADIENTS = [
   '',
-  'from-green-500 to-green-400',
-  'from-green-400 to-yellow-400',
-  'from-yellow-400 to-orange-400',
-  'from-orange-400 to-red-500',
-  'from-red-500 to-red-600',
+  'from-accent-lime to-accent-lime',
+  'from-accent-lime to-accent-amber',
+  'from-accent-amber to-accent-orange',
+  'from-accent-orange to-accent-rose',
+  'from-accent-rose to-luffy',
 ] as const
 
 /* ─── Type Metadata ────────────────────────────────────────────────────── */
@@ -143,20 +157,20 @@ export function generateJourneyPath(): string {
 /* ─── Sea Label Data ───────────────────────────────────────────────────── */
 
 export const SEA_LABELS = [
-  { text: 'EAST BLUE', x: 780, y: 570, color: '#60a5fa', opacity: 0.2 },
-  { text: 'NORTH BLUE', x: 780, y: 180, color: '#22d3ee', opacity: 0.15 },
-  { text: 'WEST BLUE', x: 280, y: 180, color: '#fb923c', opacity: 0.15 },
-  { text: 'SOUTH BLUE', x: 280, y: 570, color: '#4ade80', opacity: 0.15 },
-  { text: 'PARADISE', x: 760, y: 375, color: '#f4a300', opacity: 0.1 },
-  { text: 'NEW WORLD', x: 280, y: 375, color: '#ef4444', opacity: 0.1 },
+  { text: 'EAST BLUE', x: 780, y: 570, color: 'rgb(var(--sea-light))', opacity: 0.2 },
+  { text: 'NORTH BLUE', x: 780, y: 180, color: 'rgb(var(--accent-cyan))', opacity: 0.15 },
+  { text: 'WEST BLUE', x: 280, y: 180, color: 'rgb(var(--accent-orange))', opacity: 0.15 },
+  { text: 'SOUTH BLUE', x: 280, y: 570, color: 'rgb(var(--accent-lime))', opacity: 0.15 },
+  { text: 'PARADISE', x: 760, y: 375, color: 'rgb(var(--gold))', opacity: 0.1 },
+  { text: 'NEW WORLD', x: 280, y: 375, color: 'rgb(var(--luffy))', opacity: 0.1 },
 ]
 
 /* ─── Legend Items ─────────────────────────────────────────────────────── */
 
 export const LEGEND_ITEMS = [
-  { label: 'East Blue', color: '#60a5fa' },
-  { label: 'Grand Line', color: '#f4a300' },
-  { label: 'New World', color: '#ef4444' },
-  { label: 'Calm Belt', color: '#94a3b8' },
-  { label: 'Red Line', color: '#ef4444' },
+  { label: 'East Blue', color: 'rgb(var(--sea-light))' },
+  { label: 'Grand Line', color: 'rgb(var(--gold))' },
+  { label: 'New World', color: 'rgb(var(--luffy))' },
+  { label: 'Calm Belt', color: 'rgb(var(--accent-silver))' },
+  { label: 'Red Line', color: 'rgb(var(--luffy))' },
 ]

@@ -86,7 +86,7 @@ export default function PageHero({
 
         {/* Title */}
         <h1
-          className="mb-3 text-3xl font-extrabold sm:text-4xl lg:text-5xl animate-fade-in-up"
+          className="font-display mb-3 text-3xl font-bold sm:text-4xl lg:text-5xl animate-fade-in-up"
           style={{ animationDelay: '0.05s' }}
         >
           <span className={titleGradient ?? 'text-gold-gradient'}>{title}</span>{' '}

@@ -41,7 +41,7 @@ function Toggle({
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className="flex w-full items-start gap-3 rounded-xl px-2 py-2.5 text-left transition-colors hover:bg-white/[0.04]"
+      className="flex w-full items-start gap-3 rounded-xl px-2 py-2.5 text-left transition-colors hover:bg-ink/[0.04]"
     >
       <span
         className={`mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg transition-colors ${
@@ -100,9 +100,7 @@ export default function PlayerSettings({
       className="glass-elevated absolute right-0 top-full z-40 mt-2 w-[min(20rem,calc(100vw-2rem))] overflow-hidden rounded-2xl p-3"
     >
       <div className="mb-2 flex items-center justify-between px-2">
-        <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-pirate-muted">
-          Oynatıcı ayarları
-        </span>
+        <span className="eyebrow text-pirate-muted">Oynatıcı Ayarları</span>
         <button
           onClick={onClose}
           aria-label="Ayarları kapat"
@@ -116,14 +114,14 @@ export default function PlayerSettings({
       <Toggle
         checked={prefs.autoAdvance}
         onChange={(v) => onUpdate({ autoAdvance: v })}
-        label="Otomatik sonraki bölüm"
+        label="Otomatik Sonraki Bölüm"
         description="Bölüm süresi dolunca geri sayımla sonrakine geçer"
         icon={SkipForward}
       />
       <Toggle
         checked={prefs.miniPlayer}
         onChange={(v) => onUpdate({ miniPlayer: v })}
-        label="Mini oynatıcı"
+        label="Mini Oynatıcı"
         description="Sayfayı kaydırınca oynatıcı köşeye sabitlenir"
         icon={PictureInPicture2}
       />
@@ -131,9 +129,7 @@ export default function PlayerSettings({
       <div className="my-2 mx-2 h-px bg-gradient-to-r from-transparent via-pirate-border/40 to-transparent" />
 
       {/* ── Görüntü modu ─────────────────────────────────────────────── */}
-      <p className="px-2 pb-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-pirate-muted">
-        Görüntü modu
-      </p>
+      <p className="eyebrow px-2 pb-1.5 text-pirate-muted">Görüntü Modu</p>
       <div className="mx-2 mb-1 grid grid-cols-2 gap-1.5">
         <button
           onClick={() => setEmbedMode('zoom')}
@@ -158,7 +154,7 @@ export default function PlayerSettings({
           }`}
         >
           <Maximize className="h-3.5 w-3.5" />
-          <span className="text-[11px] font-bold">Tam sayfa</span>
+          <span className="text-[11px] font-bold">Tam Sayfa</span>
           <span className="text-[9px] leading-tight opacity-70">{PLAYER_SOURCE.name} arayüzü</span>
         </button>
       </div>
@@ -168,9 +164,7 @@ export default function PlayerSettings({
         <>
           <div className="my-2 mx-2 h-px bg-gradient-to-r from-transparent via-pirate-border/40 to-transparent" />
           <div className="flex items-center justify-between px-2 pb-1.5">
-            <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-pirate-muted">
-              Kırpma kalibrasyonu
-            </span>
+            <span className="eyebrow text-pirate-muted">Kırpma Kalibrasyonu</span>
             <button
               onClick={onResetGeometry}
               className="inline-flex items-center gap-1 text-[10px] font-semibold text-pirate-muted transition-colors hover:text-gold"
@@ -189,7 +183,7 @@ export default function PlayerSettings({
                 <label key={field.key} className="block">
                   <span className="mb-1 flex items-center justify-between text-[10px] font-semibold text-pirate-muted">
                     {field.label}
-                    <span className="stat-number text-gold">
+                    <span className="font-mono text-gold">
                       {prefs.geometry[field.key]}
                       {field.unit}
                     </span>

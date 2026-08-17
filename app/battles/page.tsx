@@ -43,41 +43,52 @@ const CATEGORY_ICONS: Record<string, typeof Swords> = {
   'turning-point': Target,
 }
 
-const CATEGORY_COLORS: Record<string, { border: string; bg: string; glow: string; gradient: string; hex: string }> = {
+/* `rgb` alanı KANAL ÜÇLÜSÜ tutar (`var(--gold)` gibi bir tema token'ı) —
+   böylece `rgb(${rgb} / 0.3)` ile opaklık türetilebiliyor. Eskiden burada ham
+   hex vardı ve alfa `${hex}40` diye string'e ekleniyordu; o biçim tema
+   değişkenleriyle çalışmaz.
+
+   5 savaş kategorisi = 5 AYRI token. Ham `emerald-*` (dönüm noktası) ve
+   `red-*` (rekabet degradesinin ucu) light temada parşömen üstünde sönüyordu;
+   `accent-emerald` ve `accent-rose` light'ta 700 seviyeye dönüyor. Ayırt
+   edicilik korundu: gold · sea · luffy(+rose) · fruit · accent-emerald —
+   hiçbir ikisi aynı token'a düşmüyor. `accent-rose` yalnızca luffy'nin
+   degrade ucu, bağımsız bir kategori rengi değil. */
+const CATEGORY_COLORS: Record<string, { border: string; bg: string; glow: string; gradient: string; rgb: string }> = {
   epic: {
     border: 'border-gold/40',
     bg: 'bg-gold/10',
-    glow: 'rgba(244, 163, 0, 0.15)',
+    glow: 'rgb(var(--gold) / 0.15)',
     gradient: 'from-gold/80 to-gold-bright/60',
-    hex: '#f4a300',
+    rgb: 'var(--gold)',
   },
   emotional: {
     border: 'border-sea-light/40',
     bg: 'bg-sea/10',
-    glow: 'rgba(96, 184, 255, 0.15)',
+    glow: 'rgb(var(--sea-light) / 0.15)',
     gradient: 'from-sea-light/80 to-sea/60',
-    hex: '#60b8ff',
+    rgb: 'var(--sea-light)',
   },
   rivalry: {
     border: 'border-luffy/40',
     bg: 'bg-luffy/10',
-    glow: 'rgba(231, 76, 60, 0.15)',
-    gradient: 'from-luffy/80 to-red-500/60',
-    hex: '#e74c3c',
+    glow: 'rgb(var(--luffy) / 0.15)',
+    gradient: 'from-luffy/80 to-luffy/60',
+    rgb: 'var(--luffy)',
   },
   war: {
     border: 'border-fruit/40',
     bg: 'bg-fruit/10',
-    glow: 'rgba(192, 132, 252, 0.15)',
+    glow: 'rgb(var(--fruit) / 0.15)',
     gradient: 'from-fruit/80 to-fruit-deep/60',
-    hex: '#c084fc',
+    rgb: 'var(--fruit)',
   },
   'turning-point': {
-    border: 'border-emerald-400/40',
-    bg: 'bg-emerald-400/10',
-    glow: 'rgba(52, 211, 153, 0.15)',
-    gradient: 'from-emerald-400/80 to-emerald-600/60',
-    hex: '#34d399',
+    border: 'border-accent-emerald/40',
+    bg: 'bg-accent-emerald/10',
+    glow: 'rgb(52 211 153 / 0.15)',
+    gradient: 'from-accent-emerald/80 to-accent-emerald/60',
+    rgb: '52 211 153',
   },
 }
 
@@ -90,10 +101,10 @@ const SORT_OPTIONS: { value: SortOption; label: string }[] = [
 ]
 
 const HERO_ORBS = [
-  { color: 'rgba(231, 76, 60, 0.4)', size: 300, x: '5%', y: '10%', delay: 0 },
-  { color: 'rgba(244, 163, 0, 0.35)', size: 250, x: '65%', y: '5%', delay: 1.5 },
-  { color: 'rgba(231, 76, 60, 0.25)', size: 200, x: '80%', y: '60%', delay: 3 },
-  { color: 'rgba(30, 144, 255, 0.2)', size: 180, x: '20%', y: '70%', delay: 2 },
+  { color: 'rgb(var(--luffy) / 0.4)', size: 300, x: '5%', y: '10%', delay: 0 },
+  { color: 'rgb(var(--gold) / 0.35)', size: 250, x: '65%', y: '5%', delay: 1.5 },
+  { color: 'rgb(var(--luffy) / 0.25)', size: 200, x: '80%', y: '60%', delay: 3 },
+  { color: 'rgb(var(--sea) / 0.2)', size: 180, x: '20%', y: '70%', delay: 2 },
 ]
 
 /* ─── Featured battle — highest combined score ───────────────── */
@@ -183,22 +194,22 @@ export default function BattlesPage() {
               <div className="bento-card inline-flex items-center gap-3 rounded-xl px-5 py-3">
                 <Swords className="h-5 w-5 text-luffy" />
                 <div>
-                  <p className="text-[10px] uppercase tracking-wider text-pirate-muted">Toplam Savaş</p>
-                  <p className="text-lg font-extrabold text-luffy stat-number">{BATTLES.length}</p>
+                  <p className="eyebrow text-pirate-muted">Toplam Savaş</p>
+                  <p className="mt-1 font-display text-lg font-extrabold text-luffy stat-number">{BATTLES.length}</p>
                 </div>
               </div>
               <div className="bento-card inline-flex items-center gap-3 rounded-xl px-5 py-3">
                 <Zap className="h-5 w-5 text-gold" />
                 <div>
-                  <p className="text-[10px] uppercase tracking-wider text-pirate-muted">Ort. Güç</p>
-                  <p className="text-lg font-extrabold text-gold stat-number">{avgPower}/5</p>
+                  <p className="eyebrow text-pirate-muted">Ort. Güç</p>
+                  <p className="mt-1 font-display text-lg font-extrabold text-gold stat-number">{avgPower}/5</p>
                 </div>
               </div>
               <div className="bento-card inline-flex items-center gap-3 rounded-xl px-5 py-3">
                 <Heart className="h-5 w-5 text-sea-light" />
                 <div>
-                  <p className="text-[10px] uppercase tracking-wider text-pirate-muted">Ort. Duygu</p>
-                  <p className="text-lg font-extrabold text-sea-light stat-number">{avgEmotion}/5</p>
+                  <p className="eyebrow text-pirate-muted">Ort. Duygu</p>
+                  <p className="mt-1 font-display text-lg font-extrabold text-sea-light stat-number">{avgEmotion}/5</p>
                 </div>
               </div>
             </div>
@@ -208,7 +219,7 @@ export default function BattlesPage() {
           <section className="mb-12 animate-fade-in-up">
             <div className="mb-6 flex items-center gap-2">
               <Trophy className="h-5 w-5 text-gold" />
-              <h2 className="text-lg font-extrabold text-pirate-text">Destansı Düello</h2>
+              <h2 className="font-display text-lg font-extrabold text-pirate-text">Destansı Düello</h2>
             </div>
 
             {(() => {
@@ -240,7 +251,7 @@ export default function BattlesPage() {
                           <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${catColors.bg} border ${catColors.border}`}>
                             <Swords className={`h-5 w-5 ${catInfo.color}`} />
                           </div>
-                          <h3 className="text-xl font-extrabold text-pirate-text sm:text-2xl lg:text-3xl">
+                          <h3 className="font-display text-xl font-extrabold text-pirate-text sm:text-2xl lg:text-3xl">
                             {battle.name}
                           </h3>
                         </div>
@@ -267,8 +278,8 @@ export default function BattlesPage() {
                         <div className="min-w-[100px]">
                           <div className="mb-1.5 flex items-center gap-1.5">
                             <Zap className="h-3.5 w-3.5 text-gold" />
-                            <span className="text-[11px] font-semibold text-pirate-muted">Güç</span>
-                            <span className="ml-auto text-sm font-bold text-gold">{battle.powerLevel}/5</span>
+                            <span className="eyebrow text-pirate-muted">Güç</span>
+                            <span className="ml-auto font-mono text-sm font-bold text-gold">{battle.powerLevel}/5</span>
                           </div>
                           <div className="h-2.5 w-full overflow-hidden rounded-full bg-ocean-surface">
                             <StaticBar percent={(battle.powerLevel / 5) * 100} gradient="from-gold/80 to-gold-bright" />
@@ -277,11 +288,11 @@ export default function BattlesPage() {
                         <div className="min-w-[100px]">
                           <div className="mb-1.5 flex items-center gap-1.5">
                             <Heart className="h-3.5 w-3.5 text-luffy" />
-                            <span className="text-[11px] font-semibold text-pirate-muted">Duygu</span>
-                            <span className="ml-auto text-sm font-bold text-luffy">{battle.emotionalWeight}/5</span>
+                            <span className="eyebrow text-pirate-muted">Duygu</span>
+                            <span className="ml-auto font-mono text-sm font-bold text-luffy">{battle.emotionalWeight}/5</span>
                           </div>
                           <div className="h-2.5 w-full overflow-hidden rounded-full bg-ocean-surface">
-                            <StaticBar percent={(battle.emotionalWeight / 5) * 100} gradient="from-luffy/80 to-red-400" />
+                            <StaticBar percent={(battle.emotionalWeight / 5) * 100} gradient="from-luffy/80 to-luffy" />
                           </div>
                         </div>
                       </div>
@@ -291,7 +302,7 @@ export default function BattlesPage() {
                     <div className="mb-6 flex items-stretch gap-0">
                       {/* Side 1 */}
                       <div className="flex-1 rounded-l-2xl border-l-4 border-sea bg-ocean-surface/60 p-5">
-                        <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-sea">Taraf 1</p>
+                        <p className="eyebrow mb-3 text-sea">Taraf 1</p>
                         <div className="mb-3 flex flex-wrap gap-2">
                           {battle.participantSlugs?.side1.map((slug) => {
                             const img = getCharacterImage(slug)
@@ -313,8 +324,8 @@ export default function BattlesPage() {
 
                       {/* VS Badge */}
                       <div className="relative z-10 flex items-center -mx-5">
-                        <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-gold/50 bg-gradient-to-br from-gold/25 to-ocean-deep shadow-[0_0_30px_rgba(244,163,0,0.35)]">
-                          <span className="text-lg font-black tracking-wider text-gold drop-shadow-[0_0_12px_rgba(244,163,0,0.6)]">
+                        <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-gold/50 bg-gradient-to-br from-gold/25 to-ocean-deep shadow-[0_0_30px_rgb(var(--gold)/0.35)]">
+                          <span className="text-lg font-black tracking-wider text-gold drop-shadow-[0_0_12px_rgb(var(--gold)/0.6)]">
                             VS
                           </span>
                         </div>
@@ -322,7 +333,7 @@ export default function BattlesPage() {
 
                       {/* Side 2 */}
                       <div className="flex-1 rounded-r-2xl border-r-4 border-luffy bg-ocean-surface/60 p-5 text-right">
-                        <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-luffy">Taraf 2</p>
+                        <p className="eyebrow mb-3 text-luffy">Taraf 2</p>
                         <div className="mb-3 flex flex-wrap justify-end gap-2">
                           {battle.participantSlugs?.side2.map((slug) => {
                             const img = getCharacterImage(slug)
@@ -354,10 +365,10 @@ export default function BattlesPage() {
                           <Crown className={`h-5 w-5 ${isWinner ? 'text-gold' : 'text-pirate-muted'}`} />
                         </div>
                         <div>
-                          <p className="text-[10px] font-bold uppercase tracking-widest text-pirate-muted">
+                          <p className="eyebrow text-pirate-muted">
                             {isWinner ? 'Kazanan' : 'Sonuç'}
                           </p>
-                          <p className={`text-sm font-extrabold ${isWinner ? 'text-gold' : 'text-pirate-muted'}`}>
+                          <p className={`mt-0.5 font-display text-sm font-extrabold ${isWinner ? 'text-gold' : 'text-pirate-muted'}`}>
                             {winnerName}{isWinner && ' kazandı'}
                           </p>
                         </div>
@@ -421,7 +432,7 @@ export default function BattlesPage() {
                 onClick={() => setActiveCategory(null)}
                 className={`chip transition-all duration-200 ${
                   !activeCategory
-                    ? 'border-gold/50 bg-gold/15 text-gold shadow-[0_0_12px_rgba(244,163,0,0.15)]'
+                    ? 'border-gold/50 bg-gold/15 text-gold shadow-[0_0_12px_rgb(var(--gold)/0.15)]'
                     : 'border-pirate-border/50 bg-ocean-surface/30 text-pirate-muted hover:text-pirate-text'
                 }`}
               >
@@ -498,7 +509,7 @@ export default function BattlesPage() {
                           <div className={`flex h-9 w-9 items-center justify-center rounded-lg ${catColors.bg} border ${catColors.border}`}>
                             <Swords className={`h-4 w-4 ${catInfo.color}`} />
                           </div>
-                          <h2 className="text-xl font-extrabold text-pirate-text sm:text-2xl">
+                          <h2 className="font-display text-xl font-extrabold text-pirate-text sm:text-2xl">
                             {battle.name}
                           </h2>
                         </div>
@@ -525,8 +536,8 @@ export default function BattlesPage() {
                         <div className="min-w-[90px]">
                           <div className="mb-1.5 flex items-center gap-1.5">
                             <Zap className="h-3.5 w-3.5 text-gold" />
-                            <span className="text-[11px] font-semibold text-pirate-muted">Güç</span>
-                            <span className="ml-auto text-[11px] font-bold text-gold">{battle.powerLevel}/5</span>
+                            <span className="eyebrow text-pirate-muted">Güç</span>
+                            <span className="ml-auto font-mono text-[11px] font-bold text-gold">{battle.powerLevel}/5</span>
                           </div>
                           <div className="h-2 w-full overflow-hidden rounded-full bg-ocean-surface">
                             <div
@@ -538,12 +549,12 @@ export default function BattlesPage() {
                         <div className="min-w-[90px]">
                           <div className="mb-1.5 flex items-center gap-1.5">
                             <Heart className="h-3.5 w-3.5 text-luffy" />
-                            <span className="text-[11px] font-semibold text-pirate-muted">Duygu</span>
-                            <span className="ml-auto text-[11px] font-bold text-luffy">{battle.emotionalWeight}/5</span>
+                            <span className="eyebrow text-pirate-muted">Duygu</span>
+                            <span className="ml-auto font-mono text-[11px] font-bold text-luffy">{battle.emotionalWeight}/5</span>
                           </div>
                           <div className="h-2 w-full overflow-hidden rounded-full bg-ocean-surface">
                             <div
-                              className="h-full rounded-full bg-gradient-to-r from-luffy/80 to-red-400 animate-grow-bar"
+                              className="h-full rounded-full bg-gradient-to-r from-luffy/80 to-luffy animate-grow-bar"
                               style={{ width: `${(battle.emotionalWeight / 5) * 100}%` }}
                             />
                           </div>
@@ -555,7 +566,7 @@ export default function BattlesPage() {
                     <div className="mb-5 flex items-stretch gap-0">
                       {/* Side 1 */}
                       <div className="flex-1 rounded-l-xl border-l-[3px] border-sea bg-ocean-surface/60 p-4">
-                        <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-sea">Taraf 1</p>
+                        <p className="eyebrow mb-2 text-sea">Taraf 1</p>
                         <div className="mb-2 flex flex-wrap items-center gap-2">
                           {battle.participantSlugs?.side1.map((slug) => {
                             const img = getCharacterImage(slug)
@@ -573,8 +584,8 @@ export default function BattlesPage() {
 
                       {/* VS */}
                       <div className="relative z-10 flex items-center -mx-4">
-                        <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-gold/40 bg-gradient-to-br from-gold/20 to-ocean-deep shadow-[0_0_24px_rgba(244,163,0,0.3)]">
-                          <span className="text-base font-black tracking-wider text-gold drop-shadow-[0_0_8px_rgba(244,163,0,0.5)]">
+                        <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-gold/40 bg-gradient-to-br from-gold/20 to-ocean-deep shadow-[0_0_24px_rgb(var(--gold)/0.3)]">
+                          <span className="text-base font-black tracking-wider text-gold drop-shadow-[0_0_8px_rgb(var(--gold)/0.5)]">
                             VS
                           </span>
                         </div>
@@ -582,7 +593,7 @@ export default function BattlesPage() {
 
                       {/* Side 2 */}
                       <div className="flex-1 rounded-r-xl border-r-[3px] border-luffy bg-ocean-surface/60 p-4 text-right">
-                        <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-luffy">Taraf 2</p>
+                        <p className="eyebrow mb-2 text-luffy">Taraf 2</p>
                         <div className="mb-2 flex flex-wrap items-center justify-end gap-2">
                           {battle.participantSlugs?.side2.map((slug) => {
                             const img = getCharacterImage(slug)
@@ -610,10 +621,10 @@ export default function BattlesPage() {
                           <Crown className={`h-4 w-4 ${isWinner ? 'text-gold' : 'text-pirate-muted'}`} />
                         </div>
                         <div>
-                          <p className="text-[10px] font-bold uppercase tracking-widest text-pirate-muted">
+                          <p className="eyebrow text-pirate-muted">
                             {isWinner ? 'Kazanan' : 'Sonuç'}
                           </p>
-                          <p className={`text-sm font-extrabold ${isWinner ? 'text-gold' : 'text-pirate-muted'}`}>
+                          <p className={`mt-0.5 font-display text-sm font-extrabold ${isWinner ? 'text-gold' : 'text-pirate-muted'}`}>
                             {winnerName}{isWinner && ' kazandı'}
                           </p>
                         </div>
@@ -639,10 +650,10 @@ export default function BattlesPage() {
                       >
                         <div className="flex items-center gap-2">
                           <Star className="h-4 w-4 text-gold" />
-                          <span className="text-xs font-bold uppercase tracking-wider text-pirate-text">
+                          <span className="eyebrow-lg text-pirate-text">
                             Kilit Anlar
                           </span>
-                          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gold/10 text-[10px] font-bold text-gold">
+                          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gold/10 font-mono text-[10px] font-bold text-gold">
                             {battle.keyMoments.length}
                           </span>
                         </div>
@@ -668,7 +679,7 @@ export default function BattlesPage() {
                               <div
                                 className="absolute left-[1.65rem] top-3 bottom-5 w-px"
                                 style={{
-                                  background: `linear-gradient(180deg, ${catColors.hex}40, transparent)`,
+                                  background: `linear-gradient(180deg, rgb(${catColors.rgb} / 0.25), transparent)`,
                                 }}
                               />
 
@@ -681,13 +692,13 @@ export default function BattlesPage() {
                                     <div
                                       className="relative z-10 mt-1.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border"
                                       style={{
-                                        borderColor: `${catColors.hex}50`,
-                                        background: `${catColors.hex}15`,
+                                        borderColor: `rgb(${catColors.rgb} / 0.3)`,
+                                        background: `rgb(${catColors.rgb} / 0.08)`,
                                       }}
                                     >
                                       <div
                                         className="h-2 w-2 rounded-full"
-                                        style={{ background: catColors.hex }}
+                                        style={{ background: `rgb(${catColors.rgb})` }}
                                       />
                                     </div>
                                     <p className="text-sm leading-relaxed text-pirate-muted pt-0.5">

@@ -13,11 +13,12 @@ import ResumeBar from '@/components/watch/ResumeBar'
 import { EASE } from '@/lib/variants'
 import { SITE_STATS, formatRuntime } from '@/lib/constants/stats'
 
+/* Orb renkleri token'dan okunur — ham rgba() light temada dönmüyordu */
 const HERO_ORBS = [
-  { color: 'rgba(30, 144, 255, 0.4)', size: 300, x: '70%', y: '10%', delay: 0 },
-  { color: 'rgba(244, 163, 0, 0.3)', size: 200, x: '10%', y: '60%', delay: 2 },
-  { color: 'rgba(30, 144, 255, 0.2)', size: 250, x: '85%', y: '70%', delay: 4 },
-  { color: 'rgba(231, 76, 60, 0.15)', size: 180, x: '40%', y: '20%', delay: 1 },
+  { color: 'rgb(var(--sea) / 0.4)', size: 300, x: '70%', y: '10%', delay: 0 },
+  { color: 'rgb(var(--gold) / 0.3)', size: 200, x: '10%', y: '60%', delay: 2 },
+  { color: 'rgb(var(--sea) / 0.2)', size: 250, x: '85%', y: '70%', delay: 4 },
+  { color: 'rgb(var(--luffy) / 0.15)', size: 180, x: '40%', y: '20%', delay: 1 },
 ]
 
 export default function ArcsPage() {
@@ -51,23 +52,23 @@ export default function ArcsPage() {
             <div className="flex flex-wrap gap-3">
               <div className="flex items-center gap-2 rounded-xl border border-sea/20 bg-sea/10 px-4 py-2">
                 <Compass className="h-4 w-4 text-sea" />
-                <span className="text-sm font-bold text-sea">{ARCS.length}</span>
-                <span className="text-xs text-pirate-muted">Arc</span>
+                <span className="font-display text-sm font-bold text-sea">{ARCS.length}</span>
+                <span className="eyebrow text-pirate-muted">Arc</span>
               </div>
               <div className="flex items-center gap-2 rounded-xl border border-gold/20 bg-gold/10 px-4 py-2">
                 <Film className="h-4 w-4 text-gold" />
-                <span className="text-sm font-bold text-gold">{SITE_STATS.episodes}</span>
-                <span className="text-xs text-pirate-muted">Bölüm</span>
+                <span className="font-display text-sm font-bold text-gold">{SITE_STATS.episodes}</span>
+                <span className="eyebrow text-pirate-muted">Bölüm</span>
               </div>
               <div className="flex items-center gap-2 rounded-xl border border-luffy/20 bg-luffy/10 px-4 py-2">
                 <Anchor className="h-4 w-4 text-luffy" />
-                <span className="text-sm font-bold text-luffy">{SAGAS.length}</span>
-                <span className="text-xs text-pirate-muted">Saga</span>
+                <span className="font-display text-sm font-bold text-luffy">{SAGAS.length}</span>
+                <span className="eyebrow text-pirate-muted">Saga</span>
               </div>
               <div className="flex items-center gap-2 rounded-xl border border-pirate-border/40 bg-ocean-surface/40 px-4 py-2">
                 <Clock className="h-4 w-4 text-sea-light" />
-                <span className="text-sm font-bold text-sea-light">{formatRuntime()}</span>
-                <span className="text-xs text-pirate-muted">toplam</span>
+                <span className="font-mono text-sm font-bold text-sea-light">{formatRuntime()}</span>
+                <span className="eyebrow text-pirate-muted">Toplam</span>
               </div>
             </div>
           </PageHero>
@@ -137,12 +138,12 @@ export default function ArcsPage() {
                       <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sea/[0.08] border border-sea/10">
                         <Anchor className="h-3.5 w-3.5 text-sea" />
                       </div>
-                      <h2 className="text-sm font-bold uppercase tracking-[0.1em] text-sea">
+                      <h2 className="font-display text-sm font-bold uppercase text-sea">
                         {saga.name}
                       </h2>
                       <div className="h-px flex-1 bg-gradient-to-r from-sea/15 to-transparent" />
-                      <span className="rounded-full bg-sea/[0.06] px-2.5 py-0.5 text-[10px] font-semibold text-sea/70">
-                        {arcs.length} arc
+                      <span className="eyebrow rounded-full bg-sea/[0.06] px-2.5 py-1 text-sea/70">
+                        {arcs.length} Arc
                       </span>
                     </div>
                     <motion.div

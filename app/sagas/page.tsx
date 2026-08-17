@@ -50,26 +50,28 @@ export default function SagasPage() {
         <div className="pointer-events-none absolute -left-32 -bottom-32 h-80 w-80 rounded-full bg-sea/[0.08] blur-[100px]" />
 
         <div className="relative mx-auto max-w-4xl text-center">
-          <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-gold/70">
+          <p className="eyebrow-lg mb-3 text-gold/70">
             ⚓ Büyük Hikaye
           </p>
-          <h1 className="mb-4 text-4xl font-extrabold tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:text-5xl md:text-6xl">
+          {/* Zemin görsel değil temalı degrade — siyah drop-shadow light temada
+              koyu metnin arkasında leke bırakıyordu, kaldırıldı. */}
+          <h1 className="mb-4 font-display text-4xl font-extrabold text-pirate-text sm:text-5xl md:text-6xl">
             Sagalar
           </h1>
-          <p className="mx-auto max-w-2xl text-sm leading-relaxed text-white/70 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] sm:text-base">
+          <p className="mx-auto max-w-2xl text-sm leading-relaxed text-pirate-text/70 sm:text-base">
             One Piece&apos;in büyük destanı {SAGAS.length} destansı saga, {totalArcs} arc ve {totalEpisodes}+ bölümden oluşuyor. Her saga kendi dünyası, düşmanı ve duygu tonuyla unutulmaz bir yolculuk.
           </p>
 
           {/* Journey stats */}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-5">
             <div className="rounded-full border border-pirate-border/30 bg-ocean-surface/40 px-4 py-2 text-xs font-semibold text-pirate-text">
-              <span className="text-gold stat-number">{SAGAS.length}</span> saga
+              <span className="stat-number font-display text-base font-bold text-gold">{SAGAS.length}</span> saga
             </div>
             <div className="rounded-full border border-pirate-border/30 bg-ocean-surface/40 px-4 py-2 text-xs font-semibold text-pirate-text">
-              <span className="text-gold stat-number">{totalArcs}</span> arc
+              <span className="stat-number font-display text-base font-bold text-gold">{totalArcs}</span> arc
             </div>
             <div className="rounded-full border border-pirate-border/30 bg-ocean-surface/40 px-4 py-2 text-xs font-semibold text-pirate-text">
-              <span className="text-gold stat-number">{totalEpisodes}</span>+ bölüm
+              <span className="stat-number font-display text-base font-bold text-gold">{totalEpisodes}</span>+ bölüm
             </div>
           </div>
         </div>

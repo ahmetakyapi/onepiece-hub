@@ -82,9 +82,9 @@ export function MangaDivider({ variant = 'speed-lines', className }: MangaDivide
           <defs>
             <linearGradient id="slash-gradient" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%" stopColor="transparent" />
-              <stop offset="30%" stopColor="rgba(244,163,0,0.4)" />
-              <stop offset="50%" stopColor="rgba(231,76,60,0.6)" />
-              <stop offset="70%" stopColor="rgba(244,163,0,0.4)" />
+              <stop offset="30%" stopColor="rgb(var(--gold) / 0.4)" />
+              <stop offset="50%" stopColor="rgb(var(--luffy) / 0.6)" />
+              <stop offset="70%" stopColor="rgb(var(--gold) / 0.4)" />
               <stop offset="100%" stopColor="transparent" />
             </linearGradient>
           </defs>
@@ -139,8 +139,8 @@ export function MangaSFX({ text, className, size = 'md' }: MangaSFXProps) {
         className,
       )}
       style={{
-        WebkitTextStroke: '1px rgba(6,14,26,0.5)',
-        textShadow: '3px 3px 0 rgba(6,14,26,0.3)',
+        WebkitTextStroke: '1px rgb(var(--ocean-deep) / 0.5)',
+        textShadow: '3px 3px 0 rgb(var(--ocean-deep) / 0.3)',
         paintOrder: 'stroke fill',
       }}
     >

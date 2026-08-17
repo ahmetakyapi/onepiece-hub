@@ -299,7 +299,7 @@ export default function WatchPageClient({
       : mode === 'cinema'
         /* Genişlik hem viewport genişliğine hem yüksekliğine göre sınırlanır —
            böylece aspectRatio hiçbir zaman max-height ile çatışmaz. */
-        ? 'fixed left-1/2 top-1/2 z-[260] w-[min(96vw,calc(86vh*16/11),1500px)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl border border-gold/20 bg-ocean-deep shadow-[0_0_140px_rgba(244,163,0,0.14)]'
+        ? 'fixed left-1/2 top-1/2 z-[260] w-[min(96vw,calc(86vh*16/11),1500px)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl border border-gold/20 bg-ocean-deep shadow-[0_0_140px_rgb(var(--gold)/0.14)]'
         : 'fixed bottom-[calc(env(safe-area-inset-bottom)+5.5rem)] right-3 z-[180] w-[min(21rem,calc(100vw-1.5rem))] overflow-hidden rounded-xl border border-gold/20 bg-ocean-deep shadow-[0_20px_50px_-10px_rgba(2,6,23,0.9)] md:bottom-5 md:right-5'
 
   const stageStyle = { aspectRatio: STAGE_ASPECT_RATIO } as const
@@ -336,7 +336,7 @@ export default function WatchPageClient({
             {arc.name}
           </Link>
           <span className="text-pirate-muted/30">•</span>
-          <span className="stat-number text-pirate-muted">
+          <span className="font-mono text-pirate-muted">
             {watched}/{arc.episodeCount} izlendi
           </span>
           <span className="text-pirate-muted/30">•</span>
@@ -354,24 +354,24 @@ export default function WatchPageClient({
           {/* ── Bölüm başlığı ──────────────────────────────────────── */}
           <header className="mb-3 min-w-0 lg:col-start-1 lg:row-start-1">
             <div className="mb-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-sea/20 bg-sea/[0.08] px-2.5 py-0.5 text-[11px] font-bold text-sea">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-sea/20 bg-sea/[0.08] px-2.5 py-0.5 font-mono text-[11px] font-bold text-sea">
                 Bölüm {globalEp}
               </span>
-              <span className="stat-number text-[11px] text-pirate-muted/60">
+              <span className="font-mono text-[11px] text-pirate-muted/60">
                 {arc.name} {episode.number}/{arc.episodeCount}
               </span>
               <span className="text-pirate-muted/30">•</span>
-              <span className="stat-number text-[11px] text-pirate-muted/60">
+              <span className="font-mono text-[11px] text-pirate-muted/60">
                 {episode.duration}
               </span>
               {currentIsWatched && (
-                <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-400">
+                <span className="eyebrow inline-flex items-center gap-1 rounded-full border border-haki/25 bg-haki/10 px-2 py-0.5 text-haki">
                   <Check className="h-3 w-3" />
                   İzlendi
                 </span>
               )}
             </div>
-            <h1 className="text-xl font-extrabold tracking-tight text-pirate-text sm:text-2xl lg:text-[1.75rem]">
+            <h1 className="font-display text-xl font-bold text-pirate-text sm:text-2xl lg:text-[1.75rem]">
               {episode.title}
             </h1>
           </header>
@@ -393,7 +393,7 @@ export default function WatchPageClient({
                   </p>
                   <button onClick={() => setMode('inline')} className="btn-ghost !px-3.5 !py-1.5 text-[12px]">
                     <Shrink className="h-3.5 w-3.5" />
-                    Buraya geri getir
+                    Buraya Geri Getir
                   </button>
                 </div>
               )}
@@ -440,11 +440,9 @@ export default function WatchPageClient({
                         <span className="absolute inline-flex h-2 w-2 animate-ping rounded-full bg-luffy/70" />
                         <span className="relative inline-flex h-2 w-2 rounded-full bg-luffy" />
                       </span>
-                      <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/80">
-                        Sinema
-                      </span>
+                      <span className="eyebrow text-white/80">Sinema</span>
                       <span className="text-[10px] text-white/40">•</span>
-                      <span className="stat-number text-[10px] text-white/70">
+                      <span className="font-mono text-[10px] text-white/70">
                         Bölüm {globalEp}
                       </span>
                     </div>
@@ -517,7 +515,7 @@ export default function WatchPageClient({
                 aria-pressed={currentIsWatched}
                 className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-2 text-[12px] font-semibold transition-colors sm:text-[13px] ${
                   currentIsWatched
-                    ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20'
+                    ? 'border-haki/30 bg-haki/10 text-haki hover:bg-haki/20'
                     : 'border-pirate-border bg-ocean-surface/60 text-pirate-muted hover:border-gold/25 hover:text-gold'
                 }`}
               >
@@ -622,7 +620,7 @@ export default function WatchPageClient({
                   className="btn-gold !rounded-xl !px-3.5 !py-2 text-[12px] sm:text-[13px]"
                 >
                   <span className="hidden sm:inline">{nextArc.name}</span>
-                  <span className="sm:hidden">Sonraki arc</span>
+                  <span className="sm:hidden">Sonraki Arc</span>
                   <ChevronRight className="h-4 w-4" />
                 </Link>
               ) : null}
@@ -642,7 +640,7 @@ export default function WatchPageClient({
               </a>{' '}
               üzerinden geliyor — Türkçe altyazılı One Pace sürümü.
               {remaining !== null && loadState === 'ready' && (
-                <span className="stat-number ml-auto hidden text-pirate-muted/40 sm:inline">
+                <span className="ml-auto hidden font-mono text-pirate-muted/40 sm:inline">
                   ~{formatSeconds(remaining)} kaldı
                 </span>
               )}
@@ -656,9 +654,9 @@ export default function WatchPageClient({
                 animate="visible"
                 className="bento-card mt-5 rounded-2xl p-5"
               >
-                <h2 className="mb-2 flex items-center gap-2 text-[13px] font-bold text-pirate-text">
+                <h2 className="mb-2 flex items-center gap-2 font-display text-[13px] font-bold text-pirate-text">
                   <BookOpen className="h-4 w-4 text-gold" />
-                  Bölüm özeti
+                  Bölüm Özeti
                 </h2>
                 <p className="text-[13px] leading-relaxed text-pirate-muted sm:text-sm">
                   {episode.summary}
@@ -700,15 +698,16 @@ export default function WatchPageClient({
 
       {/* Sinema modu alt bilgi şeridi */}
       {mode === 'cinema' && (
-        <div className="pointer-events-none fixed inset-x-0 bottom-5 z-[261] flex flex-wrap items-center justify-center gap-x-5 gap-y-1 px-4 text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-white/35">
-          <span className="flex items-center gap-1.5">
+        <div className="pointer-events-none fixed inset-x-0 bottom-5 z-[261] flex flex-wrap items-center justify-center gap-x-5 gap-y-1 px-4 text-center text-[10px] text-white/35">
+          <span className="eyebrow flex items-center gap-1.5">
+            {/* kbd'nin UA varsayılan font-family'si miras almayı keser — açıkça ver */}
             <kbd className="rounded border border-white/20 bg-white/5 px-1.5 py-0.5 font-mono normal-case text-white/60">
               Esc
             </kbd>
             Çık
           </span>
-          <span className="normal-case tracking-normal">{episode.title}</span>
-          <span className="normal-case tracking-normal">{arc.name}</span>
+          <span className="font-display">{episode.title}</span>
+          <span>{arc.name}</span>
         </div>
       )}
 

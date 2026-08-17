@@ -126,7 +126,7 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
       <main className="flex min-h-screen items-center justify-center">
         <div className="text-center">
           <BrainCircuit className="mx-auto mb-4 h-12 w-12 text-pirate-muted" />
-          <h1 className="mb-2 text-xl font-bold text-pirate-text">Quiz Bulunamadı</h1>
+          <h1 className="font-display mb-2 text-xl font-bold text-pirate-text">Quiz Bulunamadı</h1>
           <p className="mb-4 text-sm text-pirate-muted">Bu arc için henüz quiz eklenmemiş.</p>
           <Link href="/arcs" className="btn-ghost">Arc&apos;lara Dön</Link>
         </div>
@@ -185,7 +185,7 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
                 <motion.div
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  className="flex items-center gap-1 rounded-full bg-gold/10 px-2.5 py-1 text-xs font-bold text-gold"
+                  className="flex items-center gap-1 rounded-full bg-gold/10 px-2.5 py-1 font-mono text-xs font-bold text-gold"
                 >
                   <Flame className="h-3 w-3" />
                   {streak}x
@@ -193,7 +193,7 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
               )}
 
               {/* Score pill */}
-              <div className="flex items-center gap-1.5 rounded-full border border-pirate-border/50 bg-ocean-surface/80 px-3 py-1.5 text-xs font-semibold text-pirate-text backdrop-blur-sm">
+              <div className="flex items-center gap-1.5 rounded-full border border-pirate-border/50 bg-ocean-surface/80 px-3 py-1.5 font-mono text-xs font-bold text-pirate-text backdrop-blur-sm">
                 <Zap className="h-3 w-3 text-gold" />
                 {score}/{quiz.questions.length}
               </div>
@@ -262,7 +262,7 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
                         className="mb-5 inline-flex items-center gap-2 rounded-full border border-pirate-border/30 bg-ocean-deep/60 px-4 py-2"
                       >
                         <rank.icon className={`h-4 w-4 ${rank.color}`} />
-                        <span className={`text-sm font-bold ${rank.color}`}>{rank.label}</span>
+                        <span className={`eyebrow-lg ${rank.color}`}>{rank.label}</span>
                       </motion.div>
                     )
                   })()}
@@ -270,10 +270,16 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
                   {/* Score ring */}
                   <div className="relative mx-auto mb-6 flex h-40 w-40 items-center justify-center">
                     <svg className="h-40 w-40 -rotate-90" viewBox="0 0 120 120">
-                      <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(30,144,255,0.06)" strokeWidth="6" />
+                      <circle cx="60" cy="60" r="50" fill="none" stroke="rgb(var(--sea) / 0.06)" strokeWidth="6" />
                       <motion.circle
                         cx="60" cy="60" r="50" fill="none"
-                        stroke={percentage >= 80 ? '#f4a300' : percentage >= 50 ? '#1e90ff' : '#e74c3c'}
+                        stroke={
+                          percentage >= 80
+                            ? 'rgb(var(--gold))'
+                            : percentage >= 50
+                              ? 'rgb(var(--sea))'
+                              : 'rgb(var(--luffy))'
+                        }
                         strokeWidth="6"
                         strokeLinecap="round"
                         initial={{ strokeDasharray: '0 314' }}
@@ -282,7 +288,7 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
                       />
                     </svg>
                     <motion.span
-                      className="absolute text-4xl font-extrabold text-pirate-text"
+                      className="font-display stat-number absolute text-4xl font-bold text-pirate-text"
                       initial={{ opacity: 0, scale: 0.5 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.4, delay: 0.8 }}
@@ -299,16 +305,16 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
                     className="mx-auto mb-8 grid max-w-xs grid-cols-3 gap-3"
                   >
                     <div className="rounded-xl border border-pirate-border/20 bg-ocean-deep/40 px-3 py-3">
-                      <p className="text-lg font-bold text-gold stat-number">{score}</p>
-                      <p className="text-[10px] text-pirate-muted">Doğru</p>
+                      <p className="font-display text-lg font-bold text-gold stat-number">{score}</p>
+                      <p className="eyebrow mt-0.5 text-pirate-muted">Doğru</p>
                     </div>
                     <div className="rounded-xl border border-pirate-border/20 bg-ocean-deep/40 px-3 py-3">
-                      <p className="text-lg font-bold text-luffy stat-number">{quiz.questions.length - score}</p>
-                      <p className="text-[10px] text-pirate-muted">Yanlış</p>
+                      <p className="font-display text-lg font-bold text-luffy stat-number">{quiz.questions.length - score}</p>
+                      <p className="eyebrow mt-0.5 text-pirate-muted">Yanlış</p>
                     </div>
                     <div className="rounded-xl border border-pirate-border/20 bg-ocean-deep/40 px-3 py-3">
-                      <p className="text-lg font-bold text-sea stat-number">{bestStreak}x</p>
-                      <p className="text-[10px] text-pirate-muted">Seri</p>
+                      <p className="font-display text-lg font-bold text-sea stat-number">{bestStreak}x</p>
+                      <p className="eyebrow mt-0.5 text-pirate-muted">Seri</p>
                     </div>
                   </motion.div>
 
@@ -360,10 +366,10 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
 
                 {/* Question number */}
                 <div className="mb-3 flex items-center gap-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-fruit-strong/20 to-gold/20 text-sm font-bold text-gold">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-fruit-strong/20 to-gold/20 font-mono text-sm font-bold text-gold">
                     {currentQ + 1}
                   </span>
-                  <span className="text-xs font-medium text-pirate-muted">{arc.name}</span>
+                  <span className="font-display text-xs font-bold text-pirate-muted">{arc.name}</span>
                 </div>
 
                 {/* Question text */}
@@ -385,9 +391,9 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
 
                   if (showResult) {
                     if (isCorrect) {
-                      cardStyle = 'border-emerald-500/40 bg-emerald-500/[0.08]'
-                      letterStyle = 'bg-emerald-500/20 text-emerald-400'
-                      iconEl = <CheckCircle className="h-5 w-5 flex-shrink-0 text-emerald-400" />
+                      cardStyle = 'border-haki/40 bg-haki/[0.08]'
+                      letterStyle = 'bg-haki/20 text-haki'
+                      iconEl = <CheckCircle className="h-5 w-5 flex-shrink-0 text-haki" />
                     } else if (isWrong) {
                       cardStyle = 'border-luffy/40 bg-luffy/[0.08]'
                       letterStyle = 'bg-luffy/20 text-luffy'
@@ -410,7 +416,7 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
                       whileHover={!showResult ? { x: 4 } : undefined}
                       whileTap={!showResult ? { scale: 0.98 } : undefined}
                     >
-                      <span className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg text-xs font-bold transition-colors ${letterStyle}`}>
+                      <span className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg font-mono text-xs font-bold transition-colors ${letterStyle}`}>
                         {OPTION_LETTERS[i]}
                       </span>
                       <span className={`flex-1 text-sm font-medium ${showResult && !isCorrect && !isWrong ? 'text-pirate-muted/50' : 'text-pirate-text'}`}>

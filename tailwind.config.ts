@@ -1,5 +1,14 @@
 import type { Config } from 'tailwindcss'
 
+/* Palet tokenları `app/globals.css` içinde RGB kanal üçlüsü olarak tanımlı
+   (`--ocean-deep: 6 14 26`). Burada `rgb(var(--x) / <alpha-value>)` sarmalı
+   sayesinde `bg-ocean-deep` de `bg-ocean-deep/40` de çalışır — ve ikisi de
+   `<html data-theme>` değişince otomatik olarak tema değiştirir.
+
+   Bu yüzden bileşenlerde renk sınıfı değiştirmeye gerek yok: 3300'den fazla
+   `bg-` · `text-` · `border-` kullanımı tek yerden iki temaya bağlandı. */
+const token = (name: string) => `rgb(var(${name}) / <alpha-value>)`
+
 const config: Config = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -7,66 +16,98 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './lib/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  darkMode: 'class',
+  /* Tema `<html data-theme="light|dark">` ile sürülür (next-themes yok —
+     `ThemeProvider` custom). `dark:` varyantı yine de çalışsın diye selector
+     olarak data-attribute veriliyor. */
+  darkMode: ['class', '[data-theme="dark"]'],
   theme: {
     extend: {
       fontFamily: {
+        /* Display — Cinzel. Başlıklar, kart adları, istatistik rakamları. */
+        display: ['var(--font-display)', 'Cinzel', 'Georgia', 'serif'],
         sans: ['var(--font-sans)', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        mono: ['var(--font-mono)', 'monospace'],
+        /* Etiket / veri — Space Mono. Eyebrow'lar, ödüller, bölüm numaraları. */
+        mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
       },
       colors: {
         ocean: {
-          deep:    '#060e1a',
-          surface: '#0c1829',
-          elevated: '#111f36',
-          mid:     '#143052',
-          shallow: '#1a4070',
-          light:   '#1e4a7a',
+          deep:     token('--ocean-deep'),
+          surface:  token('--ocean-surface'),
+          elevated: token('--ocean-elevated'),
+          mid:      token('--ocean-mid'),
+          shallow:  token('--ocean-shallow'),
+          light:    token('--ocean-light'),
         },
         gold: {
-          DEFAULT: '#f4a300',
-          soft:    '#3d2a00',
-          glow:    '#7a5200',
-          bright:  '#fbbf24',
-          dim:     '#b37900',
+          DEFAULT: token('--gold'),
+          soft:    token('--gold-soft'),
+          glow:    token('--gold-glow'),
+          bright:  token('--gold-bright'),
+          dim:     token('--gold-dim'),
         },
         sea: {
-          DEFAULT: '#1e90ff',
-          soft:    '#0a2a4d',
-          glow:    '#0d3a6b',
-          light:   '#60b8ff',
+          DEFAULT: token('--sea'),
+          soft:    token('--sea-soft'),
+          glow:    token('--sea-glow'),
+          light:   token('--sea-light'),
         },
         luffy: {
-          DEFAULT: '#e74c3c',
-          soft:    '#3d1410',
-          glow:    '#7a2820',
+          DEFAULT: token('--luffy'),
+          soft:    token('--luffy-soft'),
+          glow:    token('--luffy-glow'),
         },
         pirate: {
-          text:    '#e8eaf0',
-          muted:   '#8b8fa3',
-          border:  '#1c3a5c',
+          text:   token('--pirate-text'),
+          muted:  token('--pirate-muted'),
+          border: token('--pirate-border'),
+          /* Üçüncül metin — "sırada / izlenmedi" satırları, pasif rozetler.
+             Tasarımda dark `#3d5a7a`, light `#9aa7b5`. */
+          dim:    token('--pirate-dim'),
         },
         /* Şeytan Meyveleri · Haki · Şichibukai kategorilerinin vurgu rengi.
-           Daha önce ham `purple-300/400/500/600` sınıflarıyla 100+ yerde
-           yazılıyordu — palette tanımlı değildi, yani sistemin parçası değil
-           sızıntıydı. Değerler Tailwind karşılıklarıyla BİREBİR aynı, yani
-           token'lama görünümü değiştirmez.
+           Ham `purple-*` sınıfı yazma — bu token'ı kullan.
 
            Ekip kimlik renkleri (`CharacterAvatar` → CREW_GRADIENTS) ayrı bir
            sistemdir ve buraya dahil değildir: orada 15 ekibin her birinin
-           kendi rengi var (emerald, amber, cyan, pink, teal…), o bir içerik
-           paleti — marka sistemi değil. */
+           kendi rengi var, o bir içerik paleti — marka sistemi değil. */
         fruit: {
-          light:   '#d8b4fe',  // purple-300
-          DEFAULT: '#c084fc',  // purple-400 — kategori metni, kenarlık
-          strong:  '#a855f7',  // purple-500 — dolgu, vurgu kenarlığı
-          deep:    '#9333ea',  // purple-600 — degrade ucu
+          light:   token('--fruit-light'),
+          DEFAULT: token('--fruit'),
+          strong:  token('--fruit-strong'),
+          deep:    token('--fruit-deep'),
+        },
+        /* İzlendi / tamamlandı durumu. Dark #22c55e · light #16a34a. */
+        haki: {
+          DEFAULT: token('--haki'),
+          deep:    token('--haki-deep'),
+        },
+        /* Metin rengiyle aynı yönde saydam katman: dark'ta beyaz, light'ta
+           lacivert. `bg-white/[0.04]` yerine `bg-ink/[0.04]` yazılır — light
+           temada beyaz üstüne beyaz yıkama görünmez oluyordu. */
+        ink: token('--ink'),
+
+        /* Çok öğeli içerik sınıflandırmaları (saga · deniz · meyve türü ·
+           tehlike seviyesi · başarım kademesi). Light temada 700/800
+           seviyeye döner. Ham `cyan-*` / `emerald-*` / `amber-*` / `teal-*`
+           / `rose-*` / `pink-*` / `indigo-*` / `orange-*` yazma. */
+        accent: {
+          cyan:    token('--accent-cyan'),
+          teal:    token('--accent-teal'),
+          emerald: token('--accent-emerald'),
+          lime:    token('--accent-lime'),
+          amber:   token('--accent-amber'),
+          orange:  token('--accent-orange'),
+          rose:    token('--accent-rose'),
+          pink:    token('--accent-pink'),
+          indigo:  token('--accent-indigo'),
+          silver:  token('--accent-silver'),
+          bronze:  token('--accent-bronze'),
         },
       },
       backgroundImage: {
-        'ocean-gradient': 'radial-gradient(circle at 20% 10%, rgba(244,163,0,0.08), transparent 30%), radial-gradient(circle at 80% 15%, rgba(30,144,255,0.12), transparent 28%), radial-gradient(circle at 50% 90%, rgba(231,76,60,0.05), transparent 25%)',
-        'grid-ocean': 'linear-gradient(rgba(30,144,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(30,144,255,0.03) 1px, transparent 1px)',
-        'grid-dot': 'radial-gradient(circle, rgba(30,144,255,0.08) 1px, transparent 1px)',
+        'ocean-gradient': 'radial-gradient(circle at 20% 10%, rgb(var(--gold) / 0.08), transparent 30%), radial-gradient(circle at 80% 15%, rgb(var(--sea) / 0.12), transparent 28%), radial-gradient(circle at 50% 90%, rgb(var(--luffy) / 0.05), transparent 25%)',
+        'grid-ocean': 'linear-gradient(rgb(var(--sea) / 0.03) 1px, transparent 1px), linear-gradient(90deg, rgb(var(--sea) / 0.03) 1px, transparent 1px)',
+        'grid-dot': 'radial-gradient(circle, rgb(var(--sea) / 0.08) 1px, transparent 1px)',
       },
       backgroundSize: {
         'grid': '64px 64px',
@@ -77,6 +118,11 @@ const config: Config = {
         '2xl': '20px',
         '3xl': '28px',
         '4xl': '36px',
+      },
+      letterSpacing: {
+        /* Space Mono eyebrow ölçeği — tasarımdaki .18em–.26em aralığı */
+        eyebrow: '0.2em',
+        'eyebrow-wide': '0.26em',
       },
       animation: {
         'float':           'float 6s ease-in-out infinite',
@@ -125,11 +171,11 @@ const config: Config = {
         },
       },
       boxShadow: {
-        'gold-glow':   '0 0 40px rgba(244,163,0,0.15), 0 0 80px rgba(244,163,0,0.05)',
-        'sea-glow':    '0 0 40px rgba(30,144,255,0.15), 0 0 80px rgba(30,144,255,0.05)',
-        'card':        '0 14px 34px rgba(2,6,23,0.3)',
-        'card-hover':  '0 24px 48px rgba(2,6,23,0.4), 0 0 60px rgba(244,163,0,0.04)',
-        'inner-glow':  'inset 0 1px 0 rgba(255,255,255,0.04), inset 0 -1px 0 rgba(0,0,0,0.08)',
+        'gold-glow':   '0 0 40px rgb(var(--gold) / 0.15), 0 0 80px rgb(var(--gold) / 0.05)',
+        'sea-glow':    '0 0 40px rgb(var(--sea) / 0.15), 0 0 80px rgb(var(--sea) / 0.05)',
+        'card':        'var(--shadow-card)',
+        'card-hover':  'var(--shadow-card-hover)',
+        'inner-glow':  'var(--shadow-inner-glow)',
       },
       transitionTimingFunction: {
         'expo-out': 'cubic-bezier(0.16, 1, 0.3, 1)',

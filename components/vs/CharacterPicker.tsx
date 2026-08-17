@@ -46,12 +46,12 @@ function CharacterPicker({ value, onSelect, accent, disabledSlug, label }: Props
   }, [search])
 
   const accentClasses = accent === 'luffy'
-    ? { border: 'border-luffy/40', bg: 'bg-luffy/[0.04]', hoverBg: 'hover:bg-luffy/10', glow: 'shadow-[0_0_40px_rgba(231,76,60,0.15)]', text: 'text-luffy', focus: 'focus:border-luffy/60 focus:ring-luffy/20' }
-    : { border: 'border-sea/40', bg: 'bg-sea/[0.04]', hoverBg: 'hover:bg-sea/10', glow: 'shadow-[0_0_40px_rgba(30,144,255,0.15)]', text: 'text-sea', focus: 'focus:border-sea/60 focus:ring-sea/20' }
+    ? { border: 'border-luffy/40', bg: 'bg-luffy/[0.04]', hoverBg: 'hover:bg-luffy/10', glow: 'shadow-[0_0_40px_rgb(var(--luffy)/0.15)]', text: 'text-luffy', focus: 'focus:border-luffy/60 focus:ring-luffy/20' }
+    : { border: 'border-sea/40', bg: 'bg-sea/[0.04]', hoverBg: 'hover:bg-sea/10', glow: 'shadow-[0_0_40px_rgb(var(--sea)/0.15)]', text: 'text-sea', focus: 'focus:border-sea/60 focus:ring-sea/20' }
 
   return (
     <div ref={containerRef} className="relative">
-      <p className={`mb-2 text-[10px] font-bold uppercase tracking-[0.25em] ${accentClasses.text}`}>
+      <p className={`eyebrow mb-2 ${accentClasses.text}`}>
         {label}
       </p>
 
@@ -71,7 +71,7 @@ function CharacterPicker({ value, onSelect, accent, disabledSlug, label }: Props
               />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-lg font-extrabold text-pirate-text sm:text-xl">
+              <p className="font-display truncate text-lg font-extrabold text-pirate-text sm:text-xl">
                 {value.name}
               </p>
               {value.epithet && (
@@ -81,7 +81,7 @@ function CharacterPicker({ value, onSelect, accent, disabledSlug, label }: Props
               )}
               {value.bounty && (
                 <p className="mt-1 text-xs text-pirate-muted">
-                  <span className="font-bold text-gold stat-number">{value.bounty}</span> Berry
+                  <span className="stat-number font-mono font-bold text-gold">{value.bounty}</span> Berry
                 </p>
               )}
             </div>

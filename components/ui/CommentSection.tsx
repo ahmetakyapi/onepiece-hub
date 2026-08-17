@@ -90,7 +90,7 @@ export default function CommentSection({ targetType, targetSlug }: Props) {
 
   return (
     <section className="mb-16" aria-label="Yorumlar">
-      <h2 className="mb-5 flex items-center gap-2 text-lg font-bold text-pirate-text">
+      <h2 className="mb-5 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
         <MessageCircle className="h-5 w-5 text-gold" />
         Yorumlar
         {comments.length > 0 && (
@@ -121,7 +121,7 @@ export default function CommentSection({ targetType, targetSlug }: Props) {
                 }}
               />
               <div className="mt-2 flex items-center justify-between">
-                <span className="text-[11px] text-pirate-muted/40" aria-live="polite">
+                <span className="font-mono text-[11px] text-pirate-muted/40" aria-live="polite">
                   {content.length}/500
                 </span>
                 <button
@@ -184,7 +184,7 @@ export default function CommentSection({ targetType, targetSlug }: Props) {
                   <span className="text-xs font-semibold text-pirate-text">
                     @{comment.username}
                   </span>
-                  <span className="text-[10px] text-pirate-muted/40">
+                  <span className="font-mono text-[10px] text-pirate-muted/40">
                     {getTimeAgo(comment.createdAt)}
                   </span>
                   <div className="flex-1" />

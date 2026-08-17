@@ -25,7 +25,7 @@ export default function ShortcutsDialog({ onClose }: Props) {
         animate="visible"
         exit="exit"
         onClick={onClose}
-        className="fixed inset-0 z-[300] bg-ocean-deep/80 backdrop-blur-sm"
+        className="fixed inset-0 z-[300] bg-black/70 backdrop-blur-sm"
       />
       <div className="pointer-events-none fixed inset-0 z-[301] flex items-center justify-center p-4">
         <motion.div
@@ -44,8 +44,8 @@ export default function ShortcutsDialog({ onClose }: Props) {
                 <Keyboard className="h-4 w-4 text-gold" />
               </span>
               <div>
-                <h2 id="shortcuts-title" className="text-sm font-bold text-pirate-text">
-                  Klavye kısayolları
+                <h2 id="shortcuts-title" className="font-display text-sm font-bold text-pirate-text">
+                  Klavye Kısayolları
                 </h2>
                 <p className="text-[11px] text-pirate-muted">
                   Video alanı dışına tıkladığında aktif olur
@@ -66,7 +66,7 @@ export default function ShortcutsDialog({ onClose }: Props) {
             {PLAYER_SHORTCUTS.map((shortcut) => (
               <li
                 key={shortcut.label}
-                className="flex items-center justify-between gap-4 rounded-lg px-2 py-2 odd:bg-white/[0.02]"
+                className="flex items-center justify-between gap-4 rounded-lg px-2 py-2 odd:bg-ink/[0.02]"
               >
                 <span className="text-[13px] text-pirate-text">{shortcut.label}</span>
                 <span className="flex flex-shrink-0 items-center gap-1">

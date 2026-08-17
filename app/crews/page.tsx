@@ -16,16 +16,19 @@ const TYPE_ICONS: Record<string, typeof Anchor> = {
   other: Anchor,
 }
 
+/* Marka token'ı olan tipler (pirate/marine/other) token'lı glow kullanır;
+   government/revolutionary kendi Tailwind renkleriyle eşleşen ham değerde
+   kalır — o ikisi bir organizasyon kimlik rengi, marka paleti değil. */
 const TYPE_COLORS: Record<string, { border: string; glow: string; text: string; bg: string }> = {
-  pirate: { border: 'border-gold/50', glow: 'shadow-[0_0_24px_rgba(244,163,0,0.3)]', text: 'text-gold', bg: 'bg-gold/10' },
-  marine: { border: 'border-sea/50', glow: 'shadow-[0_0_24px_rgba(30,144,255,0.3)]', text: 'text-sea', bg: 'bg-sea/10' },
-  government: { border: 'border-amber-400/50', glow: 'shadow-[0_0_24px_rgba(251,191,36,0.3)]', text: 'text-amber-400', bg: 'bg-amber-400/10' },
-  revolutionary: { border: 'border-green-400/50', glow: 'shadow-[0_0_24px_rgba(74,222,128,0.3)]', text: 'text-green-400', bg: 'bg-green-400/10' },
-  other: { border: 'border-pirate-muted/50', glow: 'shadow-[0_0_24px_rgba(200,200,220,0.15)]', text: 'text-pirate-muted', bg: 'bg-pirate-muted/10' },
+  pirate: { border: 'border-gold/50', glow: 'shadow-[0_0_24px_rgb(var(--gold)/0.3)]', text: 'text-gold', bg: 'bg-gold/10' },
+  marine: { border: 'border-sea/50', glow: 'shadow-[0_0_24px_rgb(var(--sea)/0.3)]', text: 'text-sea', bg: 'bg-sea/10' },
+  government: { border: 'border-accent-amber/50', glow: 'shadow-[0_0_24px_rgba(251,191,36,0.3)]', text: 'text-accent-amber', bg: 'bg-accent-amber/10' },
+  revolutionary: { border: 'border-accent-lime/50', glow: 'shadow-[0_0_24px_rgba(74,222,128,0.3)]', text: 'text-accent-lime', bg: 'bg-accent-lime/10' },
+  other: { border: 'border-pirate-muted/50', glow: 'shadow-[0_0_24px_rgb(var(--pirate-muted)/0.15)]', text: 'text-pirate-muted', bg: 'bg-pirate-muted/10' },
 }
 
 const STATUS_CONFIG: Record<string, { label: string; dot: string; ring: string }> = {
-  active: { label: 'Aktif', dot: 'bg-green-400', ring: 'ring-green-400/30' },
+  active: { label: 'Aktif', dot: 'bg-accent-lime', ring: 'ring-accent-lime/30' },
   defeated: { label: 'Yenilmiş', dot: 'bg-luffy', ring: 'ring-luffy/30' },
   disbanded: { label: 'Dağıtılmış', dot: 'bg-pirate-muted/60', ring: 'ring-pirate-muted/20' },
   unknown: { label: 'Bilinmiyor', dot: 'bg-pirate-muted/40', ring: 'ring-pirate-muted/10' },
@@ -36,27 +39,29 @@ const CREW_BORDER_COLORS: Record<string, string> = {
   'text-gold-bright': 'from-gold-bright/80 via-gold-bright/40 to-transparent',
   'text-luffy': 'from-luffy/80 via-luffy/40 to-transparent',
   'text-sea': 'from-sea/80 via-sea/40 to-transparent',
-  'text-green-400': 'from-green-400/80 via-green-400/40 to-transparent',
-  'text-emerald-400': 'from-emerald-400/80 via-emerald-400/40 to-transparent',
+  'text-accent-lime': 'from-accent-lime/80 via-accent-lime/40 to-transparent',
+  'text-accent-emerald': 'from-accent-emerald/80 via-accent-emerald/40 to-transparent',
   'text-fruit': 'from-fruit/80 via-fruit/40 to-transparent',
-  'text-pink-400': 'from-pink-400/80 via-pink-400/40 to-transparent',
-  'text-amber-400': 'from-amber-400/80 via-amber-400/40 to-transparent',
-  'text-slate-400': 'from-slate-400/80 via-slate-400/40 to-transparent',
+  'text-accent-pink': 'from-accent-pink/80 via-accent-pink/40 to-transparent',
+  'text-accent-amber': 'from-accent-amber/80 via-accent-amber/40 to-transparent',
+  'text-accent-silver': 'from-accent-silver/80 via-accent-silver/40 to-transparent',
   'text-pirate-text': 'from-pirate-text/60 via-pirate-text/30 to-transparent',
 }
 
+/* Anahtar bir marka token'ıysa glow da token'dan okunur; ham Tailwind renkli
+   ekip kimlikleri (emerald/pink/slate…) kendi değerinde bırakıldı. */
 const CREW_HOVER_GLOW: Record<string, string> = {
-  'text-gold': 'hover:shadow-[0_0_30px_rgba(244,163,0,0.15)]',
-  'text-gold-bright': 'hover:shadow-[0_0_30px_rgba(244,163,0,0.15)]',
-  'text-luffy': 'hover:shadow-[0_0_30px_rgba(231,76,60,0.15)]',
-  'text-sea': 'hover:shadow-[0_0_30px_rgba(30,144,255,0.15)]',
-  'text-green-400': 'hover:shadow-[0_0_30px_rgba(74,222,128,0.15)]',
-  'text-emerald-400': 'hover:shadow-[0_0_30px_rgba(52,211,153,0.15)]',
-  'text-fruit': 'hover:shadow-[0_0_30px_rgba(192,132,252,0.15)]',
-  'text-pink-400': 'hover:shadow-[0_0_30px_rgba(244,114,182,0.15)]',
-  'text-amber-400': 'hover:shadow-[0_0_30px_rgba(251,191,36,0.15)]',
-  'text-slate-400': 'hover:shadow-[0_0_30px_rgba(148,163,184,0.1)]',
-  'text-pirate-text': 'hover:shadow-[0_0_30px_rgba(200,200,220,0.1)]',
+  'text-gold': 'hover:shadow-[0_0_30px_rgb(var(--gold)/0.15)]',
+  'text-gold-bright': 'hover:shadow-[0_0_30px_rgb(var(--gold-bright)/0.15)]',
+  'text-luffy': 'hover:shadow-[0_0_30px_rgb(var(--luffy)/0.15)]',
+  'text-sea': 'hover:shadow-[0_0_30px_rgb(var(--sea)/0.15)]',
+  'text-accent-lime': 'hover:shadow-[0_0_30px_rgba(74,222,128,0.15)]',
+  'text-accent-emerald': 'hover:shadow-[0_0_30px_rgba(52,211,153,0.15)]',
+  'text-fruit': 'hover:shadow-[0_0_30px_rgb(var(--fruit)/0.15)]',
+  'text-accent-pink': 'hover:shadow-[0_0_30px_rgba(244,114,182,0.15)]',
+  'text-accent-amber': 'hover:shadow-[0_0_30px_rgba(251,191,36,0.15)]',
+  'text-accent-silver': 'hover:shadow-[0_0_30px_rgba(148,163,184,0.1)]',
+  'text-pirate-text': 'hover:shadow-[0_0_30px_rgb(var(--pirate-text)/0.1)]',
 }
 
 function AvatarStack({ count }: { count: number }) {
@@ -76,11 +81,11 @@ function AvatarStack({ count }: { count: number }) {
         ))}
       </div>
       {extra > 0 && (
-        <span className="ml-1.5 text-[10px] font-semibold text-pirate-muted">
+        <span className="ml-1.5 font-mono text-[10px] font-semibold text-pirate-muted">
           +{extra}
         </span>
       )}
-      <span className="ml-2 text-xs text-pirate-muted">
+      <span className="ml-2 font-mono text-xs text-pirate-muted">
         {count} üye
       </span>
     </div>
@@ -106,10 +111,10 @@ export default function CrewsPage() {
             subtitle="& Organizasyonlar"
             accentColor="gold"
             orbs={[
-              { color: 'rgba(244,163,0,0.4)', size: 280, x: '5%', y: '10%', delay: 0 },
-              { color: 'rgba(30,144,255,0.3)', size: 200, x: '70%', y: '20%', delay: 1.5 },
-              { color: 'rgba(231,76,60,0.25)', size: 160, x: '85%', y: '60%', delay: 3 },
-              { color: 'rgba(74,222,128,0.2)', size: 140, x: '30%', y: '70%', delay: 2 },
+              { color: 'rgb(var(--gold) / 0.4)', size: 280, x: '5%', y: '10%', delay: 0 },
+              { color: 'rgb(var(--sea) / 0.3)', size: 200, x: '70%', y: '20%', delay: 1.5 },
+              { color: 'rgb(var(--luffy) / 0.25)', size: 160, x: '85%', y: '60%', delay: 3 },
+              { color: 'rgb(var(--haki) / 0.2)', size: 140, x: '30%', y: '70%', delay: 2 },
             ]}
           >
             <div className="flex flex-wrap items-center gap-4 text-sm text-pirate-muted">
@@ -140,7 +145,7 @@ export default function CrewsPage() {
               onClick={() => setActiveType(null)}
               className={`group relative flex flex-col items-center gap-2 rounded-xl border p-4 transition-all duration-300 ${
                 !activeType
-                  ? 'border-gold/40 bg-gold/10 shadow-[0_0_20px_rgba(244,163,0,0.2)]'
+                  ? 'border-gold/40 bg-gold/10 shadow-[0_0_20px_rgb(var(--gold)/0.2)]'
                   : 'border-pirate-border/50 bg-ocean-surface/30 hover:border-pirate-border hover:bg-ocean-surface/50'
               }`}
             >
@@ -148,7 +153,7 @@ export default function CrewsPage() {
               <span className={`text-xs font-semibold transition-colors ${!activeType ? 'text-gold' : 'text-pirate-muted group-hover:text-pirate-text'}`}>
                 Tümü
               </span>
-              <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${!activeType ? 'bg-gold/20 text-gold' : 'bg-pirate-border/30 text-pirate-muted'}`}>
+              <span className={`rounded-full px-2 py-0.5 font-mono text-[10px] font-bold ${!activeType ? 'bg-gold/20 text-gold' : 'bg-pirate-border/30 text-pirate-muted'}`}>
                 {CREWS.length}
               </span>
             </motion.button>
@@ -174,7 +179,7 @@ export default function CrewsPage() {
                   <span className={`text-xs font-semibold transition-colors ${isActive ? colors.text : 'text-pirate-muted group-hover:text-pirate-text'}`}>
                     {CREW_TYPE_LABELS[type]}
                   </span>
-                  <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${isActive ? `${colors.bg} ${colors.text}` : 'bg-pirate-border/30 text-pirate-muted'}`}>
+                  <span className={`rounded-full px-2 py-0.5 font-mono text-[10px] font-bold ${isActive ? `${colors.bg} ${colors.text}` : 'bg-pirate-border/30 text-pirate-muted'}`}>
                     {count}
                   </span>
                 </motion.button>
@@ -217,14 +222,14 @@ export default function CrewsPage() {
 
                       {/* Shine sweep on hover */}
                       <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-xl">
-                        <div className="absolute -left-full top-0 h-full w-1/2 skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/[0.04] to-transparent transition-all duration-700 group-hover:left-[120%]" />
+                        <div className="absolute -left-full top-0 h-full w-1/2 skew-x-[-20deg] bg-gradient-to-r from-transparent via-ink/[0.04] to-transparent transition-all duration-700 group-hover:left-[120%]" />
                       </div>
 
                       <div className="relative flex flex-1 flex-col p-5">
                         {/* Header row */}
                         <div className="mb-3 flex items-start justify-between gap-3">
                           <div className="flex-1">
-                            <h3 className={`mb-1 text-base font-bold ${crew.color} transition-colors group-hover:text-gold`}>
+                            <h3 className={`font-display mb-1 text-base font-bold ${crew.color} transition-colors group-hover:text-gold`}>
                               {crew.name}
                             </h3>
                             <p className="font-mono text-[10px] text-pirate-muted/50">{crew.japaneseName}</p>
@@ -256,8 +261,8 @@ export default function CrewsPage() {
                               <Crown className="h-3.5 w-3.5 text-gold" />
                             </div>
                             <div>
-                              <p className="text-[9px] font-medium uppercase tracking-wider text-gold/60">Kaptan</p>
-                              <p className="text-xs font-bold text-pirate-text">{crew.captain}</p>
+                              <p className="eyebrow text-gold/60">Kaptan</p>
+                              <p className="font-display text-xs font-bold text-pirate-text">{crew.captain}</p>
                             </div>
                           </div>
                         )}
@@ -277,8 +282,8 @@ export default function CrewsPage() {
                             <div className="flex items-center gap-2 rounded-lg border border-gold/20 bg-gold/5 px-3 py-2">
                               <Skull className="h-3.5 w-3.5 text-gold" />
                               <div>
-                                <p className="text-[9px] font-medium uppercase tracking-wider text-gold/50">Toplam Ödül</p>
-                                <p className="text-xs font-bold text-gold">{crew.totalBounty} Berry</p>
+                                <p className="eyebrow text-gold/50">Toplam Ödül</p>
+                                <p className="stat-number font-mono text-xs font-bold text-gold">{crew.totalBounty} Berry</p>
                               </div>
                             </div>
                           )}

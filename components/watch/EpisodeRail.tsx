@@ -54,16 +54,16 @@ const EpisodeRow = memo(function EpisodeRow({
       aria-current={isCurrent ? 'true' : undefined}
       className={`group flex items-center gap-3 rounded-lg px-2.5 py-2 transition-colors ${
         isCurrent
-          ? 'border border-gold/25 bg-gold/[0.09] text-gold shadow-[0_0_16px_rgba(244,163,0,0.08)]'
+          ? 'border border-gold/25 bg-gold/[0.09] text-gold shadow-[0_0_16px_rgb(var(--gold)/0.08)]'
           : 'border border-transparent text-pirate-muted hover:bg-sea/[0.06] hover:text-pirate-text'
       }`}
     >
       <span
-        className={`relative flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg text-[11px] font-bold tabular-nums ${
+        className={`relative flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg font-mono text-[11px] font-bold ${
           isCurrent
             ? 'bg-gold/20 text-gold'
             : isWatched
-              ? 'bg-emerald-500/10 text-emerald-400'
+              ? 'bg-haki/10 text-haki'
               : 'bg-ocean-surface text-sea'
         }`}
       >
@@ -84,12 +84,12 @@ const EpisodeRow = memo(function EpisodeRow({
         >
           {episode.title}
         </span>
-        <span className="block text-[10px] tabular-nums opacity-50">
+        <span className="block font-mono text-[10px] opacity-50">
           Bölüm {episode.number}
         </span>
       </span>
 
-      <span className="flex flex-shrink-0 items-center gap-1 text-[10px] tabular-nums opacity-50">
+      <span className="flex flex-shrink-0 items-center gap-1 font-mono text-[10px] opacity-50">
         <Clock className="h-3 w-3" />
         {episode.duration}
       </span>
@@ -146,11 +146,11 @@ export default function EpisodeRail({
     <aside className="bento-card rounded-2xl p-3.5 sm:p-4" aria-label="Bölüm listesi">
       {/* ── Başlık ─────────────────────────────────────────────────────── */}
       <div className="mb-3 flex items-center justify-between gap-2">
-        <h2 className="flex items-center gap-2 text-[13px] font-bold text-pirate-text">
-          <Film className="h-4 w-4 text-sea" />
+        <h2 className="flex items-center gap-2 font-display text-[13px] font-bold text-pirate-text">
+          <Film className="h-4 w-4 flex-shrink-0 text-sea" />
           {arc.name}
         </h2>
-        <span className="stat-number flex-shrink-0 text-[11px] text-pirate-muted">
+        <span className="flex-shrink-0 font-mono text-[11px] text-pirate-muted">
           {watchedCount}/{arc.episodeCount}
         </span>
       </div>
@@ -184,14 +184,12 @@ export default function EpisodeRail({
           </span>
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-pirate-muted">
-            Arc ilerlemesi
-          </p>
+          <p className="eyebrow text-pirate-muted">Arc İlerlemesi</p>
           <p className="text-[13px] font-bold text-pirate-text">
             {watchedCount} / {arc.episodeCount} bölüm
           </p>
         </div>
-        <p className="stat-number text-sm font-black text-gold">{percent}%</p>
+        <p className="font-display text-sm font-bold tabular-nums text-gold">{percent}%</p>
       </div>
 
       {/* ── Sıradaki izlenmemiş ────────────────────────────────────────── */}
@@ -202,10 +200,8 @@ export default function EpisodeRail({
         >
           <SkipForward className="h-3.5 w-3.5 flex-shrink-0 text-sea" />
           <span className="min-w-0 flex-1">
-            <span className="block text-[10px] font-bold uppercase tracking-wider text-sea/70">
-              Sıradaki izlenmemiş
-            </span>
-            <span className="block truncate text-[12px] font-semibold text-pirate-text">
+            <span className="eyebrow block text-sea/70">Sıradaki İzlenmemiş</span>
+            <span className="block truncate font-display text-[12px] font-bold text-pirate-text">
               {nextUnwatched.title}
             </span>
           </span>
@@ -287,10 +283,10 @@ export default function EpisodeRail({
             >
               <ChevronLeft className="h-4 w-4 flex-shrink-0 text-sea transition-transform group-hover:-translate-x-0.5" />
               <span className="min-w-0 flex-1">
-                <span className="block text-[10px] font-semibold uppercase tracking-wider opacity-60">
-                  Önceki arc
+                <span className="eyebrow block opacity-60">Önceki Arc</span>
+                <span className="block truncate font-display text-[12px] font-bold">
+                  {prevArc.name}
                 </span>
-                <span className="block truncate text-[12px] font-medium">{prevArc.name}</span>
               </span>
             </Link>
           )}
@@ -305,10 +301,10 @@ export default function EpisodeRail({
             >
               <Compass className="h-4 w-4 flex-shrink-0 transition-transform group-hover:rotate-45" />
               <span className="min-w-0 flex-1">
-                <span className="block text-[10px] font-semibold uppercase tracking-wider opacity-60">
-                  Sonraki arc
+                <span className="eyebrow block opacity-60">Sonraki Arc</span>
+                <span className="block truncate font-display text-[12px] font-bold">
+                  {nextArc.name}
                 </span>
-                <span className="block truncate text-[12px] font-medium">{nextArc.name}</span>
               </span>
               <ChevronRight className="h-4 w-4 flex-shrink-0 transition-transform group-hover:translate-x-0.5" />
             </Link>

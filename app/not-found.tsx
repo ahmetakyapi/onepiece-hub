@@ -5,19 +5,20 @@ import { motion } from 'framer-motion'
 import { Home, Compass, Map, Anchor } from 'lucide-react'
 import { fadeUp, staggerContainer } from '@/lib/variants'
 import SpeechBubble from '@/components/ui/SpeechBubble'
+import { SITE_STATS } from '@/lib/constants/stats'
 
 const QUICK_LINKS = [
   { label: 'Ana Sayfa', href: '/', icon: Home, desc: 'Maceraya geri dön' },
   { label: "Arc'lar", href: '/arcs', icon: Compass, desc: 'Tüm hikaye yayları' },
-  { label: 'Karakterler', href: '/characters', icon: Anchor, desc: '65 karakter' },
+  { label: 'Karakterler', href: '/characters', icon: Anchor, desc: `${SITE_STATS.characters} karakter` },
   { label: 'Dünya Haritası', href: '/world', icon: Map, desc: 'Grand Line' },
 ]
 
 export default function NotFound() {
   return (
     <main className="relative min-h-screen flex items-center justify-center px-4 py-24 overflow-hidden">
-      <div className="orb absolute w-[360px] h-[360px] rounded-full blur-[100px] opacity-25" style={{ background: 'rgba(244, 163, 0, 0.5)', top: '6%', left: '8%' }} />
-      <div className="orb absolute w-[280px] h-[280px] rounded-full blur-[80px] opacity-20" style={{ background: 'rgba(231, 76, 60, 0.35)', bottom: '12%', right: '10%' }} />
+      <div className="orb absolute w-[360px] h-[360px] rounded-full blur-[100px] opacity-25" style={{ background: 'rgb(var(--gold) / 0.5)', top: '6%', left: '8%' }} />
+      <div className="orb absolute w-[280px] h-[280px] rounded-full blur-[80px] opacity-20" style={{ background: 'rgb(var(--luffy) / 0.35)', bottom: '12%', right: '10%' }} />
 
       <motion.div
         variants={staggerContainer(0.1)}
@@ -30,15 +31,15 @@ export default function NotFound() {
             <div className="manga-speed-line" style={{ top: '20%', width: '80%', left: '-10%', animationDelay: '0.05s' }} />
             <div className="manga-speed-line" style={{ top: '40%', width: '70%', left: '-10%', animationDelay: '0.12s' }} />
             <div className="manga-speed-line" style={{ top: '65%', width: '75%', left: '-10%', animationDelay: '0.2s' }} />
-            <span className="relative z-10 text-[7rem] sm:text-[10rem] font-extrabold leading-none text-gold-gradient drop-shadow-[0_6px_18px_rgba(244,163,0,0.25)]">
+            <span className="relative z-10 font-display text-[7rem] sm:text-[10rem] font-extrabold leading-none text-gold-gradient drop-shadow-[0_6px_18px_rgb(var(--gold)/0.25)]">
               404
             </span>
           </div>
 
           <div className="manga-panel flex flex-col justify-between p-5 sm:p-6">
             <div>
-              <p className="mb-2 text-[10px] font-black uppercase tracking-[0.25em] text-sea">Kayıt defteri</p>
-              <h1 className="text-xl font-extrabold leading-tight text-pirate-text sm:text-2xl">
+              <p className="eyebrow mb-2 text-sea">Kayıt defteri</p>
+              <h1 className="font-display text-xl font-extrabold leading-tight text-pirate-text sm:text-2xl">
                 Bu ada henüz keşfedilmedi.
               </h1>
             </div>

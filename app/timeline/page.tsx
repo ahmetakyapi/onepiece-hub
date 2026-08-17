@@ -18,13 +18,15 @@ type TimelineEvent = {
   relatedArcSlug?: string
 }
 
+// Dönem vurguları marka token'larından beslenir — ham `amber-*` / `blue-*`
+// sınıfları light temada okunmuyordu (amber-300 parşömen üstünde kayboluyor).
 const CATEGORY_INFO: Record<string, { label: string; color: string; bg: string; border: string; ring: string; icon: typeof Clock; dot: string }> = {
-  ancient:      { label: 'Antik Tarih',       color: 'text-amber-300',  bg: 'bg-amber-500/10',  border: 'border-amber-400/40',  ring: 'ring-amber-400/30',  icon: Crown,   dot: 'bg-amber-400' },
-  past:         { label: 'Geçmiş',            color: 'text-fruit', bg: 'bg-fruit-strong/10', border: 'border-fruit/40', ring: 'ring-fruit/30', icon: Globe,   dot: 'bg-fruit' },
-  'pre-story':  { label: 'Hikaye Öncesi',     color: 'text-sea',        bg: 'bg-sea/10',        border: 'border-sea/40',        ring: 'ring-sea/30',        icon: Anchor,  dot: 'bg-sea' },
-  'east-blue':  { label: 'East Blue Macerası', color: 'text-blue-400',   bg: 'bg-blue-500/10',   border: 'border-blue-400/40',   ring: 'ring-blue-400/30',   icon: Compass, dot: 'bg-blue-400' },
-  'grand-line': { label: 'Grand Line',        color: 'text-gold',       bg: 'bg-gold/10',       border: 'border-gold/40',       ring: 'ring-gold/30',       icon: Flame,   dot: 'bg-gold' },
-  'new-world':  { label: 'New World',         color: 'text-luffy',      bg: 'bg-luffy/10',      border: 'border-luffy/40',      ring: 'ring-luffy/30',      icon: Swords,  dot: 'bg-luffy' },
+  ancient:      { label: 'Antik Tarih',       color: 'text-gold-bright', bg: 'bg-gold-bright/10',  border: 'border-gold-bright/40', ring: 'ring-gold-bright/30', icon: Crown,   dot: 'bg-gold-bright' },
+  past:         { label: 'Geçmiş',            color: 'text-fruit',      bg: 'bg-fruit-strong/10', border: 'border-fruit/40',       ring: 'ring-fruit/30',       icon: Globe,   dot: 'bg-fruit' },
+  'pre-story':  { label: 'Hikaye Öncesi',     color: 'text-sea',        bg: 'bg-sea/10',          border: 'border-sea/40',         ring: 'ring-sea/30',         icon: Anchor,  dot: 'bg-sea' },
+  'east-blue':  { label: 'East Blue Macerası', color: 'text-sea-light',  bg: 'bg-sea-light/10',    border: 'border-sea-light/40',   ring: 'ring-sea-light/30',   icon: Compass, dot: 'bg-sea-light' },
+  'grand-line': { label: 'Grand Line',        color: 'text-gold',       bg: 'bg-gold/10',         border: 'border-gold/40',        ring: 'ring-gold/30',        icon: Flame,   dot: 'bg-gold' },
+  'new-world':  { label: 'New World',         color: 'text-luffy',      bg: 'bg-luffy/10',        border: 'border-luffy/40',       ring: 'ring-luffy/30',       icon: Swords,  dot: 'bg-luffy' },
 }
 
 const ERA_LABELS: Record<string, string> = {
@@ -37,12 +39,12 @@ const ERA_LABELS: Record<string, string> = {
 }
 
 const ERA_GRADIENT_COLORS: Record<string, { from: string; to: string }> = {
-  ancient:      { from: 'rgba(251,191,36,0.6)',  to: 'rgba(251,191,36,0.15)' },
-  past:         { from: 'rgba(168,85,247,0.6)',   to: 'rgba(168,85,247,0.15)' },
-  'pre-story':  { from: 'rgba(30,144,255,0.6)',   to: 'rgba(30,144,255,0.15)' },
-  'east-blue':  { from: 'rgba(96,165,250,0.5)',   to: 'rgba(96,165,250,0.15)' },
-  'grand-line': { from: 'rgba(244,163,0,0.6)',    to: 'rgba(244,163,0,0.15)' },
-  'new-world':  { from: 'rgba(231,76,60,0.6)',    to: 'rgba(231,76,60,0.15)' },
+  ancient:      { from: 'rgb(var(--gold-bright) / 0.6)',  to: 'rgb(var(--gold-bright) / 0.15)' },
+  past:         { from: 'rgb(var(--fruit-strong) / 0.6)', to: 'rgb(var(--fruit-strong) / 0.15)' },
+  'pre-story':  { from: 'rgb(var(--sea) / 0.6)',          to: 'rgb(var(--sea) / 0.15)' },
+  'east-blue':  { from: 'rgb(var(--sea-light) / 0.5)',    to: 'rgb(var(--sea-light) / 0.15)' },
+  'grand-line': { from: 'rgb(var(--gold) / 0.6)',         to: 'rgb(var(--gold) / 0.15)' },
+  'new-world':  { from: 'rgb(var(--luffy) / 0.6)',        to: 'rgb(var(--luffy) / 0.15)' },
 }
 
 const TIMELINE: TimelineEvent[] = [
@@ -87,7 +89,7 @@ function EraDivider({ category }: { category: string }) {
         <div className={`flex h-9 w-9 items-center justify-center rounded-xl ${info.bg}`}>
           <Icon className={`h-4.5 w-4.5 ${info.color}`} />
         </div>
-        <span className={`text-sm font-bold tracking-wide uppercase ${info.color}`}>
+        <span className={`eyebrow-lg ${info.color}`}>
           {ERA_LABELS[category]}
         </span>
       </div>
@@ -165,23 +167,23 @@ export default function TimelinePage() {
             subtitle="Çizelgesi"
             accentColor="gold"
             orbs={[
-              { color: 'rgba(244,163,0,0.35)', size: 280, x: '70%', y: '10%', delay: 0 },
-              { color: 'rgba(251,191,36,0.2)',  size: 200, x: '10%', y: '50%', delay: 1.5 },
-              { color: 'rgba(168,85,247,0.15)', size: 160, x: '85%', y: '70%', delay: 3 },
-              { color: 'rgba(30,144,255,0.15)', size: 180, x: '30%', y: '80%', delay: 2 },
+              { color: 'rgb(var(--gold) / 0.35)',         size: 280, x: '70%', y: '10%', delay: 0 },
+              { color: 'rgb(var(--gold-bright) / 0.2)',   size: 200, x: '10%', y: '50%', delay: 1.5 },
+              { color: 'rgb(var(--fruit-strong) / 0.15)', size: 160, x: '85%', y: '70%', delay: 3 },
+              { color: 'rgb(var(--sea) / 0.15)',          size: 180, x: '30%', y: '80%', delay: 2 },
             ]}
           >
             <div className="flex flex-wrap gap-4">
               <div className="bento-card rounded-xl px-4 py-2 text-sm">
-                <span className="text-gold font-bold">{TIMELINE.length}</span>{' '}
+                <span className="stat-number font-display font-bold text-gold">{TIMELINE.length}</span>{' '}
                 <span className="text-pirate-muted">olay</span>
               </div>
               <div className="bento-card rounded-xl px-4 py-2 text-sm">
-                <span className="text-fruit font-bold">900+</span>{' '}
+                <span className="stat-number font-display font-bold text-fruit">900+</span>{' '}
                 <span className="text-pirate-muted">yıl</span>
               </div>
               <div className="bento-card rounded-xl px-4 py-2 text-sm">
-                <span className="text-sea font-bold">6</span>{' '}
+                <span className="stat-number font-display font-bold text-sea">6</span>{' '}
                 <span className="text-pirate-muted">dönem</span>
               </div>
             </div>
@@ -199,8 +201,8 @@ export default function TimelinePage() {
               <Sparkles className="h-4 w-4 text-gold" />
             </div>
             <div className="flex-1">
-              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-gold">
-                Sinema modu
+              <p className="eyebrow-lg text-gold">
+                Sinema Modu
               </p>
               <p className="text-sm leading-relaxed text-pirate-text">
                 Kaydırdıkça 6 dönem sırayla uyanacak — yavaşça scroll et.
@@ -248,7 +250,7 @@ export default function TimelinePage() {
               onClick={() => setImportantOnly(!importantOnly)}
               className={`inline-flex items-center gap-1.5 rounded-full border px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition-all ${
                 importantOnly
-                  ? 'border-luffy/40 bg-luffy/10 text-luffy shadow-[0_0_16px_rgba(231,76,60,0.2)]'
+                  ? 'border-luffy/40 bg-luffy/10 text-luffy shadow-[0_0_16px_rgb(var(--luffy)/0.2)]'
                   : 'border-pirate-border/30 bg-ocean-surface/40 text-pirate-text hover:border-luffy/40 hover:text-luffy'
               }`}
             >
@@ -269,7 +271,7 @@ export default function TimelinePage() {
           {/* Results count */}
           {hasActiveFilters && (
             <div className="mb-6 flex items-center gap-2 text-xs text-pirate-muted">
-              <span className="font-bold text-gold">{filtered.length}</span>
+              <span className="stat-number font-display font-bold text-gold">{filtered.length}</span>
               <span>olay bulundu</span>
               <span className="text-pirate-muted/40">/ {TIMELINE.length} toplam</span>
             </div>
@@ -330,7 +332,7 @@ export default function TimelinePage() {
           <div className="relative pb-12">
             {/* Vertical gradient line — static, no traveling glow */}
             <div className="absolute left-6 top-0 bottom-0 w-0.5 overflow-hidden sm:left-6">
-              <div className="h-full w-full bg-gradient-to-b from-amber-400/40 via-fruit/30 via-40% via-sea/30 via-55% via-blue-400/25 via-65% via-gold/35 via-80% to-luffy/30" />
+              <div className="h-full w-full bg-gradient-to-b from-gold-bright/40 via-fruit/30 via-40% via-sea/30 via-55% via-sea-light/25 via-65% via-gold/35 via-80% to-luffy/30" />
             </div>
 
             {filtered.length === 0 && (
@@ -392,22 +394,22 @@ export default function TimelinePage() {
 
                           <div className="relative z-10">
                             <div className="mb-2 flex flex-wrap items-center gap-2.5">
-                              <span className={`text-xs font-bold tracking-wide ${catInfo.color}`}>
+                              <span className={`font-mono text-xs font-bold tracking-wide ${catInfo.color}`}>
                                 {event.year}
                               </span>
-                              <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${catInfo.bg} ${catInfo.color}`}>
+                              <span className={`eyebrow inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 ${catInfo.bg} ${catInfo.color}`}>
                                 <span className={`inline-block h-1.5 w-1.5 rounded-full ${catInfo.dot}`} />
                                 {catInfo.label}
                               </span>
                               {isImportant && (
-                                <span className="inline-flex items-center gap-1 rounded-full bg-gold/10 px-2 py-0.5 text-[10px] font-semibold text-gold">
+                                <span className="eyebrow inline-flex items-center gap-1 rounded-full bg-gold/10 px-2 py-0.5 text-gold">
                                   <Star className="h-2.5 w-2.5" />
                                   Önemli
                                 </span>
                               )}
                             </div>
 
-                            <h3 className={`mb-2 text-base font-bold sm:text-lg ${
+                            <h3 className={`mb-2 font-display text-base font-bold sm:text-lg ${
                               isImportant ? 'text-pirate-text' : 'text-pirate-text/90'
                             }`}>
                               {event.title}

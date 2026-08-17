@@ -1,7 +1,6 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Image from 'next/image'
 import Link from 'next/link'
 import {
   Compass, Film, Users, BrainCircuit,
@@ -9,6 +8,7 @@ import {
   Map, Play, Trophy, Swords, Crown, Eye, Github,
 } from 'lucide-react'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
+import { BrandLockup } from '@/components/brand/CompassMark'
 import { ARCS } from '@/lib/constants/arcs'
 import { CHARACTERS } from '@/lib/constants/characters'
 import { DEVIL_FRUITS } from '@/lib/constants/devil-fruits'
@@ -27,7 +27,7 @@ const FEATURES = [
     color: 'text-sea',
     bg: 'bg-sea/10',
     borderColor: 'border-sea/20',
-    hex: '#1e90ff',
+    accent: '--sea',
   },
   {
     icon: Compass,
@@ -36,7 +36,7 @@ const FEATURES = [
     color: 'text-gold',
     bg: 'bg-gold/10',
     borderColor: 'border-gold/20',
-    hex: '#f4a300',
+    accent: '--gold',
   },
   {
     icon: Users,
@@ -45,16 +45,16 @@ const FEATURES = [
     color: 'text-luffy',
     bg: 'bg-luffy/10',
     borderColor: 'border-luffy/20',
-    hex: '#e74c3c',
+    accent: '--luffy',
   },
   {
     icon: BrainCircuit,
     title: 'Şeytan Meyveleri & Haki',
     description: `${SITE_STATS.devilFruits} Şeytan Meyvesi ansiklopedisi ve 3 Haki türünün detaylı rehberi. Güçler, kullanıcılar ve uyanışlar.`,
-    color: 'text-emerald-400',
-    bg: 'bg-emerald-400/10',
-    borderColor: 'border-emerald-400/20',
-    hex: '#34d399',
+    color: 'text-fruit',
+    bg: 'bg-fruit/10',
+    borderColor: 'border-fruit/20',
+    accent: '--fruit',
   },
   {
     icon: MessageCircle,
@@ -63,7 +63,7 @@ const FEATURES = [
     color: 'text-gold-bright',
     bg: 'bg-gold-bright/10',
     borderColor: 'border-gold-bright/20',
-    hex: '#fbbf24',
+    accent: '--gold-bright',
   },
   {
     icon: Swords,
@@ -72,7 +72,7 @@ const FEATURES = [
     color: 'text-sea-light',
     bg: 'bg-sea-light/10',
     borderColor: 'border-sea-light/20',
-    hex: '#60b8ff',
+    accent: '--sea-light',
   },
 ]
 
@@ -82,7 +82,7 @@ const STATS = [
   { value: String(ARCS.length), label: 'Arc', icon: Map, color: 'text-gold' },
   { value: String(totalEpisodes), label: 'Bölüm', icon: Film, color: 'text-sea' },
   { value: String(CHARACTERS.length), label: 'Karakter', icon: Users, color: 'text-luffy' },
-  { value: String(DEVIL_FRUITS.length), label: 'Şeytan Meyvesi', icon: BrainCircuit, color: 'text-emerald-400' },
+  { value: String(DEVIL_FRUITS.length), label: 'Şeytan Meyvesi', icon: BrainCircuit, color: 'text-fruit' },
 ]
 
 const STEPS = [
@@ -92,7 +92,7 @@ const STEPS = [
     desc: `East Blue'dan Egghead'e kadar ${SITE_STATS.arcs} arc arasından birini seç. Her arcın detaylı özeti ve bölüm listesi seni bekliyor.`,
     icon: Map,
     color: 'text-gold',
-    hex: '#f4a300',
+    accent: '--gold',
   },
   {
     step: '02',
@@ -100,15 +100,15 @@ const STEPS = [
     desc: 'Filler\'sız, sıralı bölümleri izle. OnePaceTR embed player ile kesintisiz deneyim.',
     icon: Play,
     color: 'text-sea',
-    hex: '#1e90ff',
+    accent: '--sea',
   },
   {
     step: '03',
     title: 'İlerlemeni Takip Et',
     desc: 'Giriş yap, izlediğin bölümleri işaretle. Profilinde tüm istatistiklerin görünsün.',
     icon: Compass,
-    color: 'text-emerald-400',
-    hex: '#34d399',
+    color: 'text-haki',
+    accent: '--haki',
   },
   {
     step: '04',
@@ -116,7 +116,7 @@ const STEPS = [
     desc: 'Arc quizleriyle ne kadar dikkatli izlediğini kanıtla. Skorlarını kaydet, geliştir.',
     icon: Trophy,
     color: 'text-luffy',
-    hex: '#e74c3c',
+    accent: '--luffy',
   },
 ]
 
@@ -160,22 +160,15 @@ export default function AboutPage() {
               animate="visible"
               className="text-center"
             >
-              {/* Logo */}
+              {/* Marka kilidi */}
               <motion.div variants={fadeUp} className="mb-8 flex justify-center">
-                <Image
-                  src="/logo.webp"
-                  alt="One Piece Hub"
-                  width={280}
-                  height={112}
-                  className="h-24 w-auto drop-shadow-2xl sm:h-28"
-                  priority
-                />
+                <BrandLockup markSize={48} size="lg" />
               </motion.div>
 
               {/* Title */}
               <motion.h1
                 variants={fadeUp}
-                className="mb-6 text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl"
+                className="font-display mb-6 text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl"
               >
                 <span className="text-pirate-text">Türkçe </span>
                 <span className="text-gold-gradient">One Piece</span>
@@ -205,8 +198,8 @@ export default function AboutPage() {
                     className="bento-card flex flex-col items-center gap-1.5 rounded-2xl px-4 py-5"
                   >
                     <stat.icon className={`h-5 w-5 ${stat.color}`} />
-                    <span className={`text-3xl font-extrabold stat-number ${stat.color}`}>{stat.value}</span>
-                    <span className="text-xs font-semibold text-pirate-muted">{stat.label}</span>
+                    <span className={`font-display text-3xl font-bold stat-number ${stat.color}`}>{stat.value}</span>
+                    <span className="eyebrow text-pirate-muted">{stat.label}</span>
                   </div>
                 ))}
               </motion.div>
@@ -246,7 +239,7 @@ export default function AboutPage() {
               transition={{ duration: 0.6, ease: EASE }}
               className="mb-12 text-center"
             >
-              <h2 className="mb-4 text-2xl font-extrabold text-pirate-text sm:text-3xl">
+              <h2 className="font-display mb-4 text-2xl font-bold text-pirate-text sm:text-3xl">
                 1000+ bölümü <span className="text-gold-gradient">düzenli</span> izle
               </h2>
               <p className="mx-auto max-w-xl text-sm leading-relaxed text-pirate-muted">
@@ -269,20 +262,20 @@ export default function AboutPage() {
                   {/* Top accent */}
                   <div
                     className="absolute inset-x-0 top-0 h-0.5"
-                    style={{ background: `linear-gradient(90deg, ${feature.hex}, transparent)` }}
+                    style={{ background: `linear-gradient(90deg, rgb(var(${feature.accent})), transparent)` }}
                   />
 
                   {/* Hover glow */}
                   <div
                     className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                    style={{ background: `${feature.hex}10` }}
+                    style={{ background: `rgb(var(${feature.accent}) / 0.06)` }}
                   />
 
                   <div className="relative z-10">
                     <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl border ${feature.borderColor} ${feature.bg}`}>
                       <feature.icon className={`h-6 w-6 ${feature.color}`} />
                     </div>
-                    <h3 className="mb-2 text-base font-bold text-pirate-text">{feature.title}</h3>
+                    <h3 className="font-display mb-2 text-base font-bold text-pirate-text">{feature.title}</h3>
                     <p className="text-sm leading-relaxed text-pirate-muted">{feature.description}</p>
                   </div>
                 </motion.div>
@@ -311,7 +304,7 @@ export default function AboutPage() {
               transition={{ duration: 0.6, ease: EASE }}
               className="mb-12 text-center"
             >
-              <h2 className="mb-4 text-2xl font-extrabold text-pirate-text sm:text-3xl">
+              <h2 className="font-display mb-4 text-2xl font-bold text-pirate-text sm:text-3xl">
                 Nasıl <span className="text-sea-gradient">Çalışır?</span>
               </h2>
             </motion.div>
@@ -332,19 +325,22 @@ export default function AboutPage() {
                   {/* Step icon */}
                   <div
                     className="relative z-10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl border bg-ocean-deep sm:h-16 sm:w-16"
-                    style={{ borderColor: `${item.hex}30` }}
+                    style={{ borderColor: `rgb(var(${item.accent}) / 0.19)` }}
                   >
                     <item.icon className={`h-5 w-5 ${item.color} sm:h-6 sm:w-6`} />
                   </div>
 
                   <div className="flex-1 pt-1">
                     <span
-                      className="inline-block rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest"
-                      style={{ background: `${item.hex}15`, color: item.hex }}
+                      className="eyebrow inline-block rounded-md px-2 py-1"
+                      style={{
+                        background: `rgb(var(${item.accent}) / 0.08)`,
+                        color: `rgb(var(${item.accent}))`,
+                      }}
                     >
                       Adım {item.step}
                     </span>
-                    <h3 className="mt-1.5 mb-1 text-lg font-bold text-pirate-text">{item.title}</h3>
+                    <h3 className="font-display mt-1.5 mb-1 text-lg font-bold text-pirate-text">{item.title}</h3>
                     <p className="text-sm leading-relaxed text-pirate-muted">{item.desc}</p>
                   </div>
                 </motion.div>
@@ -376,7 +372,7 @@ export default function AboutPage() {
               <div className="mb-3 flex justify-center">
                 <MangaSFX text="GREAT ERA!" size="md" />
               </div>
-              <h2 className="text-2xl font-extrabold text-pirate-text sm:text-3xl">
+              <h2 className="font-display text-2xl font-bold text-pirate-text sm:text-3xl">
                 Büyük <span className="text-fire-gradient">Korsan Çağı</span>
               </h2>
             </motion.div>
@@ -397,7 +393,7 @@ export default function AboutPage() {
                     <SpeechBubble tail={tails[i]} variant={variants[i]} character={q.character}>
                       {q.text}
                     </SpeechBubble>
-                    <span className="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-gold/60">
+                    <span className="eyebrow mt-3 text-gold/60">
                       {q.character}
                     </span>
                   </motion.div>
@@ -428,7 +424,7 @@ export default function AboutPage() {
         {/* ─── Footer CTA ───────────────────────────────────────── */}
         <section className="relative py-24">
           <div className="mx-auto max-w-3xl px-6 text-center animate-fade-in-up">
-            <h2 className="mb-4 text-2xl font-extrabold text-pirate-text sm:text-3xl">
+            <h2 className="font-display mb-4 text-2xl font-bold text-pirate-text sm:text-3xl">
               Keşfetmeye Devam Et
             </h2>
             <p className="mx-auto mb-8 max-w-lg text-base leading-relaxed text-pirate-muted">

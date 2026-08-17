@@ -13,16 +13,16 @@ type Props = {
 
 const CONFIGS = {
   subtle: {
-    fill1: 'rgba(30,144,255,0.06)',
-    fill2: 'rgba(30,144,255,0.03)',
+    fill1: 'rgb(var(--sea) / 0.06)',
+    fill2: 'rgb(var(--sea) / 0.03)',
   },
   bold: {
-    fill1: 'rgba(30,144,255,0.10)',
-    fill2: 'rgba(30,144,255,0.05)',
+    fill1: 'rgb(var(--sea) / 0.10)',
+    fill2: 'rgb(var(--sea) / 0.05)',
   },
   gold: {
-    fill1: 'rgba(244,163,0,0.08)',
-    fill2: 'rgba(244,163,0,0.04)',
+    fill1: 'rgb(var(--gold) / 0.08)',
+    fill2: 'rgb(var(--gold) / 0.04)',
   },
 } as const
 

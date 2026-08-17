@@ -46,10 +46,10 @@ export default function FeaturedArcSpotlight() {
             <Flame className="h-5 w-5 text-luffy" />
           </div>
           <div className="flex-1">
-            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-luffy">
+            <p className="eyebrow text-luffy">
               Destansı Düello
             </p>
-            <h2 className="text-xl font-extrabold text-pirate-text sm:text-2xl">
+            <h2 className="font-display text-xl font-extrabold text-pirate-text sm:text-2xl">
               Öne Çıkan Arc
             </h2>
           </div>
@@ -84,7 +84,7 @@ export default function FeaturedArcSpotlight() {
 
             <div className="absolute inset-0 bg-gradient-to-b from-ocean-deep/25 via-ocean-deep/45 to-ocean-deep" />
             <div className="absolute inset-0 bg-gradient-to-r from-ocean-deep/70 via-transparent to-ocean-deep/40" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_35%_55%,transparent_30%,rgba(6,14,26,0.65))]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_35%_55%,transparent_30%,rgb(var(--ocean-deep)/0.65))]" />
             <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-luffy/[0.12] blur-[80px]" />
             <div className="pointer-events-none absolute -left-20 -bottom-20 h-72 w-72 rounded-full bg-gold/[0.08] blur-[80px]" />
 
@@ -101,7 +101,7 @@ export default function FeaturedArcSpotlight() {
                       {arc.saga.toUpperCase()}
                     </span>
                   )}
-                  <span className="inline-flex items-center gap-1 rounded-full border border-sea/25 bg-ocean-deep/60 px-2.5 py-0.5 text-[10px] font-bold text-sea backdrop-blur-md">
+                  <span className="inline-flex items-center gap-1 rounded-full border border-sea/25 bg-ocean-deep/60 px-2.5 py-0.5 font-mono text-[10px] font-bold text-sea backdrop-blur-md">
                     <Anchor className="h-2.5 w-2.5" />
                     {arc.episodeCount} Bölüm
                   </span>
@@ -112,19 +112,19 @@ export default function FeaturedArcSpotlight() {
                   )}
                 </div>
 
-                <h3 className="mb-2 text-3xl font-extrabold leading-[1.05] tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:mb-3 sm:text-5xl md:text-6xl">
+                <h3 className="font-display mb-2 text-3xl font-extrabold leading-[1.05] text-pirate-text drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:mb-3 sm:text-5xl md:text-6xl">
                   {arc.name}
                 </h3>
 
-                <p className="mb-4 line-clamp-3 max-w-xl text-[13px] leading-relaxed text-white/80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] sm:mb-5 sm:line-clamp-none sm:text-base">
+                <p className="mb-4 line-clamp-3 max-w-xl text-[13px] leading-relaxed text-pirate-text/80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] sm:mb-5 sm:line-clamp-none sm:text-base">
                   {arc.summary}
                 </p>
 
                 <div className="mb-5 flex items-start gap-2 rounded-xl border-l-2 border-luffy/40 bg-ocean-deep/40 p-2.5 backdrop-blur-sm sm:mb-6 sm:gap-3 sm:p-3">
                   <Quote className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-luffy/70 sm:h-4 sm:w-4" />
                   <div className="min-w-0">
-                    <p className="text-[13px] italic text-white/85 sm:text-base">&ldquo;{FEATURED_QUOTE}&rdquo;</p>
-                    <p className="mt-1 text-[9px] font-bold uppercase tracking-[0.2em] text-luffy/70 sm:text-[10px]">
+                    <p className="text-[13px] italic text-pirate-text/85 sm:text-base">&ldquo;{FEATURED_QUOTE}&rdquo;</p>
+                    <p className="eyebrow mt-1 text-luffy/70">
                       {FEATURED_ATTRIBUTION}
                     </p>
                   </div>

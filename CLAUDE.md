@@ -4,7 +4,10 @@ Türkçe One Piece fan platformu. Arc bazlı filler'sız bölüm düzeni (OnePac
 
 ## Stack
 
-Next.js 14 App Router · TypeScript strict · Tailwind 3.4 dark-only · Framer Motion 11 · Drizzle ORM + Neon (**`@neondatabase/serverless`** — `pg` değil) · Custom JWT (jose + bcryptjs) · OnePaceTR iframe · Vercel.
+Next.js 14 App Router · TypeScript strict · Tailwind 3.4 **dark + light** ·
+Cinzel / Manrope / Space Mono · Framer Motion 11 · Drizzle ORM + Neon
+(**`@neondatabase/serverless`** — `pg` değil) · Custom JWT (jose + bcryptjs) ·
+OnePaceTR iframe · Vercel.
 
 ## Mimari
 
@@ -17,9 +20,108 @@ Next.js 14 App Router · TypeScript strict · Tailwind 3.4 dark-only · Framer M
 - **Layout**: Header + Footer + AuthProvider + ScrollProgress + CommandPalette + RippleEffect + ToastContainer + MobileBottomNav hepsi `app/layout.tsx`'de. Yeni sayfa bunları import etmez.
 - **API pattern**: `ok()` / `err()` / `serverErr()` helpers from `lib/api.ts`. Mesajlar Türkçe.
 
-## Tema
+## Tema — "Sinematik Okyanus"
 
-Dark-only "Okyanus Derinliği". Renk tokenları `app/globals.css` + `tailwind.config.ts` (gold/sea/luffy/ocean/pirate/**fruit** palet ailesi). Utility class'lar:
+**İki tema var**: dark "gece seferi" (varsayılan) ve light "gündüz seferi"
+(sıcak parşömen zemin, beyaz kartlar, koyulaştırılmış altın/deniz).
+
+### Token mimarisi — bunu anlamadan renk değiştirme
+
+`app/globals.css` paleti **RGB kanal üçlüsü** olarak tanımlar
+(`--gold: 244 163 0`, `#f4a300` DEĞİL), `[data-theme='light']` bloğu light
+karşılıklarını verir. `tailwind.config.ts` bunları
+`rgb(var(--x) / <alpha-value>)` ile sarar.
+
+Sonuç: **`bg-gold`, `text-pirate-muted`, `border-pirate-border/30` gibi mevcut
+Tailwind sınıfları iki temada da otomatik doğru.** Bileşende renk sınıfı
+değiştirmene gerek yok — 3300'den fazla kullanım tek yerden bağlı.
+**Kanal formatını bozma**, `#hex` yazarsan opaklık modifier'ı çöker.
+
+`--pirate-border` light'ta **önceden harmanlanmış opak** bir değer
+(`rgba(6,14,26,.1)`'in parşömen üstündeki karşılığı) — çünkü
+`border-pirate-border` opaklık modifier'ı olmadan da kullanılıyor; ham
+lacivert orada sert bir çizgi yapardı.
+
+### Tema nasıl sürülüyor
+
+`<html data-theme="dark|light">` · next-themes YOK, custom
+(`hooks/useTheme.tsx` + `lib/theme-config.ts`). İki katman:
+1. `layout.tsx`'teki blocking script ilk boyamadan önce yazar (FOUC yok).
+2. `ThemeProvider` mount'ta tercihi **yeniden uygular** (aşağıdaki gotcha).
+
+Toggle: `components/layout/ThemeToggle.tsx` (header pill + mobil çekmece satırı).
+
+### Marka
+
+`components/brand/CompassMark.tsx` → `CompassMark` · `Wordmark` · `BrandLockup`.
+Pusula işareti + "ONE PIECE" (Cinzel) + "HUB" (Space Mono, geniş tracking).
+Bileşendeki SVG renkleri token'lı (`rgb(var(--gold))`) — temayla döner.
+
+### İkonlar — kaynak SVG'den üretilir
+
+| Kaynak | Kullanan boyutlar |
+|--------|-------------------|
+| `public/icon.svg` (detaylı) | favicon SVG · `icon-192` · `icon-512` · `apple-touch-icon` |
+| `public/icon-small.svg` (sade) | `favicon-16x16` · `favicon-32x32` · `favicon.ico` |
+
+Küçük varyant ayrı: 16-32px'te kesikli iç halka ve merkez göbeği lekeye
+dönüşüyor, o yüzden kollar kalın ve detay atılmış. `apple-touch-icon`
+köşe yuvarlaması TAŞIMAZ — iOS kendi maskesini uyguluyor.
+
+Favicon SVG'leri **temasız sabit renk** taşır (favicon bağlamında CSS
+değişkeni çözülmez) — bileşendeki `CompassMark` ile karıştırma.
+
+Yeniden üretmek: macOS'ta `sips`/`qlmanage` SVG işlemiyor; headless Chrome
+CDP ile rasterleştirilip `favicon.ico` (16+32+48 gömülü PNG) elle
+paketlendi. Eski `/logo.webp` silindi.
+
+### Tipografi
+
+| Aile | Sınıf | Nerede |
+|------|-------|--------|
+| Cinzel | `font-display` | Ekran başlıkları, kart adları, istatistik rakamları |
+| Manrope | (varsayılan) | Gövde, açıklama, buton, nav, form |
+| Space Mono | `font-mono` · `.eyebrow` · `.eyebrow-lg` | Eyebrow etiketleri, ödüller, bölüm no, süre |
+
+`.eyebrow` = Space Mono 700, uppercase, `0.2em` tracking. Tasarımdaki
+"36 ARC · 463 BÖLÜM · %0 FILLER" tipi mikro etiketler için.
+
+**Üç fontta da `subsets: ['latin', 'latin-ext']` ŞART** — Google'ın `latin`
+aralığı `ı` içerir ama `ğ Ğ ş Ş İ` İÇERMEZ. Eksikse Türkçe başlıklarda
+kelime ortasında fallback fonta düşer.
+
+### `accent-*` — içerik vurgu skalası
+
+10 saga · 15 mürettebat · 6 meyve türü · 5 tehlike seviyesi · 4 başarım
+kademesi · 4 deniz gibi **çok öğeli sınıflandırmalar** için 11 tonluk skala
+(`accent-cyan/teal/emerald/lime/amber/orange/rose/pink/indigo/silver/bronze`).
+Light temada 700-800 seviyeye döner.
+
+Daha önce bunlar ham `cyan-400` / `emerald-400` / `amber-300` ile yazılıyordu;
+koyu zeminde okunuyor, light'ta parşömen üstünde **1.2–1.8:1 kontrasta düşüp
+görünmez** oluyorlardı. `fruit` token'ında çözülen sızıntının aynısı.
+
+**Ham `cyan-*` `emerald-*` `amber-*` `teal-*` `rose-*` `pink-*` `indigo-*`
+`orange-*` `slate-*` sınıfı YAZMA.** Skalanın tek işi öğeleri ayırmak —
+yeni öğe eklerken **aynı token'ı iki öğeye verme**.
+
+Ekip kimlik renkleri artık bu skalada (`lib/constants/crew-styles.ts`,
+15 ekip 15 ayrı ton). `CREW_GRADIENTS` (avatar arkası degrade) hâlâ
+dekoratif ve ayrı.
+
+### Kasıtlı olarak tema DIŞI kalanlar
+
+- **Wanted poster sepyası** (`app/bounties/page.tsx`, `WantedPosterCreator`) —
+  yıpranmış afiş estetiği, iki temada da koyu.
+- **Video sahnesi** (`VideoStage`) — oynatıcı çerçevesi iki temada da koyu;
+  içindeki butonlar bu yüzden `.btn-ghost` DEĞİL sabit beyaz tonlarda.
+- **`app/api/og/route.tsx`** — sunucuda temasız render.
+- **`bg-black/*` scrim ve modal karartmaları** — karartma iki temada da koyu.
+  `bg-ocean-deep/*` KULLANMA: light'ta parşömene dönüp karartmak yerine açar.
+- **`--map-ground-*`** — dünya haritasının okyanus zemini sayfa zemininden
+  ayrı token; `ocean-deep`e bağlıyken light'ta harita kayboluyordu.
+
+Utility class'lar:
 - **Layout**: `.glass`, `.glass-elevated`, `.surface`, `.bento-card`, `.wanted-poster`
 - **Butonlar**: `.btn-gold`, `.btn-luffy`, `.btn-ghost`
 - **Metin**: `.text-gold-gradient`, `.text-sea-gradient`, `.text-fire-gradient`, `.stat-number`
@@ -141,7 +243,7 @@ Users tablosunda `email` kolonu yok → şifre sıfırlama özelliği eklenemez 
 `types/Episode.pixeldrainId?` — eski video stratejisinden kalma, artık kullanılmıyor.
 
 ### 15b. localStorage Anahtarları
-`onepiece-watched` (izleme, anonim) · `onepiece-player-prefs` (oynatıcı tercihleri + kalibrasyon) · `onepiece-last-watched` (ResumeBar) · crew affiliation · quiz ses flag'i. Hepsi cihaza özel, DB'ye yazılmaz. Yeni anahtar eklerken `lib/player-config.ts` → `PLAYER_STORAGE_KEYS` desenini izle.
+`onepiece-watched` (izleme, anonim) · `onepiece-player-prefs` (oynatıcı tercihleri + kalibrasyon) · `onepiece-last-watched` (ResumeBar) · `onepiece-theme` (tema) · crew affiliation · quiz ses flag'i. Hepsi cihaza özel, DB'ye yazılmaz. Yeni anahtar eklerken `lib/player-config.ts` → `PLAYER_STORAGE_KEYS` desenini izle.
 
 ### 16. Yeni Feature Performance Kuralları
 **SVG > Canvas > External lib** — custom SVG/div çizimi tercih edilir (SSR-safe, no extra bundle). Recharts/Chart.js kullanma.
@@ -159,6 +261,24 @@ Users tablosunda `email` kolonu yok → şifre sıfırlama özelliği eklenemez 
 **Inline animation objects** — `framer-motion` varyantları `lib/variants.ts`'den import et, component içinde inline tanımlama değil.
 
 Örnek: `PowerStatBars` → `React.memo`, `useInView` trigger, `useMemo` yok (veri prop), bar fill `animate={{width}}` with EASE constant.
+
+### 17. Tema Sabiti Düz Modülde Olmak ZORUNDA
+`THEME_STORAGE_KEY` ve blocking script gövdesi `lib/theme-config.ts`'te —
+`'use client'` TAŞIMAYAN düz bir modül. Bir server component (`layout.tsx`)
+`'use client'` modülünden sabit import ederse Next onu gerçek string yerine
+**client referans nesnesine** çevirir; script'e `'[object Object]'` gömülür,
+script bir anahtara yazıp `useTheme` başka anahtardan okur, kayıtlı tema
+tercihi her yüklemede sessizce yok sayılır. Yeni tema sabiti eklerken bu
+dosyaya koy.
+
+### 18. `<html>`'de `data-theme` Attribute'u YOK — Bilerek
+`layout.tsx` `<html>`e `data-theme` YAZMAZ. React'in bu attribute hakkında
+fikri olduğu anda, istemci render'ına düşen rotalarda (`loading.tsx`
+taşıyanlar) kök elemanı yeniden kurarken değeri SSR sabitine döndürüp init
+script'in yazdığını siliyor. Tek yazar: init script + `ThemeProvider`'ın
+mount effect'i (o effect attribute'u okumakla kalmaz, **yeniden yazar** —
+kaldırma). Hiç yazılmadığında `globals.css`teki `:root` zaten dark veriyor,
+yani JS kapalıyken de doğru.
 
 ## CSS Reduced-Motion + Print
 

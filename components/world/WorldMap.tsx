@@ -59,7 +59,7 @@ export default function WorldMap() {
           <Compass className="h-5 w-5 text-gold" />
         </div>
         <div>
-          <h2 className="text-xl font-bold text-pirate-text">İnteraktif Harita</h2>
+          <h2 className="font-display text-xl font-bold text-pirate-text">İnteraktif Harita</h2>
           <p className="text-xs text-pirate-muted">
             Lokasyonlara tıklayarak detaylı bilgi alın
           </p>
@@ -75,7 +75,7 @@ export default function WorldMap() {
             <div className="h-2 w-2 rounded-full bg-gold/60" />
             <div className="h-2 w-2 rounded-full bg-sea/60" />
           </div>
-          <span className="text-[10px] font-semibold uppercase tracking-widest text-pirate-muted/60">
+          <span className="eyebrow text-pirate-muted/60">
             One Piece — Dünya Haritası
           </span>
         </div>
@@ -132,7 +132,7 @@ export default function WorldMap() {
 
         {/* Bottom legend */}
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-pirate-border/20 bg-ocean-surface/20 px-5 py-3">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-pirate-muted/50">
+          <span className="eyebrow text-pirate-muted/50">
             Bölgeler
           </span>
           {LEGEND_ITEMS.map((item) => (

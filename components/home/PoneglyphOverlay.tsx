@@ -61,10 +61,10 @@ function PoneglyphOverlay() {
           style={{
             left: col.left,
             fontSize: `${col.fontSize}px`,
-            color: 'rgba(244,163,0,0.85)',
+            color: 'rgb(var(--gold) / 0.85)',
             opacity: col.opacity,
             animation: `poneglyph-fall ${col.duration}s linear ${col.delay}s infinite`,
-            textShadow: '0 0 8px rgba(244,163,0,0.35), 0 0 2px rgba(30,144,255,0.25)',
+            textShadow: '0 0 8px rgb(var(--gold) / 0.35), 0 0 2px rgb(var(--sea) / 0.25)',
             willChange: 'transform',
           }}
         >

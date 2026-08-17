@@ -59,7 +59,7 @@ function NextRelease({ track }: { track: SeriesTrack }) {
   return (
     <p className="mt-2 flex items-center gap-1.5 text-[11px] text-pirate-muted">
       <CalendarClock className="h-3 w-3 flex-shrink-0 opacity-70" />
-      <span className="font-semibold text-pirate-text/80">{track.next}</span>
+      <span className="font-mono font-semibold text-pirate-text/80">{track.next}</span>
       <span className="opacity-70">
         {days === 0 ? 'bugün' : days === 1 ? 'yarın' : `${days} gün sonra`}
       </span>
@@ -89,14 +89,14 @@ export default function SeriesStatus() {
           className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"
         >
           <div>
-            <p className="mb-2 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-gold/70">
+            <p className="eyebrow-lg mb-2 flex items-center gap-2 text-gold/70">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="absolute inline-flex h-1.5 w-1.5 animate-ping rounded-full bg-gold/60" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-gold" />
               </span>
               Seri durumu
             </p>
-            <h2 className="text-2xl font-extrabold sm:text-3xl">
+            <h2 className="font-display text-2xl font-extrabold sm:text-3xl">
               <span className="text-pirate-text">Şu an </span>
               <span className="text-gold-gradient">{SERIES_STATUS.currentArcName}</span>
             </h2>
@@ -115,7 +115,7 @@ export default function SeriesStatus() {
 
           <time
             dateTime={STATUS_AS_OF}
-            className="chip !cursor-default flex-shrink-0 self-start !py-1.5 !text-[10px] !font-semibold sm:self-auto"
+            className="chip !cursor-default flex-shrink-0 self-start !py-1.5 !font-mono !text-[10px] !font-semibold sm:self-auto"
           >
             <CalendarClock className="h-3 w-3 text-gold" />
             {getStatusFreshness()}
@@ -142,14 +142,14 @@ export default function SeriesStatus() {
                 <div className="relative mb-3 flex items-center justify-between gap-2">
                   <span className="flex items-center gap-2">
                     <item.icon className={`h-4 w-4 ${item.accent}`} />
-                    <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-pirate-muted">
+                    <span className="eyebrow-lg text-pirate-muted">
                       {track.label}
                     </span>
                   </span>
                   <span
-                    className={`rounded-full border px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${
+                    className={`eyebrow rounded-full border px-2 py-0.5 ${
                       track.status === 'ongoing'
-                        ? 'border-emerald-500/25 bg-emerald-500/10 text-emerald-400'
+                        ? 'border-haki/25 bg-haki/10 text-haki'
                         : track.status === 'break'
                           ? 'border-gold/25 bg-gold/10 text-gold'
                           : 'border-sea/25 bg-sea/10 text-sea'
@@ -159,7 +159,7 @@ export default function SeriesStatus() {
                   </span>
                 </div>
 
-                <p className="relative text-base font-extrabold text-pirate-text sm:text-lg">
+                <p className="relative font-mono text-base font-extrabold text-pirate-text sm:text-lg">
                   {track.current}
                 </p>
                 <p className="relative mt-0.5 text-[11px] text-pirate-muted">{track.context}</p>

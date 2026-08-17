@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" width="72" height="72">
+  <!-- 16/32 px varyantı: kesikli iç halka ve merkez göbeği bu ölçekte
+       lekeye dönüşüyor. Kollar kalınlaştırıldı, halka inceltilmedi. -->
+  <rect width="72" height="72" rx="14" fill="#060e1a"/>
+  <circle cx="36" cy="36" r="25" fill="none" stroke="#f4a300" stroke-width="5"/>
+  <path d="M36 8 L43 36 L36 64 L29 36 Z" fill="#f4a300"/>
+  <path d="M8 36 L36 30 L64 36 L36 42 Z" fill="#60b8ff"/>
+</svg>

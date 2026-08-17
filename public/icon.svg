@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" width="72" height="72">
+  <!-- Marka işareti: pusula gülü. Favicon bağlamı temasız render edilir,
+       bu yüzden renkler CSS değişkeni değil sabit (dark palet değerleri). -->
+  <rect width="72" height="72" rx="16" fill="#060e1a"/>
+  <circle cx="36" cy="36" r="26" fill="none" stroke="#f4a300" stroke-width="3"/>
+  <circle cx="36" cy="36" r="20" fill="none" stroke="#60b8ff" stroke-opacity="0.35" stroke-width="1" stroke-dasharray="2 5"/>
+  <path d="M36 12 L41 36 L36 60 L31 36 Z" fill="#f4a300"/>
+  <path d="M12 36 L36 31.5 L60 36 L36 40.5 Z" fill="#60b8ff" fill-opacity="0.9"/>
+  <circle cx="36" cy="36" r="4.5" fill="#060e1a" stroke="#f4a300" stroke-width="2.5"/>
+</svg>

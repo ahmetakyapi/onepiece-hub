@@ -54,7 +54,8 @@ function ArcCard({ arc }: { arc: Arc }) {
 
   const shineX = useTransform(mouseX, [0, 1], ['0%', '100%'])
   const shineY = useTransform(mouseY, [0, 1], ['0%', '100%'])
-  const shine = useMotionTemplate`radial-gradient(400px circle at ${shineX} ${shineY}, rgba(244,163,0,0.18), rgba(30,144,255,0.10), transparent 70%)`
+  /* Parlama degradesi token'lardan — light temada da doğru vurgu */
+  const shine = useMotionTemplate`radial-gradient(400px circle at ${shineX} ${shineY}, rgb(var(--gold) / 0.18), rgb(var(--sea) / 0.10), transparent 70%)`
 
   return (
     <motion.div variants={fadeUp} style={{ perspective: '900px' }}>
@@ -108,8 +109,8 @@ function ArcCard({ arc }: { arc: Arc }) {
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-luffy/40 bg-ocean-deep/70">
                   <EyeOff className="h-5 w-5 text-luffy" />
                 </div>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-luffy">Spoiler</p>
-                <p className="text-[10px] text-white/70">Göstermek için tıkla</p>
+                <p className="eyebrow-lg text-luffy">Spoiler</p>
+                <p className="text-[10px] text-pirate-text/70">Göstermek için tıkla</p>
               </div>
             )}
 
@@ -121,7 +122,7 @@ function ArcCard({ arc }: { arc: Arc }) {
             )}
             {/* Episode badge */}
             {!blocked && (
-              <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-ocean-deep/70 px-2.5 py-1 text-[10px] font-bold text-sea backdrop-blur-md border border-sea/10">
+              <span className="eyebrow absolute right-3 top-3 flex items-center gap-1 rounded-full bg-ocean-deep/70 px-2.5 py-1 text-sea backdrop-blur-md border border-sea/10">
                 <Film className="h-2.5 w-2.5" />
                 {arc.episodeCount} Bölüm
               </span>
@@ -130,7 +131,7 @@ function ArcCard({ arc }: { arc: Arc }) {
 
           {/* Info */}
           <div className="relative z-20 p-4">
-            <h3 className={`mb-1.5 text-base font-bold transition-colors duration-300 ${blocked ? 'text-pirate-muted/40 blur-[6px] select-none' : 'text-pirate-text group-hover:text-gold'}`}>
+            <h3 className={`font-display mb-1.5 text-base font-bold transition-colors duration-300 ${blocked ? 'text-pirate-muted/40 blur-[6px] select-none' : 'text-pirate-text group-hover:text-gold'}`}>
               {arc.name}
             </h3>
             <p className={`mb-3 line-clamp-2 text-[11px] leading-relaxed ${blocked ? 'text-pirate-muted/30 blur-[4px] select-none' : 'text-pirate-muted/70'}`}>

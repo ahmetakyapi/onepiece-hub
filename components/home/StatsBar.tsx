@@ -7,12 +7,13 @@ import { SITE_STATS } from '@/lib/constants/stats'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
-/* Sayılar veriden türetilir — bkz. lib/constants/stats.ts */
+/* Sayılar veriden türetilir — bkz. lib/constants/stats.ts
+   Renkler tema token'ından okunur; `data-theme` değişince halka ve ikon da döner. */
 const STATS = [
-  { label: 'Arc', value: SITE_STATS.arcs, suffix: '', icon: Compass, color: '#f4a300' },
-  { label: 'Bölüm', value: SITE_STATS.episodes, suffix: '', icon: Film, color: '#1e90ff' },
-  { label: 'Karakter', value: SITE_STATS.characters, suffix: '', icon: Users, color: '#f4a300' },
-  { label: 'Saat İçerik', value: SITE_STATS.runtimeHours, suffix: '', icon: Clock, color: '#1e90ff' },
+  { label: 'Arc', value: SITE_STATS.arcs, suffix: '', icon: Compass, color: 'rgb(var(--gold))' },
+  { label: 'Bölüm', value: SITE_STATS.episodes, suffix: '', icon: Film, color: 'rgb(var(--sea))' },
+  { label: 'Karakter', value: SITE_STATS.characters, suffix: '', icon: Users, color: 'rgb(var(--gold))' },
+  { label: 'Saat İçerik', value: SITE_STATS.runtimeHours, suffix: '', icon: Clock, color: 'rgb(var(--sea))' },
 ] as const
 
 function AnimatedNumber({ value, suffix, inView }: { value: number; suffix: string; inView: boolean }) {
@@ -41,25 +42,25 @@ function RingProgress({ color, inView, delay }: { color: string; inView: boolean
 
   return (
     <svg viewBox="0 0 92 92" className="absolute inset-0 h-full w-full">
-      {/* Track */}
+      {/* Track — token'lı stroke inline style'dan verilir (presentation
+          attribute'ta var() desteği tarayıcıya göre değişiyor) */}
       <circle
         cx="46" cy="46" r={r}
         fill="none"
-        stroke="rgba(30,144,255,0.06)"
+        style={{ stroke: 'rgb(var(--sea) / 0.06)' }}
         strokeWidth="3"
       />
       {/* Full ring */}
       <motion.circle
         cx="46" cy="46" r={r}
         fill="none"
-        stroke={color}
         strokeWidth="3"
         strokeLinecap="round"
         strokeDasharray={circumference}
         initial={{ strokeDashoffset: circumference }}
         animate={inView ? { strokeDashoffset: 0 } : {}}
         transition={{ duration: 1.8, ease: EASE, delay }}
-        style={{ transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }}
+        style={{ stroke: color, transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }}
         opacity={0.5}
       />
     </svg>
@@ -99,13 +100,13 @@ export default function StatsBar() {
                 inView={inView}
                 delay={0.2 + i * 0.15}
               />
-              <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-xl border border-pirate-border/30 bg-ocean-surface/60 transition-all duration-500 group-hover:border-gold/20 group-hover:shadow-[0_0_24px_rgba(244,163,0,0.08)] sm:h-12 sm:w-12">
+              <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-xl border border-pirate-border/30 bg-ocean-surface/60 transition-all duration-500 group-hover:border-gold/20 group-hover:shadow-[0_0_24px_rgb(var(--gold)/0.08)] sm:h-12 sm:w-12">
                 <stat.icon className="h-4 w-4 transition-transform duration-500 group-hover:scale-110 sm:h-5 sm:w-5" style={{ color: stat.color }} />
               </div>
             </div>
 
-            {/* Number */}
-            <span className="text-2xl font-extrabold text-pirate-text sm:text-4xl">
+            {/* Number — Cinzel rakam */}
+            <span className="font-display text-2xl font-extrabold text-pirate-text sm:text-4xl">
               <AnimatedNumber value={stat.value} suffix={stat.suffix} inView={inView} />
             </span>
 

@@ -67,6 +67,16 @@ const KIND_COLORS: Record<ResultKind, string> = {
   page: 'text-pirate-muted',
 }
 
+/* Grup başlıklarının sabit sırası — sonuçlar hangi sırada gelirse gelsin
+   paletin dikey düzeni değişmez, göz kas hafızası korunur. */
+const KIND_ORDER: readonly ResultKind[] = ['page', 'character', 'arc', 'fruit'] as const
+
+type ResultGroup = {
+  kind: ResultKind
+  /** Klavye gezinmesi düz liste üzerinden yürür — satırın global indeksi taşınır. */
+  items: Array<{ result: Result; index: number }>
+}
+
 const ALL_RESULTS: Result[] = [
   ...PAGES,
   ...CHARACTERS.map((c) => ({
@@ -148,6 +158,35 @@ export default function CommandPalette() {
 
   const results = useMemo(() => search(query), [query])
 
+  const groups = useMemo<ResultGroup[]>(() => {
+    // NOT: bu dosyada `Map` lucide ikonu olarak import edilmiş — sözlük için
+    // Map yerine düz nesne kullanılıyor.
+    const buckets: Record<ResultKind, Result[]> = {
+      page: [],
+      character: [],
+      arc: [],
+      fruit: [],
+    }
+    results.forEach((result) => {
+      buckets[result.kind].push(result)
+    })
+    /* `index` GÖRSEL sıraya göre yeniden numaralanır (grup grup akarak),
+       skor sırasına göre değil. Sonuçlar skora göre karışık geliyor ama
+       ekranda page → character → arc → fruit diziliyor; ok tuşları düz
+       `results` dizisini yürüseydi seçim ekranda ileri geri zıplardı. */
+    let visualIndex = 0
+    return KIND_ORDER.filter((kind) => buckets[kind].length > 0).map((kind) => ({
+      kind,
+      items: buckets[kind].map((result) => ({ result, index: visualIndex++ })),
+    }))
+  }, [results])
+
+  /* Klavye gezinmesinin ve Enter'ın üzerinde yürüdüğü dizi — görsel sıra. */
+  const ordered = useMemo(
+    () => groups.flatMap((group) => group.items.map((item) => item.result)),
+    [groups],
+  )
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
@@ -190,13 +229,13 @@ export default function CommandPalette() {
   const onInputKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault()
-      setActive((i) => Math.min(i + 1, results.length - 1))
+      setActive((i) => Math.min(i + 1, ordered.length - 1))
     } else if (e.key === 'ArrowUp') {
       e.preventDefault()
       setActive((i) => Math.max(i - 1, 0))
     } else if (e.key === 'Enter') {
       e.preventDefault()
-      const selected = results[active]
+      const selected = ordered[active]
       if (selected) go(selected.href)
     }
   }
@@ -216,7 +255,11 @@ export default function CommandPalette() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="fixed inset-0 z-[100] bg-ocean-deep/70 backdrop-blur-sm"
+            /* Modal karartması iki temada da KOYU kalır. `ocean-deep`
+               kullanılamaz: light'ta parşömene döndüğü için karartma
+               yerine açık bir yıkama oluyor ve beyaz panel zeminden
+               ayrışmıyordu. */
+            className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm"
             onClick={() => setOpen(false)}
           />
 
@@ -252,7 +295,7 @@ export default function CommandPalette() {
                   <path d="M18 6L6 18M6 6l12 12" />
                 </svg>
               </button>
-              <kbd className="hidden items-center gap-1 rounded border border-pirate-border/40 bg-ocean-surface/60 px-2 py-0.5 text-[10px] font-bold text-pirate-muted sm:inline-flex">
+              <kbd className="hidden items-center gap-1 rounded border border-pirate-border/40 bg-ocean-surface/60 px-2 py-0.5 font-mono text-[10px] font-bold text-pirate-muted sm:inline-flex">
                 ESC
               </kbd>
             </div>
@@ -270,46 +313,64 @@ export default function CommandPalette() {
                 </div>
               ) : (
                 <div className="p-2">
-                  {results.map((r, i) => {
-                    const Icon = r.icon
-                    const isActive = i === active
-                    return (
-                      <button
-                        key={`${r.kind}-${r.href}`}
-                        data-idx={i}
-                        onMouseEnter={() => setActive(i)}
-                        onClick={() => go(r.href)}
-                        className={`group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors ${
-                          isActive ? 'bg-gold/[0.06] border border-gold/15' : 'border border-transparent'
-                        }`}
-                      >
-                        <div
-                          className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg ${
-                            isActive ? 'bg-gold/10' : 'bg-ocean-surface/60'
-                          }`}
-                        >
-                          <Icon className={`h-4 w-4 ${isActive ? 'text-gold' : KIND_COLORS[r.kind]}`} />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="truncate text-sm font-semibold text-pirate-text">
-                            {r.label}
-                          </p>
-                          {r.sublabel && (
-                            <p className="truncate text-[11px] text-pirate-muted/70">
-                              {r.sublabel}
-                            </p>
-                          )}
-                        </div>
-                        <span
-                          className={`rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${
-                            isActive ? 'bg-gold/10 text-gold' : 'bg-ocean-surface/60 text-pirate-muted/60'
-                          }`}
-                        >
-                          {KIND_LABELS[r.kind]}
-                        </span>
-                      </button>
-                    )
-                  })}
+                  {groups.map((group) => (
+                    <div key={group.kind} className="mb-1 last:mb-0">
+                      <p className="eyebrow px-3 pb-1.5 pt-2 text-pirate-muted/60">
+                        {KIND_LABELS[group.kind]}
+                        <span className="ml-2 text-pirate-muted/35">{group.items.length}</span>
+                      </p>
+                      {group.items.map(({ result: r, index: i }) => {
+                        const Icon = r.icon
+                        const isActive = i === active
+                        return (
+                          <button
+                            key={`${r.kind}-${r.href}`}
+                            data-idx={i}
+                            onMouseEnter={() => setActive(i)}
+                            onClick={() => go(r.href)}
+                            className={`group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors ${
+                              isActive
+                                ? 'border border-gold/25 bg-gold/[0.08]'
+                                : 'border border-transparent'
+                            }`}
+                          >
+                            <div
+                              className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg ${
+                                isActive ? 'bg-gold/10' : 'bg-ocean-surface/60'
+                              }`}
+                            >
+                              <Icon className={`h-4 w-4 ${isActive ? 'text-gold' : KIND_COLORS[r.kind]}`} />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <p
+                                className={`truncate text-sm font-semibold ${
+                                  isActive ? 'text-gold' : 'text-pirate-text'
+                                }`}
+                              >
+                                {r.label}
+                              </p>
+                              {r.sublabel && (
+                                <p className="truncate text-[11px] text-pirate-muted/70">
+                                  {r.sublabel}
+                                </p>
+                              )}
+                            </div>
+                            {/* Seçili satırın sağındaki ↵ göstergesi — Enter'ın nereye gideceğini söyler */}
+                            <span
+                              aria-hidden
+                              className={`flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-md border transition-opacity ${
+                                isActive
+                                  ? 'border-gold/25 bg-gold/10 text-gold opacity-100'
+                                  : 'border-transparent opacity-0'
+                              }`}
+                            >
+                              <CornerDownLeft className="h-3 w-3" />
+                            </span>
+                          </button>
+                        )
+                      })}
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
@@ -330,7 +391,7 @@ export default function CommandPalette() {
                   Git
                 </span>
               </div>
-              <span>{results.length} sonuç</span>
+              <span className="font-mono">{results.length} sonuç</span>
             </div>
           </motion.div>
           </div>

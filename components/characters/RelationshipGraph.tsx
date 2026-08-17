@@ -11,6 +11,13 @@ import { CHARACTERS } from '@/lib/constants/characters'
 import { CHARACTER_IMAGES } from '@/lib/constants/images'
 import { CHARACTER_RELATIONS, GRAPH_CHARACTERS, RELATION_CONFIG, type RelationType } from '@/lib/constants/relationships'
 
+/** İlişki rengini opaklıkla birlikte döndürür. Renk tanımının tek kaynağı
+ *  `RELATION_CONFIG` — burada ikinci bir eşleme tutulmuyor. */
+function relationColor(type: RelationType, alpha = 1): string {
+  const { token, color } = RELATION_CONFIG[type]
+  return alpha === 1 ? color : `rgb(var(${token}) / ${alpha})`
+}
+
 /* ─── Circular layout for character nodes ─────────────────────────────── */
 function getCircularLayout(count: number, centerX: number, centerY: number, radius: number) {
   return Array.from({ length: count }).map((_, i) => {
@@ -111,7 +118,7 @@ export default function RelationshipGraph() {
             onClick={() => setFilterType(type as RelationType)}
             className={cn('chip flex-shrink-0', filterType === type && 'border-gold/30 bg-gold/10 text-gold')}
           >
-            <span className="h-2 w-2 rounded-full" style={{ background: config.color }} />
+            <span className="h-2 w-2 rounded-full" style={{ background: relationColor(type as RelationType) }} />
             {config.label}
           </button>
         ))}
@@ -120,7 +127,7 @@ export default function RelationshipGraph() {
       {/* Mobile: character picker rail */}
       {isMobile && (
         <div className="bento-card overflow-hidden rounded-2xl p-4">
-          <p className="mb-3 px-1 text-xs font-bold uppercase tracking-[0.18em] text-pirate-muted/70">
+          <p className="eyebrow mb-3 px-1 text-pirate-muted/70">
             Karakter seç — ilişkilerini gör
           </p>
           <div className="-mx-2 flex gap-3 overflow-x-auto px-2 pb-2 scrollbar-thin">
@@ -135,7 +142,7 @@ export default function RelationshipGraph() {
                   className={cn(
                     'group flex w-20 flex-shrink-0 flex-col items-center gap-2 rounded-xl border p-3 transition-all duration-300',
                     isActive
-                      ? 'border-gold/40 bg-gold/[0.08] shadow-[0_0_24px_rgba(244,163,0,0.15)]'
+                      ? 'border-gold/40 bg-gold/[0.08] shadow-[0_0_24px_rgb(var(--gold)/0.15)]'
                       : 'border-pirate-border/20 bg-ocean-surface/30 hover:border-sea/30',
                   )}
                   aria-pressed={isActive}
@@ -179,8 +186,8 @@ export default function RelationshipGraph() {
             <svg viewBox={`0 0 ${svgSize} ${svgSize}`} className="h-full w-full">
               <defs>
                 <radialGradient id="graph-bg" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="rgba(12,24,41,0.5)" />
-                  <stop offset="100%" stopColor="rgba(6,14,26,0.8)" />
+                  <stop offset="0%" stopColor="rgb(var(--ocean-surface) / 0.5)" />
+                  <stop offset="100%" stopColor="rgb(var(--ocean-deep) / 0.8)" />
                 </radialGradient>
                 {GRAPH_CHARACTERS.map((slug) => {
                   const pos = positions[slug]
@@ -210,7 +217,7 @@ export default function RelationshipGraph() {
                     y1={from.y}
                     x2={to.x}
                     y2={to.y}
-                    stroke={config.color}
+                    stroke={relationColor(rel.type)}
                     strokeWidth={isHighlighted ? 2 : 0.8}
                     strokeOpacity={isHighlighted ? 0.8 : 0.15}
                     strokeDasharray={config.dash ? '6,4' : undefined}
@@ -247,7 +254,7 @@ export default function RelationshipGraph() {
                         cx={pos.x}
                         cy={pos.y}
                         r="44"
-                        fill={slug === 'luffy' ? 'rgba(231,76,60,0.15)' : 'rgba(30,144,255,0.15)'}
+                        fill={slug === 'luffy' ? 'rgb(var(--luffy) / 0.15)' : 'rgb(var(--sea) / 0.15)'}
                       />
                     )}
 
@@ -271,8 +278,8 @@ export default function RelationshipGraph() {
                           cx={pos.x}
                           cy={pos.y}
                           r={isHovered || isSelected ? 32 : 28}
-                          fill={isSelected ? '#f4a300' : 'rgba(12,24,41,0.9)'}
-                          stroke={isSelected ? '#f4a300' : isHovered ? '#60b8ff' : 'rgba(30,144,255,0.25)'}
+                          fill={isSelected ? 'rgb(var(--gold))' : 'rgb(var(--ocean-surface) / 0.9)'}
+                          stroke={isSelected ? 'rgb(var(--gold))' : isHovered ? 'rgb(var(--sea-light))' : 'rgb(var(--sea) / 0.25)'}
                           strokeWidth={isSelected ? 2.5 : 1.5}
                           opacity={selected && !isConnected && !isSelected ? 0.2 : 1}
                           className="transition-all duration-300"
@@ -281,7 +288,7 @@ export default function RelationshipGraph() {
                           x={pos.x}
                           y={pos.y + 7}
                           textAnchor="middle"
-                          fill={isSelected ? '#060e1a' : '#e8eaf0'}
+                          fill={isSelected ? 'rgb(var(--ocean-deep))' : 'rgb(var(--pirate-text))'}
                           fontSize="16"
                           fontWeight="bold"
                           className="pointer-events-none select-none"
@@ -297,7 +304,7 @@ export default function RelationshipGraph() {
                       cy={pos.y}
                       r={isHovered || isSelected ? 32 : 28}
                       fill="none"
-                      stroke={isSelected ? '#f4a300' : isHovered ? '#60b8ff' : 'rgba(30,144,255,0.25)'}
+                      stroke={isSelected ? 'rgb(var(--gold))' : isHovered ? 'rgb(var(--sea-light))' : 'rgb(var(--sea) / 0.25)'}
                       strokeWidth={isSelected ? 2.5 : 1.5}
                       opacity={selected && !isConnected && !isSelected ? 0.2 : 1}
                       className="transition-all duration-300"
@@ -307,7 +314,7 @@ export default function RelationshipGraph() {
                         x={pos.x}
                         y={pos.y - 32}
                         textAnchor="middle"
-                        fill="#e8eaf0"
+                        fill="rgb(var(--pirate-text))"
                         fontSize="11"
                         fontWeight="600"
                         className="pointer-events-none"
@@ -339,8 +346,8 @@ export default function RelationshipGraph() {
                   <Users className="h-4 w-4 text-gold sm:h-5 sm:w-5" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="truncate text-base font-bold text-pirate-text sm:text-lg">{selected.name}</h3>
-                  <span className="text-[11px] text-pirate-muted/60 sm:text-xs">
+                  <h3 className="truncate font-display text-base font-bold text-pirate-text sm:text-lg">{selected.name}</h3>
+                  <span className="eyebrow text-pirate-muted/60">
                     {filteredSelectedRelations.length} ilişki bağlantısı
                   </span>
                 </div>
@@ -370,15 +377,28 @@ export default function RelationshipGraph() {
                       href={`/characters/${rel.slug}`}
                       className="group flex items-center gap-3 rounded-xl border border-pirate-border/30 bg-gradient-to-r from-ocean-surface/50 to-ocean-surface/30 px-3 py-4 transition-all hover:border-gold/40 hover:from-ocean-surface/80 hover:to-ocean-surface/60 hover:shadow-gold-glow sm:px-4 sm:py-3.5"
                     >
-                      <span className="h-4 w-4 flex-shrink-0 rounded-full ring-2 sm:h-3.5 sm:w-3.5" style={{ background: config.color, boxShadow: `0 0 0 2px ${config.color}40` }} />
+                      <span
+                        className="h-4 w-4 flex-shrink-0 rounded-full ring-2 sm:h-3.5 sm:w-3.5"
+                        style={{
+                          background: relationColor(rel.type),
+                          boxShadow: `0 0 0 2px ${relationColor(rel.type, 0.25)}`,
+                        }}
+                      />
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-base font-bold text-pirate-text transition-colors group-hover:text-gold sm:text-base">
+                        <p className="truncate font-display text-base font-bold text-pirate-text transition-colors group-hover:text-gold sm:text-base">
                           {rel.name}
                         </p>
-                        <p className="mt-0.5 text-sm text-pirate-muted/60 sm:text-xs">{config.label}</p>
+                        <p className="eyebrow mt-1 text-pirate-muted/60">{config.label}</p>
                       </div>
                       {rel.label && (
-                        <span className="hidden flex-shrink-0 whitespace-nowrap rounded-full border px-2.5 py-1 text-xs font-bold sm:inline" style={{ background: `${config.color}25`, color: config.color, borderColor: `${config.color}40` }}>
+                        <span
+                          className="hidden flex-shrink-0 whitespace-nowrap rounded-full border px-2.5 py-1 text-xs font-bold sm:inline"
+                          style={{
+                            background: relationColor(rel.type, 0.15),
+                            color: relationColor(rel.type),
+                            borderColor: relationColor(rel.type, 0.25),
+                          }}
+                        >
                           {rel.label}
                         </span>
                       )}

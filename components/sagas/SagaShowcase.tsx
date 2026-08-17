@@ -66,7 +66,7 @@ function SagaCard({ saga, alternate }: { saga: SagaCardData; alternate: boolean 
           <div className="absolute left-5 top-5 z-10">
             <div className={`flex items-center gap-2 rounded-full border ${cls.border} ${cls.bg} px-3 py-1.5 backdrop-blur-md`}>
               <span className="text-lg">{saga.iconEmoji}</span>
-              <span className={`text-[11px] font-bold uppercase tracking-[0.2em] ${cls.text}`}>
+              <span className={`eyebrow-lg ${cls.text}`}>
                 Saga {String(saga.index).padStart(2, '0')}
               </span>
             </div>
@@ -75,7 +75,7 @@ function SagaCard({ saga, alternate }: { saga: SagaCardData; alternate: boolean 
           {/* Era badge bottom */}
           {saga.era && (
             <div className="absolute bottom-5 left-5 z-10 md:hidden">
-              <span className={`rounded-full ${cls.bg} border ${cls.border} px-3 py-1 text-[10px] font-bold uppercase tracking-wider ${cls.text} backdrop-blur-md`}>
+              <span className={`eyebrow rounded-full ${cls.bg} border ${cls.border} px-3 py-1 ${cls.text} backdrop-blur-md`}>
                 {saga.era}
               </span>
             </div>
@@ -86,11 +86,11 @@ function SagaCard({ saga, alternate }: { saga: SagaCardData; alternate: boolean 
         <div className="relative flex flex-col justify-between p-6 sm:p-8">
           <div>
             {saga.era && (
-              <p className={`mb-3 hidden text-[10px] font-bold uppercase tracking-[0.3em] ${cls.text} md:block`}>
+              <p className={`eyebrow-lg mb-3 hidden ${cls.text} md:block`}>
                 {saga.era}
               </p>
             )}
-            <h2 className={`mb-2 text-3xl font-extrabold tracking-tight text-white transition-colors duration-300 ${cls.hoverText} sm:text-4xl md:text-5xl`}>
+            <h2 className={`mb-2 font-display text-3xl font-extrabold text-pirate-text transition-colors duration-300 ${cls.hoverText} sm:text-4xl md:text-5xl`}>
               {saga.name}
             </h2>
             <p className={`mb-5 text-sm font-semibold italic ${cls.text}`}>
@@ -180,7 +180,7 @@ function SagaShowcase({ sagas }: { sagas: SagaCardData[] }) {
           <span className="text-xl">🏴‍☠️</span>
         </div>
         <div>
-          <p className="text-sm font-bold text-gold">Yolculuk Sürüyor</p>
+          <p className="font-display text-sm font-bold text-gold">Yolculuk Sürüyor</p>
           <p className="text-xs text-pirate-muted mt-0.5">Sıradaki saga bekleniyor...</p>
         </div>
       </motion.div>

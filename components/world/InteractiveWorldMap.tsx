@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { LOCATIONS, SEAS } from '@/lib/constants/locations'
 import { cn } from '@/lib/utils'
 import { EASE } from '@/lib/variants'
+import { TYPE_LABELS } from './map-data'
 import type { Location } from '@/types'
 
 /* ─── Map coordinates for locations (approximate positions on SVG) ──── */
@@ -44,17 +45,22 @@ const LOCATION_COORDS: Record<string, { x: number; y: number }> = {
   'mary-geoise': { x: 30, y: 45 },
 }
 
+/* Dört Deniz'in renkleri İÇERİK paletidir (her denizin kendi kimliği).
+   Grand Line · New World · Red Line · Calm Belt ise marka token'larına
+   karşılık gelir — onlar tema ile döner. */
 const SEA_COLORS: Record<string, string> = {
   'east-blue': '#3b82f6',
   'west-blue': '#f97316',
   'north-blue': '#22d3ee',
   'south-blue': '#22c55e',
-  'grand-line': '#f4a300',
-  'new-world': '#e74c3c',
-  'calm-belt': '#8b8fa3',
-  'red-line': '#e74c3c',
+  'grand-line': 'rgb(var(--gold))',
+  'new-world': 'rgb(var(--luffy))',
+  'calm-belt': 'rgb(var(--pirate-muted))',
+  'red-line': 'rgb(var(--luffy))',
 }
 
+/* Tehlike ölçeği bir veri skalasıdır (yeşil→kırmızı), marka paleti değil —
+   `map-data.ts`'deki karşılığıyla aynı kalır. */
 const DANGER_COLORS = ['#22c55e', '#22c55e', '#f4a300', '#f97316', '#e74c3c', '#dc2626']
 
 export default function InteractiveWorldMap() {
@@ -112,8 +118,8 @@ export default function InteractiveWorldMap() {
             {/* Ocean background */}
             <defs>
               <radialGradient id="ocean-bg" cx="50%" cy="50%" r="60%">
-                <stop offset="0%" stopColor="#0c1829" />
-                <stop offset="100%" stopColor="#060e1a" />
+                <stop offset="0%" stopColor="rgb(var(--ocean-surface))" />
+                <stop offset="100%" stopColor="rgb(var(--ocean-deep))" />
               </radialGradient>
               <filter id="glow">
                 <feGaussianBlur stdDeviation="0.8" result="blur" />
@@ -128,35 +134,35 @@ export default function InteractiveWorldMap() {
             {/* Grid lines */}
             {Array.from({ length: 10 }).map((_, i) => (
               <g key={i}>
-                <line x1={i * 10} y1="0" x2={i * 10} y2="100" stroke="rgba(30,144,255,0.04)" strokeWidth="0.2" />
-                <line x1="0" y1={i * 10} x2="100" y2={i * 10} stroke="rgba(30,144,255,0.04)" strokeWidth="0.2" />
+                <line x1={i * 10} y1="0" x2={i * 10} y2="100" stroke="rgb(var(--sea) / 0.04)" strokeWidth="0.2" />
+                <line x1="0" y1={i * 10} x2="100" y2={i * 10} stroke="rgb(var(--sea) / 0.04)" strokeWidth="0.2" />
               </g>
             ))}
 
             {/* Red Line (vertical) */}
-            <rect x="29" y="0" width="2" height="100" fill="rgba(231,76,60,0.15)" rx="1" />
+            <rect x="29" y="0" width="2" height="100" fill="rgb(var(--luffy) / 0.15)" rx="1" />
 
             {/* Grand Line (horizontal band) */}
-            <rect x="0" y="44" width="100" height="12" fill="rgba(244,163,0,0.04)" />
-            <line x1="0" y1="44" x2="100" y2="44" stroke="rgba(244,163,0,0.12)" strokeWidth="0.3" strokeDasharray="2,2" />
-            <line x1="0" y1="56" x2="100" y2="56" stroke="rgba(244,163,0,0.12)" strokeWidth="0.3" strokeDasharray="2,2" />
+            <rect x="0" y="44" width="100" height="12" fill="rgb(var(--gold) / 0.04)" />
+            <line x1="0" y1="44" x2="100" y2="44" stroke="rgb(var(--gold) / 0.12)" strokeWidth="0.3" strokeDasharray="2,2" />
+            <line x1="0" y1="56" x2="100" y2="56" stroke="rgb(var(--gold) / 0.12)" strokeWidth="0.3" strokeDasharray="2,2" />
 
             {/* Calm Belt */}
-            <rect x="0" y="40" width="100" height="4" fill="rgba(139,143,163,0.04)" />
-            <rect x="0" y="56" width="100" height="4" fill="rgba(139,143,163,0.04)" />
+            <rect x="0" y="40" width="100" height="4" fill="rgb(var(--pirate-muted) / 0.04)" />
+            <rect x="0" y="56" width="100" height="4" fill="rgb(var(--pirate-muted) / 0.04)" />
 
-            {/* Labels */}
-            <text x="85" y="30" fill="rgba(59,130,246,0.3)" fontSize="2.5" fontWeight="bold">EAST BLUE</text>
-            <text x="5" y="30" fill="rgba(249,115,22,0.3)" fontSize="2.5" fontWeight="bold">WEST BLUE</text>
-            <text x="50" y="15" fill="rgba(34,211,238,0.3)" fontSize="2.5" fontWeight="bold" textAnchor="middle">NORTH BLUE</text>
-            <text x="50" y="90" fill="rgba(34,197,94,0.3)" fontSize="2.5" fontWeight="bold" textAnchor="middle">SOUTH BLUE</text>
-            <text x="50" y="51" fill="rgba(244,163,0,0.15)" fontSize="3" fontWeight="bold" textAnchor="middle">GRAND LINE</text>
+            {/* Labels — bölge adları kartografik display tipi (Cinzel) */}
+            <text x="85" y="30" fill="rgba(59,130,246,0.3)" fontSize="2.5" fontWeight="bold" fontFamily="var(--font-display), Georgia, serif">EAST BLUE</text>
+            <text x="5" y="30" fill="rgba(249,115,22,0.3)" fontSize="2.5" fontWeight="bold" fontFamily="var(--font-display), Georgia, serif">WEST BLUE</text>
+            <text x="50" y="15" fill="rgba(34,211,238,0.3)" fontSize="2.5" fontWeight="bold" textAnchor="middle" fontFamily="var(--font-display), Georgia, serif">NORTH BLUE</text>
+            <text x="50" y="90" fill="rgba(34,197,94,0.3)" fontSize="2.5" fontWeight="bold" textAnchor="middle" fontFamily="var(--font-display), Georgia, serif">SOUTH BLUE</text>
+            <text x="50" y="51" fill="rgb(var(--gold) / 0.15)" fontSize="3" fontWeight="bold" textAnchor="middle" fontFamily="var(--font-display), Georgia, serif">GRAND LINE</text>
 
             {/* Location dots */}
             {filteredLocations.map((loc) => {
               const coords = LOCATION_COORDS[loc.slug]
               if (!coords) return null
-              const seaColor = SEA_COLORS[loc.sea] ?? '#8b8fa3'
+              const seaColor = SEA_COLORS[loc.sea] ?? 'rgb(var(--pirate-muted))'
               const isHovered = hoveredSlug === loc.slug
               const isSelected = selectedLocation?.slug === loc.slug
 
@@ -195,10 +201,11 @@ export default function InteractiveWorldMap() {
                     <text
                       x={coords.x}
                       y={coords.y - 2.5}
-                      fill="#e8eaf0"
+                      fill="rgb(var(--pirate-text))"
                       fontSize="1.8"
                       fontWeight="600"
                       textAnchor="middle"
+                      fontFamily="var(--font-display), Georgia, serif"
                       className="pointer-events-none"
                     >
                       {loc.name}
@@ -231,12 +238,16 @@ export default function InteractiveWorldMap() {
                 <div>
                   <div className="mb-1 flex items-center gap-2">
                     <MapPin className="h-4 w-4" style={{ color: SEA_COLORS[selectedLocation.sea] }} />
-                    <h3 className="text-lg font-bold text-pirate-text">{selectedLocation.name}</h3>
+                    <h3 className="font-display text-lg font-bold text-pirate-text">{selectedLocation.name}</h3>
                     <span className="rounded-full bg-ocean-surface px-2 py-0.5 text-[10px] font-semibold text-pirate-muted">
                       {SEAS.find(s => s.slug === selectedLocation.sea)?.name}
                     </span>
                   </div>
-                  <p className="text-xs font-medium capitalize text-pirate-muted/50">{selectedLocation.type}</p>
+                  {/* `capitalize` yerine Türkçe etiket tablosu — CSS capitalize
+                      Türkçe'de `i → I` üretir, `İ` değil. */}
+                  <p className="text-xs font-medium text-pirate-muted/50">
+                    {TYPE_LABELS[selectedLocation.type] ?? selectedLocation.type}
+                  </p>
                 </div>
                 <button
                   onClick={() => setSelectedLocation(null)}
@@ -251,7 +262,7 @@ export default function InteractiveWorldMap() {
               {/* Danger level */}
               <div className="mb-4 flex items-center gap-2">
                 <AlertTriangle className="h-3.5 w-3.5 text-pirate-muted/40" />
-                <span className="text-xs font-semibold text-pirate-muted/50">Tehlike Seviyesi</span>
+                <span className="eyebrow text-pirate-muted/50">Tehlike Seviyesi</span>
                 <div className="flex gap-1">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <div
@@ -260,12 +271,12 @@ export default function InteractiveWorldMap() {
                       style={{
                         background: i < selectedLocation.dangerLevel
                           ? DANGER_COLORS[selectedLocation.dangerLevel]
-                          : 'rgba(30,144,255,0.08)',
+                          : 'rgb(var(--pirate-border))',
                       }}
                     />
                   ))}
                 </div>
-                <span className="text-xs font-bold" style={{ color: DANGER_COLORS[selectedLocation.dangerLevel] }}>
+                <span className="font-mono text-xs font-bold" style={{ color: DANGER_COLORS[selectedLocation.dangerLevel] }}>
                   {selectedLocation.dangerLevel}/5
                 </span>
               </div>
@@ -273,7 +284,7 @@ export default function InteractiveWorldMap() {
               {/* Significance */}
               {selectedLocation.significance.length > 0 && (
                 <div className="mb-4">
-                  <h4 className="mb-2 text-xs font-bold text-pirate-text">Önemli Olaylar</h4>
+                  <h4 className="eyebrow mb-2 text-pirate-muted">Önemli Olaylar</h4>
                   <ul className="space-y-1">
                     {selectedLocation.significance.map((s, i) => (
                       <li key={i} className="flex items-start gap-2 text-xs text-pirate-muted">

@@ -27,10 +27,10 @@ import { BOUNTIES, CREW_FILTERS } from '@/lib/constants/bounties'
 import type { BountyEntry } from '@/types'
 
 const HERO_ORBS = [
-  { color: 'rgba(244, 163, 0, 0.4)', size: 300, x: '10%', y: '20%', delay: 0 },
-  { color: 'rgba(30, 144, 255, 0.2)', size: 200, x: '70%', y: '10%', delay: 1.5 },
-  { color: 'rgba(244, 163, 0, 0.15)', size: 250, x: '80%', y: '60%', delay: 3 },
-  { color: 'rgba(231, 76, 60, 0.12)', size: 180, x: '5%', y: '70%', delay: 2 },
+  { color: 'rgb(var(--gold) / 0.4)', size: 300, x: '10%', y: '20%', delay: 0 },
+  { color: 'rgb(var(--sea) / 0.2)', size: 200, x: '70%', y: '10%', delay: 1.5 },
+  { color: 'rgb(var(--gold) / 0.15)', size: 250, x: '80%', y: '60%', delay: 3 },
+  { color: 'rgb(var(--luffy) / 0.12)', size: 180, x: '5%', y: '70%', delay: 2 },
 ]
 
 /* ─── Tier definitions ─────────────────────────────────────────── */
@@ -75,7 +75,7 @@ const TIERS: Tier[] = [
     color: 'text-luffy',
     borderColor: 'border-luffy/30',
     bgColor: 'bg-luffy/[0.04]',
-    barColor: 'from-luffy via-orange-500 to-luffy',
+    barColor: 'from-luffy via-accent-orange to-luffy',
   },
   {
     id: 'rookie',
@@ -170,8 +170,8 @@ export default function BountiesPage() {
               <div className="bento-card inline-flex items-center gap-3 rounded-xl px-5 py-3">
                 <Trophy className="h-5 w-5 text-gold" />
                 <div>
-                  <p className="text-[10px] uppercase tracking-wider text-pirate-muted">Toplam Kayıtlı Ödül</p>
-                  <p className="text-lg font-extrabold text-gold stat-number">
+                  <p className="eyebrow text-pirate-muted">Toplam Kayıtlı Ödül</p>
+                  <p className="mt-1 font-mono text-lg font-bold text-gold stat-number">
                     {totalBounty.toLocaleString('tr-TR')} Berry
                   </p>
                 </div>
@@ -179,15 +179,15 @@ export default function BountiesPage() {
               <div className="bento-card inline-flex items-center gap-3 rounded-xl px-5 py-3">
                 <Skull className="h-5 w-5 text-sea" />
                 <div>
-                  <p className="text-[10px] uppercase tracking-wider text-pirate-muted">Aranan Korsan</p>
-                  <p className="text-lg font-extrabold text-sea stat-number">{allSorted.length}</p>
+                  <p className="eyebrow text-pirate-muted">Aranan Korsan</p>
+                  <p className="mt-1 font-display text-lg font-extrabold text-sea stat-number">{allSorted.length}</p>
                 </div>
               </div>
               <div className="bento-card inline-flex items-center gap-3 rounded-xl px-5 py-3">
                 <Crown className="h-5 w-5 text-gold-bright" />
                 <div>
-                  <p className="text-[10px] uppercase tracking-wider text-pirate-muted">En Yüksek Ödül</p>
-                  <p className="text-lg font-extrabold text-gold-bright stat-number">
+                  <p className="eyebrow text-pirate-muted">En Yüksek Ödül</p>
+                  <p className="mt-1 font-mono text-lg font-bold text-gold-bright stat-number">
                     {formatBounty(highestBounty)}
                   </p>
                 </div>
@@ -215,7 +215,7 @@ export default function BountiesPage() {
                   onClick={() => setCrewFilter(crew.value === crewFilter ? '' : crew.value)}
                   className={`chip transition-all duration-200 ${
                     crewFilter === crew.value
-                      ? 'border-gold/50 bg-gold/15 text-gold shadow-[0_0_12px_rgba(244,163,0,0.15)]'
+                      ? 'border-gold/50 bg-gold/15 text-gold shadow-[0_0_12px_rgb(var(--gold)/0.15)]'
                       : 'border-pirate-border/50 bg-ocean-surface/30 text-pirate-muted hover:border-pirate-border hover:text-pirate-text'
                   }`}
                 >
@@ -231,7 +231,7 @@ export default function BountiesPage() {
               {/* Section header */}
               <div className="mb-8 flex items-center gap-3">
                 <Crown className="h-5 w-5 text-gold" />
-                <h2 className="text-lg font-bold text-gold-gradient">Efsanevi Korsanlar</h2>
+                <h2 className="font-display text-lg font-bold text-gold-gradient">Efsanevi Korsanlar</h2>
                 <div className="divider-glow flex-1" />
               </div>
 
@@ -253,13 +253,22 @@ export default function BountiesPage() {
                       className="flex flex-col items-center"
                     >
                       <MaybeLinkWrapper slug={entry.slug}>
-                        {/* Wanted Poster Card */}
+                        {/* Wanted Poster Card — parşömen tonu token'lardan
+                            kuruluyor: altın yıkama + zemin merdiveni. Light
+                            temada aynı reçete krem bir afiş üretir, dark'ta
+                            koyu altın-kahve kalır. */}
                         <div
                           className={`wanted-poster group relative flex w-full flex-col items-center overflow-hidden transition-all duration-500 ${
                             isFirst
                               ? 'rounded-2xl sm:rounded-3xl'
                               : 'rounded-xl sm:rounded-2xl'
                           }`}
+                          /* Afiş zemini KASITLI olarak sabit sepya — bu bir
+                             içerik estetiği (yıpranmış One Piece ödül afişi),
+                             tema yüzeyi değil. Token'a çekilirse (a) dark'ta
+                             afiş lacivere döner ve afiş kimliği kaybolur,
+                             (b) light'ta zemin beyazlaşır ve üstündeki altın
+                             veri okunmaz hâle gelir. İki temada da koyu kalır. */
                           style={{
                             background: isFirst
                               ? 'linear-gradient(180deg, #2a1f0a 0%, #1a1305 40%, #0f0c04 100%)'
@@ -296,8 +305,8 @@ export default function BountiesPage() {
                               }`}
                               style={{
                                 textShadow: isFirst
-                                  ? '0 0 20px rgba(244,163,0,0.3)'
-                                  : '0 0 12px rgba(244,163,0,0.2)',
+                                  ? '0 0 20px rgb(var(--gold) / 0.3)'
+                                  : '0 0 12px rgb(var(--gold) / 0.2)',
                               }}
                             >
                               WANTED
@@ -310,7 +319,7 @@ export default function BountiesPage() {
                           {/* Character portrait */}
                           <div className={`relative z-10 mx-auto overflow-hidden border-2 transition-all duration-500 ${
                             isFirst
-                              ? 'mt-3 sm:mt-6 h-28 w-24 sm:h-48 sm:w-40 rounded-lg sm:rounded-xl border-gold/30 group-hover:border-gold/50 shadow-[0_0_30px_rgba(244,163,0,0.1)]'
+                              ? 'mt-3 sm:mt-6 h-28 w-24 sm:h-48 sm:w-40 rounded-lg sm:rounded-xl border-gold/30 group-hover:border-gold/50 shadow-[0_0_30px_rgb(var(--gold)/0.1)]'
                               : 'mt-2 sm:mt-4 h-20 w-16 sm:h-36 sm:w-28 rounded-lg border-gold/20 group-hover:border-gold/35'
                           }`}>
                             {characterImage ? (
@@ -341,7 +350,7 @@ export default function BountiesPage() {
                           {/* Name */}
                           <div className="relative z-10 mt-1.5 px-3 text-center sm:mt-3 sm:px-4">
                             <p
-                              className={`font-extrabold leading-tight ${
+                              className={`font-display font-extrabold leading-tight ${
                                 isFirst
                                   ? 'text-sm sm:text-lg text-pirate-text'
                                   : 'text-[11px] sm:text-base text-pirate-text/90'
@@ -368,23 +377,21 @@ export default function BountiesPage() {
                               isFirst ? 'h-px w-3/4' : 'h-px w-2/3'
                             }`} />
                             <p
-                              className={`font-extrabold stat-number ${
+                              className={`font-mono font-bold stat-number ${
                                 isFirst
                                   ? 'text-lg sm:text-3xl text-gold'
                                   : 'text-sm sm:text-xl text-gold/85'
                               }`}
                               style={{
                                 textShadow: isFirst
-                                  ? '0 0 24px rgba(244,163,0,0.4)'
-                                  : '0 0 12px rgba(244,163,0,0.2)',
+                                  ? '0 0 24px rgb(var(--gold) / 0.4)'
+                                  : '0 0 12px rgb(var(--gold) / 0.2)',
                               }}
                             >
                               {entry.bounty}
                             </p>
-                            <p className={`font-medium uppercase tracking-wider ${
-                              isFirst
-                                ? 'text-[10px] sm:text-sm text-gold/50'
-                                : 'text-[8px] sm:text-[11px] text-gold/40'
+                            <p className={`eyebrow mt-1 ${
+                              isFirst ? 'text-gold/60' : 'text-gold/50'
                             }`}>
                               Berry
                             </p>
@@ -396,18 +403,18 @@ export default function BountiesPage() {
                       <div
                         className={`mt-3 flex items-center justify-center rounded-full ${
                           isFirst
-                            ? 'h-10 w-10 bg-gold/20 border-2 border-gold/40 shadow-[0_0_20px_rgba(244,163,0,0.2)]'
+                            ? 'h-10 w-10 bg-gold/20 border-2 border-gold/40 shadow-[0_0_20px_rgb(var(--gold)/0.2)]'
                             : actualRank === 2
                               ? 'h-8 w-8 bg-pirate-text/10 border border-pirate-text/30'
-                              : 'h-8 w-8 bg-amber-700/15 border border-amber-700/30'
+                              : 'h-8 w-8 bg-accent-amber/15 border border-accent-amber/30'
                         }`}
                       >
                         {isFirst ? (
                           <Crown className="h-5 w-5 text-gold" />
                         ) : (
                           <span
-                            className={`text-sm font-extrabold ${
-                              actualRank === 2 ? 'text-pirate-text' : 'text-amber-600'
+                            className={`font-display text-sm font-extrabold ${
+                              actualRank === 2 ? 'text-pirate-text' : 'text-accent-amber'
                             }`}
                           >
                             {actualRank}
@@ -426,7 +433,7 @@ export default function BountiesPage() {
             {/* Section header */}
             <div className="mb-6 flex items-center gap-3">
               <Star className="h-4 w-4 text-sea" />
-              <h2 className="text-sm font-bold uppercase tracking-wider text-pirate-muted">
+              <h2 className="eyebrow-lg text-pirate-muted">
                 {isFiltered ? `Sonuçlar (${filtered.length})` : 'Tam Sıralama'}
               </h2>
               <div className="divider-glow flex-1" />
@@ -455,9 +462,9 @@ export default function BountiesPage() {
                         <TierIcon className={`h-4 w-4 ${tier.color}`} />
                       </div>
                       <div className="flex-1 text-left">
-                        <p className={`text-sm font-bold ${tier.color}`}>{tier.label}</p>
-                        <p className="text-[10px] text-pirate-muted">
-                          {entries.length} korsan
+                        <p className={`font-display text-sm font-bold ${tier.color}`}>{tier.label}</p>
+                        <p className="mt-0.5 text-[10px] text-pirate-muted">
+                          <span className="font-mono font-bold">{entries.length}</span> korsan
                         </p>
                       </div>
                       <motion.div
@@ -492,7 +499,7 @@ export default function BountiesPage() {
                                       <div className="absolute inset-y-0 left-0 w-[2px] bg-gradient-to-b from-transparent via-gold/0 to-transparent transition-all duration-300 group-hover:via-gold/40" />
 
                                       {/* Rank */}
-                                      <div className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg text-xs font-extrabold ${
+                                      <div className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg font-mono text-xs font-bold ${
                                         globalRank <= 3
                                           ? 'bg-gold/15 border border-gold/30 text-gold'
                                           : globalRank <= 10
@@ -526,7 +533,7 @@ export default function BountiesPage() {
                                       {/* Name + Epithet + Crew */}
                                       <div className="min-w-0 flex-1">
                                         <div className="flex items-center gap-2">
-                                          <p className="truncate text-sm font-bold text-pirate-text transition-colors group-hover:text-gold sm:text-base">
+                                          <p className="truncate font-display text-sm font-bold text-pirate-text transition-colors group-hover:text-gold sm:text-base">
                                             {entry.name}
                                           </p>
                                           {entry.epithet && (
@@ -551,7 +558,7 @@ export default function BountiesPage() {
 
                                       {/* Bounty value */}
                                       <div className="flex-shrink-0 text-right">
-                                        <p className={`text-sm font-extrabold stat-number sm:text-base ${
+                                        <p className={`font-mono text-sm font-bold stat-number sm:text-base ${
                                           globalRank <= 3
                                             ? 'text-gold'
                                             : globalRank <= 10
@@ -560,7 +567,7 @@ export default function BountiesPage() {
                                         }`}>
                                           {formatBounty(bountyValue)}
                                         </p>
-                                        <p className="text-[9px] text-pirate-muted sm:text-[10px]">
+                                        <p className="eyebrow mt-0.5 text-pirate-muted">
                                           Berry
                                         </p>
                                       </div>
@@ -620,10 +627,10 @@ export default function BountiesPage() {
               <div className="flex-1">
                 <div className="mb-1.5 flex items-center gap-2">
                   <Medal className="h-4 w-4 text-gold" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-gold">Eğlenceli Bilgi</span>
+                  <span className="eyebrow text-gold">Eğlenceli Bilgi</span>
                 </div>
                 <p className="text-sm leading-relaxed text-pirate-text">
-                  Chopper&apos;ın ödülü sadece <span className="font-extrabold text-gold">1.000 Berry</span> — Dünya Hükümeti onu mürettebatın maskotu (evcil hayvanı) sanıyor! Bu, tüm One Piece evrenindeki en düşük aktif korsan ödülü.
+                  Chopper&apos;ın ödülü sadece <span className="font-mono font-bold text-gold">1.000 Berry</span> — Dünya Hükümeti onu mürettebatın maskotu (evcil hayvanı) sanıyor! Bu, tüm One Piece evrenindeki en düşük aktif korsan ödülü.
                 </p>
                 <p className="mt-1.5 text-[11px] italic text-pirate-muted">
                   &quot;Ben bir geyik değilim, bir Tanuki&apos;yim!&quot; — Chopper (muhtemelen)

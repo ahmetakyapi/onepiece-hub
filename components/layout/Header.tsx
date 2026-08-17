@@ -7,9 +7,10 @@ import {
   Menu, X, BookOpen, LogOut, User,
   ChevronDown, ArrowRight, Search,
 } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { BrandLockup } from '@/components/brand/CompassMark'
+import { ThemeToggle } from '@/components/layout/ThemeToggle'
 import { useAuth } from '@/hooks/useAuth'
 import { MAIN_LINKS, WIKI_LINKS } from '@/lib/constants/navigation'
 
@@ -66,11 +67,12 @@ export default function Header() {
       <header
         className="fixed inset-x-0 top-0 z-50"
       >
-        {/* Blur backdrop that grows on scroll */}
+        {/* Blur backdrop that grows on scroll — zemin token'lı, temayla döner */}
         <div
-          className="absolute inset-0 transition-all duration-500"
+          className={`absolute inset-0 transition-all duration-500 ${
+            scrolled ? 'bg-ocean-deep/[0.82]' : 'bg-ocean-deep/0'
+          }`}
           style={{
-            backgroundColor: scrolled ? 'rgba(6,14,26,0.82)' : 'rgba(6,14,26,0)',
             backdropFilter: scrolled ? 'blur(20px) saturate(1.4)' : 'blur(0px)',
             WebkitBackdropFilter: scrolled ? 'blur(20px) saturate(1.4)' : 'blur(0px)',
           }}
@@ -78,11 +80,8 @@ export default function Header() {
 
         {/* Bottom border that fades in */}
         <div
-          className="absolute inset-x-0 bottom-0 h-px transition-opacity duration-400"
-          style={{
-            opacity: scrolled ? 1 : 0,
-            background: 'linear-gradient(90deg, transparent, rgba(30,144,255,0.12) 20%, rgba(244,163,0,0.12) 80%, transparent)',
-          }}
+          className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent transition-opacity duration-500"
+          style={{ opacity: scrolled ? 1 : 0 }}
         />
 
         {/* Kaydırınca küçülür — üstte ferah, okurken yer açar */}
@@ -91,24 +90,19 @@ export default function Header() {
             scrolled ? 'h-16 sm:h-[4.5rem]' : 'h-24 sm:h-28'
           }`}
         >
-          {/* Logo */}
-          <Link href="/" className="relative flex items-center gap-2 group">
-            <Image
-              src="/logo.webp"
-              alt="One Piece Hub"
-              width={180}
-              height={72}
-              className={`w-auto drop-shadow-lg transition-all duration-500 ease-expo-out group-hover:drop-shadow-[0_0_20px_rgba(244,163,0,0.25)] ${
-                scrolled ? 'h-12 sm:h-14' : 'h-20 sm:h-24'
-              }`}
-              priority
+          {/* Logo — pusula işareti + wordmark */}
+          <Link href="/" className="group relative flex items-center" aria-label="One Piece Hub — ana sayfa">
+            <BrandLockup
+              markSize={scrolled ? 30 : 38}
+              size="md"
+              className="transition-all duration-500 ease-expo-out group-hover:opacity-90"
             />
           </Link>
 
           {/* Desktop nav — floating pill style */}
           <nav className="hidden items-center md:flex">
             {/* Nav pill container */}
-            <div className="flex items-center gap-0.5 rounded-full border border-white/[0.06] bg-white/[0.03] px-1 py-1 backdrop-blur-sm">
+            <div className="flex items-center gap-0.5 rounded-full border border-ink/[0.06] bg-ink/[0.03] px-1 py-1 backdrop-blur-sm">
               {MAIN_LINKS.map((link) => {
                 const isActive = pathname.startsWith(link.href)
                 return (
@@ -118,7 +112,7 @@ export default function Header() {
                     className={`group flex items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-semibold transition-all duration-300 ${
                       isActive
                         ? 'bg-gold/[0.1] text-gold'
-                        : 'text-pirate-text/80 hover:bg-white/[0.06] hover:text-white'
+                        : 'text-pirate-text/80 hover:bg-ink/[0.06] hover:text-pirate-text'
                     }`}
                   >
                     <link.icon className={`h-3.5 w-3.5 transition-all ${isActive ? 'text-gold opacity-100' : 'opacity-60 group-hover:opacity-100 group-hover:text-gold'}`} />
@@ -133,10 +127,10 @@ export default function Header() {
                   onClick={() => setWikiOpen(!wikiOpen)}
                   className={`group flex items-center gap-1 rounded-full px-4 py-2 text-[13px] font-semibold transition-all duration-300 ${
                     wikiOpen
-                      ? 'bg-white/[0.08] text-white'
+                      ? 'bg-ink/[0.08] text-pirate-text'
                       : isWikiActive
                         ? 'bg-gold/[0.1] text-gold'
-                        : 'text-pirate-text/80 hover:bg-white/[0.06] hover:text-white'
+                        : 'text-pirate-text/80 hover:bg-ink/[0.06] hover:text-pirate-text'
                   }`}
                 >
                   <BookOpen className={`h-3.5 w-3.5 transition-all ${isWikiActive ? 'text-gold opacity-100' : 'opacity-60 group-hover:opacity-100 group-hover:text-gold'}`} />
@@ -173,13 +167,13 @@ export default function Header() {
                           <Link
                             href={link.href}
                             onClick={() => setWikiOpen(false)}
-                            className="group flex items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200 hover:bg-white/[0.04]"
+                            className="group flex items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200 hover:bg-ink/[0.04]"
                           >
                             <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-gold/[0.06] transition-colors group-hover:bg-gold/[0.12]">
                               <link.icon className="h-3.5 w-3.5 text-gold/70 transition-colors group-hover:text-gold" />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-[13px] font-semibold text-pirate-text transition-colors group-hover:text-white">
+                              <p className="text-[13px] font-semibold text-pirate-text transition-colors group-hover:text-pirate-text">
                                 {link.label}
                               </p>
                               <p className="text-[11px] text-pirate-muted/70">{link.desc}</p>
@@ -194,12 +188,12 @@ export default function Header() {
                       <Link
                         href="/about"
                         onClick={() => setWikiOpen(false)}
-                        className="group flex items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200 hover:bg-white/[0.04]"
+                        className="group flex items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200 hover:bg-ink/[0.04]"
                       >
                         <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-sea/[0.06]">
                           <BookOpen className="h-3.5 w-3.5 text-sea/70 transition-colors group-hover:text-sea" />
                         </div>
-                        <p className="text-[13px] font-semibold text-pirate-text transition-colors group-hover:text-white">
+                        <p className="text-[13px] font-semibold text-pirate-text transition-colors group-hover:text-pirate-text">
                           Hakkında
                         </p>
                       </Link>
@@ -232,12 +226,13 @@ export default function Header() {
             >
               <Search className="h-4 w-4" />
             </button>
+            <ThemeToggle className="hidden sm:flex" />
             {!loading && (
               user ? (
                 <div className="hidden items-center gap-2 sm:flex">
                   <Link
                     href="/profile"
-                    className="group flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-[13px] font-semibold text-pirate-text transition-all duration-300 hover:border-gold/20 hover:bg-gold/[0.06] hover:text-gold"
+                    className="group flex items-center gap-2 rounded-full border border-ink/[0.08] bg-ink/[0.03] px-4 py-2 text-[13px] font-semibold text-pirate-text transition-all duration-300 hover:border-gold/20 hover:bg-gold/[0.06] hover:text-gold"
                   >
                     <div className="flex h-5 w-5 items-center justify-center rounded-full bg-gold/15">
                       <User className="h-3 w-3 text-gold" />
@@ -290,7 +285,7 @@ export default function Header() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 bg-ocean-deep/60 backdrop-blur-sm md:hidden"
+              className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden"
               onClick={() => setMenuOpen(false)}
             />
 
@@ -318,7 +313,7 @@ export default function Header() {
                       <Link
                         href={link.href}
                         onClick={() => setMenuOpen(false)}
-                        className={`group flex items-center gap-3 rounded-xl px-4 py-3 transition-colors ${isActive ? 'bg-gold/[0.08]' : 'hover:bg-white/[0.04]'}`}
+                        className={`group flex items-center gap-3 rounded-xl px-4 py-3 transition-colors ${isActive ? 'bg-gold/[0.08]' : 'hover:bg-ink/[0.04]'}`}
                       >
                         <div className={`flex h-9 w-9 items-center justify-center rounded-lg ${isActive ? 'bg-gold/15' : 'bg-sea/[0.08]'}`}>
                           <link.icon className={`h-4 w-4 ${isActive ? 'text-gold' : 'text-sea'}`} />
@@ -349,7 +344,7 @@ export default function Header() {
                       <Link
                         href={link.href}
                         onClick={() => setMenuOpen(false)}
-                        className="group flex items-center gap-3 rounded-xl px-4 py-2.5 transition-colors hover:bg-white/[0.04]"
+                        className="group flex items-center gap-3 rounded-xl px-4 py-2.5 transition-colors hover:bg-ink/[0.04]"
                       >
                         <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-gold/[0.06]">
                           <link.icon className="h-3.5 w-3.5 text-gold/70" />
@@ -371,13 +366,17 @@ export default function Header() {
               <Link
                 href="/about"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-white/[0.04]"
+                className="flex items-center gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-ink/[0.04]"
               >
                 <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-sea/[0.08]">
                   <BookOpen className="h-4 w-4 text-sea" />
                 </div>
                 <span className="text-sm font-semibold text-pirate-text">Hakkında</span>
               </Link>
+
+              {/* Tema */}
+              <div className="mx-4 my-2 h-px bg-gradient-to-r from-transparent via-pirate-border/30 to-transparent" />
+              <ThemeToggle variant="row" />
 
               {/* Auth */}
               <div className="mx-4 my-2 h-px bg-gradient-to-r from-transparent via-pirate-border/30 to-transparent" />

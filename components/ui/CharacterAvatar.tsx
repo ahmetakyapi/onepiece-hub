@@ -9,17 +9,17 @@ const CREW_GRADIENTS: Record<string, string> = {
   'marine': 'from-sea/40 to-sea-light/20',
   'shichibukai': 'from-fruit-strong/40 to-fruit/20',
   'yonko': 'from-luffy/40 to-gold/20',
-  'revolutionary': 'from-emerald-500/40 to-emerald-400/20',
-  'baroque-works': 'from-amber-600/40 to-amber-400/20',
-  'cp9': 'from-slate-500/40 to-slate-400/20',
-  'supernova': 'from-cyan-500/40 to-cyan-400/20',
-  'beast-pirates': 'from-violet-600/40 to-violet-400/20',
-  'big-mom-pirates': 'from-pink-500/40 to-pink-400/20',
-  'roger-pirates': 'from-gold/40 to-amber-500/20',
-  'whitebeard-pirates': 'from-sky-500/40 to-sky-400/20',
-  'red-hair-pirates': 'from-red-500/40 to-red-400/20',
-  'ally': 'from-teal-500/40 to-teal-400/20',
-  'other': 'from-gray-500/40 to-gray-400/20',
+  'revolutionary': 'from-accent-emerald/40 to-accent-emerald/20',
+  'baroque-works': 'from-accent-amber/40 to-accent-amber/20',
+  'cp9': 'from-accent-silver/40 to-accent-silver/20',
+  'supernova': 'from-accent-cyan/40 to-accent-cyan/20',
+  'beast-pirates': 'from-accent-indigo/40 to-accent-indigo/20',
+  'big-mom-pirates': 'from-accent-pink/40 to-accent-pink/20',
+  'roger-pirates': 'from-gold/40 to-accent-amber/20',
+  'whitebeard-pirates': 'from-accent-teal/40 to-accent-teal/20',
+  'red-hair-pirates': 'from-accent-rose/40 to-accent-rose/20',
+  'ally': 'from-accent-lime/40 to-accent-lime/20',
+  'other': 'from-accent-silver/40 to-accent-silver/20',
 }
 
 const CREW_TEXT_COLORS: Record<string, string> = {
@@ -27,17 +27,17 @@ const CREW_TEXT_COLORS: Record<string, string> = {
   'marine': 'text-sea',
   'shichibukai': 'text-fruit',
   'yonko': 'text-luffy',
-  'revolutionary': 'text-emerald-400',
-  'baroque-works': 'text-amber-400',
-  'cp9': 'text-slate-300',
-  'supernova': 'text-cyan-400',
-  'beast-pirates': 'text-violet-400',
-  'big-mom-pirates': 'text-pink-400',
+  'revolutionary': 'text-accent-emerald',
+  'baroque-works': 'text-accent-amber',
+  'cp9': 'text-accent-silver',
+  'supernova': 'text-accent-cyan',
+  'beast-pirates': 'text-accent-indigo',
+  'big-mom-pirates': 'text-accent-pink',
   'roger-pirates': 'text-gold',
-  'whitebeard-pirates': 'text-sky-400',
-  'red-hair-pirates': 'text-red-400',
-  'ally': 'text-teal-400',
-  'other': 'text-gray-400',
+  'whitebeard-pirates': 'text-accent-teal',
+  'red-hair-pirates': 'text-accent-rose',
+  'ally': 'text-accent-lime',
+  'other': 'text-accent-silver',
 }
 
 function getInitials(name: string): string {
@@ -75,7 +75,7 @@ function CharacterAvatar({ slug, name, crew = 'other', className = 'h-full w-ful
 
   return (
     <div className={`flex h-full w-full items-center justify-center bg-gradient-to-br ${gradient}`}>
-      <span className={`text-2xl font-extrabold ${textColor} opacity-80 select-none`}>
+      <span className={`font-display text-2xl font-extrabold ${textColor} opacity-80 select-none`}>
         {getInitials(name)}
       </span>
     </div>

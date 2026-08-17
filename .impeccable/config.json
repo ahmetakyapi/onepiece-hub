@@ -1,0 +1,32 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "bounce-easing",
+        "value": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "createdAt": "2026-08-17T06:37:04.533Z",
+        "reason": "Repo CLAUDE.md § 'Bilinen detector bulguları — kasıtlı, düzeltilmeyecek' bu bulguyu inceleyip tuttuğunu yazıyor: --ease-spring tek bir CSS mikro-etkileşiminde (transform 0.2s) kullanılıyor; ekosistemin bounce yasağı Framer Motion içindir. Rebrand'den önce de vardı, değeri değiştirilmedi."
+      },
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "app/globals.css"
+        ],
+        "createdAt": "2026-08-17T06:37:04.571Z",
+        "reason": "Repo CLAUDE.md § 'Bilinen detector bulguları' bu 6 bulguyu marka utility'si olarak belgeliyor (.text-gold/sea/fire-gradient). Solid renk fallback'i + @supports koruması var; acilis-zili .display-ink ile aynı gerekçe. Rebrand'de yalnızca renkleri token'landı, desen değişmedi."
+      },
+      {
+        "rule": "layout-transition",
+        "value": "*",
+        "files": [
+          "app/globals.css"
+        ],
+        "createdAt": "2026-08-17T06:44:51.427Z",
+        "reason": "Repo CLAUDE.md § 'Bilinen detector bulguları' bu bulguyu inceleyip tuttuğunu yazıyor. Doğrulandı: .progress-bar-fill TEK yerde kullanılıyor (ResumeBar.tsx:84), yalnızca kullanıcı bölüm işaretlediğinde tetikleniyor. clip-path alternatifi görsel olarak eşdeğer degil: degrade dolgunun icine sikisiyor, %100 genislikteki elemanda dusuk ilerlemede sadece sonuk uc gorunurdu. Duz renkli cubuklar zaten scaleX'e cevrilmis."
+      }
+    ]
+  }
+}
