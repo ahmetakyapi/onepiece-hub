@@ -75,7 +75,7 @@ function CharacterAvatar({ slug, name, crew = 'other', className = 'h-full w-ful
 
   return (
     <div className={`flex h-full w-full items-center justify-center bg-gradient-to-br ${gradient}`}>
-      <span className={`font-display text-2xl font-extrabold ${textColor} opacity-80 select-none`}>
+      <span className={`text-2xl font-extrabold ${textColor} opacity-80 select-none`}>
         {getInitials(name)}
       </span>
     </div>

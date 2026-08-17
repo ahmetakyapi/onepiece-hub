@@ -84,7 +84,7 @@ export default function DetailPanel({
                   <TypeIcon className="h-5 w-5" style={{ color: markerColor }} />
                 </div>
                 <div>
-                  <h3 className="font-display text-lg font-extrabold text-pirate-text">
+                  <h3 className="text-lg font-extrabold text-pirate-text">
                     {location.name}
                   </h3>
                   <div className="flex items-center gap-2">

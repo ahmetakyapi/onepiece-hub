@@ -24,7 +24,7 @@ export default function Error({
           <AlertTriangle className="h-10 w-10 text-luffy" />
         </div>
 
-        <h1 className="font-display text-2xl font-bold text-pirate-text mb-3">
+        <h1 className="text-2xl font-bold text-pirate-text mb-3">
           Bir fırtına çıktı!
         </h1>
         <p className="text-pirate-muted mb-2">

@@ -128,7 +128,7 @@ export default function ProfilePage() {
             <motion.div variants={fadeUp}>
               <Anchor className="mx-auto mb-4 h-12 w-12 text-pirate-muted" />
             </motion.div>
-            <motion.h1 variants={fadeUp} className="font-display mb-2 text-xl font-bold text-pirate-text">
+            <motion.h1 variants={fadeUp} className="mb-2 text-xl font-bold text-pirate-text">
               Giriş Yapmanız Gerekiyor
             </motion.h1>
             <motion.p variants={fadeUp} className="mb-6 text-sm text-pirate-muted">
@@ -217,7 +217,7 @@ export default function ProfilePage() {
                     </div>
                   </div>
                   <div>
-                    <h1 className="font-display text-2xl font-bold text-pirate-text sm:text-3xl">
+                    <h1 className="text-2xl font-bold text-pirate-text sm:text-3xl">
                       {user.name || user.username}
                     </h1>
                     <div className="mt-1 flex flex-wrap items-center gap-2">
@@ -271,7 +271,7 @@ export default function ProfilePage() {
                 <div className={`mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${stat.bg}`}>
                   <stat.icon className={`h-5 w-5 ${stat.color}`} />
                 </div>
-                <p className="font-display stat-number text-2xl font-bold text-pirate-text">{stat.value}</p>
+                <p className="stat-number text-2xl font-bold text-pirate-text">{stat.value}</p>
                 <p className="eyebrow mt-1 text-pirate-muted">{stat.label}</p>
               </motion.div>
             ))}
@@ -302,7 +302,7 @@ export default function ProfilePage() {
               viewport={{ once: true }}
               className="mb-10"
             >
-              <h2 className="font-display mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+              <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
                 <Play className="h-5 w-5 text-gold" />
                 Kaldığın Yerden Devam Et
               </h2>
@@ -319,7 +319,7 @@ export default function ProfilePage() {
                           <Play className="h-4 w-4 text-gold" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="font-display text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
+                          <p className="text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
                             {arc.name}
                           </p>
                           <p className="text-xs text-pirate-muted">
@@ -354,7 +354,7 @@ export default function ProfilePage() {
               viewport={{ once: true }}
               className="mb-10"
             >
-              <h2 className="font-display mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+              <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
                 <Trophy className="h-5 w-5 text-haki" />
                 Tamamlanan Arc&apos;lar
               </h2>
@@ -365,7 +365,7 @@ export default function ProfilePage() {
                     <Link
                       key={arc.slug}
                       href={`/arcs/${arc.slug}`}
-                      className="inline-flex items-center gap-1.5 rounded-lg border border-haki/20 bg-haki/5 px-3 py-1.5 font-display text-xs font-bold text-haki transition-all hover:bg-haki/10"
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-haki/20 bg-haki/5 px-3 py-1.5 text-xs font-bold text-haki transition-all hover:bg-haki/10"
                     >
                       <Compass className="h-3 w-3" />
                       {arc.name}
@@ -384,7 +384,7 @@ export default function ProfilePage() {
               viewport={{ once: true }}
               className="mb-10"
             >
-              <h2 className="font-display mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+              <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
                 <BrainCircuit className="h-5 w-5 text-fruit" />
                 Quiz Skorları
                 <span className="eyebrow ml-1 rounded-full bg-fruit-strong/[0.06] px-2.5 py-1 text-fruit/70">
@@ -410,14 +410,14 @@ export default function ProfilePage() {
                             <BrainCircuit className={`h-4 w-4 ${isGood ? 'text-haki' : 'text-gold'}`} />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="font-display text-sm font-bold text-pirate-text group-hover:text-gold transition-colors truncate">
+                            <p className="text-sm font-bold text-pirate-text group-hover:text-gold transition-colors truncate">
                               {arc?.name ?? entry.arcSlug}
                             </p>
                             <p className="text-xs text-pirate-muted">
                               <span className="font-mono">{entry.score}/{entry.totalQ}</span> doğru
                             </p>
                           </div>
-                          <span className={`font-display stat-number rounded-full px-2.5 py-1 text-xs font-bold ${
+                          <span className={`stat-number rounded-full px-2.5 py-1 text-xs font-bold ${
                             isGood ? 'bg-haki/10 text-haki' : 'bg-gold/10 text-gold'
                           }`}>
                             %{pct}
@@ -439,7 +439,7 @@ export default function ProfilePage() {
               viewport={{ once: true }}
               className="mb-10"
             >
-              <h2 className="font-display mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+              <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
                 <Heart className="h-5 w-5 text-luffy" />
                 Favoriler
                 <span className="eyebrow ml-1 rounded-full bg-luffy/[0.06] px-2.5 py-1 text-luffy/70">
@@ -455,7 +455,7 @@ export default function ProfilePage() {
                     <Link
                       key={`${fav.targetType}-${fav.targetSlug}`}
                       href={href}
-                      className="inline-flex items-center gap-1.5 rounded-lg border border-luffy/15 bg-luffy/5 px-3 py-1.5 font-display text-xs font-bold text-pirate-text transition-all hover:bg-luffy/10 hover:border-luffy/25"
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-luffy/15 bg-luffy/5 px-3 py-1.5 text-xs font-bold text-pirate-text transition-all hover:bg-luffy/10 hover:border-luffy/25"
                     >
                       <Heart className="h-3 w-3 text-luffy fill-luffy" />
                       {label}
@@ -495,7 +495,7 @@ export default function ProfilePage() {
             viewport={{ once: true }}
             className="mb-10"
           >
-            <h2 className="font-display mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
+            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
               <Film className="h-5 w-5 text-sea" />
               Son İzlenenler
             </h2>
@@ -524,7 +524,7 @@ export default function ProfilePage() {
                           {info.episodeNumber}
                         </span>
                         <div className="flex-1 min-w-0">
-                          <p className="font-display truncate text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
+                          <p className="truncate text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
                             {info.episodeTitle}
                           </p>
                           <p className="text-xs text-pirate-muted">{info.arc.name}</p>

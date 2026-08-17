@@ -71,12 +71,12 @@ export default function DevilFruitsPage() {
             <div className="flex flex-wrap gap-3">
               <div className="flex items-center gap-2 rounded-xl border border-fruit-strong/20 bg-fruit-strong/10 px-4 py-2">
                 <Cherry className="h-4 w-4 text-fruit" />
-                <span className="font-display text-sm font-bold text-fruit-light">{DEVIL_FRUITS.length}</span>
+                <span className="text-sm font-bold text-fruit-light">{DEVIL_FRUITS.length}</span>
                 <span className="text-xs text-pirate-muted">Meyve</span>
               </div>
               <div className="flex items-center gap-2 rounded-xl border border-gold/20 bg-gold/10 px-4 py-2">
                 <Sparkles className="h-4 w-4 text-gold" />
-                <span className="font-display text-sm font-bold text-gold">{TYPES.length}</span>
+                <span className="text-sm font-bold text-gold">{TYPES.length}</span>
                 <span className="text-xs text-pirate-muted">Tür</span>
               </div>
             </div>
@@ -103,8 +103,8 @@ export default function DevilFruitsPage() {
 
                   <div className="relative z-10">
                     <div className="mb-3 flex items-center justify-between">
-                      <span className={`font-display text-base font-extrabold ${info.color}`}>{info.label}</span>
-                      <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${info.bg} font-display text-sm font-bold ${info.color}`}>
+                      <span className={`text-base font-extrabold ${info.color}`}>{info.label}</span>
+                      <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${info.bg} text-sm font-bold ${info.color}`}>
                         {count}
                       </span>
                     </div>
@@ -177,7 +177,7 @@ export default function DevilFruitsPage() {
                       <div className={`flex h-9 w-9 items-center justify-center rounded-xl ${typeInfo.bg} border border-current/10`}>
                         <Cherry className={`h-4 w-4 ${typeInfo.color}`} />
                       </div>
-                      <h2 className={`font-display text-lg font-extrabold ${typeInfo.color}`}>
+                      <h2 className={`text-lg font-extrabold ${typeInfo.color}`}>
                         {typeInfo.label}
                       </h2>
                       <span className="font-mono text-xs text-pirate-muted">({fruits.length})</span>
@@ -224,7 +224,7 @@ export default function DevilFruitsPage() {
                             </span>
 
                             <div className="absolute bottom-0 left-0 right-0 p-4">
-                              <h3 className="font-display text-base font-bold text-pirate-text transition-colors group-hover:text-gold leading-tight">
+                              <h3 className="text-base font-bold text-pirate-text transition-colors group-hover:text-gold leading-tight">
                                 {df.name}
                               </h3>
                               <p className="mt-0.5 text-xs text-pirate-muted/80">{df.meaning}</p>
@@ -255,7 +255,7 @@ export default function DevilFruitsPage() {
                                 )}
                               </div>
                               <div className="flex-1 min-w-0">
-                                <span className="font-display text-sm font-semibold text-pirate-text truncate block">{df.user}</span>
+                                <span className="text-sm font-semibold text-pirate-text truncate block">{df.user}</span>
                               </div>
                               {df.status === 'deceased' && (
                                 <span className="eyebrow rounded-full bg-luffy/10 px-1.5 py-0.5 text-luffy">

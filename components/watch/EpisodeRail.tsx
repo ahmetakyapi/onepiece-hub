@@ -146,7 +146,7 @@ export default function EpisodeRail({
     <aside className="bento-card rounded-2xl p-3.5 sm:p-4" aria-label="Bölüm listesi">
       {/* ── Başlık ─────────────────────────────────────────────────────── */}
       <div className="mb-3 flex items-center justify-between gap-2">
-        <h2 className="flex items-center gap-2 font-display text-[13px] font-bold text-pirate-text">
+        <h2 className="flex items-center gap-2 text-[13px] font-bold text-pirate-text">
           <Film className="h-4 w-4 flex-shrink-0 text-sea" />
           {arc.name}
         </h2>
@@ -189,7 +189,7 @@ export default function EpisodeRail({
             {watchedCount} / {arc.episodeCount} bölüm
           </p>
         </div>
-        <p className="font-display text-sm font-bold tabular-nums text-gold">{percent}%</p>
+        <p className="text-sm font-bold tabular-nums text-gold">{percent}%</p>
       </div>
 
       {/* ── Sıradaki izlenmemiş ────────────────────────────────────────── */}
@@ -201,7 +201,7 @@ export default function EpisodeRail({
           <SkipForward className="h-3.5 w-3.5 flex-shrink-0 text-sea" />
           <span className="min-w-0 flex-1">
             <span className="eyebrow block text-sea/70">Sıradaki İzlenmemiş</span>
-            <span className="block truncate font-display text-[12px] font-bold text-pirate-text">
+            <span className="block truncate text-[12px] font-bold text-pirate-text">
               {nextUnwatched.title}
             </span>
           </span>
@@ -284,7 +284,7 @@ export default function EpisodeRail({
               <ChevronLeft className="h-4 w-4 flex-shrink-0 text-sea transition-transform group-hover:-translate-x-0.5" />
               <span className="min-w-0 flex-1">
                 <span className="eyebrow block opacity-60">Önceki Arc</span>
-                <span className="block truncate font-display text-[12px] font-bold">
+                <span className="block truncate text-[12px] font-bold">
                   {prevArc.name}
                 </span>
               </span>
@@ -302,7 +302,7 @@ export default function EpisodeRail({
               <Compass className="h-4 w-4 flex-shrink-0 transition-transform group-hover:rotate-45" />
               <span className="min-w-0 flex-1">
                 <span className="eyebrow block opacity-60">Sonraki Arc</span>
-                <span className="block truncate font-display text-[12px] font-bold">
+                <span className="block truncate text-[12px] font-bold">
                   {nextArc.name}
                 </span>
               </span>

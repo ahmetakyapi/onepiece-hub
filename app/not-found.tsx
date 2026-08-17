@@ -31,7 +31,7 @@ export default function NotFound() {
             <div className="manga-speed-line" style={{ top: '20%', width: '80%', left: '-10%', animationDelay: '0.05s' }} />
             <div className="manga-speed-line" style={{ top: '40%', width: '70%', left: '-10%', animationDelay: '0.12s' }} />
             <div className="manga-speed-line" style={{ top: '65%', width: '75%', left: '-10%', animationDelay: '0.2s' }} />
-            <span className="relative z-10 font-display text-[7rem] sm:text-[10rem] font-extrabold leading-none text-gold-gradient drop-shadow-[0_6px_18px_rgb(var(--gold)/0.25)]">
+            <span className="relative z-10 text-[7rem] sm:text-[10rem] font-extrabold leading-none text-gold-gradient drop-shadow-[0_6px_18px_rgb(var(--gold)/0.25)]">
               404
             </span>
           </div>
@@ -39,7 +39,7 @@ export default function NotFound() {
           <div className="manga-panel flex flex-col justify-between p-5 sm:p-6">
             <div>
               <p className="eyebrow mb-2 text-sea">Kayıt defteri</p>
-              <h1 className="font-display text-xl font-extrabold leading-tight text-pirate-text sm:text-2xl">
+              <h1 className="text-xl font-extrabold leading-tight text-pirate-text sm:text-2xl">
                 Bu ada henüz keşfedilmedi.
               </h1>
             </div>

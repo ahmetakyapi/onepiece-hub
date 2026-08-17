@@ -174,7 +174,7 @@ function CharacterCard({ character }: Props) {
               className="absolute bottom-0 left-0 right-0 z-10 p-4"
               style={{ y: nameLift }}
             >
-              <h3 className="font-display text-base font-extrabold text-pirate-text transition-colors duration-300 group-hover:text-gold drop-shadow-[0_2px_12px_rgba(0,0,0,0.75)]">
+              <h3 className="text-base font-extrabold text-pirate-text transition-colors duration-300 group-hover:text-gold drop-shadow-[0_2px_12px_rgba(0,0,0,0.75)]">
                 {char.name}
               </h3>
             </motion.div>

@@ -112,7 +112,7 @@ export default function ExplorePage() {
                 <p className="eyebrow text-gold">
                   Editörün Seçimi
                 </p>
-                <h2 className="font-display text-xl font-extrabold text-pirate-text sm:text-2xl">
+                <h2 className="text-xl font-extrabold text-pirate-text sm:text-2xl">
                   Gear 5&apos;in Uyanışı
                 </h2>
               </div>
@@ -151,7 +151,7 @@ export default function ExplorePage() {
                     </div>
                     {/* Okunabilirlik gölgesi de token'lı: dark'ta koyu hâle,
                         light'ta parşömen hâlesi — metin görselin üstünde kalır. */}
-                    <h3 className="font-display mb-2 text-3xl font-extrabold leading-[1.05] text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.6)] sm:mb-3 sm:text-5xl md:text-6xl">
+                    <h3 className="mb-2 text-3xl font-extrabold leading-[1.05] text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.6)] sm:mb-3 sm:text-5xl md:text-6xl">
                       {featuredArc.name}
                     </h3>
                     <p className="mb-4 line-clamp-3 max-w-xl text-[13px] leading-relaxed text-pirate-text/80 drop-shadow-[0_2px_8px_rgb(var(--ocean-deep)/0.5)] sm:mb-5 sm:line-clamp-none sm:text-base">
@@ -213,7 +213,7 @@ export default function ExplorePage() {
                 <p className="eyebrow text-sea">
                   Tesadüfi Keşif
                 </p>
-                <h2 className="font-display text-xl font-extrabold text-pirate-text sm:text-2xl">
+                <h2 className="text-xl font-extrabold text-pirate-text sm:text-2xl">
                   Bugün Keşfet
                 </h2>
               </div>
@@ -257,7 +257,7 @@ export default function ExplorePage() {
                     Karakter
                   </span>
                   <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <p className="font-display text-lg font-extrabold text-pirate-text drop-shadow-[0_2px_8px_rgb(var(--ocean-deep)/0.5)]">
+                    <p className="text-lg font-extrabold text-pirate-text drop-shadow-[0_2px_8px_rgb(var(--ocean-deep)/0.5)]">
                       {picks.character.name}
                     </p>
                     {picks.character.epithet && (
@@ -305,7 +305,7 @@ export default function ExplorePage() {
                     Meyve
                   </span>
                   <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <p className="font-display text-lg font-extrabold text-pirate-text drop-shadow-[0_2px_8px_rgb(var(--ocean-deep)/0.5)]">
+                    <p className="text-lg font-extrabold text-pirate-text drop-shadow-[0_2px_8px_rgb(var(--ocean-deep)/0.5)]">
                       {picks.fruit.name}
                     </p>
                     <p className="text-xs text-pirate-text/70">{picks.fruit.meaning}</p>
@@ -347,7 +347,7 @@ export default function ExplorePage() {
                     Arc
                   </span>
                   <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <p className="font-display text-lg font-extrabold text-pirate-text drop-shadow-[0_2px_8px_rgb(var(--ocean-deep)/0.5)]">
+                    <p className="text-lg font-extrabold text-pirate-text drop-shadow-[0_2px_8px_rgb(var(--ocean-deep)/0.5)]">
                       {picks.arc.name}
                     </p>
                     <p className="font-mono text-xs text-pirate-text/70">{picks.arc.episodeCount} bölüm</p>
@@ -387,7 +387,7 @@ export default function ExplorePage() {
               <p className="eyebrow text-luffy">
                 Serinin Zirvesi
               </p>
-              <h2 className="font-display text-xl font-extrabold text-pirate-text sm:text-2xl">
+              <h2 className="text-xl font-extrabold text-pirate-text sm:text-2xl">
                 Üç Efsanevi Düello
               </h2>
             </div>
@@ -419,7 +419,7 @@ export default function ExplorePage() {
                       {battle.arc}
                     </span>
                   </div>
-                  <h3 className="font-display mb-2 text-base font-extrabold text-pirate-text transition-colors group-hover:text-gold sm:text-lg">
+                  <h3 className="mb-2 text-base font-extrabold text-pirate-text transition-colors group-hover:text-gold sm:text-lg">
                     {battle.name}
                   </h3>
                   <p className="mb-4 line-clamp-3 text-xs leading-relaxed text-pirate-muted">
@@ -476,7 +476,7 @@ export default function ExplorePage() {
               <p className="eyebrow text-sea">
                 Grand Line Rotası
               </p>
-              <h2 className="font-display text-xl font-extrabold text-pirate-text sm:text-2xl">
+              <h2 className="text-xl font-extrabold text-pirate-text sm:text-2xl">
                 10 Saga — 36 Arc
               </h2>
             </div>
@@ -495,7 +495,7 @@ export default function ExplorePage() {
                     <span className="stat-number font-mono text-sm font-extrabold text-sea">{String(i + 1).padStart(2, '0')}</span>
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="font-display truncate text-sm font-bold text-pirate-text transition-colors group-hover:text-gold">
+                    <p className="truncate text-sm font-bold text-pirate-text transition-colors group-hover:text-gold">
                       {saga.name}
                     </p>
                     <p className="font-mono text-[11px] text-pirate-muted/70">{arcCount} arc</p>

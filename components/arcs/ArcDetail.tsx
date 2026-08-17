@@ -100,7 +100,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                 </span>
               )}
               <div className="mb-3 flex flex-wrap items-center gap-3">
-                <h1 className="font-display text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.7)] sm:text-5xl md:text-6xl">
+                <h1 className="text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.7)] sm:text-5xl md:text-6xl">
                   {arc.name}
                 </h1>
                 <FavoriteButton targetType="arc" targetSlug={arc.slug} />
@@ -141,7 +141,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                 </div>
                 <div>
                   <p className="eyebrow text-pirate-muted/60">Konum</p>
-                  <p className="font-display text-sm font-semibold text-pirate-text">{arc.location}</p>
+                  <p className="text-sm font-semibold text-pirate-text">{arc.location}</p>
                 </div>
               </div>
             )}
@@ -152,7 +152,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                 </div>
                 <div>
                   <p className="eyebrow text-pirate-muted/60">Ana Düşman</p>
-                  <p className="font-display text-sm font-semibold text-pirate-text">{arc.villain}</p>
+                  <p className="text-sm font-semibold text-pirate-text">{arc.villain}</p>
                 </div>
               </div>
             )}
@@ -215,7 +215,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
           {/* ─── Episode List ──────────────────────────────────────── */}
           <section className="mb-10">
             <div className="mb-5 flex items-center justify-between">
-              <h2 className="font-display flex items-center gap-2 text-lg font-bold text-pirate-text">
+              <h2 className="flex items-center gap-2 text-lg font-bold text-pirate-text">
                 <Film className="h-5 w-5 text-sea" />
                 Bölümler
                 <span className="ml-1 rounded-full bg-sea/[0.06] px-2.5 py-0.5 font-mono text-[11px] font-semibold text-sea/70">
@@ -247,7 +247,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
 
                     {/* Title + summary */}
                     <div className="flex-1 min-w-0">
-                      <p className="font-display text-sm font-semibold text-pirate-text transition-colors duration-300 group-hover:text-gold">
+                      <p className="text-sm font-semibold text-pirate-text transition-colors duration-300 group-hover:text-gold">
                         {ep.title}
                       </p>
                       {ep.summary && (
@@ -321,7 +321,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, ease: EASE }}
                 >
-                  <h2 className="font-display mb-5 flex items-center gap-2 text-lg font-bold text-pirate-text">
+                  <h2 className="mb-5 flex items-center gap-2 text-lg font-bold text-pirate-text">
                     <Swords className="h-5 w-5 text-luffy" />
                     Bu Arc&apos;taki Savaşlar
                     <span className="ml-1 rounded-full bg-luffy/[0.06] px-2.5 py-0.5 font-mono text-[11px] font-semibold text-luffy/70">
@@ -339,7 +339,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                           <Swords className="h-4 w-4 text-luffy" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="font-display text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
+                          <p className="text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
                             {battle.name}
                           </p>
                           <p className="text-[11px] text-pirate-muted/60 line-clamp-1 mt-0.5">
@@ -380,7 +380,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                     <ArrowLeft className="h-4 w-4 text-pirate-muted group-hover:text-gold group-hover:-translate-x-1 transition-all" />
                     <div className="min-w-0">
                       <p className="eyebrow text-pirate-muted/50">Önceki Arc</p>
-                      <p className="font-display text-xs font-semibold text-pirate-text group-hover:text-gold transition-colors truncate">{prevArc.name}</p>
+                      <p className="text-xs font-semibold text-pirate-text group-hover:text-gold transition-colors truncate">{prevArc.name}</p>
                     </div>
                   </Link>
                 ) : <div />}
@@ -391,7 +391,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                   >
                     <div className="min-w-0">
                       <p className="eyebrow text-pirate-muted/50">Sonraki Arc</p>
-                      <p className="font-display text-xs font-semibold text-pirate-text group-hover:text-gold transition-colors truncate">{nextArc.name}</p>
+                      <p className="text-xs font-semibold text-pirate-text group-hover:text-gold transition-colors truncate">{nextArc.name}</p>
                     </div>
                     <ArrowRight className="h-4 w-4 text-pirate-muted group-hover:text-gold group-hover:translate-x-1 transition-all" />
                   </Link>

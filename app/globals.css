@@ -15,7 +15,6 @@
    `layout.tsx`'teki blocking script'e bak.
    ─────────────────────────────────────────────────────────────────────── */
 :root {
-  --font-display: 'Cinzel';
   --font-sans: 'Manrope';
   --font-mono: 'Space Mono';
 
@@ -298,12 +297,7 @@ body {
 
 /* ─── Tipografi ritmi ──────────────────────────────────────────────────────
    Başlıklar büyüdükçe harf aralığı sıkışır (optik düzeltme) ve satır sonları
-   dengelenir — "tek kelime alt satırda kalmış" başlıklar kaybolur.
-
-   Display ailesi (Cinzel) `font-display` sınıfıyla ELLE verilir; burada
-   global olarak dayatılmaz çünkü gövde başlıkları (kart içi h3/h4) Manrope
-   kalmalı — tasarımda Cinzel yalnızca ekran başlıkları, kart adları ve
-   istatistik rakamlarında. */
+   dengelenir — "tek kelime alt satırda kalmış" başlıklar kaybolur. */
 h1, h2, h3, h4 {
   text-wrap: balance;
 }
@@ -311,10 +305,6 @@ h1 { letter-spacing: -0.035em; line-height: 1.06; }
 h2 { letter-spacing: -0.028em; line-height: 1.14; }
 h3 { letter-spacing: -0.02em;  line-height: 1.22; }
 
-/* Cinzel serif bir display ailesi — negatif letter-spacing ona zarar verir.
-   `font-display` alan başlıklarda optik düzeltmeyi sıfırla. */
-.font-display { letter-spacing: 0; }
-h1.font-display { letter-spacing: 0.005em; }
 
 p, li {
   text-wrap: pretty; /* tek kelimelik son satırları (orphan) engeller */

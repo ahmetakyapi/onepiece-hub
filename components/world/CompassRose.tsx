@@ -43,7 +43,7 @@ export default function CompassRose({ x, y }: { x: number; y: number }) {
           fill="rgb(var(--gold))"
           fontSize="8"
           fontWeight="700"
-          fontFamily="var(--font-display), Georgia, serif"
+          fontFamily="var(--), Georgia, serif"
         >
           N
         </text>

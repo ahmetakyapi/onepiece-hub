@@ -46,13 +46,13 @@ export default function AchievementShowcase({ stats }: AchievementShowcaseProps)
             <Award className="h-5 w-5 text-gold" />
           </div>
           <div>
-            <h3 className="font-display text-lg font-bold text-pirate-text">Başarımlar</h3>
+            <h3 className="text-lg font-bold text-pirate-text">Başarımlar</h3>
             <p className="font-mono text-[11px] text-pirate-muted">
               {unlocked.length}/{total} tamamlandı
             </p>
           </div>
           <div className="ml-auto text-right">
-            <p className="font-display text-2xl font-bold text-gold stat-number">%{Math.round(progress)}</p>
+            <p className="text-2xl font-bold text-gold stat-number">%{Math.round(progress)}</p>
           </div>
         </div>
 
@@ -84,7 +84,7 @@ export default function AchievementShowcase({ stats }: AchievementShowcaseProps)
       {/* Categories */}
       {categories.map(([category, achievements]) => (
         <div key={category}>
-          <h4 className="font-display mb-3 flex items-center gap-2 text-sm font-bold text-pirate-text">
+          <h4 className="mb-3 flex items-center gap-2 text-sm font-bold text-pirate-text">
             {CATEGORY_LABELS[category] ?? category}
             <span className="font-mono text-[10px] font-bold text-pirate-muted/60">
               {achievements.filter((a) => a.check(stats)).length}/{achievements.length}

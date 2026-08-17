@@ -30,7 +30,7 @@ function PowerStatBars({ slug }: Props) {
           <p className="eyebrow text-sea/70 mb-1">
             Genel Güç
           </p>
-          <div className="font-display text-5xl font-extrabold text-gold stat-number drop-shadow-[0_2px_8px_rgb(var(--gold)/0.3)]">
+          <div className="text-5xl font-extrabold text-gold stat-number drop-shadow-[0_2px_8px_rgb(var(--gold)/0.3)]">
             {powerStats.overall}
           </div>
         </div>

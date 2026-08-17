@@ -180,7 +180,7 @@ export default function BountiesPage() {
                 <Skull className="h-5 w-5 text-sea" />
                 <div>
                   <p className="eyebrow text-pirate-muted">Aranan Korsan</p>
-                  <p className="mt-1 font-display text-lg font-extrabold text-sea stat-number">{allSorted.length}</p>
+                  <p className="mt-1 text-lg font-extrabold text-sea stat-number">{allSorted.length}</p>
                 </div>
               </div>
               <div className="bento-card inline-flex items-center gap-3 rounded-xl px-5 py-3">
@@ -231,7 +231,7 @@ export default function BountiesPage() {
               {/* Section header */}
               <div className="mb-8 flex items-center gap-3">
                 <Crown className="h-5 w-5 text-gold" />
-                <h2 className="font-display text-lg font-bold text-gold-gradient">Efsanevi Korsanlar</h2>
+                <h2 className="text-lg font-bold text-gold-gradient">Efsanevi Korsanlar</h2>
                 <div className="divider-glow flex-1" />
               </div>
 
@@ -350,7 +350,7 @@ export default function BountiesPage() {
                           {/* Name */}
                           <div className="relative z-10 mt-1.5 px-3 text-center sm:mt-3 sm:px-4">
                             <p
-                              className={`font-display font-extrabold leading-tight ${
+                              className={`font-extrabold leading-tight ${
                                 isFirst
                                   ? 'text-sm sm:text-lg text-pirate-text'
                                   : 'text-[11px] sm:text-base text-pirate-text/90'
@@ -413,7 +413,7 @@ export default function BountiesPage() {
                           <Crown className="h-5 w-5 text-gold" />
                         ) : (
                           <span
-                            className={`font-display text-sm font-extrabold ${
+                            className={`text-sm font-extrabold ${
                               actualRank === 2 ? 'text-pirate-text' : 'text-accent-amber'
                             }`}
                           >
@@ -462,7 +462,7 @@ export default function BountiesPage() {
                         <TierIcon className={`h-4 w-4 ${tier.color}`} />
                       </div>
                       <div className="flex-1 text-left">
-                        <p className={`font-display text-sm font-bold ${tier.color}`}>{tier.label}</p>
+                        <p className={`text-sm font-bold ${tier.color}`}>{tier.label}</p>
                         <p className="mt-0.5 text-[10px] text-pirate-muted">
                           <span className="font-mono font-bold">{entries.length}</span> korsan
                         </p>
@@ -533,7 +533,7 @@ export default function BountiesPage() {
                                       {/* Name + Epithet + Crew */}
                                       <div className="min-w-0 flex-1">
                                         <div className="flex items-center gap-2">
-                                          <p className="truncate font-display text-sm font-bold text-pirate-text transition-colors group-hover:text-gold sm:text-base">
+                                          <p className="truncate text-sm font-bold text-pirate-text transition-colors group-hover:text-gold sm:text-base">
                                             {entry.name}
                                           </p>
                                           {entry.epithet && (

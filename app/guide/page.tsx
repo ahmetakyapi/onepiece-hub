@@ -198,7 +198,7 @@ function SagaCard({ step, index, total }: { step: GuideStep; index: number; tota
           }}
         >
           <span
-            className="flex h-7 w-7 items-center justify-center rounded-full font-display text-xs font-extrabold sm:h-8 sm:w-8 sm:text-sm"
+            className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-extrabold sm:h-8 sm:w-8 sm:text-sm"
             style={{
               background: `linear-gradient(135deg, ${tone(step.accent, 0.19)}, ${tone(step.accent, 0.06)})`,
               border: `1.5px solid ${tone(step.accent, 0.25)}`,
@@ -269,7 +269,7 @@ function SagaCard({ step, index, total }: { step: GuideStep; index: number; tota
             <div className="mb-1.5 flex flex-wrap items-center gap-2">
               {/* Eskiden `group-hover:text-white` idi — light temada beyaz
                   üstüne beyaz düşüyordu; metin zaten `pirate-text`. */}
-              <h3 className="font-display text-base font-bold text-pirate-text sm:text-lg">
+              <h3 className="text-base font-bold text-pirate-text sm:text-lg">
                 {step.title}
               </h3>
               <div className="flex items-center gap-1.5">
@@ -396,7 +396,7 @@ export default function GuidePage() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: EASE, delay: 0.2 }}
-              className="mb-4 font-display text-3xl font-extrabold leading-[1.1] sm:text-4xl lg:text-5xl"
+              className="mb-4 text-3xl font-extrabold leading-[1.1] sm:text-4xl lg:text-5xl"
             >
               <span className="text-gold-gradient">İzleme</span>{' '}
               <span className="text-pirate-text">Rehberi</span>
@@ -521,7 +521,7 @@ export default function GuidePage() {
                               </span>
                               <span className="eyebrow text-haki/60">Tamamlandı</span>
                             </div>
-                            <h4 className="font-display text-sm font-bold text-pirate-text">{item.title}</h4>
+                            <h4 className="text-sm font-bold text-pirate-text">{item.title}</h4>
                             <p className="mt-1 text-xs text-pirate-muted/60 leading-relaxed">{item.description}</p>
                             <p className="mt-2 flex items-center gap-1.5 text-[11px] text-pirate-muted/40">
                               <BookOpen className="h-3 w-3" />
@@ -551,7 +551,7 @@ export default function GuidePage() {
                         <MapPin className="h-5 w-5 text-gold" />
                       </div>
                       <div>
-                        <h3 className="font-display text-base font-bold text-gold sm:text-lg">Buradan Devam Et</h3>
+                        <h3 className="text-base font-bold text-gold sm:text-lg">Buradan Devam Et</h3>
                         <p className="mt-0.5 text-sm text-pirate-muted/70">
                           Anime ile Alabasta arc&apos;ından (Crocodile savaşı) devam edebilirsin.
                         </p>
@@ -589,7 +589,7 @@ export default function GuidePage() {
                         <Zap className="h-5 w-5 text-gold" />
                       </div>
                       <div>
-                        <h2 className="mb-1 font-display text-lg font-bold text-pirate-text">Sıfırdan Anime Yolu</h2>
+                        <h2 className="mb-1 text-lg font-bold text-pirate-text">Sıfırdan Anime Yolu</h2>
                         <p className="text-[13px] text-pirate-muted/60 leading-relaxed">
                           One Piece&apos;i en başından izlemek istiyorsan bu yol sana göre.
                           Filler&apos;sız, saf hikaye. Her saga adım adım.
@@ -608,7 +608,7 @@ export default function GuidePage() {
                           key={stat.label}
                           className="rounded-xl border border-ink/[0.04] bg-ink/[0.02] px-3 py-3 text-center"
                         >
-                          <p className={`font-display text-xl font-extrabold tabular-nums ${stat.color}`}>
+                          <p className={`text-xl font-extrabold tabular-nums ${stat.color}`}>
                             {stat.value}
                           </p>
                           <p className="eyebrow text-pirate-muted/40">{stat.label}</p>

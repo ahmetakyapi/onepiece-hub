@@ -66,7 +66,7 @@ function CharacterArcJourney({ firstArc, appearances, characterName }: Props) {
           </div>
           <div>
             <p className="eyebrow text-pirate-muted/60">Toplam Arc</p>
-            <p className="font-display text-sm font-bold text-gold stat-number">{totalArcs}</p>
+            <p className="text-sm font-bold text-gold stat-number">{totalArcs}</p>
           </div>
         </div>
         <div className="bento-card flex items-center gap-3 rounded-xl px-4 py-3">
@@ -75,7 +75,7 @@ function CharacterArcJourney({ firstArc, appearances, characterName }: Props) {
           </div>
           <div>
             <p className="eyebrow text-pirate-muted/60">Bölüm</p>
-            <p className="font-display text-sm font-bold text-sea stat-number">{totalEpisodes}</p>
+            <p className="text-sm font-bold text-sea stat-number">{totalEpisodes}</p>
           </div>
         </div>
         <div className="bento-card flex items-center gap-3 rounded-xl px-4 py-3">
@@ -84,7 +84,7 @@ function CharacterArcJourney({ firstArc, appearances, characterName }: Props) {
           </div>
           <div>
             <p className="eyebrow text-pirate-muted/60">İlk Arc</p>
-            <p className="truncate font-display text-sm font-bold text-luffy">
+            <p className="truncate text-sm font-bold text-luffy">
               {ARCS.find(a => a.slug === firstArc)?.name ?? '—'}
             </p>
           </div>
@@ -110,7 +110,7 @@ function CharacterArcJourney({ firstArc, appearances, characterName }: Props) {
                 href={`/sagas/${saga.slug}`}
                 className="group/saga inline-flex items-center gap-2 text-sm font-bold text-pirate-text transition-colors hover:text-gold"
               >
-                <span className="font-display">{saga.name} Sagası</span>
+                <span>{saga.name} Sagası</span>
                 <span className="eyebrow rounded-full bg-ocean-surface/60 px-2 py-1 text-pirate-muted">
                   {arcs.length} arc
                 </span>
@@ -162,7 +162,7 @@ function CharacterArcJourney({ firstArc, appearances, characterName }: Props) {
                       )}
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2">
-                          <p className={`truncate font-display text-sm font-bold transition-colors ${
+                          <p className={`truncate text-sm font-bold transition-colors ${
                             isFirstArc
                               ? 'text-luffy group-hover:text-luffy'
                               : 'text-pirate-text group-hover:text-gold'

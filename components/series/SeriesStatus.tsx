@@ -96,7 +96,7 @@ export default function SeriesStatus() {
               </span>
               Seri durumu
             </p>
-            <h2 className="font-display text-2xl font-extrabold sm:text-3xl">
+            <h2 className="text-2xl font-extrabold sm:text-3xl">
               <span className="text-pirate-text">Şu an </span>
               <span className="text-gold-gradient">{SERIES_STATUS.currentArcName}</span>
             </h2>

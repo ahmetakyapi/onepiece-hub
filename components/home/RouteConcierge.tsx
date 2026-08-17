@@ -91,7 +91,7 @@ export default function RouteConcierge() {
             <p className="eyebrow-lg mb-3 text-gold/70">
               Seyir Masası
             </p>
-            <h2 className="font-display max-w-[760px] text-balance text-2xl font-extrabold leading-tight text-pirate-text sm:text-3xl lg:text-4xl">
+            <h2 className="max-w-[760px] text-balance text-2xl font-extrabold leading-tight text-pirate-text sm:text-3xl lg:text-4xl">
               <span className="block">One Piece yolculuğunu</span>
               <span className="block text-gold-gradient">daha net bir rotaya bağla</span>
             </h2>
@@ -113,7 +113,7 @@ export default function RouteConcierge() {
                   <item.icon className="h-3 w-3 text-gold/70" />
                   {item.label}
                 </div>
-                <p className="font-display text-sm font-extrabold text-pirate-text">{item.value}</p>
+                <p className="text-sm font-extrabold text-pirate-text">{item.value}</p>
               </motion.div>
             ))}
           </div>
@@ -141,7 +141,7 @@ export default function RouteConcierge() {
                 </div>
 
                 <div className="flex-1">
-                  <h3 className="font-display mb-2 text-xl font-extrabold text-pirate-text transition-colors duration-300 group-hover:text-pirate-text">
+                  <h3 className="mb-2 text-xl font-extrabold text-pirate-text transition-colors duration-300 group-hover:text-pirate-text">
                     {route.title}
                   </h3>
                   <p className="text-[13px] leading-relaxed text-pirate-muted">

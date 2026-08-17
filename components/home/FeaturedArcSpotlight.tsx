@@ -49,7 +49,7 @@ export default function FeaturedArcSpotlight() {
             <p className="eyebrow text-luffy">
               Destansı Düello
             </p>
-            <h2 className="font-display text-xl font-extrabold text-pirate-text sm:text-2xl">
+            <h2 className="text-xl font-extrabold text-pirate-text sm:text-2xl">
               Öne Çıkan Arc
             </h2>
           </div>
@@ -112,7 +112,7 @@ export default function FeaturedArcSpotlight() {
                   )}
                 </div>
 
-                <h3 className="font-display mb-2 text-3xl font-extrabold leading-[1.05] text-pirate-text drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:mb-3 sm:text-5xl md:text-6xl">
+                <h3 className="mb-2 text-3xl font-extrabold leading-[1.05] text-pirate-text drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:mb-3 sm:text-5xl md:text-6xl">
                   {arc.name}
                 </h3>
 

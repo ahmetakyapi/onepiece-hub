@@ -108,7 +108,7 @@ function TechniqueCard({ technique }: { technique: TechniqueEntry }) {
       </div>
 
       {/* Technique name */}
-      <h3 className={`relative mb-2 font-display text-base font-extrabold leading-tight text-pirate-text transition-colors ${config.hover} sm:text-lg`}>
+      <h3 className={`relative mb-2 text-base font-extrabold leading-tight text-pirate-text transition-colors ${config.hover} sm:text-lg`}>
         {technique.name}
       </h3>
 
@@ -138,7 +138,7 @@ function TechniqueCard({ technique }: { technique: TechniqueEntry }) {
           <p className="eyebrow text-pirate-muted">
             Kullanıcı
           </p>
-          <p className="mt-0.5 truncate font-display text-xs font-bold text-pirate-text">
+          <p className="mt-0.5 truncate text-xs font-bold text-pirate-text">
             {technique.characterName}
           </p>
         </div>
@@ -266,7 +266,7 @@ function TechniqueGrid({ techniques }: { techniques: TechniqueEntry[] }) {
           <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gold/10 border border-gold/20">
             <Search className="h-6 w-6 text-gold/70" />
           </div>
-          <p className="mb-1 font-display text-lg font-bold text-pirate-text">Sonuç Bulunamadı</p>
+          <p className="mb-1 text-lg font-bold text-pirate-text">Sonuç Bulunamadı</p>
           <p className="mb-4 text-sm text-pirate-muted">Arama veya filtreleri değiştirerek tekrar deneyin.</p>
           <button
             onClick={() => { setSearch(''); setActiveCategory(null) }}

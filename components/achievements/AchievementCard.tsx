@@ -48,7 +48,7 @@ function AchievementCard({ achievement, unlocked, index = 0 }: AchievementCardPr
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <p className={cn(
-              'font-display text-sm font-bold truncate',
+              'text-sm font-bold truncate',
               unlocked ? 'text-pirate-text' : 'text-pirate-muted/60',
             )}>
               {achievement.name}

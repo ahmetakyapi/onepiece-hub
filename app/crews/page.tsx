@@ -229,7 +229,7 @@ export default function CrewsPage() {
                         {/* Header row */}
                         <div className="mb-3 flex items-start justify-between gap-3">
                           <div className="flex-1">
-                            <h3 className={`font-display mb-1 text-base font-bold ${crew.color} transition-colors group-hover:text-gold`}>
+                            <h3 className={`mb-1 text-base font-bold ${crew.color} transition-colors group-hover:text-gold`}>
                               {crew.name}
                             </h3>
                             <p className="font-mono text-[10px] text-pirate-muted/50">{crew.japaneseName}</p>
@@ -262,7 +262,7 @@ export default function CrewsPage() {
                             </div>
                             <div>
                               <p className="eyebrow text-gold/60">Kaptan</p>
-                              <p className="font-display text-xs font-bold text-pirate-text">{crew.captain}</p>
+                              <p className="text-xs font-bold text-pirate-text">{crew.captain}</p>
                             </div>
                           </div>
                         )}

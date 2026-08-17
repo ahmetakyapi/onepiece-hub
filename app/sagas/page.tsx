@@ -55,7 +55,7 @@ export default function SagasPage() {
           </p>
           {/* Zemin görsel değil temalı degrade — siyah drop-shadow light temada
               koyu metnin arkasında leke bırakıyordu, kaldırıldı. */}
-          <h1 className="mb-4 font-display text-4xl font-extrabold text-pirate-text sm:text-5xl md:text-6xl">
+          <h1 className="mb-4 text-4xl font-extrabold text-pirate-text sm:text-5xl md:text-6xl">
             Sagalar
           </h1>
           <p className="mx-auto max-w-2xl text-sm leading-relaxed text-pirate-text/70 sm:text-base">
@@ -65,13 +65,13 @@ export default function SagasPage() {
           {/* Journey stats */}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-5">
             <div className="rounded-full border border-pirate-border/30 bg-ocean-surface/40 px-4 py-2 text-xs font-semibold text-pirate-text">
-              <span className="stat-number font-display text-base font-bold text-gold">{SAGAS.length}</span> saga
+              <span className="stat-number text-base font-bold text-gold">{SAGAS.length}</span> saga
             </div>
             <div className="rounded-full border border-pirate-border/30 bg-ocean-surface/40 px-4 py-2 text-xs font-semibold text-pirate-text">
-              <span className="stat-number font-display text-base font-bold text-gold">{totalArcs}</span> arc
+              <span className="stat-number text-base font-bold text-gold">{totalArcs}</span> arc
             </div>
             <div className="rounded-full border border-pirate-border/30 bg-ocean-surface/40 px-4 py-2 text-xs font-semibold text-pirate-text">
-              <span className="stat-number font-display text-base font-bold text-gold">{totalEpisodes}</span>+ bölüm
+              <span className="stat-number text-base font-bold text-gold">{totalEpisodes}</span>+ bölüm
             </div>
           </div>
         </div>

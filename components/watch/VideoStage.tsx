@@ -122,7 +122,7 @@ export default function VideoStage({
             <Loader2 className="h-6 w-6 animate-spin text-gold" />
           </div>
           {/* Sahne her iki temada da koyu — metin tonları beyaz tarafta kalır */}
-          <p className="font-display text-sm font-bold text-white">Bölüm Yükleniyor</p>
+          <p className="text-sm font-bold text-white">Bölüm Yükleniyor</p>
           <p className="max-w-xs text-xs leading-relaxed text-white/60">
             {arcName} · Bölüm {globalEpisode} — video {PLAYER_SOURCE.name} üzerinden geliyor.
           </p>
@@ -136,7 +136,7 @@ export default function VideoStage({
             <AlertTriangle className="h-7 w-7 text-luffy" />
           </div>
           <div>
-            <p className="font-display text-sm font-bold text-white">Oynatıcı Yüklenemedi</p>
+            <p className="text-sm font-bold text-white">Oynatıcı Yüklenemedi</p>
             <p className="mx-auto mt-1 max-w-sm text-xs leading-relaxed text-white/60">
               {PLAYER_SOURCE.name} yanıt vermedi. Bağlantını kontrol edip tekrar
               deneyebilir, kırpmasız moda geçebilir veya bölümü kaynağında açabilirsin.

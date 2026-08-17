@@ -7,6 +7,7 @@ import {
   Users,
   Anchor,
   ArrowUpDown,
+  Share2,
 } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import PageHero from '@/components/wiki/PageHero'
@@ -18,6 +19,7 @@ import { CHARACTERS, CREW_LABELS } from '@/lib/constants/characters'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
 import { parseBounty } from '@/lib/utils'
 import { CREW_COLORS, CREW_ICONS } from '@/lib/constants/crew-styles'
+import { CHARACTER_RELATIONS } from '@/lib/constants/relationships'
 import type { CrewType } from '@/types'
 
 const RelationshipGraph = dynamic(() => import('@/components/characters/RelationshipGraph'), { ssr: false })
@@ -34,6 +36,15 @@ const SORT_LABELS: Record<SortMode, string> = {
   'bounty-asc': 'Ödül: Düşük → Yüksek',
 }
 
+/* ─── Sekmeler ───────────────────────────────────────────────── */
+
+type TabId = 'list' | 'relations'
+
+const TABS = [
+  { id: 'list' as const, label: 'Karakterler', icon: Users, count: CHARACTERS.length },
+  { id: 'relations' as const, label: 'İlişkiler', icon: Share2, count: CHARACTER_RELATIONS.length },
+]
+
 /* ─── Hero Orbs ──────────────────────────────────────────────── */
 
 const HERO_ORBS = [
@@ -45,6 +56,7 @@ const HERO_ORBS = [
 /* ─── Page Component ─────────────────────────────────────────── */
 
 export default function CharactersPage() {
+  const [tab, setTab] = useState<TabId>('list')
   const [search, setSearch] = useState('')
   const [activeCrew, setActiveCrew] = useState<CrewType | null>(null)
   const [sortMode, setSortMode] = useState<SortMode>('default')
@@ -99,22 +111,70 @@ export default function CharactersPage() {
             orbs={HERO_ORBS}
           />
 
-          {/* ─── Relationship Graph ─── */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: EASE }}
-            className="mb-14"
+          {/* ─── Sekmeler ─────────────────────────────────────────────
+              İlişki grafiği eskiden listenin ÜSTÜNDE duruyordu; ağır bir
+              görsel blok olduğu için listeye ulaşmak uzuyordu. Artık iki
+              görünüm eşit seviyede sekme. */}
+          <div
+            role="tablist"
+            aria-label="Karakter görünümü"
+            className="mb-8 inline-flex gap-1 rounded-2xl border border-pirate-border/40 bg-ocean-surface/40 p-1 backdrop-blur-sm"
           >
-            <div className="mb-4 flex items-center gap-2">
-              <Users className="h-5 w-5 text-sea" />
-              <h2 className="font-display text-lg font-bold text-pirate-text">Karakter İlişkileri</h2>
-              <span className="eyebrow text-pirate-muted/50">Etkileşimli Grafik</span>
-            </div>
-            <RelationshipGraph />
-          </motion.div>
+            {TABS.map((t) => {
+              const isActive = tab === t.id
+              return (
+                <button
+                  key={t.id}
+                  role="tab"
+                  id={`tab-${t.id}`}
+                  aria-selected={isActive}
+                  aria-controls={`panel-${t.id}`}
+                  onClick={() => setTab(t.id)}
+                  className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-[13px] font-semibold transition-all duration-300 ${
+                    isActive
+                      ? 'bg-gold/[0.12] text-gold'
+                      : 'text-pirate-muted hover:bg-ink/[0.04] hover:text-pirate-text'
+                  }`}
+                >
+                  <t.icon className="h-4 w-4" />
+                  {t.label}
+                  <span className="text-[10px] opacity-60">{t.count}</span>
+                </button>
+              )
+            })}
+          </div>
 
+          {/* ─── Sekme: İlişkiler ─── */}
+          {tab === 'relations' && (
+            <motion.div
+              key="relations"
+              id="panel-relations"
+              role="tabpanel"
+              aria-labelledby="tab-relations"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, ease: EASE }}
+              className="mb-14"
+            >
+              <p className="mb-4 max-w-2xl text-sm leading-relaxed text-pirate-muted">
+                Karakterler arasındaki nakama, aile, mentor, rakip ve düşman
+                bağları. Bir düğüme dokununca o karakterin bağlantıları öne çıkar.
+              </p>
+              <RelationshipGraph />
+            </motion.div>
+          )}
+
+          {/* ─── Sekme: Karakterler ───────────────────────────────────
+              Aşağıdaki arama/filtre/grid bloğu yalnızca bu sekmede. */}
+          {tab === 'list' && (
+          <motion.div
+            id="panel-list"
+            role="tabpanel"
+            aria-labelledby="tab-list"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: EASE }}
+          >
           {/* ─── Search + Sort ─── */}
           <motion.div
             variants={fadeUp}
@@ -230,6 +290,8 @@ export default function CharactersPage() {
                 </button>
               }
             />
+          )}
+          </motion.div>
           )}
         </div>
 

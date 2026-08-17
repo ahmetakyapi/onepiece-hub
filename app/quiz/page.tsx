@@ -71,7 +71,7 @@ export default function QuizHubPage() {
                 className="glass rounded-xl p-4 text-center"
               >
                 <stat.icon className="w-5 h-5 mx-auto mb-2 text-gold" />
-                <span className="font-display block text-2xl font-bold text-gold stat-number">{stat.value}</span>
+                <span className="block text-2xl font-bold text-gold stat-number">{stat.value}</span>
                 <span className="eyebrow mt-1 block text-pirate-muted">{stat.label}</span>
               </motion.div>
             ))}
@@ -91,7 +91,7 @@ export default function QuizHubPage() {
               <motion.div key={saga.slug} variants={fadeUp}>
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-1 h-8 rounded-full bg-gradient-to-b from-gold to-gold/30" />
-                  <h2 className="font-display text-xl font-bold text-pirate-text">{saga.name} Saga</h2>
+                  <h2 className="text-xl font-bold text-pirate-text">{saga.name} Saga</h2>
                   <span className="chip eyebrow">{quizzes.length} quiz</span>
                 </div>
 
@@ -127,7 +127,7 @@ export default function QuizHubPage() {
 
                         {/* Content */}
                         <div className="p-4">
-                          <h3 className="font-display text-sm font-bold text-pirate-text group-hover:text-gold transition-colors line-clamp-1">
+                          <h3 className="text-sm font-bold text-pirate-text group-hover:text-gold transition-colors line-clamp-1">
                             {arc.name}
                           </h3>
                           <div className="flex items-center justify-between mt-2">

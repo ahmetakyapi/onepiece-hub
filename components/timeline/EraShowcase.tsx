@@ -144,7 +144,7 @@ function EraScene({ era, index, total, scrollYProgress }: {
 
         {/* Sticky sahnenin zemini `ocean-deep` — temayla döndüğü için siyah
             drop-shadow light temada koyu metnin arkasında leke bırakıyordu. */}
-        <h3 className="mb-4 font-display text-3xl font-extrabold leading-[1.05] text-pirate-text sm:mb-5 sm:text-5xl md:text-6xl">
+        <h3 className="mb-4 text-3xl font-extrabold leading-[1.05] text-pirate-text sm:mb-5 sm:text-5xl md:text-6xl">
           {era.headline}
         </h3>
 

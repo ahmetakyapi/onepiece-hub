@@ -90,7 +90,7 @@ function SagaCard({ saga, alternate }: { saga: SagaCardData; alternate: boolean 
                 {saga.era}
               </p>
             )}
-            <h2 className={`mb-2 font-display text-3xl font-extrabold text-pirate-text transition-colors duration-300 ${cls.hoverText} sm:text-4xl md:text-5xl`}>
+            <h2 className={`mb-2 text-3xl font-extrabold text-pirate-text transition-colors duration-300 ${cls.hoverText} sm:text-4xl md:text-5xl`}>
               {saga.name}
             </h2>
             <p className={`mb-5 text-sm font-semibold italic ${cls.text}`}>
@@ -180,7 +180,7 @@ function SagaShowcase({ sagas }: { sagas: SagaCardData[] }) {
           <span className="text-xl">🏴‍☠️</span>
         </div>
         <div>
-          <p className="font-display text-sm font-bold text-gold">Yolculuk Sürüyor</p>
+          <p className="text-sm font-bold text-gold">Yolculuk Sürüyor</p>
           <p className="text-xs text-pirate-muted mt-0.5">Sıradaki saga bekleniyor...</p>
         </div>
       </motion.div>

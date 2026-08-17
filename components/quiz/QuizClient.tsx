@@ -126,7 +126,7 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
       <main className="flex min-h-screen items-center justify-center">
         <div className="text-center">
           <BrainCircuit className="mx-auto mb-4 h-12 w-12 text-pirate-muted" />
-          <h1 className="font-display mb-2 text-xl font-bold text-pirate-text">Quiz Bulunamadı</h1>
+          <h1 className="mb-2 text-xl font-bold text-pirate-text">Quiz Bulunamadı</h1>
           <p className="mb-4 text-sm text-pirate-muted">Bu arc için henüz quiz eklenmemiş.</p>
           <Link href="/arcs" className="btn-ghost">Arc&apos;lara Dön</Link>
         </div>
@@ -288,7 +288,7 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
                       />
                     </svg>
                     <motion.span
-                      className="font-display stat-number absolute text-4xl font-bold text-pirate-text"
+                      className="stat-number absolute text-4xl font-bold text-pirate-text"
                       initial={{ opacity: 0, scale: 0.5 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.4, delay: 0.8 }}
@@ -305,15 +305,15 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
                     className="mx-auto mb-8 grid max-w-xs grid-cols-3 gap-3"
                   >
                     <div className="rounded-xl border border-pirate-border/20 bg-ocean-deep/40 px-3 py-3">
-                      <p className="font-display text-lg font-bold text-gold stat-number">{score}</p>
+                      <p className="text-lg font-bold text-gold stat-number">{score}</p>
                       <p className="eyebrow mt-0.5 text-pirate-muted">Doğru</p>
                     </div>
                     <div className="rounded-xl border border-pirate-border/20 bg-ocean-deep/40 px-3 py-3">
-                      <p className="font-display text-lg font-bold text-luffy stat-number">{quiz.questions.length - score}</p>
+                      <p className="text-lg font-bold text-luffy stat-number">{quiz.questions.length - score}</p>
                       <p className="eyebrow mt-0.5 text-pirate-muted">Yanlış</p>
                     </div>
                     <div className="rounded-xl border border-pirate-border/20 bg-ocean-deep/40 px-3 py-3">
-                      <p className="font-display text-lg font-bold text-sea stat-number">{bestStreak}x</p>
+                      <p className="text-lg font-bold text-sea stat-number">{bestStreak}x</p>
                       <p className="eyebrow mt-0.5 text-pirate-muted">Seri</p>
                     </div>
                   </motion.div>
@@ -369,7 +369,7 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
                   <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-fruit-strong/20 to-gold/20 font-mono text-sm font-bold text-gold">
                     {currentQ + 1}
                   </span>
-                  <span className="font-display text-xs font-bold text-pirate-muted">{arc.name}</span>
+                  <span className="text-xs font-bold text-pirate-muted">{arc.name}</span>
                 </div>
 
                 {/* Question text */}

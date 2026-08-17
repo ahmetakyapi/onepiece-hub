@@ -168,7 +168,7 @@ export default function AboutPage() {
               {/* Title */}
               <motion.h1
                 variants={fadeUp}
-                className="font-display mb-6 text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl"
+                className="mb-6 text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl"
               >
                 <span className="text-pirate-text">Türkçe </span>
                 <span className="text-gold-gradient">One Piece</span>
@@ -198,7 +198,7 @@ export default function AboutPage() {
                     className="bento-card flex flex-col items-center gap-1.5 rounded-2xl px-4 py-5"
                   >
                     <stat.icon className={`h-5 w-5 ${stat.color}`} />
-                    <span className={`font-display text-3xl font-bold stat-number ${stat.color}`}>{stat.value}</span>
+                    <span className={`text-3xl font-bold stat-number ${stat.color}`}>{stat.value}</span>
                     <span className="eyebrow text-pirate-muted">{stat.label}</span>
                   </div>
                 ))}
@@ -239,7 +239,7 @@ export default function AboutPage() {
               transition={{ duration: 0.6, ease: EASE }}
               className="mb-12 text-center"
             >
-              <h2 className="font-display mb-4 text-2xl font-bold text-pirate-text sm:text-3xl">
+              <h2 className="mb-4 text-2xl font-bold text-pirate-text sm:text-3xl">
                 1000+ bölümü <span className="text-gold-gradient">düzenli</span> izle
               </h2>
               <p className="mx-auto max-w-xl text-sm leading-relaxed text-pirate-muted">
@@ -275,7 +275,7 @@ export default function AboutPage() {
                     <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl border ${feature.borderColor} ${feature.bg}`}>
                       <feature.icon className={`h-6 w-6 ${feature.color}`} />
                     </div>
-                    <h3 className="font-display mb-2 text-base font-bold text-pirate-text">{feature.title}</h3>
+                    <h3 className="mb-2 text-base font-bold text-pirate-text">{feature.title}</h3>
                     <p className="text-sm leading-relaxed text-pirate-muted">{feature.description}</p>
                   </div>
                 </motion.div>
@@ -304,7 +304,7 @@ export default function AboutPage() {
               transition={{ duration: 0.6, ease: EASE }}
               className="mb-12 text-center"
             >
-              <h2 className="font-display mb-4 text-2xl font-bold text-pirate-text sm:text-3xl">
+              <h2 className="mb-4 text-2xl font-bold text-pirate-text sm:text-3xl">
                 Nasıl <span className="text-sea-gradient">Çalışır?</span>
               </h2>
             </motion.div>
@@ -340,7 +340,7 @@ export default function AboutPage() {
                     >
                       Adım {item.step}
                     </span>
-                    <h3 className="font-display mt-1.5 mb-1 text-lg font-bold text-pirate-text">{item.title}</h3>
+                    <h3 className="mt-1.5 mb-1 text-lg font-bold text-pirate-text">{item.title}</h3>
                     <p className="text-sm leading-relaxed text-pirate-muted">{item.desc}</p>
                   </div>
                 </motion.div>
@@ -372,7 +372,7 @@ export default function AboutPage() {
               <div className="mb-3 flex justify-center">
                 <MangaSFX text="GREAT ERA!" size="md" />
               </div>
-              <h2 className="font-display text-2xl font-bold text-pirate-text sm:text-3xl">
+              <h2 className="text-2xl font-bold text-pirate-text sm:text-3xl">
                 Büyük <span className="text-fire-gradient">Korsan Çağı</span>
               </h2>
             </motion.div>
@@ -424,7 +424,7 @@ export default function AboutPage() {
         {/* ─── Footer CTA ───────────────────────────────────────── */}
         <section className="relative py-24">
           <div className="mx-auto max-w-3xl px-6 text-center animate-fade-in-up">
-            <h2 className="font-display mb-4 text-2xl font-bold text-pirate-text sm:text-3xl">
+            <h2 className="mb-4 text-2xl font-bold text-pirate-text sm:text-3xl">
               Keşfetmeye Devam Et
             </h2>
             <p className="mx-auto mb-8 max-w-lg text-base leading-relaxed text-pirate-muted">

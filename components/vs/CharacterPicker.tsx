@@ -71,7 +71,7 @@ function CharacterPicker({ value, onSelect, accent, disabledSlug, label }: Props
               />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="font-display truncate text-lg font-extrabold text-pirate-text sm:text-xl">
+              <p className="truncate text-lg font-extrabold text-pirate-text sm:text-xl">
                 {value.name}
               </p>
               {value.epithet && (

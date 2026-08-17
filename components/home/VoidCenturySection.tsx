@@ -71,7 +71,7 @@ export default function VoidCenturySection() {
           initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
           animate={inView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
           transition={{ duration: 0.9, ease: EASE, delay: 0.15 }}
-          className="font-display mb-5 text-[28px] font-extrabold leading-[1.05] drop-shadow-[0_4px_24px_rgba(0,0,0,0.75)] sm:text-5xl md:text-6xl"
+          className="mb-5 text-[28px] font-extrabold leading-[1.05] drop-shadow-[0_4px_24px_rgba(0,0,0,0.75)] sm:text-5xl md:text-6xl"
         >
           <span className="block text-pirate-text/90">Void Century&apos;nin</span>
           <span className="block text-gold-gradient">sırları burada.</span>

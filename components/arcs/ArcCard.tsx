@@ -131,7 +131,7 @@ function ArcCard({ arc }: { arc: Arc }) {
 
           {/* Info */}
           <div className="relative z-20 p-4">
-            <h3 className={`font-display mb-1.5 text-base font-bold transition-colors duration-300 ${blocked ? 'text-pirate-muted/40 blur-[6px] select-none' : 'text-pirate-text group-hover:text-gold'}`}>
+            <h3 className={`mb-1.5 text-base font-bold transition-colors duration-300 ${blocked ? 'text-pirate-muted/40 blur-[6px] select-none' : 'text-pirate-text group-hover:text-gold'}`}>
               {arc.name}
             </h3>
             <p className={`mb-3 line-clamp-2 text-[11px] leading-relaxed ${blocked ? 'text-pirate-muted/30 blur-[4px] select-none' : 'text-pirate-muted/70'}`}>

@@ -84,7 +84,7 @@ export default function UpNextCard({
           <p className="eyebrow text-gold/70">
             {countdown !== null ? 'Sıradaki Bölüm Başlıyor' : 'Sıradaki Bölüm'}
           </p>
-          <p className="truncate font-display text-[13px] font-bold text-pirate-text">
+          <p className="truncate text-[13px] font-bold text-pirate-text">
             {episodeTitle}
           </p>
           <p className="font-mono text-[10px] text-pirate-muted">Bölüm {globalEpisode}</p>

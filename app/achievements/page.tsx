@@ -26,7 +26,7 @@ export default function AchievementsPage() {
           <p className="eyebrow-lg mb-3 text-gold/70">
             🏆 Hedefler &amp; Rozetler
           </p>
-          <h1 className="font-display mb-4 text-4xl font-bold text-pirate-text sm:text-5xl md:text-6xl">
+          <h1 className="mb-4 text-4xl font-bold text-pirate-text sm:text-5xl md:text-6xl">
             Başarımlar
           </h1>
           <p className="mx-auto max-w-2xl text-sm leading-relaxed text-pirate-muted sm:text-base">

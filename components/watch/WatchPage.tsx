@@ -371,7 +371,7 @@ export default function WatchPageClient({
                 </span>
               )}
             </div>
-            <h1 className="font-display text-xl font-bold text-pirate-text sm:text-2xl lg:text-[1.75rem]">
+            <h1 className="text-xl font-bold text-pirate-text sm:text-2xl lg:text-[1.75rem]">
               {episode.title}
             </h1>
           </header>
@@ -654,7 +654,7 @@ export default function WatchPageClient({
                 animate="visible"
                 className="bento-card mt-5 rounded-2xl p-5"
               >
-                <h2 className="mb-2 flex items-center gap-2 font-display text-[13px] font-bold text-pirate-text">
+                <h2 className="mb-2 flex items-center gap-2 text-[13px] font-bold text-pirate-text">
                   <BookOpen className="h-4 w-4 text-gold" />
                   Bölüm Özeti
                 </h2>
@@ -706,7 +706,7 @@ export default function WatchPageClient({
             </kbd>
             Çık
           </span>
-          <span className="font-display">{episode.title}</span>
+          <span>{episode.title}</span>
           <span>{arc.name}</span>
         </div>
       )}

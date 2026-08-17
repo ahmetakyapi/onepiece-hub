@@ -122,7 +122,7 @@ export default function LoginPage() {
                   {/* Outer glow ring */}
                   <div className="absolute -inset-2 rounded-full bg-gold/[0.04] blur-xl animate-pulse" />
                 </div>
-                <h2 className="font-display mb-3 text-2xl font-bold text-pirate-text">
+                <h2 className="mb-3 text-2xl font-bold text-pirate-text">
                   Grand Line&apos;a
                   <br />
                   <span className="text-gold-gradient">Hoş Geldin</span>
@@ -152,7 +152,7 @@ export default function LoginPage() {
               {/* Marka kilidi — pusula işareti + wordmark */}
               <motion.div variants={fadeUp} className="mb-8 text-center lg:text-left">
                 <BrandLockup markSize={44} size="lg" className="mb-6" />
-                <h1 className="font-display text-xl font-bold text-pirate-text sm:text-2xl">
+                <h1 className="text-xl font-bold text-pirate-text sm:text-2xl">
                   {isRegister ? 'Tayfaya Katıl' : 'Maceraya Devam'}
                 </h1>
                 <p className="mt-1.5 text-sm text-pirate-muted">

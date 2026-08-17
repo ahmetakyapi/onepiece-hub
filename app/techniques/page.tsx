@@ -41,7 +41,7 @@ export default function TechniquesPage() {
           {/* `text-white` + siyah drop-shadow light temada parşömen zeminde
               okunmuyordu; başlık token metin renginde, gölge ocean-deep'e
               bağlı — light'ta kendiliğinden sönüyor. */}
-          <h1 className="mb-4 font-display text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.6)] sm:text-5xl md:text-6xl">
+          <h1 className="mb-4 text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.6)] sm:text-5xl md:text-6xl">
             Teknikler & Yetenekler
           </h1>
           <p className="mx-auto max-w-2xl text-sm leading-relaxed text-pirate-text/70 drop-shadow-[0_2px_8px_rgb(var(--ocean-deep)/0.4)] sm:text-base">

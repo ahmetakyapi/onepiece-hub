@@ -26,7 +26,7 @@ function StatCard({ icon: Icon, label, value, color }: {
         </div>
         <span className="eyebrow text-pirate-muted/60">{label}</span>
       </div>
-      <p className="font-display text-2xl font-bold text-pirate-text stat-number">{value}</p>
+      <p className="text-2xl font-bold text-pirate-text stat-number">{value}</p>
     </div>
   )
 }
@@ -40,7 +40,7 @@ function ArcProgressBar({ arcName, watched, total, index }: {
 
   return (
     <div className="flex items-center gap-3">
-      <span className="font-display w-32 truncate text-xs font-bold text-pirate-muted/70 sm:w-40">
+      <span className="w-32 truncate text-xs font-bold text-pirate-muted/70 sm:w-40">
         {arcName}
       </span>
       <div className="flex-1">
@@ -112,7 +112,7 @@ function WatchingHeatmap({ dates }: { dates: string[] }) {
     <div className="bento-card rounded-2xl p-5">
       <div className="mb-4 flex items-center gap-2">
         <Flame className="h-4 w-4 text-gold" />
-        <h3 className="font-display text-sm font-bold text-pirate-text">İzleme Aktivitesi</h3>
+        <h3 className="text-sm font-bold text-pirate-text">İzleme Aktivitesi</h3>
       </div>
       <div className="overflow-x-auto">
         <div className="flex gap-[3px]">
@@ -205,9 +205,9 @@ export default function WatchingDashboard({ watchedEpisodes, watchedDates = [] }
         <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <TrendingUp className="h-4 w-4 text-gold" />
-            <h3 className="font-display text-sm font-bold text-pirate-text">Genel İlerleme</h3>
+            <h3 className="text-sm font-bold text-pirate-text">Genel İlerleme</h3>
           </div>
-          <span className="font-display text-xl font-bold text-gold stat-number">%{overallProgress}</span>
+          <span className="text-xl font-bold text-gold stat-number">%{overallProgress}</span>
         </div>
         <div className="h-3 overflow-hidden rounded-full bg-ocean-surface">
           <motion.div
@@ -229,7 +229,7 @@ export default function WatchingDashboard({ watchedEpisodes, watchedDates = [] }
       <div className="bento-card rounded-2xl p-5">
         <div className="mb-4 flex items-center gap-2">
           <BarChart3 className="h-4 w-4 text-sea" />
-          <h3 className="font-display text-sm font-bold text-pirate-text">Arc İlerlemesi</h3>
+          <h3 className="text-sm font-bold text-pirate-text">Arc İlerlemesi</h3>
         </div>
         <div className="space-y-2.5">
           {arcStats.slice(0, 15).map((arc, i) => (

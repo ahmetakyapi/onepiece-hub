@@ -20,7 +20,7 @@ export default function VsPage() {
           </p>
           {/* Beyaz metin + siyah drop-shadow ikilisi light temada kayboluyordu;
               ikisi de token'a çekildi. */}
-          <h1 className="font-display mb-4 text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.6)] sm:text-5xl md:text-6xl">
+          <h1 className="mb-4 text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.6)] sm:text-5xl md:text-6xl">
             Kim Daha <span className="text-luffy">Güçlü</span>?
           </h1>
           <p className="mx-auto max-w-xl text-sm leading-relaxed text-pirate-text/70 drop-shadow-[0_2px_8px_rgb(var(--ocean-deep)/0.4)] sm:text-base">

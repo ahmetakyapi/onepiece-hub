@@ -99,7 +99,7 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
             </div>
 
             <div className="mb-2 flex flex-wrap items-center gap-3">
-              <h1 className="font-display text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:text-5xl md:text-6xl">
+              <h1 className="text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:text-5xl md:text-6xl">
                 {fruit.name}
               </h1>
               <FavoriteButton targetType="devil-fruit" targetSlug={fruit.slug} />
@@ -132,7 +132,7 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
 
           {/* User card — spotlight */}
           <motion.div variants={fadeUp} className="mb-10">
-            <h2 className="mb-4 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
+            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
               <Skull className="h-5 w-5 text-sea" />
               Kullanıcı
             </h2>
@@ -161,7 +161,7 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
                   <p className="eyebrow mb-1 text-sea/70">
                     Meyve Sahibi
                   </p>
-                  <p className="mb-3 font-display text-2xl font-extrabold text-pirate-text sm:text-3xl">
+                  <p className="mb-3 text-2xl font-extrabold text-pirate-text sm:text-3xl">
                     {fruit.user}
                   </p>
                   <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
@@ -186,7 +186,7 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
 
           {/* Abilities */}
           <motion.div variants={fadeUp} className="mb-10">
-            <h2 className="mb-4 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
+            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
               <Zap className="h-5 w-5 text-gold" />
               Yetenekler
               <span className="ml-1 rounded-full bg-gold/[0.08] px-2.5 py-0.5 font-mono text-[11px] font-semibold text-gold">
@@ -250,13 +250,13 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
 
           {/* Type info */}
           <motion.div variants={fadeUp}>
-            <h2 className="mb-4 flex items-center gap-2 font-display text-lg font-bold text-pirate-text">
+            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-pirate-text">
               <Cherry className="h-5 w-5 text-fruit" />
               Meyve Türü
             </h2>
             <div className={`relative overflow-hidden rounded-2xl border ${typeInfo.bg} ${typeInfo.color} border-current/20 p-5`}>
               <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-current/[0.08] blur-[60px]" />
-              <p className={`mb-2 font-display text-base font-extrabold ${typeInfo.color}`}>{typeInfo.label}</p>
+              <p className={`mb-2 text-base font-extrabold ${typeInfo.color}`}>{typeInfo.label}</p>
               <p className="text-sm leading-relaxed text-pirate-muted">
                 {typeInfo.description}
               </p>

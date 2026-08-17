@@ -71,7 +71,7 @@ export default function ResumeBar({ compact = false, className = '' }: Props) {
         </p>
         <Link
           href={`/arcs/${lastWatched.arcSlug}/${lastWatched.episodeSlug}`}
-          className="block truncate font-display text-[13px] font-bold text-pirate-text transition-colors hover:text-gold sm:text-sm"
+          className="block truncate text-[13px] font-bold text-pirate-text transition-colors hover:text-gold sm:text-sm"
         >
           {lastWatched.episodeTitle}
         </Link>

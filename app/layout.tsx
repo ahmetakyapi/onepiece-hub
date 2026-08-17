@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Cinzel, Manrope, Space_Mono } from 'next/font/google'
+import { Manrope, Space_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { AuthProvider } from '@/hooks/useAuth'
 import { ThemeProvider } from '@/hooks/useTheme'
@@ -8,14 +8,6 @@ import { ClientLayout } from '@/components/layout/ClientLayout'
 import { SITE_STATS } from '@/lib/constants/stats'
 import '@/lib/env'
 import './globals.css'
-
-/* Display — Cinzel. Ekran başlıkları, kart adları, istatistik rakamları. */
-const cinzel = Cinzel({
-  subsets: ['latin', 'latin-ext'],
-  weight: ['500', '600', '700'],
-  variable: '--font-display',
-  display: 'swap',
-})
 
 /* Gövde — Manrope. */
 const manrope = Manrope({
@@ -112,7 +104,7 @@ export default function RootLayout({
     <html
       lang="tr"
       suppressHydrationWarning
-      className={`${cinzel.variable} ${manrope.variable} ${spaceMono.variable}`}
+      className={`${manrope.variable} ${spaceMono.variable}`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />

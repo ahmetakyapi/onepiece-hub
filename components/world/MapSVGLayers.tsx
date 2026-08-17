@@ -173,7 +173,7 @@ export function SeaLabels() {
           fontSize={label.text === 'PARADISE' || label.text === 'NEW WORLD' ? '14' : '18'}
           fontWeight="800"
           letterSpacing={label.text === 'PARADISE' || label.text === 'NEW WORLD' ? '6' : '8'}
-          fontFamily="var(--font-display), Georgia, serif"
+          fontFamily="var(--), Georgia, serif"
         >
           {label.text}
         </text>

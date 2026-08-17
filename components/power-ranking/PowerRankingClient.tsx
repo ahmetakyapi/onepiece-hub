@@ -125,15 +125,15 @@ function ComparisonView({ char1, char2 }: { char1: PowerStats; char2: PowerStats
       {/* Headers */}
       <div className="mb-6 grid grid-cols-3 items-center gap-4">
         <div className="text-center">
-          <p className="font-display text-sm font-bold text-pirate-text">{c1?.name}</p>
-          <p className="font-display text-2xl font-extrabold text-sea stat-number">{char1.overall}</p>
+          <p className="text-sm font-bold text-pirate-text">{c1?.name}</p>
+          <p className="text-2xl font-extrabold text-sea stat-number">{char1.overall}</p>
         </div>
         <div className="flex items-center justify-center">
           <Swords className="h-5 w-5 text-gold" />
         </div>
         <div className="text-center">
-          <p className="font-display text-sm font-bold text-pirate-text">{c2?.name}</p>
-          <p className="font-display text-2xl font-extrabold text-luffy stat-number">{char2.overall}</p>
+          <p className="text-sm font-bold text-pirate-text">{c2?.name}</p>
+          <p className="text-2xl font-extrabold text-luffy stat-number">{char2.overall}</p>
         </div>
       </div>
 
@@ -208,7 +208,7 @@ export default function PowerRankingClient() {
           transition={{ duration: 0.6, ease: EASE }}
           className="mb-10 text-center"
         >
-          <h1 className="mb-3 font-display text-3xl font-extrabold sm:text-4xl">
+          <h1 className="mb-3 text-3xl font-extrabold sm:text-4xl">
             <span className="text-gold-gradient">Güç Sıralaması</span>
           </h1>
           <p className="mx-auto max-w-lg text-sm text-pirate-muted">
@@ -262,7 +262,7 @@ export default function PowerRankingClient() {
                     {imgSrc ? (
                       <Image src={imgSrc} alt={char.name} fill className="object-cover object-top" sizes="40px" />
                     ) : (
-                      <div className="flex h-full w-full items-center justify-center font-display text-xs font-bold text-pirate-dim">
+                      <div className="flex h-full w-full items-center justify-center text-xs font-bold text-pirate-dim">
                         {char.name.charAt(0)}
                       </div>
                     )}
@@ -270,7 +270,7 @@ export default function PowerRankingClient() {
 
                   {/* Name + epithet */}
                   <div className="flex-1 min-w-0">
-                    <p className="font-display text-sm font-bold text-pirate-text group-hover:text-gold transition-colors truncate">
+                    <p className="text-sm font-bold text-pirate-text group-hover:text-gold transition-colors truncate">
                       {char.name}
                     </p>
                     {char.epithet && (
@@ -323,7 +323,7 @@ export default function PowerRankingClient() {
                 transition={{ duration: 0.4, ease: EASE }}
                 className="bento-card rounded-2xl p-4"
               >
-                <h3 className="mb-2 text-center font-display text-sm font-bold text-pirate-text">
+                <h3 className="mb-2 text-center text-sm font-bold text-pirate-text">
                   {CHARACTERS.find((c) => c.slug === selectedPower.slug)?.name}
                 </h3>
                 <RadarChart stats={selectedPower.stats} />

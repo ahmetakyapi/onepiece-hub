@@ -66,7 +66,7 @@ export function Wordmark({
 
   return (
     <span className={`inline-flex items-baseline ${scale.gap} ${className ?? ''}`}>
-      <span className={`font-display font-bold tracking-[0.06em] text-pirate-text ${scale.name}`}>
+      <span className={`font-bold tracking-[0.06em] text-pirate-text ${scale.name}`}>
         ONE PIECE
       </span>
       <span className={`font-mono font-bold tracking-[0.4em] text-gold mr-[-0.4em] ${scale.hub}`}>
