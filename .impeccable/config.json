@@ -17,6 +17,15 @@
         ],
         "createdAt": "2026-08-17T06:37:04.571Z",
         "reason": "Repo CLAUDE.md § 'Bilinen detector bulguları' bu 6 bulguyu marka utility'si olarak belgeliyor (.text-gold/sea/fire-gradient). Solid renk fallback'i + @supports koruması var; acilis-zili .display-ink ile aynı gerekçe. Rebrand'de yalnızca renkleri token'landı, desen değişmedi."
+      },
+      {
+        "rule": "layout-transition",
+        "value": "*",
+        "files": [
+          "app/globals.css"
+        ],
+        "createdAt": "2026-08-17T06:44:51.427Z",
+        "reason": "Repo CLAUDE.md § 'Bilinen detector bulguları' bu bulguyu inceleyip tuttuğunu yazıyor. Doğrulandı: .progress-bar-fill TEK yerde kullanılıyor (ResumeBar.tsx:84), yalnızca kullanıcı bölüm işaretlediğinde tetikleniyor. clip-path alternatifi görsel olarak eşdeğer degil: degrade dolgunun icine sikisiyor, %100 genislikteki elemanda dusuk ilerlemede sadece sonuk uc gorunurdu. Duz renkli cubuklar zaten scaleX'e cevrilmis."
       }
     ]
   }
