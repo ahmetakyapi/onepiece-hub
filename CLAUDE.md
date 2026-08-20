@@ -316,6 +316,30 @@ mount effect'i (o effect attribute'u okumakla kalmaz, **yeniden yazar** —
 kaldırma). Hiç yazılmadığında `globals.css`teki `:root` zaten dark veriyor,
 yani JS kapalıyken de doğru.
 
+### 19. Mobil — Bilinen Durum ve Tuzaklar
+390×844 / DPR 2'de 16 rota × 2 tema tarandı (yatay kaydırma, viewport taşması,
+dokunma hedefi, minik metin). **Yatay kaydırma ve taşma sıfır.**
+
+İki tuzak çıktı, ikisi de aynı desende:
+
+**Dekoratif parıltı katmanları viewport'u büyütür.** `left-1/2 w-[500px]
+-translate-x-1/2` bir parıltı 390px'lik ekranda ±250px yayılıp belgeyi 445px'e
+çıkarıyordu. `body { overflow-x: hidden }` bunu HER ZAMAN engellemez.
+Kural: negatif `-inset-*` veya viewport'tan geniş dekoratif kutu kullanıyorsan
+kapsayıcıya `overflow-hidden` VE yatayda `inset-x-0` ver.
+
+**Tam ödül rakamları mobil kartlara sığmaz.** "5.564.800.000" mono 13 karakter;
+3 sütunlu podyum kartından taşıyordu. Podyum mobilde `formatBounty()` kısa
+biçimini (`5.6B`) gösterir, `sm:` ve üstünde tam rakam — tasarım dokümanının
+mobil mock'u da böyle.
+
+**Dokunma hedefleri**: küçük metin linklerinde `-my-2 py-2` deseni kullanılır —
+alan ~32px'e çıkar, görsel aralık bozulmaz. Footer linkleri, /login alt
+linkleri ve /world çipleri bu desende.
+
+Kasıtlı bırakılanlar: 30-32px'lik ikincil chrome hedefleri (footer, profil
+çipi, "Başa Dön") ve wanted poster'ın 7-8px dekoratif metni (`sm:`de büyüyor).
+
 ## CSS Reduced-Motion + Print
 
 - `prefers-reduced-motion`: tüm animasyonlar disable

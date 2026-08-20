@@ -235,8 +235,15 @@ export default function BountiesPage() {
                 <div className="divider-glow flex-1" />
               </div>
 
-              {/* Ambient glow behind posters */}
-              <div className="pointer-events-none absolute -inset-12 -top-20">
+              {/* Ambient glow behind posters.
+                  `overflow-hidden` ŞART: içindeki 500px'lik parıltı
+                  `left-1/2 -translate-x-1/2` ile ortalanıyor, yani 390px'lik
+                  mobil viewport'ta ±250px yayılıp belgeyi 445px'e çıkarıyordu
+                  (sayfa yatay kayıyordu). Kırpılınca görünüm aynı kalıyor.
+                  Kapsayıcı da `-inset-12` yerine `inset-x-0`: yatay taşmayı
+                  sıfırlar, dikey parıltı taşması korunur. Parıltı zaten
+                  blur-[100px], kenar kaybı görünmüyor. */}
+              <div className="pointer-events-none absolute inset-x-0 -bottom-12 -top-20 overflow-hidden">
                 <div className="absolute left-1/2 top-1/3 h-80 w-[500px] -translate-x-1/2 rounded-full bg-gold/[0.06] blur-[100px]" />
               </div>
 
@@ -388,7 +395,13 @@ export default function BountiesPage() {
                                   : '0 0 12px rgb(var(--gold) / 0.2)',
                               }}
                             >
-                              {entry.bounty}
+                              {/* Mobilde KISALTILMIŞ tutar: tam rakam
+                                  ("5.564.800.000" = 13 karakter mono) 390px'de
+                                  3 sütunlu podyum kartından taşıyordu. Tasarım
+                                  dokümanının mobil mock'u da kısa biçimi
+                                  gösteriyor. sm: ve üstünde tam rakam. */}
+                              <span className="sm:hidden">{formatBounty(parseBounty(entry.bounty))}</span>
+                              <span className="hidden sm:inline">{entry.bounty}</span>
                             </p>
                             <p className={`eyebrow mt-1 ${
                               isFirst ? 'text-gold/60' : 'text-gold/50'
