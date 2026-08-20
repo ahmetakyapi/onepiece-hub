@@ -10,7 +10,7 @@ import {
 } from 'lucide-react'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
 import { CREW_TYPE_LABELS } from '@/lib/constants/crews'
-import { getCharacterImage } from '@/lib/constants/images'
+import { getCharacterImage, getCharacterThumb } from '@/lib/constants/images'
 import FavoriteButton from '@/components/ui/FavoriteButton'
 import type { Crew } from '@/types'
 
@@ -189,7 +189,7 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
             </h2>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {crew.notableMembers.map((member) => {
-                const img = member.slug ? getCharacterImage(member.slug) : ''
+                const img = member.slug ? getCharacterThumb(member.slug) : ''
                 const inner = (
                   <div className="bento-card group relative flex items-center gap-3 overflow-hidden rounded-2xl p-3 transition-all duration-500 hover:border-gold/20">
                     <div className="relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-xl border border-pirate-border/30 bg-ocean-surface">

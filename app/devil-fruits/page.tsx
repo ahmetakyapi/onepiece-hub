@@ -8,7 +8,7 @@ import PageHero from '@/components/wiki/PageHero'
 import EmptyState from '@/components/ui/EmptyState'
 import AmbientBackground from '@/components/ui/AmbientBackground'
 import { DEVIL_FRUITS, DEVIL_FRUIT_TYPE_INFO } from '@/lib/constants/devil-fruits'
-import { getCharacterImage } from '@/lib/constants/images'
+import { getCharacterImage, getCharacterThumb } from '@/lib/constants/images'
 import { useViewTransition } from '@/hooks/useViewTransition'
 
 const TYPES = Object.keys(DEVIL_FRUIT_TYPE_INFO)
@@ -188,6 +188,9 @@ export default function DevilFruitsPage() {
                   <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     {fruits.map((df) => {
                       const characterImage = df.userSlug ? getCharacterImage(df.userSlug) : ''
+                      /* 32px'lik kullanıcı rozeti için küçük kopya — tam portre
+                         `unoptimized` yüzünden olduğu gibi inerdi. */
+                      const characterThumb = df.userSlug ? getCharacterThumb(df.userSlug) : ''
                       return (
                         <Link
                           key={df.slug}
@@ -240,9 +243,9 @@ export default function DevilFruitsPage() {
 
                             <div className="flex items-center gap-2.5 border-t border-pirate-border/50 pt-3">
                               <div className="relative h-8 w-8 flex-shrink-0 overflow-hidden rounded-lg border border-pirate-border/30 bg-ocean-surface">
-                                {characterImage ? (
+                                {characterThumb ? (
                                   <Image
-                                    src={characterImage}
+                                    src={characterThumb}
                                     alt={df.user}
                                     fill
                                     className="object-cover object-top"

@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { EASE } from '@/lib/variants'
 import { CHARACTERS } from '@/lib/constants/characters'
-import { CHARACTER_IMAGES } from '@/lib/constants/images'
+import { getCharacterThumb } from '@/lib/constants/images'
 import { CHARACTER_RELATIONS, GRAPH_CHARACTERS, RELATION_CONFIG, type RelationType } from '@/lib/constants/relationships'
 
 /** İlişki rengini opaklıkla birlikte döndürür. Renk tanımının tek kaynağı
@@ -133,7 +133,7 @@ export default function RelationshipGraph() {
           <div className="-mx-2 flex gap-3 overflow-x-auto px-2 pb-2 scrollbar-thin">
             {GRAPH_CHARACTERS.map((slug) => {
               const char = CHARACTERS.find((c) => c.slug === slug)
-              const img = CHARACTER_IMAGES[slug]
+              const img = getCharacterThumb(slug)
               const isActive = selected?.slug === slug
               return (
                 <button
@@ -258,9 +258,9 @@ export default function RelationshipGraph() {
                       />
                     )}
 
-                    {CHARACTER_IMAGES[slug] && (
+                    {getCharacterThumb(slug) && (
                       <image
-                        href={CHARACTER_IMAGES[slug]}
+                        href={getCharacterThumb(slug)}
                         x={pos.x - 28}
                         y={pos.y - 28}
                         width="56"
@@ -272,7 +272,7 @@ export default function RelationshipGraph() {
                       />
                     )}
 
-                    {!CHARACTER_IMAGES[slug] && (
+                    {!getCharacterThumb(slug) && (
                       <>
                         <circle
                           cx={pos.x}

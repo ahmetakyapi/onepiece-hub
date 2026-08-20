@@ -9,7 +9,7 @@ import {
   Search, X, ArrowRight,
 } from 'lucide-react'
 import { fadeUp, staggerContainer } from '@/lib/variants'
-import { getCharacterImage } from '@/lib/constants/images'
+import { getCharacterThumb } from '@/lib/constants/images'
 
 export interface TechniqueEntry {
   name: string
@@ -89,7 +89,7 @@ const CATEGORY_CONFIG: Record<string, {
 function TechniqueCard({ technique }: { technique: TechniqueEntry }) {
   const config = CATEGORY_CONFIG[technique.category] ?? CATEGORY_CONFIG['Özel']
   const CategoryIcon = config.icon
-  const img = getCharacterImage(technique.characterSlug)
+  const img = getCharacterThumb(technique.characterSlug)
 
   return (
     <Link
