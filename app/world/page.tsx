@@ -378,7 +378,9 @@ export default function WorldPage() {
                                   <Link
                                     key={arcSlug}
                                     href={`/arcs/${arcSlug}`}
-                                    className="rounded-full bg-ocean-surface px-2.5 py-0.5 text-[10px] font-medium text-sea transition-colors hover:bg-sea/10 hover:text-sea-light"
+                                    /* py-1.5: çip 19px yüksekliğindeydi, mobilde dokunma hedefi
+                                       olarak çok küçüktü (~32px'e çıkarıldı). */
+                                    className="rounded-full bg-ocean-surface px-2.5 py-1.5 text-[10px] font-medium text-sea transition-colors hover:bg-sea/10 hover:text-sea-light"
                                   >
                                     {arc?.name ?? arcSlug}
                                   </Link>

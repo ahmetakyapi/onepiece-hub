@@ -67,7 +67,10 @@ export default function Footer() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="group flex items-center gap-2 text-[13px] text-pirate-muted/70 transition-all duration-300 hover:text-pirate-text"
+                    /* `py-1.5 -my-1.5`: dokunma alanını 20px'ten ~32px'e çıkarır ama
+                       negatif margin ile görsel aralığı bozmaz. Mobilde footer
+                       linkleri 20px yüksekliğindeydi, isabet ettirmek zordu. */
+                    className="group -my-1.5 flex items-center gap-2 py-1.5 text-[13px] text-pirate-muted/70 transition-all duration-300 hover:text-pirate-text"
                   >
                     <link.icon className="h-3.5 w-3.5 opacity-40 transition-all duration-300 group-hover:opacity-70 group-hover:text-gold" />
                     <span>{link.label}</span>

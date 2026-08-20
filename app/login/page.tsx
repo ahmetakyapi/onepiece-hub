@@ -288,7 +288,7 @@ export default function LoginPage() {
               <motion.div variants={fadeUp} className="mt-6 text-center lg:text-left">
                 <button
                   onClick={() => { setIsRegister((v) => !v); setError('') }}
-                  className="text-xs text-pirate-muted transition-colors hover:text-gold"
+                  className="-my-2 py-2 text-xs text-pirate-muted transition-colors hover:text-gold"
                 >
                   {isRegister
                     ? 'Zaten hesabın var mı? Giriş yap'
@@ -297,7 +297,7 @@ export default function LoginPage() {
               </motion.div>
 
               <motion.div variants={fadeUp} className="mt-4 text-center lg:text-left">
-                <Link href="/" className="text-xs text-sea hover:text-gold transition-colors">
+                <Link href="/" className="-my-2 inline-block py-2 text-xs text-sea transition-colors hover:text-gold">
                   Ana sayfaya dön
                 </Link>
               </motion.div>
