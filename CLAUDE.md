@@ -224,9 +224,23 @@ kotası dolduğu için `/_next/image` üzerinden geçen her görsel production'd
 dosyalar 200 veriyordu. Kapatınca `next/image` dosyayı olduğu gibi servis
 ediyor (kaynaklar zaten `.webp`).
 
-Bedeli: responsive yeniden boyutlandırma ve AVIF yok — tam boyut iniyor
-(arc görselleri ort. 136 KB, en büyük 207 KB). Kota tekrar açılırsa tek
-satırı kaldırmak yeterli. Yerelde bu hata GÖRÜNMEZ, sadece Vercel'de olur.
+Bedeli: responsive yeniden boyutlandırma ve AVIF yok — tam boyut iniyor.
+Kota tekrar açılırsa tek satırı kaldırmak yeterli. Yerelde bu hata GÖRÜNMEZ,
+sadece Vercel'de olur.
+
+Optimizasyon kapalı olduğu için ağırlık **elle** yönetiliyor:
+
+1. **Kaynaklar q=0.78'de yeniden kodlandı** — 0.35-0.45 B/px ile gereksiz
+   yüksek kalitedeydiler. `public/arcs` 4.78 → 3.01 MB, `public/characters`
+   2.60 → 1.84 MB. Görsel fark yok (manga/anime düz renk + çizgi).
+2. **`public/characters/thumbs/` — 192px avatar kopyaları.** Gösterim ölçüsü
+   ≤96px olan her yerde `getCharacterThumb(slug)` kullanılır; kart/hero gibi
+   büyük kullanımlar `getCharacterImage()` ile tam portrede kalır.
+   /bounties tek başına 33 avatar × tam portre indiriyordu (~1.3 MB → 0.33 MB).
+
+**Yeni karakter eklerken thumb da üret** — yoksa avatar hiç görünmez
+(`getCharacterThumb` yol türetir, dosya yoksa 404). Üretim: headless Chrome
+canvas (`sips` webp yazamıyor); yöntem PR #6 açıklamasında.
 
 ### 6. Next/Image Remote Host Whitelist
 `next.config.mjs` → `remotePatterns`: `avatars.githubusercontent.com`, `static.wikia.nocookie.net`, `i.imgur.com`, `cdn.myanimelist.net`. Yeni dış host → ekle. Format: AVIF > WebP.

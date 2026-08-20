@@ -23,7 +23,7 @@ import PageHero from '@/components/wiki/PageHero'
 import EmptyState from '@/components/ui/EmptyState'
 import AmbientBackground from '@/components/ui/AmbientBackground'
 import { BATTLES, BATTLE_CATEGORIES } from '@/lib/constants/battles'
-import { getCharacterImage } from '@/lib/constants/images'
+import { getCharacterThumb } from '@/lib/constants/images'
 import { EASE } from '@/lib/variants'
 
 /* ─── Constants ──────────────────────────────────────────────── */
@@ -305,7 +305,7 @@ export default function BattlesPage() {
                         <p className="eyebrow mb-3 text-sea">Taraf 1</p>
                         <div className="mb-3 flex flex-wrap gap-2">
                           {battle.participantSlugs?.side1.map((slug) => {
-                            const img = getCharacterImage(slug)
+                            const img = getCharacterThumb(slug)
                             return img ? (
                               <Link
                                 key={slug}
@@ -336,7 +336,7 @@ export default function BattlesPage() {
                         <p className="eyebrow mb-3 text-luffy">Taraf 2</p>
                         <div className="mb-3 flex flex-wrap justify-end gap-2">
                           {battle.participantSlugs?.side2.map((slug) => {
-                            const img = getCharacterImage(slug)
+                            const img = getCharacterThumb(slug)
                             return img ? (
                               <Link
                                 key={slug}
@@ -569,7 +569,7 @@ export default function BattlesPage() {
                         <p className="eyebrow mb-2 text-sea">Taraf 1</p>
                         <div className="mb-2 flex flex-wrap items-center gap-2">
                           {battle.participantSlugs?.side1.map((slug) => {
-                            const img = getCharacterImage(slug)
+                            const img = getCharacterThumb(slug)
                             return img ? (
                               <Link key={slug} href={`/characters/${slug}`} className="relative h-16 w-16 overflow-hidden rounded-xl border border-sea/20 bg-ocean-deep transition-transform hover:scale-110 sm:h-20 sm:w-20">
                                 <Image src={img} alt={slug} fill className="object-cover object-top" sizes="80px" />
@@ -596,7 +596,7 @@ export default function BattlesPage() {
                         <p className="eyebrow mb-2 text-luffy">Taraf 2</p>
                         <div className="mb-2 flex flex-wrap items-center justify-end gap-2">
                           {battle.participantSlugs?.side2.map((slug) => {
-                            const img = getCharacterImage(slug)
+                            const img = getCharacterThumb(slug)
                             return img ? (
                               <Link key={slug} href={`/characters/${slug}`} className="relative h-16 w-16 overflow-hidden rounded-xl border border-luffy/20 bg-ocean-deep transition-transform hover:scale-110 sm:h-20 sm:w-20">
                                 <Image src={img} alt={slug} fill className="object-cover object-top" sizes="80px" />

@@ -9,7 +9,7 @@ import {
 import Link from 'next/link'
 import Image from 'next/image'
 import PageHero from '@/components/wiki/PageHero'
-import { getCharacterImage } from '@/lib/constants/images'
+import { getCharacterThumb } from '@/lib/constants/images'
 import { EASE } from '@/lib/variants'
 
 /* ─── Types ──────────────────────────────────────────────────── */
@@ -242,7 +242,7 @@ function LevelBadge({ level, colorToken }: { level: string; colorToken: string }
 }
 
 function UserCard({ user, colorToken }: { user: HakiUser; colorToken: string }) {
-  const img = user.slug ? getCharacterImage(user.slug) : ''
+  const img = user.slug ? getCharacterThumb(user.slug) : ''
 
   const content = (
     <div className="group flex items-center gap-4 rounded-2xl border border-pirate-border/30 bg-ocean-surface/50 px-5 py-4 transition-all duration-300 hover:border-pirate-border/60 hover:bg-ocean-surface">
@@ -529,7 +529,7 @@ export default function HakiPage() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               {HAKI_MASTERS.map((master) => {
-                const img = master.slug ? getCharacterImage(master.slug) : ''
+                const img = master.slug ? getCharacterThumb(master.slug) : ''
                 const isTriple = master.types.length === 3
 
                 return (
@@ -609,7 +609,7 @@ export default function HakiPage() {
               {FUN_FACTS.map((fact, i) => {
                 const hakiInfo = HAKI_COLOR_MAP[fact.hakiType] ?? { token: '--gold', label: 'Haki' }
                 const colorToken = fact.hakiType === 'all' ? '--gold' : hakiInfo.token
-                const img = fact.slug ? getCharacterImage(fact.slug) : ''
+                const img = fact.slug ? getCharacterThumb(fact.slug) : ''
 
                 return (
                   <div

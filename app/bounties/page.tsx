@@ -20,7 +20,7 @@ import Image from 'next/image'
 import PageHero from '@/components/wiki/PageHero'
 import EmptyState from '@/components/ui/EmptyState'
 import AmbientBackground from '@/components/ui/AmbientBackground'
-import { getCharacterImage } from '@/lib/constants/images'
+import { getCharacterThumb } from '@/lib/constants/images'
 import { EASE } from '@/lib/variants'
 import { parseBounty, formatBounty } from '@/lib/utils'
 import { BOUNTIES, CREW_FILTERS } from '@/lib/constants/bounties'
@@ -245,7 +245,7 @@ export default function BountiesPage() {
                 {[top3[1], top3[0], top3[2]].map((entry, podiumIdx) => {
                   const actualRank = podiumIdx === 0 ? 2 : podiumIdx === 1 ? 1 : 3
                   const isFirst = actualRank === 1
-                  const characterImage = entry.slug ? getCharacterImage(entry.slug) : ''
+                  const characterImage = entry.slug ? getCharacterThumb(entry.slug) : ''
 
                   return (
                     <div
@@ -489,7 +489,7 @@ export default function BountiesPage() {
                             {entries.map(({ entry, globalRank }) => {
                               const bountyValue = parseBounty(entry.bounty)
                               const barPercent = Math.max((bountyValue / highestBounty) * 100, 2)
-                              const characterImage = entry.slug ? getCharacterImage(entry.slug) : ''
+                              const characterImage = entry.slug ? getCharacterThumb(entry.slug) : ''
 
                               return (
                                 <div key={entry.name}>
@@ -616,7 +616,7 @@ export default function BountiesPage() {
               {/* Chopper avatar */}
               <div className="relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-xl border-2 border-gold/20 bg-ocean-surface">
                 <Image
-                  src={getCharacterImage('chopper')}
+                  src={getCharacterThumb('chopper')}
                   alt="Tony Tony Chopper"
                   fill
                   className="object-cover object-top"

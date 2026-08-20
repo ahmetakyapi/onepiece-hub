@@ -115,3 +115,22 @@ export function getArcImage(slug: string): string {
 export function getCharacterImage(slug: string): string {
   return CHARACTER_IMAGES[slug] ?? ''
 }
+
+/* ─── Avatar küçük resimleri ────────────────────────────────────────────
+   `public/characters/thumbs/` altında 192px genişlikte kopyalar.
+
+   Neden var: `next.config.mjs` → `images.unoptimized: true` (Vercel görsel
+   kotası doldu, bkz. CLAUDE.md § 5b). Optimizasyon kapalı olduğu için
+   next/image artık dosyayı OLDUĞU GİBİ servis ediyor — 48px'lik bir
+   avatar için 40 KB'lık tam portre iniyordu. /bounties tek başına 33
+   avatar × tam portre yüklüyordu.
+
+   Nerede kullanılır: gösterim ölçüsü ~96px ve altındaysa (`sizes="32px"`
+   … `sizes="96px"`). Kart/hero gibi büyük kullanımlar `getCharacterImage`
+   ile tam portreyi almaya devam eder.
+
+   Dosya adları birebir aynı; kayıt tutmaya gerek yok, yol türetiliyor. */
+export function getCharacterThumb(slug: string): string {
+  const full = CHARACTER_IMAGES[slug]
+  return full ? full.replace('/characters/', '/characters/thumbs/') : ''
+}

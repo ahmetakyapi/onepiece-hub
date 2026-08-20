@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ArrowRight, Users, Skull } from 'lucide-react'
-import { getCharacterImage } from '@/lib/constants/images'
+import { getCharacterThumb } from '@/lib/constants/images'
 import { fadeUp, staggerContainer } from '@/lib/variants'
 import type { Character } from '@/types'
 
@@ -40,7 +40,7 @@ function RelatedCharacters({ characters, title = 'İlgili Karakterler', descript
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {characters.map(char => {
-          const img = getCharacterImage(char.slug)
+          const img = getCharacterThumb(char.slug)
           return (
             <motion.div key={char.slug} variants={fadeUp}>
               <Link

@@ -9,7 +9,7 @@ import {
   Users, Star, ChevronLeft, ChevronRight,
 } from 'lucide-react'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
-import { getArcImage, getCharacterImage } from '@/lib/constants/images'
+import { getArcImage, getCharacterThumb } from '@/lib/constants/images'
 import { ACCENT_CLASSES, type SagaMeta } from '@/lib/constants/saga-meta'
 
 interface ArcItem {
@@ -297,7 +297,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
             </h2>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {data.debutCharacters.map((char) => {
-                const img = getCharacterImage(char.slug)
+                const img = getCharacterThumb(char.slug)
                 return (
                   <Link
                     key={char.slug}

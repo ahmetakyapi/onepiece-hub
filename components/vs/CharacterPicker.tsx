@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, X, UserPlus, ChevronDown } from 'lucide-react'
 import { CHARACTERS } from '@/lib/constants/characters'
-import { getCharacterImage } from '@/lib/constants/images'
+import { getCharacterThumb } from '@/lib/constants/images'
 import { EASE } from '@/lib/variants'
 import type { Character } from '@/types'
 
@@ -63,7 +63,7 @@ function CharacterPicker({ value, onSelect, accent, disabledSlug, label }: Props
           <div className="flex items-center gap-4">
             <div className={`relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl border-2 ${accentClasses.border}`}>
               <Image
-                src={getCharacterImage(value.slug)}
+                src={getCharacterThumb(value.slug)}
                 alt={value.name}
                 fill
                 className="object-cover object-top"
@@ -159,7 +159,7 @@ function CharacterPicker({ value, onSelect, accent, disabledSlug, label }: Props
                     >
                       <div className="relative h-9 w-9 flex-shrink-0 overflow-hidden rounded-lg border border-pirate-border/30">
                         <Image
-                          src={getCharacterImage(char.slug)}
+                          src={getCharacterThumb(char.slug)}
                           alt={char.name}
                           fill
                           className="object-cover object-top"

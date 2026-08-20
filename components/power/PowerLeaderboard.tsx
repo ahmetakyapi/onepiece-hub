@@ -7,7 +7,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Crown, Medal, Sparkles } from 'lucide-react'
 import { POWER_LEVELS, STAT_LABELS } from '@/lib/constants/power-levels'
 import { CHARACTERS } from '@/lib/constants/characters'
-import { getCharacterImage } from '@/lib/constants/images'
+import { getCharacterImage, getCharacterThumb } from '@/lib/constants/images'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
 
 type SortMode = 'overall' | 'strength' | 'speed' | 'haki' | 'devilFruit' | 'intelligence' | 'endurance'
@@ -27,7 +27,10 @@ interface TieredCharacter {
   name: string
   overall: number
   stat?: number
+  /** Podyum görseli (200px) — tam portre */
   image?: string
+  /** Sıra avatarı (48px) — 192px'lik küçük kopya */
+  thumb?: string
   tier: 'yonko' | 'admiral' | 'supernova' | 'rookie'
 }
 
@@ -57,6 +60,9 @@ function PowerLeaderboard() {
       const character = CHARACTERS.find(c => c.slug === stats.slug)
       const name = character?.name || '?'
       const image = character ? getCharacterImage(character.slug) : undefined
+      /* 48px'lik sıra avatarı küçük kopyayı alır; 200px'lik podyum
+         görseli tam portrede kalır (thumb 192px, hafif ölçeklenirdi). */
+      const thumb = character ? getCharacterThumb(character.slug) : undefined
 
       const stat = sortMode === 'overall' ? stats.overall : stats.stats[sortMode as keyof typeof stats.stats]
 
@@ -66,6 +72,7 @@ function PowerLeaderboard() {
         overall: stats.overall,
         stat,
         image,
+        thumb,
         tier: getTier(stats.overall),
       } as TieredCharacter
     }).sort((a, b) => (b.stat ?? 0) - (a.stat ?? 0))
@@ -190,10 +197,10 @@ function PowerLeaderboard() {
                   <div className="pointer-events-none absolute -right-6 -top-6 h-16 w-16 rounded-full bg-gold/[0.05] blur-[30px] group-hover:bg-gold/[0.1]" />
 
                   <div className="relative flex items-center gap-3">
-                    {char.image && (
+                    {char.thumb && (
                       <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg border border-pirate-border/30">
                         <Image
-                          src={char.image}
+                          src={char.thumb}
                           alt={char.name}
                           fill
                           className="object-cover object-top"
