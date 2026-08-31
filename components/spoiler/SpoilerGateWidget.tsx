@@ -9,7 +9,7 @@ import { modalBackdrop, modalPanel, EASE } from '@/lib/variants'
 import { useSpoilerGate } from '@/hooks/useSpoilerGate'
 
 export default function SpoilerGateWidget() {
-  const { enabled, currentArcSlug, currentArcIndex, mounted, setEnabled, setCurrentArc } = useSpoilerGate()
+  const { enabled, currentArcSlug, currentArcIndex, mounted, active, hiddenCount, setEnabled, setCurrentArc } = useSpoilerGate()
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -42,17 +42,17 @@ export default function SpoilerGateWidget() {
         onClick={() => setOpen(true)}
         style={{ bottom: 'calc(max(env(safe-area-inset-bottom), 0px) + 88px)' }}
         className={`fixed right-4 z-40 inline-flex items-center gap-2 rounded-full border px-3 py-2.5 text-xs font-semibold backdrop-blur-md transition-all hover:-translate-y-0.5 hover:shadow-lg md:!bottom-6 md:left-6 md:right-auto md:px-4 ${
-          enabled
+          active
             ? 'border-luffy/40 bg-luffy/[0.08] text-luffy hover:bg-luffy/[0.12]'
             : 'border-pirate-border/40 bg-ocean-deep/80 text-pirate-muted hover:text-pirate-text hover:border-gold/40'
         }`}
         aria-label="Spoiler ayarları"
       >
-        {enabled ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+        {active ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
         <span className="hidden sm:inline">
-          {enabled
-            ? currentArc ? `Spoiler: ${currentArcIndex + 1}/${totalArcs}` : 'Spoiler Koru'
-            : 'Spoiler Ayarı'}
+          {active
+            ? `Spoiler: ${currentArcIndex + 1}/${totalArcs}`
+            : enabled ? 'Arc Seç' : 'Spoiler Ayarı'}
         </span>
       </motion.button>
 
@@ -74,13 +74,13 @@ export default function SpoilerGateWidget() {
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
-                className="pointer-events-auto flex max-h-[85vh] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-pirate-border/40 bg-ocean-elevated shadow-2xl"
+                className="pointer-events-auto flex max-h-[85dvh] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-pirate-border/40 bg-ocean-elevated shadow-2xl"
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="spoiler-gate-title"
               >
               {/* Header */}
-              <div className="flex items-start gap-4 border-b border-pirate-border/20 p-5">
+              <div className="flex shrink-0 items-start gap-4 border-b border-pirate-border/20 p-5">
                 <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border border-gold/20 bg-gold/10">
                   <Shield className="h-5 w-5 text-gold" />
                 </div>
@@ -102,11 +102,21 @@ export default function SpoilerGateWidget() {
               </div>
 
               {/* Toggle */}
-              <div className="flex items-center justify-between gap-4 px-5 py-4 border-b border-pirate-border/15">
+              <div className="flex shrink-0 items-center justify-between gap-4 px-5 py-4 border-b border-pirate-border/15">
                 <div className="min-w-0">
-                  <p className="text-sm font-bold text-pirate-text">Spoiler Korumasını Aç</p>
-                  <p className="text-[11px] text-pirate-muted mt-0.5">
-                    Yalnızca arc listelerinde uygulanır
+                  <p id="spoiler-gate-switch-label" className="text-sm font-bold text-pirate-text">
+                    Korumayı Aç
+                  </p>
+                  {/* Durum her zaman açıkça yazılır. Eskiden açıkken arc seçilmemişse
+                      hiçbir şey olmuyor ama sebebi hiçbir yerde söylenmiyordu. */}
+                  <p className="mt-0.5 text-[11px] text-pirate-muted" aria-live="polite">
+                    {active
+                      ? hiddenCount > 0
+                        ? `Bu arc’tan sonraki ${hiddenCount} arc gizleniyor`
+                        : 'Son arc’tasın, gizlenecek arc kalmadı'
+                      : enabled
+                        ? 'Aşağıdan son izlediğin arc’ı seç'
+                        : 'Duraklatıldı, hiçbir kart gizlenmiyor'}
                   </p>
                 </div>
                 <button
@@ -116,6 +126,7 @@ export default function SpoilerGateWidget() {
                   }`}
                   role="switch"
                   aria-checked={enabled}
+                  aria-labelledby="spoiler-gate-switch-label"
                 >
                   {/* Topuz `ink` ile sürülüyor: dark'ta beyaz, light'ta lacivert —
                       iki temada da kendi rayının üstünde görünür kalıyor. */}
@@ -128,8 +139,12 @@ export default function SpoilerGateWidget() {
               </div>
 
               {/* Arc picker (only when enabled) */}
-              <div className={`transition-all ${enabled ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}>
-                <div className="px-5 pb-2 pt-4">
+              {/* Seçici her zaman kullanılabilir: bir arc seçmek korumayı zaten açar.
+                  Eskiden kapalıyken %40 opaklıkta ama TAM YÜKSEKLİKTE duruyordu;
+                  kısa ekranlarda footer'ı panelden dışarı itip "Tamam" düğmesini
+                  tıklanamaz yapan ölü blok buydu. */}
+              <div className="flex min-h-0 flex-1 flex-col">
+                <div className="shrink-0 px-5 pb-2 pt-4">
                   <p className="eyebrow mb-2 text-gold/70">
                     Son İzlediğin Arc
                   </p>
@@ -142,7 +157,7 @@ export default function SpoilerGateWidget() {
                     </div>
                   )}
                 </div>
-                <div className="max-h-72 overflow-y-auto scrollbar-thin px-5 pb-5 space-y-3">
+                <div className="min-h-0 flex-1 overflow-y-auto scrollbar-thin px-5 pb-5 space-y-3">
                   {groupedArcs.map(({ saga, arcs }) => (
                     <div key={saga.slug}>
                       <p className="eyebrow mb-1.5 text-[9px] text-pirate-muted/70">
@@ -155,6 +170,7 @@ export default function SpoilerGateWidget() {
                             <button
                               key={arc.slug}
                               onClick={() => setCurrentArc(isCurrent ? null : arc.slug)}
+                              aria-pressed={isCurrent}
                               className={`rounded-lg border px-2.5 py-1 text-[11px] font-semibold transition-all ${
                                 isCurrent
                                   ? 'border-gold/40 bg-gold/15 text-gold shadow-[0_0_16px_rgb(var(--gold)/0.2)]'
@@ -172,7 +188,7 @@ export default function SpoilerGateWidget() {
               </div>
 
               {/* Footer actions */}
-              <div className="flex items-center justify-between gap-3 border-t border-pirate-border/15 p-4">
+              <div className="flex shrink-0 items-center justify-between gap-3 border-t border-pirate-border/15 p-4">
                 {currentArc ? (
                   <button
                     onClick={() => setCurrentArc(null)}
