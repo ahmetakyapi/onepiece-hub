@@ -15,7 +15,7 @@ export function generateMetadata({ params }: Props): Metadata {
   const df = getDevilFruitBySlug(params.slug)
   if (!df) return { title: 'Şeytan Meyvesi Bulunamadı' }
   return {
-    title: `${df.name} — Şeytan Meyvesi`,
+    title: `${df.name} - Şeytan Meyvesi`,
     description: df.description,
   }
 }

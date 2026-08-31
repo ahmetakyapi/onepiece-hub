@@ -79,7 +79,7 @@ export default function VideoStage({
         <iframe
           key={reloadKey}
           src={src}
-          title={`${episodeTitle} — ${arcName} (Bölüm ${globalEpisode}) · ${PLAYER_SOURCE.name} oynatıcı`}
+          title={`${episodeTitle} - ${arcName} (Bölüm ${globalEpisode}) · ${PLAYER_SOURCE.name} oynatıcı`}
           onLoad={onLoad}
           allowFullScreen
           allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
@@ -124,7 +124,7 @@ export default function VideoStage({
           {/* Sahne her iki temada da koyu — metin tonları beyaz tarafta kalır */}
           <p className="text-sm font-bold text-white">Bölüm Yükleniyor</p>
           <p className="max-w-xs text-xs leading-relaxed text-white/60">
-            {arcName} · Bölüm {globalEpisode} — video {PLAYER_SOURCE.name} üzerinden geliyor.
+            {arcName} · Bölüm {globalEpisode}. Video {PLAYER_SOURCE.name} üzerinden geliyor.
           </p>
         </div>
       )}

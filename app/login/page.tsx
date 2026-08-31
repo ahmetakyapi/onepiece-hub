@@ -240,7 +240,7 @@ export default function LoginPage() {
                             }`}
                             style={active ? ({ '--crew-glow': c.rgb } as React.CSSProperties) : undefined}
                             aria-pressed={active}
-                            aria-label={`${c.name} — ${c.tagline}`}
+                            aria-label={`${c.name}: ${c.tagline}`}
                           >
                             <div
                               className={`flex h-7 w-7 items-center justify-center rounded-lg transition-all duration-300 ${

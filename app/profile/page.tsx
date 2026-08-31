@@ -323,7 +323,7 @@ export default function ProfilePage() {
                             {arc.name}
                           </p>
                           <p className="text-xs text-pirate-muted">
-                            Sonraki: {nextEpisode!.title} —{' '}
+                            Sonraki: {nextEpisode!.title} ·{' '}
                             <span className="font-mono">{watchedCount}/{arc.episodeCount}</span> izlendi
                           </p>
                         </div>

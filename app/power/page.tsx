@@ -6,7 +6,7 @@ import PowerLeaderboard from '@/components/power/PowerLeaderboard'
 /* /power → tier bazlı sıralama · /power-ranking → radar chart'lı stat analizi.
    Başlıkları bilerek ayrı: aynı başlıkla iki sayfa SEO'da birbirini yiyordu. */
 export const metadata: Metadata = {
-  title: 'Güç Sıralaması — Tier Listesi',
+  title: 'Güç Sıralaması - Tier Listesi',
   description:
     'One Piece karakterlerinin tier bazlı güç sıralaması. Yonko, Komutan ve Supernova seviyeleri; stat bazında sırala.',
 }

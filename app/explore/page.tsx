@@ -17,6 +17,7 @@ import { CHARACTERS, CREW_LABELS } from '@/lib/constants/characters'
 import { DEVIL_FRUITS, DEVIL_FRUIT_TYPE_INFO } from '@/lib/constants/devil-fruits'
 import { BATTLES, BATTLE_CATEGORIES } from '@/lib/constants/battles'
 import { SAGAS } from '@/lib/constants/sagas'
+import { SITE_STATS } from '@/lib/constants/stats'
 import { getArcImage, getCharacterImage } from '@/lib/constants/images'
 import { CREW_COLORS } from '@/lib/constants/crew-styles'
 import { parseBounty, formatBounty } from '@/lib/utils'
@@ -160,7 +161,7 @@ export default function ExplorePage() {
                     <div className="mb-5 rounded-xl border-l-2 border-gold/40 bg-ocean-deep/40 p-2.5 backdrop-blur-sm sm:mb-6 sm:p-3">
                       <p className="text-[13px] italic text-pirate-text/85 sm:text-base">&ldquo;{FEATURED_QUOTE}&rdquo;</p>
                       <p className="eyebrow mt-1 text-gold/70">
-                        — {FEATURED_QUOTE_BY}
+                        {FEATURED_QUOTE_BY}
                       </p>
                     </div>
                     <div className="flex flex-wrap items-center gap-2 sm:gap-3">
@@ -477,7 +478,7 @@ export default function ExplorePage() {
                 Grand Line Rotası
               </p>
               <h2 className="text-xl font-extrabold text-pirate-text sm:text-2xl">
-                10 Saga — 36 Arc
+                {SITE_STATS.sagas} Saga · {SITE_STATS.arcs} Arc
               </h2>
             </div>
           </div>

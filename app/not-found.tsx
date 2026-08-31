@@ -62,7 +62,7 @@ export default function NotFound() {
             </div>
             <div className="flex-shrink-0 self-end sm:self-center">
               <SpeechBubble tail="bottom-right" variant="whisper">
-                Kaybolmak da maceranın bir parçası — Zoro
+                Kaybolmak da maceranın bir parçası. Zoro
               </SpeechBubble>
             </div>
           </div>

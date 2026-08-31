@@ -20,7 +20,7 @@ function parseBounty(b?: string): number {
 }
 
 function formatBerry(n: number): string {
-  if (n === 0) return '—'
+  if (n === 0) return '-'
   if (n >= 1_000_000_000) return `${(n / 1_000_000_000).toFixed(2)}B`
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(0)}M`
   return n.toLocaleString('tr-TR')

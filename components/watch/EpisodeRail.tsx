@@ -255,7 +255,7 @@ export default function EpisodeRail({
         {visibleEpisodes.length === 0 ? (
           <p className="px-2 py-6 text-center text-[12px] text-pirate-muted">
             {filter === 'unwatched'
-              ? 'Bu arc’ın tüm bölümlerini izledin 🎉'
+              ? 'Bu arc’ın tüm bölümlerini izledin.'
               : 'Eşleşen bölüm yok'}
           </p>
         ) : (

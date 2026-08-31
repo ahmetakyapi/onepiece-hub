@@ -56,7 +56,7 @@ const FULL_PATH: GuideStep[] = [
     episodes: '6 Arc', duration: '~61 bölüm',
     description: 'Luffy\'nin macerası burada başlıyor. Hasır Şapka mürettebatının ilk üyelerini topladığı efsanevi başlangıç.',
     icon: Anchor, color: 'text-sea', accent: 'var(--sea)',
-    highlights: ['Luffy\'nin hikayesi başlıyor', 'Zoro, Nami, Usopp, Sanji katılır', 'Arlong Park — ilk büyük duygusal doruk'],
+    highlights: ['Luffy\'nin hikayesi başlıyor', 'Zoro, Nami, Usopp, Sanji katılır', 'Arlong Park: ilk büyük duygusal doruk'],
     arcSlugs: ['romance-dawn', 'orange-town', 'syrup-village', 'baratie', 'arlong-park', 'loguetown'],
   },
   {
@@ -74,7 +74,7 @@ const FULL_PATH: GuideStep[] = [
     episodes: '2 Arc', duration: '~43 bölüm',
     description: 'Gökyüzü adası Skypiea! Enel ile efsanevi savaş ve One Piece evreninin derinlikleri.',
     icon: Sparkles, color: 'text-accent-cyan', accent: '34 211 238',
-    highlights: ['Skypiea — gökyüzü adası', 'Enel vs Luffy', 'Poneglyph\'ler ve kayıp tarih'],
+    highlights: ['Skypiea: gökyüzü adası', 'Enel vs Luffy', 'Poneglyph\'ler ve kayıp tarih'],
     arcSlugs: ['jaya', 'skypiea'],
   },
   {
@@ -101,7 +101,7 @@ const FULL_PATH: GuideStep[] = [
     episodes: '5 Arc', duration: '~79 bölüm',
     description: 'En epik saga. Ace\'i kurtarmak için Impel Down, Marineford Savaşı ve serinin dönüm noktası.',
     icon: Flame, color: 'text-accent-orange', accent: '251 146 60',
-    highlights: ['Impel Down cezaevi kaçışı', 'Marineford — tüm güçlerin savaşı', 'Ace\'in kaderi', '2 yıllık eğitim'],
+    highlights: ['Impel Down cezaevi kaçışı', 'Marineford: tüm güçlerin savaşı', 'Ace\'in kaderi', '2 yıllık eğitim'],
     arcSlugs: ['sabaody-archipelago', 'amazon-lily', 'impel-down', 'marineford', 'post-war'],
   },
   {
@@ -119,7 +119,7 @@ const FULL_PATH: GuideStep[] = [
     episodes: '2 Arc', duration: '~69 bölüm',
     description: 'Doflamingo\'nun imparatorluğuna karşı dev savaş! Law ittifakı ve Gear 4.',
     icon: Swords, color: 'text-accent-rose', accent: '251 113 133',
-    highlights: ['Law-Luffy ittifakı', 'Doflamingo vs Luffy — Gear 4', 'Hasır Şapka Büyük Filosu kurulur'],
+    highlights: ['Law-Luffy ittifakı', 'Doflamingo vs Luffy: Gear 4', 'Hasır Şapka Büyük Filosu kurulur'],
     arcSlugs: ['punk-hazard', 'dressrosa'],
   },
   {
@@ -128,7 +128,7 @@ const FULL_PATH: GuideStep[] = [
     episodes: '4 Arc', duration: '~130 bölüm',
     description: 'İmparatorlara meydan okuma! Big Mom, Kaido ve destansı Wano savaşı.',
     icon: Crown, color: 'text-gold-bright', accent: 'var(--gold-bright)',
-    highlights: ['Sanji\'nin geçmişi ve kurtarılması', 'Wano — samuray ülkesi', 'Kaido vs Luffy — Gear 5', 'Luffy Yonko olur'],
+    highlights: ['Sanji\'nin geçmişi ve kurtarılması', 'Wano: samuray ülkesi', 'Kaido vs Luffy: Gear 5', 'Luffy Yonko olur'],
     arcSlugs: ['zou', 'whole-cake-island', 'reverie', 'wano'],
   },
   {
@@ -137,7 +137,7 @@ const FULL_PATH: GuideStep[] = [
     episodes: '1+ Arc', duration: 'Devam ediyor',
     description: 'Son saga! Vegapunk, Dünya Hükümeti sırları ve One Piece\'e giden yol.',
     icon: Star, color: 'text-accent-amber', accent: '252 211 77',
-    highlights: ['Egghead — Vegapunk adası', 'Dünya Hükümeti\'nin sırları', 'Void Century ortaya çıkıyor'],
+    highlights: ['Egghead: Vegapunk adası', 'Dünya Hükümeti\'nin sırları', 'Void Century ortaya çıkıyor'],
     arcSlugs: ['egghead'],
   },
 ]
@@ -145,14 +145,14 @@ const FULL_PATH: GuideStep[] = [
 const NETFLIX_PATH: NetflixStep[] = [
   {
     id: 'netflix-s1', season: 'Sezon 1',
-    title: 'Netflix Live Action — Sezon 1',
+    title: 'Netflix Live Action: Sezon 1',
     covers: 'East Blue Saga (Romance Dawn → Arlong Park)',
     description: 'Live action seri, East Blue sagasının büyük bölümünü kapsıyor. Luffy, Zoro, Nami, Usopp ve Sanji\'nin hikayesi.',
     arcSlugs: ['romance-dawn', 'orange-town', 'syrup-village', 'baratie', 'arlong-park'],
   },
   {
     id: 'netflix-s2', season: 'Sezon 2',
-    title: 'Netflix Live Action — Sezon 2',
+    title: 'Netflix Live Action: Sezon 2',
     covers: 'Loguetown → Drum Island (Chopper\'ın katılımına kadar)',
     description: 'Grand Line\'a giriş, Whiskey Peak, Little Garden ve Drum Island. Chopper mürettebata katılıyor ama Alabasta arc\'ına henüz girilmiyor.',
     arcSlugs: ['loguetown', 'reverse-mountain', 'whiskey-peak', 'little-garden', 'drum-island'],

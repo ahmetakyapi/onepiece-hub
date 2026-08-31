@@ -74,7 +74,7 @@ function ArcCard({ arc }: { arc: Arc }) {
             navigate(`/arcs/${arc.slug}`)
           }}
           className="bento-card group relative flex flex-col overflow-hidden"
-          aria-label={blocked ? `Spoiler — ${arc.saga ?? ''} gizli arc. Göstermek için tıkla.` : undefined}
+          aria-label={blocked ? `Spoiler: ${arc.saga ?? ''} gizli arc. Göstermek için tıkla.` : undefined}
         >
           {/* Holographic shine overlay */}
           <motion.div

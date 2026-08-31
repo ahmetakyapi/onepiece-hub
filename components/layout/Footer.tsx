@@ -37,7 +37,7 @@ export default function Footer() {
         <div className="grid gap-12 md:grid-cols-5">
           {/* Logo + tagline — spans 2 cols */}
           <div className="md:col-span-2 flex flex-col items-center md:items-start animate-fade-in-up">
-            <Link href="/" aria-label="One Piece Hub — ana sayfa" className="group mb-4">
+            <Link href="/" aria-label="One Piece Hub ana sayfa" className="group mb-4">
               <BrandLockup
                 markSize={32}
                 size="md"
@@ -88,7 +88,7 @@ export default function Footer() {
         {/* Bottom */}
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           <p className="text-[11px] text-pirate-muted/50" suppressHydrationWarning>
-            &copy; {new Date().getFullYear()} One Piece Hub &mdash; Fan projesi. One Piece, Eiichiro Oda&apos;ya aittir.
+            &copy; {new Date().getFullYear()} One Piece Hub. Fan projesidir; One Piece, Eiichiro Oda&apos;ya aittir.
           </p>
           <div className="flex items-center gap-4">
             <a

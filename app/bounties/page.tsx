@@ -643,10 +643,10 @@ export default function BountiesPage() {
                   <span className="eyebrow text-gold">Eğlenceli Bilgi</span>
                 </div>
                 <p className="text-sm leading-relaxed text-pirate-text">
-                  Chopper&apos;ın ödülü sadece <span className="font-mono font-bold text-gold">1.000 Berry</span> — Dünya Hükümeti onu mürettebatın maskotu (evcil hayvanı) sanıyor! Bu, tüm One Piece evrenindeki en düşük aktif korsan ödülü.
+                  Chopper&apos;ın ödülü sadece <span className="font-mono font-bold text-gold">1.000 Berry</span>. Dünya Hükümeti onu mürettebatın maskotu (evcil hayvanı) sanıyor! Bu, tüm One Piece evrenindeki en düşük aktif korsan ödülü.
                 </p>
                 <p className="mt-1.5 text-[11px] italic text-pirate-muted">
-                  &quot;Ben bir geyik değilim, bir Tanuki&apos;yim!&quot; — Chopper (muhtemelen)
+                  &quot;Ben bir geyik değilim, bir Tanuki&apos;yim!&quot; - Chopper (muhtemelen)
                 </p>
               </div>
             </div>

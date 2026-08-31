@@ -102,7 +102,7 @@ export default function SeriesStatus() {
             </h2>
             <p className="mt-1.5 max-w-lg text-[13px] leading-relaxed text-pirate-muted sm:text-sm">
               Manga, anime ve One Pace üç farklı hızda ilerliyor. Nerede olduğunu
-              buradan takip et — sitedeki bölümler{' '}
+              buradan takip et. Sitedeki bölümler{' '}
               <Link
                 href={`/arcs/${WATCHABLE_THROUGH.arcSlug}`}
                 className="font-semibold text-pirate-text underline decoration-gold/40 decoration-dotted underline-offset-2 transition-colors hover:text-gold"

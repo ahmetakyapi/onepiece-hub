@@ -407,9 +407,9 @@ export default function WatchPageClient({
                 aria-modal={mode === 'cinema' ? true : undefined}
                 aria-label={
                   mode === 'cinema'
-                    ? `Sinema modu — ${episode.title}`
+                    ? `Sinema modu: ${episode.title}`
                     : mode === 'mini'
-                      ? `Mini oynatıcı — ${episode.title}`
+                      ? `Mini oynatıcı: ${episode.title}`
                       : undefined
                 }
               >
@@ -638,7 +638,7 @@ export default function WatchPageClient({
               >
                 {PLAYER_SOURCE.name}
               </a>{' '}
-              üzerinden geliyor — Türkçe altyazılı One Pace sürümü.
+              üzerinden geliyor. Türkçe altyazılı One Pace sürümü.
               {remaining !== null && loadState === 'ready' && (
                 <span className="ml-auto hidden font-mono text-pirate-muted/40 sm:inline">
                   ~{formatSeconds(remaining)} kaldı

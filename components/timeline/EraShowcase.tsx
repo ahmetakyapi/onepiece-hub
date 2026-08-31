@@ -47,7 +47,7 @@ const ERAS: Era[] = [
     id: 'east-blue',
     label: 'East Blue',
     headline: 'Mürettebat Kuruluyor',
-    desc: 'Luffy 17 yaşında denize açıldı. Zoro, Nami, Usopp, Sanji — her biri kendi hayalinin peşinde katıldı. Arlong yenildi, Grand Line bekliyor.',
+    desc: 'Luffy 17 yaşında denize açıldı. Zoro, Nami, Usopp ve Sanji kendi hayallerinin peşinde katıldı. Arlong yenildi, Grand Line bekliyor.',
     icon: Compass,
     accent: 'var(--sea-light)',
     years: 'Yıl 1',
@@ -65,7 +65,7 @@ const ERAS: Era[] = [
     id: 'new-world',
     label: 'New World',
     headline: 'Joy Boy Uyanıyor',
-    desc: 'Doflamingo, Big Mom, Kaido birer birer yenildi. Luffy Gear 5\'i uyandırdı — Nika geri döndü. Yonko ilan edildi. Laugh Tale yakında.',
+    desc: 'Doflamingo, Big Mom, Kaido birer birer yenildi. Luffy Gear 5\'i uyandırdı: Nika geri döndü. Yonko ilan edildi. Laugh Tale yakında.',
     icon: Swords,
     accent: 'var(--luffy)',
     years: 'Yıl 3+',
@@ -189,9 +189,8 @@ export default function EraShowcase() {
                 style={{ width: progress }}
               />
             </div>
-            <p className="eyebrow mt-2 flex items-center justify-center gap-1.5 text-center text-gold/80">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-gold" />
-              Kaydırmaya devam — 900 yıllık yolculuk
+            <p className="eyebrow mt-2 text-center text-gold/80">
+              900 yıllık yolculuk
             </p>
           </div>
         </div>

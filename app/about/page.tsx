@@ -23,7 +23,7 @@ const FEATURES = [
   {
     icon: Film,
     title: 'Arc Bazlı İzleme',
-    description: `One Pace düzeniyle filler bölümler çıkarılmış, saf hikâye deneyimi. ${SITE_STATS.arcs} arc, ${SITE_STATS.episodes} bölüm — derli toplu.`,
+    description: `One Pace düzeniyle filler bölümler çıkarılmış, saf hikâye deneyimi. ${SITE_STATS.arcs} arc, ${SITE_STATS.episodes} bölüm, derli toplu.`,
     color: 'text-sea',
     bg: 'bg-sea/10',
     borderColor: 'border-sea/20',

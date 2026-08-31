@@ -37,6 +37,8 @@ const totalRuntimeSeconds = ARCS.reduce(
 
 const totalQuizQuestions = QUIZZES.reduce((sum, quiz) => sum + quiz.questions.length, 0)
 
+const totalTechniques = CHARACTERS.reduce((sum, char) => sum + char.abilities.length, 0)
+
 export const SITE_STATS = {
   sagas: SAGAS.length,
   arcs: ARCS.length,
@@ -50,6 +52,8 @@ export const SITE_STATS = {
   quizzes: QUIZZES.length,
   quizQuestions: totalQuizQuestions,
   achievements: ACHIEVEMENTS.length,
+  /** Karakter yeteneklerinden türeyen teknik arşivi boyutu */
+  techniques: totalTechniques,
   /** Tüm bölümlerin toplam süresi — saniye */
   runtimeSeconds: totalRuntimeSeconds,
   /** Aşağı yuvarlanmış toplam saat — "212 saat" gibi gösterim için */

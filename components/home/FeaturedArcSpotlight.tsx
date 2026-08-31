@@ -12,7 +12,7 @@ import { useViewTransition } from '@/hooks/useViewTransition'
 
 const FEATURED_SLUG = 'marineford'
 const FEATURED_QUOTE = 'Hepsi... hayalimde idi.'
-const FEATURED_ATTRIBUTION = 'Edward Newgate — Beyaz Sakal'
+const FEATURED_ATTRIBUTION = 'Edward Newgate, Beyaz Sakal'
 
 export default function FeaturedArcSpotlight() {
   const arc = getArcBySlug(FEATURED_SLUG)
