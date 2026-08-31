@@ -3,6 +3,7 @@ import { Manrope, Space_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { AuthProvider } from '@/hooks/useAuth'
 import { ThemeProvider } from '@/hooks/useTheme'
+import { SpoilerGateProvider } from '@/hooks/useSpoilerGate'
 import { THEME_INIT_SCRIPT } from '@/lib/theme-config'
 import { ClientLayout } from '@/components/layout/ClientLayout'
 import { SITE_STATS } from '@/lib/constants/stats'
@@ -112,7 +113,9 @@ export default function RootLayout({
       <body className={`${manrope.className} bg-ocean-deep`} suppressHydrationWarning>
         <ThemeProvider>
           <AuthProvider>
-            <ClientLayout>{children}</ClientLayout>
+            <SpoilerGateProvider>
+              <ClientLayout>{children}</ClientLayout>
+            </SpoilerGateProvider>
           </AuthProvider>
         </ThemeProvider>
         <Analytics />
