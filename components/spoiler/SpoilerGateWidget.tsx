@@ -68,19 +68,19 @@ export default function SpoilerGateWidget() {
               onClick={() => setOpen(false)}
               className="fixed inset-0 z-[60] bg-black/70 backdrop-blur-md"
             />
-            <div className="pointer-events-none fixed inset-0 z-[70] flex items-center justify-center p-4">
+            <div className="pointer-events-none fixed inset-0 z-[70] flex items-center justify-center overflow-y-auto p-4">
               <motion.div
                 variants={modalPanel}
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
-                className="pointer-events-auto flex max-h-[85dvh] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-pirate-border/40 bg-ocean-elevated shadow-2xl"
+                className="pointer-events-auto my-auto flex max-h-[85dvh] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-pirate-border/40 bg-ocean-elevated shadow-2xl"
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="spoiler-gate-title"
               >
               {/* Header */}
-              <div className="flex shrink-0 items-start gap-4 border-b border-pirate-border/20 p-5">
+              <div className="flex shrink-0 items-start gap-4 border-b border-pirate-border/20 p-5 short:p-3">
                 <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border border-gold/20 bg-gold/10">
                   <Shield className="h-5 w-5 text-gold" />
                 </div>
@@ -88,7 +88,7 @@ export default function SpoilerGateWidget() {
                   <h2 id="spoiler-gate-title" className="text-lg font-bold text-pirate-text">
                     Spoiler Koruması
                   </h2>
-                  <p className="mt-0.5 text-xs text-pirate-muted sm:text-sm">
+                  <p className="mt-0.5 text-xs text-pirate-muted sm:text-sm short:hidden">
                     İzlediğin son arc&apos;ı seç; sonraki arc kartları bulanıklaştırılır.
                   </p>
                 </div>
@@ -102,7 +102,7 @@ export default function SpoilerGateWidget() {
               </div>
 
               {/* Toggle */}
-              <div className="flex shrink-0 items-center justify-between gap-4 px-5 py-4 border-b border-pirate-border/15">
+              <div className="flex shrink-0 items-center justify-between gap-4 px-5 py-4 border-b border-pirate-border/15 short:py-2">
                 <div className="min-w-0">
                   <p id="spoiler-gate-switch-label" className="text-sm font-bold text-pirate-text">
                     Korumayı Aç
@@ -143,8 +143,8 @@ export default function SpoilerGateWidget() {
                   Eskiden kapalıyken %40 opaklıkta ama TAM YÜKSEKLİKTE duruyordu;
                   kısa ekranlarda footer'ı panelden dışarı itip "Tamam" düğmesini
                   tıklanamaz yapan ölü blok buydu. */}
-              <div className="flex min-h-0 flex-1 flex-col">
-                <div className="shrink-0 px-5 pb-2 pt-4">
+              <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+                <div className="shrink-0 px-5 pb-2 pt-4 short:hidden">
                   <p className="eyebrow mb-2 text-gold/70">
                     Son İzlediğin Arc
                   </p>
@@ -157,7 +157,7 @@ export default function SpoilerGateWidget() {
                     </div>
                   )}
                 </div>
-                <div className="min-h-0 flex-1 overflow-y-auto scrollbar-thin px-5 pb-5 space-y-3">
+                <div className="min-h-[5rem] flex-1 overflow-y-auto scrollbar-thin px-5 pb-5 space-y-3 short:pt-3 short:pb-3">
                   {groupedArcs.map(({ saga, arcs }) => (
                     <div key={saga.slug}>
                       <p className="eyebrow mb-1.5 text-[9px] text-pirate-muted/70">
@@ -188,7 +188,7 @@ export default function SpoilerGateWidget() {
               </div>
 
               {/* Footer actions */}
-              <div className="flex shrink-0 items-center justify-between gap-3 border-t border-pirate-border/15 p-4">
+              <div className="flex shrink-0 items-center justify-between gap-3 border-t border-pirate-border/15 p-4 short:p-2.5">
                 {currentArc ? (
                   <button
                     onClick={() => setCurrentArc(null)}
