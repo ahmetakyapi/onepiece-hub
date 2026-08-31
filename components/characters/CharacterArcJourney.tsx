@@ -85,7 +85,7 @@ function CharacterArcJourney({ firstArc, appearances, characterName }: Props) {
           <div>
             <p className="eyebrow text-pirate-muted/60">İlk Arc</p>
             <p className="truncate text-sm font-bold text-luffy">
-              {ARCS.find(a => a.slug === firstArc)?.name ?? '—'}
+              {ARCS.find(a => a.slug === firstArc)?.name ?? '-'}
             </p>
           </div>
         </div>

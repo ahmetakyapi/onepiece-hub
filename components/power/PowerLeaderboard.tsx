@@ -108,12 +108,13 @@ function PowerLeaderboard() {
 
       {/* Podium — Top 3 */}
       <motion.div variants={fadeUp}>
-        <h2 className="mb-6 text-2xl font-bold text-gold drop-shadow-[0_2px_8px_rgb(var(--gold)/0.2)]">
-          🏆 Zirve
+        <h2 className="mb-6 flex items-center gap-2 text-2xl font-bold text-gold drop-shadow-[0_2px_8px_rgb(var(--gold)/0.2)]">
+          <Crown className="h-6 w-6" />
+          Zirve
         </h2>
         <div className="grid gap-4 sm:grid-cols-3">
           {top3.map((char, idx) => {
-            const medals = ['🥇', '🥈', '🥉']
+            const medalTone = ['text-gold', 'text-accent-silver', 'text-accent-bronze']
             return (
               <motion.div
                 key={char.slug}
@@ -135,7 +136,9 @@ function PowerLeaderboard() {
                 )}
 
                 <div className="relative">
-                  <div className="mb-2 text-center text-4xl">{medals[idx]}</div>
+                  <div className="mb-2 flex justify-center">
+                    <Medal className={`h-9 w-9 ${medalTone[idx]}`} aria-label={`${idx + 1}. sıra`} />
+                  </div>
                   <p className="eyebrow mb-1 text-center text-gold/80">
                     #{idx + 1}
                   </p>

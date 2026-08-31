@@ -73,7 +73,7 @@ export default function FavoriteButton({ targetType, targetSlug, className = '' 
         toast({
           kind: 'success',
           title: data.data.favorited ? 'Favorilere eklendi' : 'Favorilerden kaldırıldı',
-          message: data.data.favorited ? 'Kayıt defterine işlendi — profilinden erişebilirsin.' : undefined,
+          message: data.data.favorited ? 'Kayıt defterine işlendi. Profilinden erişebilirsin.' : undefined,
         })
       } else {
         setFavorited((prev) => !prev)

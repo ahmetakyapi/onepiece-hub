@@ -22,7 +22,7 @@ export function generateMetadata({ params }: Props): Metadata {
   const episode = arc.episodes.find((e) => e.slug === params.episode)
   if (!episode) return { title: 'Bulunamadı' }
   return {
-    title: `${episode.title} — ${arc.name}`,
+    title: `${episode.title} - ${arc.name}`,
     description: `${arc.name} arc'ından ${episode.title} bölümünü izle`,
   }
 }

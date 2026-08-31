@@ -30,7 +30,7 @@ const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://onepiece-hub.vercel.
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: 'One Piece Hub — Macera Başlasın',
+    default: 'One Piece Hub - Macera Başlasın',
     template: '%s | One Piece Hub',
   },
   description: `One Piece evrenini keşfet. ${SITE_STATS.arcs} arc'ta ${SITE_STATS.episodes} filler'sız bölüm, ${SITE_STATS.characters} karakterlik ansiklopedi, izleme takibi, quiz ve daha fazlası.`,
@@ -40,13 +40,13 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'tr_TR',
     siteName: 'One Piece Hub',
-    title: 'One Piece Hub — Macera Başlasın',
+    title: 'One Piece Hub - Macera Başlasın',
     description: 'Filler\'sız arc bazlı bölümler, karakter ansiklopedisi, izleme takibi ve daha fazlası.',
     images: [{ url: '/hero.webp', width: 1200, height: 630, alt: 'One Piece Hub' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'One Piece Hub — Macera Başlasın',
+    title: 'One Piece Hub - Macera Başlasın',
     description: 'Filler\'sız arc bazlı bölümler, karakter ansiklopedisi, izleme takibi ve daha fazlası.',
     images: ['/hero.webp'],
   },

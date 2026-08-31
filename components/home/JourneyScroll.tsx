@@ -51,7 +51,7 @@ const MILESTONES = [
     era: 'Uyanış',
     title: 'Güneş Tanrısı Nika',
     subtitle: 'Gear 5',
-    description: 'Efsane gerçek olur. Yüzyılların karanlığını aydınlatacak güç uyanır. Luffy artık sadece bir korsan değil — özgürlüğün kendisidir.',
+    description: 'Efsane gerçek olur. Yüzyılların karanlığını aydınlatacak güç uyanır. Luffy artık sadece bir korsan değil, özgürlüğün kendisidir.',
     icon: Flame,
     color: 'text-gold',
     bg: 'from-gold/20 to-gold/5',
@@ -186,7 +186,7 @@ export default function JourneyScroll() {
             transition={{ duration: 0.6, ease: EASE, delay: 0.2 }}
             className="mx-auto max-w-lg text-sm text-pirate-muted sm:text-base"
           >
-            Foosha Köyü&apos;nden Laugh Tale&apos;e — scroll ile bu destansı yolculuğu keşfet.
+            Foosha Köyü&apos;nden Laugh Tale&apos;e uzanan destansı yolculuk.
           </motion.p>
         </div>
 

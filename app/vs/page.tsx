@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import VersusClient from '@/components/vs/VersusClient'
 
 export const metadata: Metadata = {
-  title: 'Karşılaştır — Kim Daha Güçlü?',
+  title: 'Karşılaştır - Kim Daha Güçlü?',
   description: 'İki One Piece karakterini yan yana karşılaştır. Ödül, güç stats, yetenek ve daha fazlası.',
 }
 
@@ -16,7 +16,7 @@ export default function VsPage() {
 
         <div className="relative mx-auto max-w-4xl text-center">
           <p className="eyebrow-lg mb-3 text-luffy/80">
-            ⚔️ Karşı Karşıya
+            Karşı Karşıya
           </p>
           {/* Beyaz metin + siyah drop-shadow ikilisi light temada kayboluyordu;
               ikisi de token'a çekildi. */}
@@ -25,7 +25,7 @@ export default function VsPage() {
           </h1>
           <p className="mx-auto max-w-xl text-sm leading-relaxed text-pirate-text/70 drop-shadow-[0_2px_8px_rgb(var(--ocean-deep)/0.4)] sm:text-base">
             İki karakter seç, tüm istatistiklerini yan yana karşılaştır.
-            Ödül, güç seviyesi, yetenek sayısı — hepsi detaylı.
+            Ödül, güç seviyesi, yetenek sayısı: hepsi yan yana.
           </p>
         </div>
       </section>

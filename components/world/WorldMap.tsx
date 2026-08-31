@@ -76,7 +76,7 @@ export default function WorldMap() {
             <div className="h-2 w-2 rounded-full bg-sea/60" />
           </div>
           <span className="eyebrow text-pirate-muted/60">
-            One Piece — Dünya Haritası
+            One Piece Dünya Haritası
           </span>
         </div>
 

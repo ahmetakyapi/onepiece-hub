@@ -163,7 +163,7 @@ export default function CommentSection({ targetType, targetSlug }: Props) {
         </div>
       ) : comments.length === 0 ? (
         <div className="py-8 text-center">
-          <p className="text-sm text-pirate-muted/40">Henüz yorum yok — ilk yorumu sen yap!</p>
+          <p className="text-sm text-pirate-muted/40">Henüz yorum yok. İlk yorumu sen yap!</p>
         </div>
       ) : (
         <AnimatePresence>

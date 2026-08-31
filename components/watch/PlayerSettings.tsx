@@ -174,7 +174,7 @@ export default function PlayerSettings({
             </button>
           </div>
           <p className="px-2 pb-2 text-[10px] leading-snug text-pirate-muted/80">
-            Video kadrajı kaymışsa buradan düzelt — ayar bu cihazda saklanır.
+            Video kadrajı kaymışsa buradan düzelt. Ayar bu cihazda saklanır.
           </p>
           <div className="space-y-2 px-2 pb-1">
             {GEOMETRY_FIELDS.map((field) => {

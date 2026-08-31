@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useScroll, useTransform, useInView } from 'framer-motion'
-import { Play, Compass, Cherry, Shield, Globe, Anchor, Swords, Trophy, Clock, ArrowRight, Sparkles, Map, Skull, ChevronDown, Zap, BookOpen } from 'lucide-react'
+import { Play, Compass, Cherry, Shield, Globe, Anchor, Swords, Trophy, Clock, ArrowRight, Sparkles, Map, Skull, Zap, BookOpen } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
@@ -53,59 +53,74 @@ const lineReveal = {
    `cyan-*` yazılıydı, light temada beyaz kart üstünde CTA metni ve rozet
    okunmuyordu. `accent-cyan` tema ile 400 → 700 seviyeye döner, dört rengin
    ayrımı iki temada da korunur. */
+/* Bento ritmi: satırlar 7/5 ve 5/7 olarak ofsetlenir. Dört öğe → dört hücre,
+   eşit dört sütun tekrarı da boş hücre de yok. */
+const TOOL_CELL = [
+  'lg:col-span-7',
+  'lg:col-span-5',
+  'lg:col-span-5',
+  'lg:col-span-7',
+] as const
+
 const TOOLS = [
   {
     icon: BookOpen,
     label: 'Sagalar',
     href: '/sagas',
-    desc: 'One Piece\'in 10 destansı sagası, cinematic showcase',
+    desc: `One Piece'in ${SITE_STATS.sagas} sagası, sinematik vitrinle`,
     tag: 'Yeni',
     accent: 'text-accent-cyan',
     hoverAccent: 'group-hover:text-accent-cyan',
     accentBg: 'bg-accent-cyan/10',
     accentBorder: 'border-accent-cyan/30',
     glow: 'bg-accent-cyan/[0.12]',
+    /* Yalnız büyük hücrede kullanılır: kartların hepsi düz yüzey olmasın */
+    featureBg: 'from-accent-cyan/[0.10] via-ocean-surface/40 to-ocean-surface/20',
   },
   {
     icon: Swords,
     label: 'Güç Sıralaması',
     href: '/power',
-    desc: 'Karakter stat\'leri, tier sistemi ve podium',
+    desc: 'Karakter statleri, tier sistemi ve podyum',
     tag: 'Dinamik',
     accent: 'text-gold',
     hoverAccent: 'group-hover:text-gold',
     accentBg: 'bg-gold/10',
     accentBorder: 'border-gold/30',
     glow: 'bg-gold/[0.12]',
+    featureBg: 'from-gold/[0.10] via-ocean-surface/40 to-ocean-surface/20',
   },
   {
     icon: Zap,
     label: 'Teknikler',
     href: '/techniques',
-    desc: 'Haki, meyve, kılıç — 200+ yetenek arşivi',
+    desc: `Haki, meyve ve kılıç: ${SITE_STATS.techniques} yetenek arşivi`,
     tag: 'Filtre',
     accent: 'text-fruit',
     hoverAccent: 'group-hover:text-fruit',
     accentBg: 'bg-fruit-strong/10',
     accentBorder: 'border-fruit-strong/30',
     glow: 'bg-fruit-strong/[0.12]',
+    featureBg: 'from-fruit-strong/[0.10] via-ocean-surface/40 to-ocean-surface/20',
   },
   {
     icon: Swords,
     label: 'Karşılaştır',
     href: '/vs',
-    desc: 'İki karakter seç, tüm stat\'ler yan yana',
+    desc: 'İki karakter seç, tüm statler yan yana',
     tag: 'Etkileşimli',
     accent: 'text-luffy',
     hoverAccent: 'group-hover:text-luffy',
     accentBg: 'bg-luffy/10',
     accentBorder: 'border-luffy/30',
     glow: 'bg-luffy/[0.12]',
+    featureBg: 'from-luffy/[0.10] via-ocean-surface/40 to-ocean-surface/20',
   },
 ] as const
 
 /* ─── Wiki Section Data ───────────────────────────────────────────────── */
-/* `count` değerleri SITE_STATS'ten türetilir — elle sayı yazılmaz */
+/* `count` SITE_STATS'ten türetilir, elle sayı yazılmaz. `null` = sayılabilir
+   bir koleksiyon değil (eylem/rehber kartı); sayı yerine ok render edilir. */
 const WIKI_ITEMS = [
   { icon: Cherry, label: 'Şeytan Meyveleri', href: '/devil-fruits', count: String(SITE_STATS.devilFruits), desc: 'Tüm meyveler', color: 'text-fruit', bg: 'from-fruit-strong/15 to-fruit-strong/5', borderHover: 'hover:border-fruit-strong/25' },
   { icon: Shield, label: 'Haki Rehberi', href: '/haki', count: '3', desc: 'Haki türleri', color: 'text-gold', bg: 'from-gold/15 to-gold/5', borderHover: 'hover:border-gold/25' },
@@ -113,10 +128,10 @@ const WIKI_ITEMS = [
   { icon: Anchor, label: 'Organizasyonlar', href: '/crews', count: String(SITE_STATS.crews), desc: 'Mürettebatlar', color: 'text-accent-emerald', bg: 'from-accent-emerald/15 to-accent-emerald/5', borderHover: 'hover:border-accent-emerald/25' },
   { icon: Swords, label: 'Efsanevi Savaşlar', href: '/battles', count: String(SITE_STATS.battles), desc: 'İkonik dövüşler', color: 'text-luffy', bg: 'from-luffy/15 to-luffy/5', borderHover: 'hover:border-luffy/25' },
   { icon: Trophy, label: 'Ödül Sıralaması', href: '/bounties', count: String(SITE_STATS.bounties), desc: 'Bounty listesi', color: 'text-gold-bright', bg: 'from-gold-bright/15 to-gold-bright/5', borderHover: 'hover:border-gold-bright/25' },
-  { icon: Clock, label: 'Zaman Çizelgesi', href: '/timeline', count: '25+', desc: 'Kronolojik olaylar', color: 'text-accent-cyan', bg: 'from-accent-cyan/15 to-accent-cyan/5', borderHover: 'hover:border-accent-cyan/25' },
-  { icon: Map, label: 'İzleme Rehberi', href: '/guide', count: 'Yeni', desc: 'Nereden başla?', color: 'text-accent-emerald', bg: 'from-accent-emerald/15 to-accent-emerald/5', borderHover: 'hover:border-accent-emerald/25' },
+  { icon: Clock, label: 'Zaman Çizelgesi', href: '/timeline', count: null, desc: 'Kronolojik olaylar', color: 'text-accent-cyan', bg: 'from-accent-cyan/15 to-accent-cyan/5', borderHover: 'hover:border-accent-cyan/25' },
+  { icon: Map, label: 'İzleme Rehberi', href: '/guide', count: null, desc: 'Nereden başla?', color: 'text-accent-emerald', bg: 'from-accent-emerald/15 to-accent-emerald/5', borderHover: 'hover:border-accent-emerald/25' },
   { icon: Compass, label: 'Tüm Arc\'lar', href: '/arcs', count: String(SITE_STATS.arcs), desc: 'Arc rehberi', color: 'text-sea-light', bg: 'from-sea-light/15 to-sea-light/5', borderHover: 'hover:border-sea-light/25' },
-  { icon: Skull, label: 'Wanted Poster', href: '/wanted-poster', count: 'Oluştur', desc: 'Kendi ödülünü tasarla', color: 'text-gold', bg: 'from-gold/15 to-gold/5', borderHover: 'hover:border-gold/30' },
+  { icon: Skull, label: 'Wanted Poster', href: '/wanted-poster', count: null, desc: 'Kendi ödülünü tasarla', color: 'text-gold', bg: 'from-gold/15 to-gold/5', borderHover: 'hover:border-gold/30' },
 ] as const
 
 export default function Home() {
@@ -154,7 +169,7 @@ export default function Home() {
         {/* ─── Hero — Single-screen, normal scroll ────────────────── */}
         <section
           ref={heroRef}
-          className="relative z-10 h-screen min-h-[640px] overflow-hidden"
+          className="relative z-10 min-h-[max(100dvh,640px)] overflow-hidden"
         >
           {/* Single full-bleed background image with Ken Burns */}
           <motion.div
@@ -178,7 +193,7 @@ export default function Home() {
           {/* Hero content — positioned center-bottom */}
           <motion.div
             style={parallaxEnabled ? { opacity: heroContentOpacity } : undefined}
-            className="relative z-10 flex h-full flex-col items-center px-6 pt-[8vh] text-center sm:pt-[12vh] md:pt-[16vh]"
+            className="relative z-10 flex min-h-[max(100dvh,640px)] flex-col items-center px-6 pt-[8vh] text-center sm:pt-[12vh] md:pt-[16vh]"
           >
             <motion.div
               initial={{ opacity: 0, y: 16, scale: 0.9 }}
@@ -278,25 +293,6 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* Bottom scroll hint — bounces gently */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.6, duration: 0.8 }}
-            className="pointer-events-none absolute inset-x-0 bottom-6 z-20 flex flex-col items-center gap-1.5 sm:bottom-8"
-          >
-            <span className="eyebrow text-pirate-text/50 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
-              Keşfetmeye başla
-            </span>
-            <motion.div
-              animate={{ y: [0, 6, 0] }}
-              transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-              className="flex h-7 w-7 items-center justify-center rounded-full border border-gold/30 bg-ocean-deep/60 backdrop-blur-md"
-            >
-              <ChevronDown className="h-3.5 w-3.5 text-gold" />
-            </motion.div>
-          </motion.div>
-
           {/* Wave transition at bottom */}
           <WaveBackground />
         </section>
@@ -345,37 +341,35 @@ export default function Home() {
               initial={{ opacity: 0, y: 24 }}
               animate={toolsInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, ease: EASE }}
-              className="mb-10 text-center sm:mb-12"
+              className="mb-10 max-w-2xl sm:mb-12"
             >
-              <motion.p
-                initial={{ opacity: 0, y: 8 }}
-                animate={toolsInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, ease: EASE, delay: 0.1 }}
-                className="eyebrow-lg mb-3 text-gold/70"
-              >
-                ⚡ Etkileşimli Araçlar
-              </motion.p>
               <h2 className="mb-3 text-2xl font-extrabold sm:text-3xl lg:text-4xl">
                 <span className="text-gold-gradient">Araştır</span>{' '}
                 <span className="text-pirate-text">& Karşılaştır</span>
               </h2>
-              <p className="mx-auto max-w-xl text-sm text-pirate-muted sm:text-base">
-                One Piece evrenini kendi yöntemlerinle keşfet — saga&apos;lardan güç sıralamasına, teknik arşivinden karakter karşılaştırmalarına.
+              <p className="text-sm leading-relaxed text-pirate-muted sm:text-base">
+                Saga vitrininden güç sıralamasına, teknik arşivinden karakter
+                karşılaştırmasına: evreni kendi sorularınla dolaş.
               </p>
             </motion.div>
 
-            {/* Tools Grid — 2 col sm, 4 col lg */}
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Tools bento — mobilde tek, sm'de iki, lg'de asimetrik 12 sütun */}
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-12">
               {TOOLS.map((tool, i) => (
                 <motion.div
                   key={tool.href}
                   initial={{ opacity: 0, y: 28 }}
                   animate={toolsInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, ease: EASE, delay: 0.2 + i * 0.08 }}
+                  className={TOOL_CELL[i]}
                 >
                   <Link
                     href={tool.href}
-                    className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border ${tool.accentBorder} bg-ocean-surface/30 p-5 transition-all duration-500 hover:-translate-y-1 hover:bg-ocean-surface/50 hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.4)]`}
+                    className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border ${tool.accentBorder} ${
+                      i === 0
+                        ? `bg-gradient-to-br ${tool.featureBg} p-6 sm:p-7`
+                        : 'bg-ocean-surface/30 p-5 hover:bg-ocean-surface/50'
+                    } transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.4)]`}
                   >
                     <div className={`pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full ${tool.glow} blur-[60px] transition-opacity duration-500 group-hover:opacity-150`} />
 
@@ -391,10 +385,10 @@ export default function Home() {
 
                     {/* Content */}
                     <div className="relative flex-1">
-                      <h3 className={`mb-2 text-lg font-extrabold text-pirate-text transition-colors duration-300 ${tool.hoverAccent} sm:text-xl`}>
+                      <h3 className={`mb-2 font-extrabold text-pirate-text transition-colors duration-300 ${tool.hoverAccent} ${i === 0 ? 'text-xl sm:text-2xl' : 'text-lg sm:text-xl'}`}>
                         {tool.label}
                       </h3>
-                      <p className="text-xs leading-relaxed text-pirate-muted sm:text-[13px]">
+                      <p className={`leading-relaxed text-pirate-muted ${i === 0 ? 'text-[13px] sm:text-sm' : 'text-xs sm:text-[13px]'}`}>
                         {tool.desc}
                       </p>
                     </div>
@@ -424,21 +418,12 @@ export default function Home() {
               transition={{ duration: 0.7, ease: EASE }}
               className="mb-12 text-center"
             >
-              <motion.div
-                initial={{ scale: 0, opacity: 0 }}
-                animate={wikiInView ? { scale: 1, opacity: 1 } : {}}
-                transition={{ duration: 0.5, ease: EASE, delay: 0.1 }}
-                className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-gold/15 bg-gold/[0.06]"
-              >
-                <Sparkles className="h-6 w-6 text-gold" />
-              </motion.div>
               <h2 className="mb-3 text-2xl font-extrabold sm:text-3xl lg:text-4xl">
-                <span className="text-gold-gradient">Ansiklopedi</span>{' '}
-                <span className="text-pirate-text">& Wiki</span>
+                <span className="text-gold-gradient">Ansiklopedi</span>
               </h2>
               <p className="mx-auto max-w-lg text-sm text-pirate-muted sm:text-base">
-                One Piece evreninin derinliklerine dal. Şeytan Meyvelerinden Haki&apos;ye,
-                dünya coğrafyasından efsanevi savaşlara kadar her şey burada.
+                Şeytan Meyvelerinden Haki&apos;ye, dünya coğrafyasından efsanevi
+                savaşlara: on başlıkta tüm referans.
               </p>
             </motion.div>
 
@@ -450,6 +435,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 24 }}
                   animate={wikiInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.5, ease: EASE, delay: 0.15 + i * 0.06 }}
+                  className={i >= WIKI_ITEMS.length - 2 ? 'lg:col-span-2' : undefined}
                 >
                   <Link
                     href={item.href}
@@ -460,14 +446,18 @@ export default function Home() {
                       <item.icon className={`h-5 w-5 ${item.color} transition-transform duration-500 group-hover:rotate-12`} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-bold text-pirate-text transition-colors duration-300 group-hover:text-pirate-text">
-                        {item.label}
-                      </p>
+                      <p className="text-sm font-bold text-pirate-text">{item.label}</p>
                       <p className="text-[10px] text-pirate-muted/60">{item.desc}</p>
                     </div>
-                    <span className={`text-lg font-extrabold ${item.color} opacity-60 transition-opacity group-hover:opacity-100`}>
-                      {item.count}
-                    </span>
+                    {item.count ? (
+                      <span className={`font-mono text-lg font-extrabold ${item.color} opacity-60 transition-opacity group-hover:opacity-100`}>
+                        {item.count}
+                      </span>
+                    ) : (
+                      <ArrowRight
+                        className={`h-4 w-4 flex-shrink-0 ${item.color} opacity-50 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100`}
+                      />
+                    )}
                   </Link>
                 </motion.div>
               ))}

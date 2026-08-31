@@ -4,7 +4,7 @@ import { memo } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { ArrowRight, Film, BookOpen, Sparkles, Compass } from 'lucide-react'
+import { ArrowRight, Film, BookOpen, Sparkles, Compass, Anchor } from 'lucide-react'
 import { getArcImage } from '@/lib/constants/images'
 import { ACCENT_CLASSES, type SagaMeta } from '@/lib/constants/saga-meta'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
@@ -177,7 +177,7 @@ function SagaShowcase({ sagas }: { sagas: SagaCardData[] }) {
         className="mt-8 flex flex-col items-center gap-3 rounded-2xl border border-dashed border-gold/30 bg-ocean-surface/20 py-8 text-center"
       >
         <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gold/10 border border-gold/30">
-          <span className="text-xl">🏴‍☠️</span>
+          <Anchor className="h-5 w-5 text-gold" />
         </div>
         <div>
           <p className="text-sm font-bold text-gold">Yolculuk Sürüyor</p>

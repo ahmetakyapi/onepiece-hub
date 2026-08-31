@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Giriş Yap',
-  description: 'One Piece Hub hesabınıza giriş yapın — izleme takibi, quiz ve daha fazlası.',
+  description: 'One Piece Hub hesabınıza giriş yapın; izleme takibi, quiz ve daha fazlası seni bekliyor.',
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {

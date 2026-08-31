@@ -5,7 +5,7 @@ import { SAGA_META } from '@/lib/constants/saga-meta'
 import SagaShowcase, { type SagaCardData } from '@/components/sagas/SagaShowcase'
 
 export const metadata: Metadata = {
-  title: 'Sagalar — One Piece Destanı',
+  title: 'Sagalar - One Piece Destanı',
   description: 'One Piece evreninin 10 destansı sagası. Her biri kendine özgü dünyalar, antagonistler ve dönüm noktaları.',
 }
 
@@ -51,7 +51,7 @@ export default function SagasPage() {
 
         <div className="relative mx-auto max-w-4xl text-center">
           <p className="eyebrow-lg mb-3 text-gold/70">
-            ⚓ Büyük Hikaye
+            Büyük Hikaye
           </p>
           {/* Zemin görsel değil temalı degrade — siyah drop-shadow light temada
               koyu metnin arkasında leke bırakıyordu, kaldırıldı. */}

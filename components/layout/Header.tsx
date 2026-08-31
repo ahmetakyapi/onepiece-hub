@@ -91,7 +91,7 @@ export default function Header() {
           }`}
         >
           {/* Logo — pusula işareti + wordmark */}
-          <Link href="/" className="group relative flex items-center" aria-label="One Piece Hub — ana sayfa">
+          <Link href="/" className="group relative flex items-center" aria-label="One Piece Hub ana sayfa">
             <BrandLockup
               markSize={scrolled ? 30 : 38}
               size="md"

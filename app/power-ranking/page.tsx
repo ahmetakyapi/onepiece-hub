@@ -5,7 +5,7 @@ import PowerRankingClient from '@/components/power-ranking/PowerRankingClient'
 export const metadata: Metadata = {
   title: 'Detaylı Stat Analizi',
   description:
-    'One Piece karakterlerinin radar grafikli stat kırılımı — güç, hız, haki, meyve, zeka ve dayanıklılık karşılaştırması.',
+    'One Piece karakterlerinin radar grafikli stat kırılımı: güç, hız, haki, meyve, zeka ve dayanıklılık karşılaştırması.',
 }
 
 export default function PowerRankingPage() {

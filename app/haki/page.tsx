@@ -67,7 +67,7 @@ const HAKI_TYPES: HakiType[] = [
     description: 'Çevredeki canlıların varlığını, duygularını ve niyetlerini hissetme yeteneği. İleri seviyede birkaç saniye geleceği görebilir. "Mantra" olarak da bilinir (Skypiea\'da).',
     howItWorks: 'Kullanıcının zihinsel farkındalığını genişleterek çevresindeki yaşam enerjilerini (aura) algılamasını sağlar. Her canlının benzersiz bir aurası vardır ve deneyimli kullanıcılar bu auraları uzak mesafelerden bile algılayabilir. Duygusal durum, niyet ve hatta düşünceler bile ileri seviye kullanıcılar tarafından okunabilir.',
     advancedForms: [
-      { name: 'Gelecek Görüşü (Future Sight)', icon: Eye, description: 'En ileri seviye Kenbunshoku. Kullanıcı birkaç saniye ilerisini görebilir — düşmanın saldırısını gerçekleşmeden önce görerek kaçınır. Charlotte Katakuri bu formun ustasıdır. Luffy, Whole Cake Island\'da bu seviyeye ulaştı.' },
+      { name: 'Gelecek Görüşü (Future Sight)', icon: Eye, description: 'En ileri seviye Kenbunshoku. Kullanıcı birkaç saniye ilerisini görebilir. Düşmanın saldırısını gerçekleşmeden önce görerek kaçınır. Charlotte Katakuri bu formun ustasıdır. Luffy, Whole Cake Island\'da bu seviyeye ulaştı.' },
       { name: 'Geniş Alan Taraması', icon: Radio, description: 'Büyük bir alanı tarayarak tüm canlıları algılama. Enel, Goro Goro meyvesiyle kombine ederek tüm Skypiea\'yı tarayabiliyordu. Aisa ve Koby doğastan bu yeteneğe sahip.' },
       { name: 'Duygu Okuma', icon: Sparkles, description: 'Canlıların duygusal durumunu ve niyetini okuma. Otohime bu konuda ustaydı. Luffy, hayvanlarla bile iletişim kurabilecek seviyeye ulaştı.' },
     ],
@@ -83,7 +83,7 @@ const HAKI_TYPES: HakiType[] = [
       { name: 'Aisa', slug: 'aisa', level: 'basic', note: 'Doğastan, Skypiea' },
     ],
     firstSeen: 'Skypiea (Mantra olarak)',
-    rarity: 'Yaygın — eğitimle öğrenilebilir',
+    rarity: 'Yaygın, eğitimle öğrenilebilir',
   },
   {
     id: 'busoshoku',
@@ -116,7 +116,7 @@ const HAKI_TYPES: HakiType[] = [
       { name: 'Tashigi', slug: 'tashigi', level: 'basic' },
     ],
     firstSeen: 'Sabaody Archipelago',
-    rarity: 'Yaygın — eğitimle öğrenilebilir',
+    rarity: 'Yaygın, eğitimle öğrenilebilir',
   },
   {
     id: 'haoshoku',
@@ -130,7 +130,7 @@ const HAKI_TYPES: HakiType[] = [
     borderColor: 'border-gold/30',
     glowColor: 'rgb(var(--gold) / 0.15)',
     description: 'Milyonda bir kişide bulunan en nadir Haki türü. Kullanıcının iradesini başkalarına dayatmasını sağlar. Zayıf iradeli kişiler bayılır. İleri seviyede saldırılara Haki akıtılarak yıkıcı güç elde edilir.',
-    howItWorks: 'Haoshoku Haki, kullanıcının ruhani iradesinin fiziksel bir güç olarak dışa vurumudur. Eğitimle öğrenilemez — ya doğastan sahipsinizdir ya da değilsinizdir. Temel formda iradenizi dalgalar halinde yayarak zayıf iradeliyi bayıltırsınız. İleri seviyede fiziksel temas olmadan saldırı yapılabilir.',
+    howItWorks: 'Haoshoku Haki, kullanıcının ruhani iradesinin fiziksel bir güç olarak dışa vurumudur. Eğitimle öğrenilemez: ya doğuştan sahipsinizdir ya da değilsinizdir. Temel formda iradenizi dalgalar halinde yayarak zayıf iradeliyi bayıltırsınız. İleri seviyede fiziksel temas olmadan saldırı yapılabilir.',
     advancedForms: [
       { name: 'Haoshoku İnfüzyonu (Coating)', icon: Crown, description: 'En ileri seviye. Saldırılara Haoshoku Haki akıtarak fiziksel temas olmadan yıkıcı hasar verme. Gök ikiye bölünür. Luffy, Kaido\'ya karşı bu seviyeye ulaştı. Zoro da Enma ile kılıcına Haoshoku akıttı.' },
       { name: 'İrade Dalgası', icon: Zap, description: 'Geniş alana irade dalgası yayarak zayıf iradeliyi bayıltma. Luffy, Fish-Man Island\'da 50.000 Balık-Adam\'ı tek seferde bayılttı. Shanks, Whitebeard\'in gemisinde yürürken mürettebatı bayılttı.' },
@@ -155,7 +155,7 @@ const HAKI_TYPES: HakiType[] = [
       { name: 'Monkey D. Garp', slug: 'garp', level: 'master', note: 'Galaxy Impact' },
     ],
     firstSeen: 'Marineford (bilinçsiz)',
-    rarity: 'Ultra nadir — milyonda bir',
+    rarity: 'Ultra nadir, milyonda bir',
   },
 ]
 
@@ -198,12 +198,12 @@ const FUN_FACTS: HakiFact[] = [
   { text: 'Fish-Man Island\'da 50.000 Balık-Adam\'ı tek seferde Haoshoku ile bayılttı.', character: 'Luffy', slug: 'luffy', hakiType: 'haoshoku', arc: 'Fish-Man Island' },
   { text: 'Luffy\'ye 18 ay boyunca Rusukaina Adası\'nda üç Haki türünün eğitimini verdi.', character: 'Rayleigh', slug: 'rayleigh', hakiType: 'all' },
   { text: 'Haoshoku çarpışmasında silahları temas etmeden gökyüzü ikiye bölündü.', character: 'Roger & Whitebeard', slug: 'roger', hakiType: 'haoshoku', arc: 'Wano (flashback)' },
-  { text: 'Wano\'da farkında olmadan kılıcına Haoshoku Haki akıttı — King\'i yenmesini sağladı.', character: 'Zoro', slug: 'zoro', hakiType: 'haoshoku', arc: 'Wano' },
+  { text: 'Wano\'da farkında olmadan kılıcına Haoshoku Haki akıttı. Bu, King\'i yenmesini sağladı.', character: 'Zoro', slug: 'zoro', hakiType: 'haoshoku', arc: 'Wano' },
   { text: 'Marineford Savaşı\'nda aşırı stres altında Kenbunshoku Haki\'yi uyandırdı.', character: 'Koby', slug: 'koby', hakiType: 'kenbunshoku', arc: 'Marineford' },
   { text: 'Şeytan Meyvesi olmadan sadece Haki ile "Deniz Kuvvetlerinin Kahramanı" unvanını kazandı.', character: 'Garp', slug: 'garp', hakiType: 'busoshoku' },
   { text: 'Dressrosa\'da Sugar\'ı vurabilmek için bilinçsizce Kenbunshoku Haki uyandırdı.', character: 'Usopp', slug: 'usopp', hakiType: 'kenbunshoku', arc: 'Dressrosa' },
   { text: '5 yaşında farkında olmadan Haoshoku Haki kullanarak Elbaf devlerini bayılttı.', character: 'Big Mom', slug: 'bigmom', hakiType: 'haoshoku', arc: 'Whole Cake Island (flashback)' },
-  { text: 'Galaxy Impact ile sadece Haki gücüyle Yonko seviyesinde savaştı — Şeytan Meyvesi kullanmadan.', character: 'Garp', slug: 'garp', hakiType: 'busoshoku', arc: 'Hachinosu' },
+  { text: 'Galaxy Impact ile Şeytan Meyvesi kullanmadan, sadece Haki gücüyle Yonko seviyesinde savaştı.', character: 'Garp', slug: 'garp', hakiType: 'busoshoku', arc: 'Hachinosu' },
 ]
 
 const HERO_ORBS = [
@@ -429,7 +429,7 @@ export default function HakiPage() {
                 <div>
                   <h2 className={`text-2xl font-extrabold sm:text-3xl ${activeHaki.color}`}>{activeHaki.name}</h2>
                   <p className="font-mono text-xs text-pirate-muted/60">
-                    {activeHaki.japaneseName} — {activeHaki.meaning}
+                    {activeHaki.japaneseName}: {activeHaki.meaning}
                   </p>
                 </div>
               </div>

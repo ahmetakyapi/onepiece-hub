@@ -128,7 +128,7 @@ export default function RelationshipGraph() {
       {isMobile && (
         <div className="bento-card overflow-hidden rounded-2xl p-4">
           <p className="eyebrow mb-3 px-1 text-pirate-muted/70">
-            Karakter seç — ilişkilerini gör
+            Karakter seç, ilişkilerini gör
           </p>
           <div className="-mx-2 flex gap-3 overflow-x-auto px-2 pb-2 scrollbar-thin">
             {GRAPH_CHARACTERS.map((slug) => {

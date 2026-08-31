@@ -45,7 +45,7 @@ export default function TechniquesPage() {
             Teknikler & Yetenekler
           </h1>
           <p className="mx-auto max-w-2xl text-sm leading-relaxed text-pirate-text/70 drop-shadow-[0_2px_8px_rgb(var(--ocean-deep)/0.4)] sm:text-base">
-            Haki&apos;den Şeytan Meyvesi güçlerine, kılıç ustalığından özel savaş tekniklerine kadar One Piece evrenindeki <span className="font-mono font-bold text-gold">{techniques.length}+</span> yetenek.
+            Haki&apos;den Şeytan Meyvesi güçlerine, kılıç ustalığından özel savaş tekniklerine kadar One Piece evrenindeki <span className="font-mono font-bold text-gold">{techniques.length}</span> yetenek.
           </p>
         </div>
       </section>
