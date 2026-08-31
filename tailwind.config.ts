@@ -22,6 +22,11 @@ const config: Config = {
   darkMode: ['class', '[data-theme="dark"]'],
   theme: {
     extend: {
+      /* Yükseklik tabanlı varyant. Yatay mobilde ve kısa masaüstü pencerelerinde
+         modal chrome'unu kısmak için; genişlik breakpoint'leriyle çakışmaz. */
+      screens: {
+        short: { raw: '(max-height: 500px)' },
+      },
       fontFamily: {
         sans: ['var(--font-sans)', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         /* Etiket / veri — Space Mono. Eyebrow'lar, ödüller, bölüm numaraları. */
