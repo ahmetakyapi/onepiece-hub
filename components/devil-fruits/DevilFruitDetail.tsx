@@ -13,6 +13,7 @@ import { DEVIL_FRUIT_TYPE_INFO } from '@/lib/constants/devil-fruits'
 import { getCharacterImage } from '@/lib/constants/images'
 import FavoriteButton from '@/components/ui/FavoriteButton'
 import type { DevilFruitEntry } from '@/types'
+import SplitText from '@/components/motion/SplitText'
 
 export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEntry }) {
   const [parallaxEnabled, setParallaxEnabled] = useState(false)
@@ -99,9 +100,7 @@ export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEnt
             </div>
 
             <div className="mb-2 flex flex-wrap items-center gap-3">
-              <h1 className="text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:text-5xl md:text-6xl">
-                {fruit.name}
-              </h1>
+              <SplitText as="h1" play delay={0.2} className="text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:text-5xl md:text-6xl" text={fruit.name} />
               <FavoriteButton targetType="devil-fruit" targetSlug={fruit.slug} />
             </div>
             <p className="mb-1 font-mono text-sm text-pirate-text/50 drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]">

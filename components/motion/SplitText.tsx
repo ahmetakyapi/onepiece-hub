@@ -3,6 +3,7 @@
 import { motion, useInView, useReducedMotion } from 'framer-motion'
 import { useRef, type ElementType } from 'react'
 import { EASE_REVEAL } from '@/lib/motion'
+import { useIntroReady } from '@/hooks/useIntroReady'
 
 /* Maskeli kelime açılışı — her kelime kendi `overflow: hidden` kutusunun
    altından hafif bir eğimle yükselir. Ödüllü sitelerin başlık imzası.
@@ -42,7 +43,9 @@ export default function SplitText({
   const ref = useRef<HTMLElement>(null)
   const inView = useInView(ref, { once: true, margin: '0px 0px -12% 0px' })
   const reduced = useReducedMotion()
-  const active = play ?? inView
+  // Açılış perdesi kalkmadan oynamaz — yoksa preloader'ın arkasında biterdi
+  const introReady = useIntroReady()
+  const active = (play ?? inView) && introReady
 
   const segments: Part[] = parts ?? [{ text: text ?? '' }]
   const full = segments.map((p) => p.text).join(' ')

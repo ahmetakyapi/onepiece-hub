@@ -17,6 +17,7 @@ import { formatRuntime, getArcRuntimeSeconds } from '@/lib/constants/stats'
 import type { Arc } from '@/types'
 import CommentSection from '@/components/ui/CommentSection'
 import FavoriteButton from '@/components/ui/FavoriteButton'
+import SplitText from '@/components/motion/SplitText'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
@@ -100,9 +101,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                 </span>
               )}
               <div className="mb-3 flex flex-wrap items-center gap-3">
-                <h1 className="text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.7)] sm:text-5xl md:text-6xl">
-                  {arc.name}
-                </h1>
+                <SplitText as="h1" play delay={0.2} className="text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.7)] sm:text-5xl md:text-6xl" text={arc.name} />
                 <FavoriteButton targetType="arc" targetSlug={arc.slug} />
               </div>
               <div className="flex flex-wrap items-center gap-4 text-sm text-pirate-text/80 drop-shadow-[0_2px_8px_rgb(var(--ocean-deep)/0.6)]">

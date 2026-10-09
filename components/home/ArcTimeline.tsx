@@ -8,6 +8,7 @@ import { ChevronRight, Anchor, Compass, Film, ArrowRight } from 'lucide-react'
 import { SAGAS } from '@/lib/constants/sagas'
 import { getArcsBySaga } from '@/lib/constants/arcs'
 import { getArcImage } from '@/lib/constants/images'
+import SplitText from '@/components/motion/SplitText'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
@@ -139,9 +140,7 @@ export default function ArcTimeline() {
           >
             <Compass className="h-6 w-6 text-gold" />
           </motion.div>
-          <h2 className="mb-3 text-3xl font-extrabold text-pirate-text sm:text-4xl">
-            <span className="text-gold-gradient">Grand Line</span> Rotası
-          </h2>
+          <SplitText as="h2" className="mb-3 text-3xl font-extrabold text-pirate-text sm:text-4xl" parts={[{ text: 'Grand Line', className: 'text-gold-gradient' }, { text: 'Rotası' }]} />
           <p className="mx-auto max-w-md text-sm text-pirate-muted sm:text-base">
             East Blue&apos;dan Final Saga&apos;ya kadar tüm maceralar.
             Her saga yeni bir dünyanın kapılarını açar.

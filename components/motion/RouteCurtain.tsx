@@ -113,6 +113,19 @@ export default function RouteCurtain() {
     }
   }, [router, cover])
 
+  // Perde kapanırken geri/ileri tuşu → bekleyen gezinmeyi iptal et, aç.
+  // Yoksa tarayıcı geri gider ama ardından eski hedefe yine push edilirdi.
+  useEffect(() => {
+    const onPop = () => {
+      if (phaseRef.current !== 'covering') return
+      if (pushTimer.current) clearTimeout(pushTimer.current)
+      set('covered')
+      reveal()
+    }
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [reveal, set])
+
   // Programatik tetikleme (event) — router'a erişimi olmayan yerler için
   useEffect(() => {
     const onProgrammatic = (e: Event) => {
