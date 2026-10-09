@@ -278,7 +278,9 @@ html {
   /* Smooth scroll only when user hasn't opted out AND is on a larger screen.
      On mobile, smooth-scroll during sticky/parallax sections causes jank. */
   @media (min-width: 1024px) {
-    html { scroll-behavior: smooth; }
+    /* Lenis aktifken (fare/trackpad) yumuşaklığı o sürer; ikisi birden
+       çalışırsa her karede birbirini ezip titrer. */
+    html:not(.lenis) { scroll-behavior: smooth; }
   }
 }
 
@@ -1281,4 +1283,127 @@ textarea:focus {
   ::view-transition-new(*) {
     animation-duration: 0.01ms !important;
   }
+}
+
+
+/* ═══ Hareket sistemi — açılış · rota perdesi · smooth scroll ═════════════
+   Bileşenler: `components/motion/*`. Orkestrasyon: `lib/motion.ts`. */
+
+/* ── Açılış sekansı ────────────────────────────────────────────────────────
+   Yalnızca `html[data-intro]` varken görünür (INTRO_INIT_SCRIPT yazar).
+   Failsafe: JS hiç çalışmazsa 4.5 sn sonra kendini gizler; JS çalışınca
+   `.is-live` failsafe'i iptal eder ve kontrolü Framer Motion alır. */
+.op-preloader { display: none; }
+html[data-intro] .op-preloader {
+  display: block;
+  animation: op-preloader-failsafe 0.5s ease 4.5s forwards;
+}
+html[data-intro] .op-preloader.is-live { animation: none; }
+@keyframes op-preloader-failsafe {
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
+/* ── Sayfa girişi (app/template.tsx) — YALNIZCA opacity, bkz. dosya notu ── */
+.page-enter { animation: page-enter 0.7s var(--ease-out-expo) both; }
+@keyframes page-enter {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Lenis ─────────────────────────────────────────────────────────────── */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: clip; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
+/* ── İçi boş (kontur) display metni ────────────────────────────────────────
+   Degrade metin kuralıyla aynı desen: önce okunur bir dolgu, kontur yalnız
+   destekleniyorsa. Koşulsuz `color: transparent` yazılsaydı text-stroke
+   desteklenmeyen yerde metin tamamen görünmez olurdu. */
+.text-outline { color: rgb(var(--pirate-text) / 0.18); }
+@supports (-webkit-text-stroke: 1px black) {
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgb(var(--pirate-text) / 0.38);
+  }
+}
+.saga-index { color: rgb(255 255 255 / 0.25); }
+@supports (-webkit-text-stroke: 1px black) {
+  .saga-index {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgb(255 255 255 / 0.55);
+  }
+}
+
+/* ── Kaydırma ipucu damlası ────────────────────────────────────────────── */
+.scroll-cue-drop { animation: scroll-cue 2.2s cubic-bezier(0.76, 0, 0.24, 1) infinite; }
+@keyframes scroll-cue {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(200%); }
+}
+
+/* ── Yuvarlanan link metni ─────────────────────────────────────────────────
+   Hover'da metin yukarı kayar, altından aynı metnin kopyası gelir.
+   Kullanım: <span class="roll-text" data-text="Etiket"><span>Etiket</span></span> */
+.roll-text {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+  line-height: 1.25;
+}
+.roll-text > span,
+.roll-text::after {
+  transition: transform 0.55s var(--ease-out-expo);
+}
+.roll-text::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 100%;
+}
+.group:hover .roll-text > span,
+.group:hover .roll-text::after,
+.group:focus-visible .roll-text > span,
+.group:focus-visible .roll-text::after {
+  transform: translateY(-100%);
+}
+
+/* ── Header gizle/göster ───────────────────────────────────────────────── */
+.header-shell { transition: transform 0.6s var(--ease-out-expo); }
+.header-shell[data-hidden='true'] { transform: translateY(-110%); }
+
+/* ── Dev wordmark (footer) ─────────────────────────────────────────────── */
+.footer-giant {
+  font-size: clamp(3.5rem, 15.5vw, 15rem);
+  line-height: 0.82;
+  letter-spacing: -0.04em;
+}
+
+
+/* ── Rota yükleme ekranı (app/loading.tsx) ─────────────────────────────── */
+.loader-ring {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  animation: loader-draw 1.6s cubic-bezier(0.76, 0, 0.24, 1) infinite;
+}
+@keyframes loader-draw {
+  0%   { stroke-dashoffset: 1; }
+  50%  { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -1; }
+}
+.loader-needle {
+  transform-origin: 50% 50%;
+  animation: loader-seek 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+@keyframes loader-seek {
+  0%, 100% { transform: rotate(-28deg); }
+  50%      { transform: rotate(28deg); }
+}
+.loader-sweep { animation: loader-sweep 1.3s cubic-bezier(0.76, 0, 0.24, 1) infinite; }
+@keyframes loader-sweep {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(400%); }
 }

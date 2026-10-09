@@ -10,7 +10,11 @@ import dynamic from 'next/dynamic'
 import WaveSeparator from '@/components/ui/WaveSeparator'
 import MangaImpactDivider from '@/components/ui/MangaImpactDivider'
 import { EASE } from '@/lib/variants'
+import { EASE_REVEAL } from '@/lib/motion'
 import { SITE_STATS } from '@/lib/constants/stats'
+import { useIntroReady } from '@/hooks/useIntroReady'
+import SplitText from '@/components/motion/SplitText'
+import VelocityMarquee from '@/components/motion/VelocityMarquee'
 
 const ParticleField = dynamic(() => import('@/components/home/ParticleField'), { ssr: false })
 const WaveBackground = dynamic(() => import('@/components/home/WaveBackground'), { ssr: false })
@@ -20,21 +24,24 @@ const ArcTimeline = dynamic(() => import('@/components/home/ArcTimeline'), { ssr
 const JourneyScroll = dynamic(() => import('@/components/home/JourneyScroll'), { ssr: false })
 const FeaturedArcSpotlight = dynamic(() => import('@/components/home/FeaturedArcSpotlight'), { ssr: false })
 const VoidCenturySection = dynamic(() => import('@/components/home/VoidCenturySection'), { ssr: false })
+const SagaVoyage = dynamic(() => import('@/components/home/SagaVoyage'), { ssr: false })
 /* localStorage okur → ssr:false zorunlu */
 const ResumeBar = dynamic(() => import('@/components/watch/ResumeBar'), { ssr: false })
 const SeriesStatus = dynamic(() => import('@/components/series/SeriesStatus'), { ssr: false })
 
 /* ─── Hero Text Animations ────────────────────────────────────────────── */
+/* Maskeli yükselme: her kelime kendi taşma kutusunun altından eğimle çıkar.
+   Animasyonlar `useIntroReady` ile açılış perdesinin kalkmasını bekler —
+   yoksa preloader'ın arkasında oynayıp biterdi. */
 const wordVariants = {
-  hidden: { opacity: 0, y: 30, filter: 'blur(8px)' },
+  hidden: { y: '115%', rotate: 6 },
   visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
+    y: '0%',
+    rotate: 0,
     transition: {
-      delay: 0.3 + i * 0.12,
-      duration: 0.8,
-      ease: EASE,
+      delay: 0.15 + i * 0.09,
+      duration: 1.1,
+      ease: EASE_REVEAL,
     },
   }),
 }
@@ -43,8 +50,38 @@ const lineReveal = {
   hidden: { scaleX: 0 },
   visible: {
     scaleX: 1,
-    transition: { duration: 1.2, ease: EASE, delay: 1.2 },
+    transition: { duration: 1.2, ease: EASE, delay: 0.8 },
   },
+}
+
+/* Kayan şerit içeriği — sayılar SITE_STATS'ten (elle yazılmaz) */
+const MARQUEE_PRIMARY = [
+  "FILLER'SIZ",
+  `${SITE_STATS.arcs} ARC`,
+  `${SITE_STATS.episodes} BÖLÜM`,
+  `${SITE_STATS.sagas} SAGA`,
+  `${SITE_STATS.characters} KARAKTER`,
+] as const
+const MARQUEE_SECONDARY = [
+  'Romance Dawn', 'Arlong Park', 'Alabasta', 'Skypiea', 'Enies Lobby',
+  'Marineford', 'Dressrosa', 'Whole Cake', 'Wano', 'Egghead',
+] as const
+
+function HeroWord({ word, i, ready, className }: { word: string; i: number; ready: boolean; className: string }) {
+  return (
+    <span className="mr-3 inline-block overflow-hidden pb-[0.14em] -mb-[0.14em] align-bottom last:mr-0">
+      <motion.span
+        custom={i}
+        variants={wordVariants}
+        initial="hidden"
+        animate={ready ? 'visible' : 'hidden'}
+        className={`inline-block ${className}`}
+        style={{ transformOrigin: '0% 100%' }}
+      >
+        {word}
+      </motion.span>
+    </span>
+  )
 }
 
 /* ─── Interactive Tools Section Data ──────────────────────────────────── */
@@ -145,6 +182,15 @@ export default function Home() {
   const bgY = useTransform(heroProgress, [0, 1], ['0%', '20%'])
   const bgScale = useTransform(heroProgress, [0, 1], [1.08, 1.18])
   const heroContentOpacity = useTransform(heroProgress, [0, 0.6, 1], [1, 1, 0.2])
+  const heroContentY = useTransform(heroProgress, [0, 1], ['0%', '-18%'])
+  /* Kaydırınca hero görseli kenarlardan içeri çekilip yuvarlak köşeli bir
+     karta dönüşür — sahne "uzaklaşır". */
+  const heroClip = useTransform(
+    heroProgress,
+    [0, 1],
+    ['inset(0% 0% 0% 0% round 0px)', 'inset(6% 4% 10% 4% round 40px)'],
+  )
+  const ready = useIntroReady()
 
   // On mobile the Ken-burns animation already provides motion for the hero
   // image, and scroll-driven transforms add noticeable jank. Gate parallax so
@@ -164,41 +210,65 @@ export default function Home() {
   const toolsRef = useRef<HTMLDivElement>(null)
   const toolsInView = useInView(toolsRef, { once: true, margin: '-80px' })
 
+  /* `<main>` `overflow-x-clip` taşır, `overflow-hidden` DEĞİL: hidden bir
+     kaydırma kabı yaratır ve içindeki `position: sticky` (SagaVoyage)
+     çalışmaz. */
   return (
-      <main className="relative min-h-screen overflow-hidden">
+      <main className="relative min-h-screen overflow-x-clip">
         {/* ─── Hero — Single-screen, normal scroll ────────────────── */}
         <section
           ref={heroRef}
           className="relative z-10 min-h-[max(100dvh,640px)] overflow-hidden"
         >
-          {/* Single full-bleed background image with Ken Burns */}
+          {/* Tam ekran görsel — açılışta çerçeveden genişleyerek açılır,
+              kaydırınca karta dönüşür (clip-path, iki ayrı katman: biri
+              açılış animasyonunu, diğeri kaydırma kırpmasını taşır). */}
           <motion.div
             className="absolute inset-0"
-            style={parallaxEnabled ? { y: bgY, scale: bgScale } : undefined}
+            style={parallaxEnabled ? { clipPath: heroClip } : undefined}
           >
-            <Image
-              src="/hero.webp"
-              alt="One Piece Hero"
-              fill
-              className="object-cover animate-ken-burns"
-              priority
-              sizes="100vw"
-            />
-            {/* Cinematic vignette — stronger bottom so CTAs stay readable */}
-            <div className="absolute inset-0 bg-gradient-to-b from-ocean-deep/50 via-ocean-deep/30 to-ocean-deep" />
-            <div className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-ocean-deep via-ocean-deep/85 to-transparent" />
-            <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-ocean-deep/75 to-transparent" />
+            <motion.div
+              className="absolute inset-0"
+              initial={{ clipPath: 'inset(14% 12% 14% 12% round 32px)' }}
+              animate={ready ? { clipPath: 'inset(0% 0% 0% 0% round 0px)' } : undefined}
+              transition={{ duration: 1.6, ease: EASE_REVEAL }}
+            >
+              <motion.div
+                className="absolute inset-0"
+                style={parallaxEnabled ? { y: bgY, scale: bgScale } : undefined}
+              >
+                <motion.div
+                  className="absolute inset-0"
+                  initial={{ scale: 1.35 }}
+                  animate={ready ? { scale: 1 } : undefined}
+                  transition={{ duration: 2.2, ease: EASE_REVEAL }}
+                >
+                  <Image
+                    src="/hero.webp"
+                    alt="One Piece Hero"
+                    fill
+                    className="object-cover animate-ken-burns"
+                    priority
+                    sizes="100vw"
+                  />
+                </motion.div>
+                {/* Cinematic vignette — stronger bottom so CTAs stay readable */}
+                <div className="absolute inset-0 bg-gradient-to-b from-ocean-deep/50 via-ocean-deep/30 to-ocean-deep" />
+                <div className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-ocean-deep via-ocean-deep/85 to-transparent" />
+                <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-ocean-deep/75 to-transparent" />
+              </motion.div>
+            </motion.div>
           </motion.div>
 
           {/* Hero content — positioned center-bottom */}
           <motion.div
-            style={parallaxEnabled ? { opacity: heroContentOpacity } : undefined}
+            style={parallaxEnabled ? { opacity: heroContentOpacity, y: heroContentY } : undefined}
             className="relative z-10 flex min-h-[max(100dvh,640px)] flex-col items-center px-6 pt-[8vh] text-center sm:pt-[12vh] md:pt-[16vh]"
           >
             <motion.div
               initial={{ opacity: 0, y: 16, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
+              animate={ready ? { opacity: 1, y: 0, scale: 1 } : undefined}
+              transition={{ duration: 0.8, ease: EASE, delay: 0.5 }}
               className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/[0.06] px-4 py-1.5 backdrop-blur-md"
             >
               <Sparkles className="h-3 w-3 text-gold" />
@@ -212,46 +282,30 @@ export default function Home() {
             <div className="max-w-3xl pb-16 sm:pb-28 md:pb-32">
               <h1 className="mb-4 text-4xl font-extrabold leading-[1.1] drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] sm:mb-6 sm:text-5xl md:text-6xl lg:text-7xl">
                 {['One', 'Piece'].map((word, i) => (
-                  <motion.span
-                    key={word}
-                    custom={i}
-                    variants={wordVariants}
-                    initial="hidden"
-                    animate="visible"
-                    className="inline-block text-gold-shimmer mr-3"
-                  >
-                    {word}
-                  </motion.span>
+                  <HeroWord key={word} word={word} i={i} ready={ready} className="text-gold-shimmer" />
                 ))}
                 <br className="sm:hidden" />
                 {['Evrenine', 'Dalmaya'].map((word, i) => (
-                  <motion.span
+                  <HeroWord
                     key={word}
-                    custom={i + 2}
-                    variants={wordVariants}
-                    initial="hidden"
-                    animate="visible"
-                    className="inline-block text-pirate-text mr-3 drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)]"
-                  >
-                    {word}
-                  </motion.span>
+                    word={word}
+                    i={i + 2}
+                    ready={ready}
+                    /* Gölge kelimeye değil h1'e: kelime maske kutusunda
+                       (overflow-hidden) drop-shadow kenardan kesilip
+                       dikdörtgen leke bırakıyordu. */
+                    className="text-pirate-text"
+                  />
                 ))}
                 <br className="hidden sm:block" />
-                <motion.span
-                  custom={4}
-                  variants={wordVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className="inline-block text-gold-shimmer"
-                >
-                  Hazır Mısın?
-                </motion.span>
+                <HeroWord word="Hazır" i={4} ready={ready} className="text-gold-shimmer" />
+                <HeroWord word="Mısın?" i={5} ready={ready} className="text-gold-shimmer" />
               </h1>
 
               <motion.div
                 variants={lineReveal}
                 initial="hidden"
-                animate="visible"
+                animate={ready ? 'visible' : 'hidden'}
                 className="mx-auto mb-6 h-px w-32 origin-left"
                 style={{
                   background: 'linear-gradient(90deg, transparent, rgb(var(--gold) / 0.5), rgb(var(--sea) / 0.5), transparent)',
@@ -260,8 +314,8 @@ export default function Home() {
 
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1, duration: 0.7, ease: EASE }}
+                animate={ready ? { opacity: 1, y: 0 } : undefined}
+                transition={{ delay: 0.75, duration: 0.8, ease: EASE }}
                 className="mx-auto mb-6 max-w-lg text-sm leading-relaxed text-pirate-text/80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] sm:mb-8 sm:text-base"
               >
                 Filler&apos;sız arc bazlı bölümler, karakter ansiklopedisi,
@@ -270,8 +324,8 @@ export default function Home() {
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.15, duration: 0.7, ease: EASE }}
+                animate={ready ? { opacity: 1, y: 0 } : undefined}
+                transition={{ delay: 0.9, duration: 0.8, ease: EASE }}
                 className="flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center sm:gap-4"
               >
                 <Link
@@ -293,6 +347,22 @@ export default function Home() {
             </div>
           </motion.div>
 
+          {/* Kaydırma ipucu — ince çizgi içinde akan altın damla */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={ready ? { opacity: 1 } : undefined}
+            transition={{ delay: 1.6, duration: 0.8 }}
+            className="pointer-events-none absolute bottom-10 right-6 z-10 hidden items-center gap-3 md:flex lg:right-10"
+            aria-hidden
+          >
+            <span className="relative block h-12 w-px overflow-hidden bg-pirate-text/15">
+              <span className="scroll-cue-drop absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-transparent to-gold" />
+            </span>
+            <span className="font-mono text-[10px] font-bold uppercase tracking-[0.35em] text-pirate-text/60 [writing-mode:vertical-rl]">
+              Kaydır
+            </span>
+          </motion.div>
+
           {/* Wave transition at bottom */}
           <WaveBackground />
         </section>
@@ -300,6 +370,30 @@ export default function Home() {
         {/* ─── Stats — tight-to-hero ─────────────────────────────── */}
         <section className="relative z-10 -mt-4 px-6 pt-2 pb-12 sm:mt-0 sm:pt-10 sm:pb-20">
           <StatsBar />
+        </section>
+
+        {/* ─── Kayan şerit — kaydırma hızına duyarlı ────────────────── */}
+        <section className="relative z-10 -rotate-[1.5deg] select-none border-y border-gold/15 bg-ocean-surface/40 py-5 sm:py-7" aria-label={`${SITE_STATS.arcs} arc, ${SITE_STATS.episodes} bölüm, filler yok`}>
+          <VelocityMarquee baseVelocity={-2.2}>
+            {MARQUEE_PRIMARY.map((t) => (
+              <span key={t} className="flex items-center">
+                <span className="text-outline px-6 text-5xl font-extrabold uppercase tracking-tight sm:px-10 sm:text-7xl lg:text-8xl">
+                  {t}
+                </span>
+                <span className="text-2xl text-gold sm:text-4xl">✦</span>
+              </span>
+            ))}
+          </VelocityMarquee>
+          <VelocityMarquee baseVelocity={1.6} className="mt-2 sm:mt-3">
+            {MARQUEE_SECONDARY.map((t) => (
+              <span key={t} className="flex items-center">
+                <span className="px-5 font-mono text-sm font-bold uppercase tracking-[0.3em] text-gold sm:text-base">
+                  {t}
+                </span>
+                <span className="h-1 w-1 rounded-full bg-pirate-muted/50" />
+              </span>
+            ))}
+          </VelocityMarquee>
         </section>
 
         {/* ─── Kaldığın yerden devam et ──────────────────────────── */}
@@ -324,6 +418,9 @@ export default function Home() {
         {/* ─── Featured Arc Spotlight ─────────────────────────── */}
         <FeaturedArcSpotlight />
 
+        {/* ─── Saga Rotası — sabitlenmiş yatay galeri ──────────────── */}
+        <SagaVoyage />
+
         {/* ─── Void Century Section (Scene 2 reborn as chapter break) ─── */}
         <VoidCenturySection />
 
@@ -343,10 +440,14 @@ export default function Home() {
               transition={{ duration: 0.7, ease: EASE }}
               className="mb-10 max-w-2xl sm:mb-12"
             >
-              <h2 className="mb-3 text-2xl font-extrabold sm:text-3xl lg:text-4xl">
-                <span className="text-gold-gradient">Araştır</span>{' '}
-                <span className="text-pirate-text">& Karşılaştır</span>
-              </h2>
+              <SplitText
+                as="h2"
+                className="mb-3 text-3xl font-extrabold sm:text-4xl lg:text-5xl"
+                parts={[
+                  { text: 'Araştır', className: 'text-gold-gradient' },
+                  { text: '& Karşılaştır', className: 'text-pirate-text' },
+                ]}
+              />
               <p className="text-sm leading-relaxed text-pirate-muted sm:text-base">
                 Saga vitrininden güç sıralamasına, teknik arşivinden karakter
                 karşılaştırmasına: evreni kendi sorularınla dolaş.
@@ -418,9 +519,11 @@ export default function Home() {
               transition={{ duration: 0.7, ease: EASE }}
               className="mb-12 text-center"
             >
-              <h2 className="mb-3 text-2xl font-extrabold sm:text-3xl lg:text-4xl">
-                <span className="text-gold-gradient">Ansiklopedi</span>
-              </h2>
+              <SplitText
+                as="h2"
+                className="mb-3 text-3xl font-extrabold sm:text-4xl lg:text-5xl"
+                parts={[{ text: 'Ansiklopedi', className: 'text-gold-gradient' }]}
+              />
               <p className="mx-auto max-w-lg text-sm text-pirate-muted sm:text-base">
                 Şeytan Meyvelerinden Haki&apos;ye, dünya coğrafyasından efsanevi
                 savaşlara: on başlıkta tüm referans.

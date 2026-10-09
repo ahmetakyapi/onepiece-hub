@@ -3,6 +3,9 @@
 import dynamic from 'next/dynamic'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+/* SSR'da render edilmeli — `dynamic(ssr:false)` ile gelirse içerik bir an
+   görünüp sonra örtülür. Görünürlüğü `html[data-intro]` CSS'i yönetir. */
+import Preloader from '@/components/motion/Preloader'
 
 const ScrollProgress = dynamic(() => import('@/components/layout/ScrollProgress'), { ssr: false })
 const RouteLoadingIndicator = dynamic(() => import('@/components/layout/RouteLoadingIndicator'), { ssr: false })
@@ -10,6 +13,8 @@ const CommandPalette = dynamic(() => import('@/components/search/CommandPalette'
 const RippleEffect = dynamic(() => import('@/components/ui/RippleEffect'), { ssr: false })
 const ToastContainer = dynamic(() => import('@/components/ui/ToastContainer'), { ssr: false })
 const MobileBottomNav = dynamic(() => import('@/components/layout/MobileBottomNav'), { ssr: false })
+const RouteCurtain = dynamic(() => import('@/components/motion/RouteCurtain'), { ssr: false })
+const SmoothScroll = dynamic(() => import('@/components/motion/SmoothScroll'), { ssr: false })
 const SpoilerGateWidget = dynamic(() => import('@/components/spoiler/SpoilerGateWidget'), { ssr: false })
 
 interface Props {
@@ -25,6 +30,9 @@ export function ClientLayout({ children }: Props) {
       >
         İçeriğe atla
       </a>
+      <Preloader />
+      <RouteCurtain />
+      <SmoothScroll />
       <ScrollProgress />
       <RouteLoadingIndicator />
       <CommandPalette />
