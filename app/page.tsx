@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useScroll, useTransform, useInView } from 'framer-motion'
-import { Play, Compass, Cherry, Shield, Globe, Anchor, Swords, Trophy, Clock, ArrowRight, Sparkles, Map, Skull, Zap, BookOpen } from 'lucide-react'
+import { Play, Compass, Cherry, Shield, Globe, Anchor, Swords, Trophy, Clock, ArrowRight, Map, Skull, Zap, BookOpen } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
@@ -265,18 +265,6 @@ export default function Home() {
             style={parallaxEnabled ? { opacity: heroContentOpacity, y: heroContentY } : undefined}
             className="relative z-10 flex min-h-[max(100dvh,640px)] flex-col items-center px-6 pt-[8vh] text-center sm:pt-[12vh] md:pt-[16vh]"
           >
-            <motion.div
-              initial={{ opacity: 0, y: 16, scale: 0.9 }}
-              animate={ready ? { opacity: 1, y: 0, scale: 1 } : undefined}
-              transition={{ duration: 0.8, ease: EASE, delay: 0.5 }}
-              className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/[0.06] px-4 py-1.5 backdrop-blur-md"
-            >
-              <Sparkles className="h-3 w-3 text-gold" />
-              <span className="eyebrow-lg text-gold">
-                FILLER&apos;SIZ ARC BAZLI
-              </span>
-            </motion.div>
-
             <div className="flex-1" />
 
             <div className="max-w-3xl pb-16 sm:pb-28 md:pb-32">
@@ -507,7 +495,7 @@ export default function Home() {
         </section>
 
         {/* ─── Manga impact divider ─────────────────────────────── */}
-        <MangaImpactDivider sfx="DON!" subtitle="Wiki &amp; Ansiklopedi" />
+        <MangaImpactDivider sfx="DON!" />
 
         {/* ─── Wiki / Bento Grid ─────────────────────────────────── */}
         <section ref={wikiRef} className="relative z-10 px-6 py-20 sm:py-24">

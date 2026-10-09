@@ -75,7 +75,6 @@ export default function Footer() {
         {/* Kapanış çağrısı — büyük, sakin, tek eylem */}
         <div className="mb-16 flex flex-col items-start justify-between gap-8 border-b border-pirate-border/20 pb-14 sm:mb-20 md:flex-row md:items-end">
           <div>
-            <p className="eyebrow-lg mb-4 text-gold">Sıradaki durak</p>
             <SplitText
               as="p"
               className="text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl"

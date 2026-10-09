@@ -47,9 +47,6 @@ export default function FeaturedArcSpotlight() {
             <Flame className="h-5 w-5 text-luffy" />
           </div>
           <div className="flex-1">
-            <p className="eyebrow text-luffy">
-              Destansı Düello
-            </p>
             <SplitText as="h2" className="text-xl font-extrabold text-pirate-text sm:text-2xl" text="Öne Çıkan Arc" />
           </div>
           <Link href="/arcs" className="hidden text-xs font-semibold text-pirate-muted transition-colors hover:text-gold sm:flex sm:items-center sm:gap-1">

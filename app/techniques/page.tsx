@@ -36,9 +36,6 @@ export default function TechniquesPage() {
         <div className="pointer-events-none absolute -left-32 -bottom-32 h-80 w-80 rounded-full bg-gold/[0.06] blur-[80px]" />
 
         <div className="relative mx-auto max-w-4xl text-center">
-          <p className="eyebrow-lg mb-3 text-gold/70">
-            Savaş Ansiklopedisi
-          </p>
           {/* `text-white` + siyah drop-shadow light temada parşömen zeminde
               okunmuyordu; başlık token metin renginde, gölge ocean-deep'e
               bağlı — light'ta kendiliğinden sönüyor. */}

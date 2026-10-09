@@ -10,7 +10,7 @@ type Props = {
 
 export default function MangaImpactDivider({
   sfx = 'DON!',
-  subtitle = 'Macera devam ediyor',
+  subtitle,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-40px' })
@@ -36,9 +36,11 @@ export default function MangaImpactDivider({
         <span className="manga-sfx text-3xl font-black tracking-[0.12em] sm:text-5xl">
           {sfx}
         </span>
-        <span className="eyebrow mt-1 text-gold/60">
-          {subtitle}
-        </span>
+        {subtitle && (
+          <span className="eyebrow mt-1 text-gold/60">
+            {subtitle}
+          </span>
+        )}
       </motion.div>
 
       <div className="manga-speed-lines relative h-14 flex-1 overflow-hidden">

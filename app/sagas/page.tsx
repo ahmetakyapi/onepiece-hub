@@ -51,9 +51,6 @@ export default function SagasPage() {
         <div className="pointer-events-none absolute -left-32 -bottom-32 h-80 w-80 rounded-full bg-sea/[0.08] blur-[100px]" />
 
         <div className="relative mx-auto max-w-4xl text-center">
-          <p className="eyebrow-lg mb-3 text-gold/70">
-            Büyük Hikaye
-          </p>
           {/* Zemin görsel değil temalı degrade — siyah drop-shadow light temada
               koyu metnin arkasında leke bırakıyordu, kaldırıldı. */}
           <SplitText as="h1" play delay={0.2} className="mb-4 text-4xl font-extrabold text-pirate-text sm:text-5xl md:text-6xl" text="Sagalar" />

@@ -25,9 +25,6 @@ export default function AchievementsPage() {
         <div className="pointer-events-none absolute -left-32 -bottom-32 h-80 w-80 rounded-full bg-fruit-strong/[0.08] blur-[100px]" />
 
         <div className="relative mx-auto max-w-4xl text-center">
-          <p className="eyebrow-lg mb-3 text-gold/70">
-            Hedefler &amp; Rozetler
-          </p>
           <SplitText as="h1" play delay={0.2} className="mb-4 text-4xl font-bold text-pirate-text sm:text-5xl md:text-6xl" text="Başarımlar" />
           <p className="mx-auto max-w-2xl text-sm leading-relaxed text-pirate-muted sm:text-base">
             İzlediğin bölümler, çözdüğün quizler ve keşfettiğin sayfalar rozete dönüşür. Bronzdan efsaneviye dört kademe var.

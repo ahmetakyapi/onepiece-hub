@@ -397,9 +397,9 @@ body::after {
 @layer components {
 
   /* ── Eyebrow — Space Mono etiket ──────────────────────────────────────
-     Tasarımdaki her ekranın üstünde duran mono mikro-etiket
-     ("36 ARC · 463 BÖLÜM · %0 FILLER"). Kapsam dışı: Title Case kuralı
-     buraya işlemez, bunlar zaten büyük harf veri etiketleri. */
+     Yalnız işlevsel/veri etiketleri (stat başlığı, kart içi alan adı,
+     rozet). Başlık üstü süs kicker'ı olarak KULLANILMAZ — kaldırıldılar,
+     bkz. CLAUDE.md § Tipografi. Title Case kuralı buraya işlemez. */
   .eyebrow {
     font-family: var(--font-mono), ui-monospace, monospace;
     font-weight: 700;
@@ -1302,6 +1302,56 @@ html[data-intro] .op-preloader.is-live { animation: none; }
 @keyframes op-preloader-failsafe {
   to { opacity: 0; visibility: hidden; pointer-events: none; }
 }
+/* Harita ağı — enlem/boylam çizgileri, kenarlara doğru söner. Token'lı:
+   light'ta parşömen üstünde koyu mürekkep çizgisi olur. */
+.op-graticule {
+  background-image:
+    linear-gradient(rgb(var(--pirate-border) / 0.55) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--pirate-border) / 0.55) 1px, transparent 1px);
+  background-size: 96px 96px;
+  background-position: center center;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 20%, transparent 75%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 20%, transparent 75%);
+}
+
+/* Açılış sekansının 1-4. adımları — CSS keyframe'leri (bkz. Preloader.tsx).
+   İlk boyamada başlar, hydration'ı beklemez. Çıkış perdesi Framer Motion. */
+.op-preloader { --op-ease: cubic-bezier(0.16, 1, 0.3, 1); --op-draw: cubic-bezier(0.65, 0, 0.35, 1); }
+.op-i-grid     { animation: op-i-grid 1.4s var(--op-ease) both; }
+.op-i-redline  { transform-origin: top; animation: op-i-scale-y 1s var(--op-ease) 50ms both; }
+.op-i-fade     { animation: op-i-fade 0.6s ease both; }
+.op-i-ring     { stroke-dasharray: 1; animation: op-i-draw 0.9s var(--op-ease) 80ms both; }
+.op-i-dashring { transform-box: fill-box; transform-origin: center; animation: op-i-dashring 2.2s var(--op-ease) 150ms both; }
+.op-i-needle   { transform-box: fill-box; transform-origin: center; animation: op-i-needle 1.15s ease-out 150ms both; }
+.op-i-route    { stroke-dasharray: 1; animation: op-i-draw 0.95s var(--op-draw) 420ms both; }
+.op-i-wake     { animation: op-i-wipe 0.95s var(--op-draw) 600ms both; }
+.op-i-pop      { transform-box: fill-box; transform-origin: center; animation: op-i-pop 0.5s var(--op-ease) both; }
+.op-i-rise     { animation: op-i-rise 0.75s var(--op-ease) both; }
+.op-i-slide    { animation: op-i-slide 0.6s var(--op-ease) 900ms both; }
+.op-i-line     { animation: op-i-line 0.7s var(--op-ease) 950ms both; }
+
+@keyframes op-i-grid    { from { opacity: 0; transform: scale(1.08); } to { opacity: 1; transform: none; } }
+@keyframes op-i-scale-y { from { transform: translateX(-50%) scaleY(0); } to { transform: translateX(-50%) scaleY(1); } }
+@keyframes op-i-fade    { from { opacity: 0; } to { opacity: 1; } }
+@keyframes op-i-draw    { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes op-i-dashring {
+  from { opacity: 0; transform: scale(0.6) rotate(0deg); }
+  to   { opacity: 1; transform: scale(1) rotate(120deg); }
+}
+/* Hızlı tur → doğuyu geçer → geri salınır → Grand Line'a (90°) oturur */
+@keyframes op-i-needle {
+  0%   { opacity: 0; transform: rotate(-470deg) scale(0.5); }
+  12%  { opacity: 1; }
+  48%  { transform: rotate(118deg) scale(1); }
+  70%  { transform: rotate(78deg) scale(1); }
+  86%  { transform: rotate(95deg) scale(1); }
+  100% { opacity: 1; transform: rotate(90deg) scale(1); }
+}
+@keyframes op-i-wipe  { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes op-i-pop   { from { opacity: 0; transform: scale(0); } to { opacity: 1; transform: none; } }
+@keyframes op-i-rise  { from { transform: translateY(115%); } to { transform: none; } }
+@keyframes op-i-slide { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: none; } }
+@keyframes op-i-line  { from { opacity: 0; transform: scaleX(0); } to { opacity: 1; transform: none; } }
 
 /* ── Sayfa girişi (app/template.tsx) — YALNIZCA opacity, bkz. dosya notu ── */
 .page-enter { animation: page-enter 0.7s var(--ease-out-expo) both; }

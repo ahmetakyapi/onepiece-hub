@@ -16,9 +16,6 @@ export default function VsPage() {
         <div className="pointer-events-none absolute -left-32 -bottom-32 h-80 w-80 rounded-full bg-gold/[0.1] blur-[100px]" />
 
         <div className="relative mx-auto max-w-4xl text-center">
-          <p className="eyebrow-lg mb-3 text-luffy/80">
-            Karşı Karşıya
-          </p>
           {/* Beyaz metin + siyah drop-shadow ikilisi light temada kayboluyordu;
               ikisi de token'a çekildi. */}
           <SplitText as="h1" play delay={0.2} className="mb-4 text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.6)] sm:text-5xl md:text-6xl" parts={[{ text: 'Kim Daha' }, { text: 'Güçlü?', className: 'text-luffy' }]} />

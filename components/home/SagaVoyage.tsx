@@ -130,7 +130,6 @@ export default function SagaVoyage() {
 
   const heading = (
     <div className="flex max-w-xl flex-col">
-      <p className="eyebrow-lg mb-4 text-gold">Saga Rotası</p>
       <SplitText
         as="h2"
         className="text-4xl font-extrabold leading-[1.02] sm:text-5xl lg:text-6xl"

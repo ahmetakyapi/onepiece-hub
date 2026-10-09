@@ -110,9 +110,6 @@ export default function ExplorePage() {
                 <Star className="h-5 w-5 text-gold" />
               </div>
               <div className="flex-1">
-                <p className="eyebrow text-gold">
-                  Editörün Seçimi
-                </p>
                 <h2 className="text-xl font-extrabold text-pirate-text sm:text-2xl">
                   Gear 5&apos;in Uyanışı
                 </h2>
@@ -211,9 +208,6 @@ export default function ExplorePage() {
                 <Sparkles className="h-5 w-5 text-sea" />
               </div>
               <div>
-                <p className="eyebrow text-sea">
-                  Tesadüfi Keşif
-                </p>
                 <h2 className="text-xl font-extrabold text-pirate-text sm:text-2xl">
                   Bugün Keşfet
                 </h2>
@@ -385,9 +379,6 @@ export default function ExplorePage() {
               <Swords className="h-5 w-5 text-luffy" />
             </div>
             <div className="flex-1">
-              <p className="eyebrow text-luffy">
-                Serinin Zirvesi
-              </p>
               <h2 className="text-xl font-extrabold text-pirate-text sm:text-2xl">
                 Üç Efsanevi Düello
               </h2>
@@ -474,9 +465,6 @@ export default function ExplorePage() {
               <Map className="h-5 w-5 text-sea" />
             </div>
             <div>
-              <p className="eyebrow text-sea">
-                Grand Line Rotası
-              </p>
               <h2 className="text-xl font-extrabold text-pirate-text sm:text-2xl">
                 {SITE_STATS.sagas} Saga · {SITE_STATS.arcs} Arc
               </h2>

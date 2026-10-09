@@ -80,10 +80,19 @@ paketlendi. Eski `/logo.webp` silindi.
 | Aile | Sınıf | Nerede |
 |------|-------|--------|
 | Manrope | (varsayılan) | Başlıklar dahil her şey — gövde, buton, nav, form |
-| Space Mono | `font-mono` · `.eyebrow` · `.eyebrow-lg` | Eyebrow etiketleri, ödüller, bölüm no, süre |
+| Space Mono | `font-mono` · `.eyebrow` · `.eyebrow-lg` | Veri/alan etiketleri, ödüller, bölüm no, süre |
 
-`.eyebrow` = Space Mono 700, uppercase, `0.2em` tracking. Tasarımdaki
-"36 ARC · 463 BÖLÜM · %0 FILLER" tipi mikro etiketler için.
+`.eyebrow` = Space Mono 700, uppercase, `0.2em` tracking. **Yalnız
+işlevsel/veri etiketi** için: stat başlığı ("Toplam Ödül"), kart içi alan
+adı ("Kaptan", "Önceki Arc"), rozet/çip, filtre sayacı.
+
+**Başlık üstü kicker YOK (Ekim 2026).** H1/H2'nin üstündeki süs etiketleri
+("FILLER'SIZ ARC BAZLI" hero hapı, "Seyir Masası", "Saga Rotası",
+"POSEIDON'UN SESİ", "Büyük Hikaye", "Karşı Karşıya", footer "Sıradaki durak",
+/explore kickerları vb.) sahibinin isteğiyle kaldırıldı — küçük mono satır
+okunmuyor ve kalabalık görünüyordu. Bölüm başlığı doğrudan başlıkla açılır;
+yeni bölüm eklerken başlığın üstüne eyebrow/kicker KOYMA.
+`MangaImpactDivider`'ın `subtitle`'ı da bu yüzden opsiyonel ve varsayılanı boş.
 
 **Cinzel KULLANILMIYOR.** Tasarım dokümanı başlıklar için Cinzel (serif
 display) öneriyordu ve bir süre uygulandı, ama render edildiğinde beğenilmedi
@@ -188,7 +197,7 @@ durumu, rota etiketleri), bileşenler `components/motion/*`. Hepsi
 
 | Parça | Dosya | Not |
 |-------|-------|-----|
-| Açılış sekansı | `Preloader.tsx` | Oturumda bir kez (sessionStorage `onepiece-intro-seen`). `INTRO_INIT_SCRIPT` ilk boyamadan önce `<html data-intro>` yazar, CSS yalnız o varken gösterir → **SSR'da render edilir, `ssr:false` YAPMA** (içerik bir an görünüp örtülür). JS patlarsa CSS failsafe 4.5 sn'de gizler. Kaydırma kilidi `body`'de (html'de olursa `body{overflow-x:hidden}` viewport'a yayılmaz, mobilde yatay taşma açılır). |
+| Açılış sekansı | `Preloader.tsx` | **"Seyir Haritası", sayaç YOK** (~2.3 sn): harita ağı + Red Line → pusula halkası çizilir, iğne döner ve doğuya (Grand Line) oturur → altın halat rotası soldan sağa çizilir, adalar (East Blue · Alabasta · Wano · Laugh Tale) yanar → "ONE PIECE HUB" harf harf yükselir → dalga kenarlı iki perde (önde zemin, arkada altın) yukarı süpürülür. 1-4 **CSS keyframe** (`globals.css` `.op-i-*`, ilk boyamada başlar, hydration'ı beklemez); çıkış Framer Motion, `performance.now() ≥ 1450 ms` + `load` (üst sınır 3.2 sn). Rota bandı `preserveAspectRatio="xMidYMid slice"` — mobilde kırpılır, çizgi kalınlığı korunur; ada adları mobilde gizli. Dalga kenarının `scaleY`'si saran div'de — kök `<svg>`'ye Framer transform yazınca orijin fill-box'tan hesaplanıp dalga perdeden kopuyordu. Oturumda bir kez (sessionStorage `onepiece-intro-seen`). `INTRO_INIT_SCRIPT` ilk boyamadan önce `<html data-intro>` yazar, CSS yalnız o varken gösterir → **SSR'da render edilir, `ssr:false` YAPMA** (içerik bir an görünüp örtülür). JS patlarsa CSS failsafe 4.5 sn'de gizler. Kaydırma kilidi `body`'de (html'de olursa `body{overflow-x:hidden}` viewport'a yayılmaz, mobilde yatay taşma açılır). |
 | Hero bekleme | `hooks/useIntroReady.ts` | Hero animasyonları perde kalkınca başlar; yoksa preloader arkasında oynayıp biterdi. |
 | Rota perdesi | `RouteCurtain.tsx` | `useRouter()` nesnesinin `push`ı sarılır — `next/link` aynı nesneyi çağırdığı için linkler, komut paleti, kartlar hepsi yakalanır; linklerin kendi onClick'i (spoiler kilidi) bozulmaz. Bölümden bölüme, aynı rota, `replace` → perde yok. Aktifken `<html data-curtain>`; `useViewTransition` o zaman View Transition'ı atlar. |
 | Sayfa girişi | `app/template.tsx` | **Yalnız opacity.** VideoStage'in atası — transform/filter yazma (§ 2). |

@@ -89,9 +89,6 @@ export default function RouteConcierge() {
           className="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between"
         >
           <div className="max-w-3xl">
-            <p className="eyebrow-lg mb-3 text-gold/70">
-              Seyir Masası
-            </p>
             <SplitText as="h2" className="max-w-[760px] text-balance text-2xl font-extrabold leading-tight text-pirate-text sm:text-3xl lg:text-4xl" parts={[{ text: 'One Piece yolculuğunu' }, { text: 'daha net bir rotaya bağla', className: 'text-gold-gradient' }]} breakAfter={[{ index: 0 }]} />
             <p className="mt-4 max-w-2xl text-sm leading-7 text-pirate-muted sm:text-base">
               Nereden başlayacağını, hangi özetle geri döneceğini ya da hangi arşive dalacağını tek bakışta seç. Kalabalığı azalttık; hikayenin tadı ve keşif hissi sende kalsın.

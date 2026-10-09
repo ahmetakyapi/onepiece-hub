@@ -90,15 +90,8 @@ export default function SeriesStatus() {
           className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"
         >
           <div>
-            <p className="eyebrow-lg mb-2 flex items-center gap-2 text-gold/70">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-1.5 w-1.5 animate-ping rounded-full bg-gold/60" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-gold" />
-              </span>
-              Seri durumu
-            </p>
             <SplitText as="h2" className="text-2xl font-extrabold sm:text-3xl" parts={[{ text: 'Şu an', className: 'text-pirate-text' }, { text: SERIES_STATUS.currentArcName, className: 'text-gold-gradient' }]} />
-            <p className="mt-1.5 max-w-lg text-[13px] leading-relaxed text-pirate-muted sm:text-sm">
+            <p className="mt-2 max-w-lg text-[13px] leading-relaxed text-pirate-muted sm:text-sm">
               Manga, anime ve One Pace üç farklı hızda ilerliyor. Nerede olduğunu
               buradan takip et. Sitedeki bölümler{' '}
               <Link

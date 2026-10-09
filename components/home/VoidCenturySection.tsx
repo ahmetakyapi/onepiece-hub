@@ -50,22 +50,6 @@ export default function VoidCenturySection() {
       <div className="pointer-events-none absolute -right-40 bottom-10 h-72 w-72 rounded-full bg-sea/[0.08] blur-[80px]" />
 
       <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
-        {/* Pulsing lore badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: EASE }}
-          className="mb-6 inline-flex items-center gap-2 rounded-full border border-sea/25 bg-ocean-deep/60 px-4 py-1.5 backdrop-blur-md"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold/60" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
-          </span>
-          <span className="eyebrow text-sea-light sm:text-[11px]">
-            POSEIDON&apos;UN SESİ
-          </span>
-        </motion.div>
-
         {/* Headline */}
         <motion.h2
           initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
