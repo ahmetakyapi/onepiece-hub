@@ -22,6 +22,7 @@ import PowerStatBars from '@/components/characters/PowerStatBars'
 import CharacterArcJourney from '@/components/characters/CharacterArcJourney'
 import RelatedCharacters from '@/components/related/RelatedCharacters'
 import { getRelatedCharacters } from '@/lib/related'
+import SplitText from '@/components/motion/SplitText'
 
 const DEVIL_FRUIT_TYPE_COLORS: Record<string, string> = {
   'Paramecia': 'bg-fruit-strong/20 text-fruit-light',
@@ -186,9 +187,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
               transition={{ duration: 0.7, ease: EASE, delay: 0.3 }}
             >
               <div className="mb-2 flex items-center gap-3">
-                <h1 className="text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.5)] sm:text-5xl md:text-6xl">
-                  {character.name}
-                </h1>
+                <SplitText as="h1" play delay={0.2} className="text-4xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.5)] sm:text-5xl md:text-6xl" text={character.name} />
                 <FavoriteButton targetType="character" targetSlug={character.slug} className="mt-1" />
               </div>
               {character.epithet && (

@@ -19,6 +19,8 @@ const EASE = [0.16, 1, 0.3, 1] as const
 export default function Header() {
   const [mounted, setMounted] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [hidden, setHidden] = useState(false)
+  const [hovered, setHovered] = useState<string | null>(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const [wikiOpen, setWikiOpen] = useState(false)
   const [isMac, setIsMac] = useState(true)
@@ -34,9 +36,19 @@ export default function Header() {
     setIsMac(/Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent))
   }, [])
 
+  /* Aşağı kaydırınca header çekilir, yukarı kaydırınca geri gelir — okuma
+     alanı açılır, gezinmek istendiği an hazırdır. Küçük titreşimler (< 6px)
+     yok sayılır; menü/dropdown açıkken asla gizlenmez. */
   useMotionValueEvent(scrollY, 'change', (latest) => {
     setScrolled(latest > 20)
+    const prev = scrollY.getPrevious() ?? 0
+    const delta = latest - prev
+    if (Math.abs(delta) < 6) return
+    setHidden(delta > 0 && latest > 320)
   })
+
+  useEffect(() => { setHidden(false) }, [pathname])
+
 
   // Close wiki dropdown on outside click
   useEffect(() => {
@@ -65,7 +77,8 @@ export default function Header() {
     <>
       {/* ── Desktop Header ───────────────────────────────────────── */}
       <header
-        className="fixed inset-x-0 top-0 z-50"
+        className="header-shell fixed inset-x-0 top-0 z-50"
+        data-hidden={hidden && !menuOpen && !wikiOpen ? 'true' : 'false'}
       >
         {/* Blur backdrop that grows on scroll — zemin token'lı, temayla döner */}
         <div
@@ -102,21 +115,40 @@ export default function Header() {
           {/* Desktop nav — floating pill style */}
           <nav className="hidden items-center md:flex">
             {/* Nav pill container */}
-            <div className="flex items-center gap-0.5 rounded-full border border-ink/[0.06] bg-ink/[0.03] px-1 py-1 backdrop-blur-sm">
+            <div
+              className="flex items-center gap-0.5 rounded-full border border-ink/[0.06] bg-ink/[0.03] px-1 py-1 backdrop-blur-sm"
+              onMouseLeave={() => setHovered(null)}
+            >
               {MAIN_LINKS.map((link) => {
                 const isActive = pathname.startsWith(link.href)
                 return (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`group flex items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-semibold transition-all duration-300 ${
-                      isActive
-                        ? 'bg-gold/[0.1] text-gold'
-                        : 'text-pirate-text/80 hover:bg-ink/[0.06] hover:text-pirate-text'
+                    onMouseEnter={() => setHovered(link.href)}
+                    className={`group relative flex items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-semibold transition-colors duration-300 ${
+                      isActive ? 'text-gold' : 'text-pirate-text/80 hover:text-pirate-text'
                     }`}
                   >
-                    <link.icon className={`h-3.5 w-3.5 transition-all ${isActive ? 'text-gold opacity-100' : 'opacity-60 group-hover:opacity-100 group-hover:text-gold'}`} />
-                    {link.label}
+                    {/* Hover zemini linkten linke kayar; aktif zemin rotayla taşınır */}
+                    {hovered === link.href && (
+                      <motion.span
+                        layoutId="nav-hover"
+                        className="absolute inset-0 rounded-full bg-ink/[0.06]"
+                        transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+                      />
+                    )}
+                    {isActive && (
+                      <motion.span
+                        layoutId="nav-active"
+                        className="absolute inset-0 rounded-full bg-gold/[0.1] ring-1 ring-inset ring-gold/20"
+                        transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                      />
+                    )}
+                    <link.icon className={`relative h-3.5 w-3.5 transition-all duration-500 ${isActive ? 'text-gold opacity-100' : 'opacity-60 group-hover:-rotate-12 group-hover:opacity-100 group-hover:text-gold'}`} />
+                    <span className="roll-text relative" data-text={link.label}>
+                      <span>{link.label}</span>
+                    </span>
                   </Link>
                 )
               })}
@@ -125,6 +157,7 @@ export default function Header() {
               <div ref={wikiRef} className="relative">
                 <button
                   onClick={() => setWikiOpen(!wikiOpen)}
+                  onMouseEnter={() => setHovered(null)}
                   className={`group flex items-center gap-1 rounded-full px-4 py-2 text-[13px] font-semibold transition-all duration-300 ${
                     wikiOpen
                       ? 'bg-ink/[0.08] text-pirate-text'

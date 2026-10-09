@@ -13,6 +13,7 @@ import { CREW_TYPE_LABELS } from '@/lib/constants/crews'
 import { getCharacterImage, getCharacterThumb } from '@/lib/constants/images'
 import FavoriteButton from '@/components/ui/FavoriteButton'
 import type { Crew } from '@/types'
+import SplitText from '@/components/motion/SplitText'
 
 export default function CrewDetailClient({ crew }: { crew: Crew }) {
   const [parallaxEnabled, setParallaxEnabled] = useState(false)
@@ -106,9 +107,7 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
             <div className="mb-2 flex flex-wrap items-center gap-3">
               {/* Kaptan fotoğrafının üstünde duran metin — okunabilirlik
                   gölgesi token'lı, iki temada da doğru yöne düşer. */}
-              <h1 className={`text-4xl font-extrabold drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.6)] sm:text-5xl md:text-6xl ${crew.color}`}>
-                {crew.name}
-              </h1>
+              <SplitText as="h1" play delay={0.2} className={`text-4xl font-extrabold drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.6)] sm:text-5xl md:text-6xl ${crew.color}`} text={crew.name} />
               <FavoriteButton targetType="crew" targetSlug={crew.slug} />
             </div>
             <p className="mb-4 font-mono text-sm text-pirate-text/50 drop-shadow-[0_2px_6px_rgb(var(--ocean-deep)/0.5)]">

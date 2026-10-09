@@ -9,6 +9,7 @@ import { getArcBySlug } from '@/lib/constants/arcs'
 import { getArcImage } from '@/lib/constants/images'
 import { EASE } from '@/lib/variants'
 import { useViewTransition } from '@/hooks/useViewTransition'
+import SplitText from '@/components/motion/SplitText'
 
 const FEATURED_SLUG = 'marineford'
 const FEATURED_QUOTE = 'Hepsi... hayalimde idi.'
@@ -49,9 +50,7 @@ export default function FeaturedArcSpotlight() {
             <p className="eyebrow text-luffy">
               Destansı Düello
             </p>
-            <h2 className="text-xl font-extrabold text-pirate-text sm:text-2xl">
-              Öne Çıkan Arc
-            </h2>
+            <SplitText as="h2" className="text-xl font-extrabold text-pirate-text sm:text-2xl" text="Öne Çıkan Arc" />
           </div>
           <Link href="/arcs" className="hidden text-xs font-semibold text-pirate-muted transition-colors hover:text-gold sm:flex sm:items-center sm:gap-1">
             Tüm Arc&apos;lar

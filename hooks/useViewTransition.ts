@@ -19,6 +19,13 @@ export function useViewTransition() {
 
   const navigate = useCallback(
     (href: string) => {
+      // Rota perdesi aktifse geçişi o yapar (components/motion/RouteCurtain).
+      // İkisi birden çalışırsa View Transition perdenin ilk karesini
+      // "eski sayfa" diye yakalar ve morph anlamsızlaşır.
+      if (document.documentElement.hasAttribute('data-curtain')) {
+        router.push(href)
+        return
+      }
       window.dispatchEvent(new Event('route-loading:start'))
       if (!isSupported()) {
         router.push(href)

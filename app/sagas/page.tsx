@@ -3,6 +3,7 @@ import { SAGAS } from '@/lib/constants/sagas'
 import { ARCS, getArcBySlug } from '@/lib/constants/arcs'
 import { SAGA_META } from '@/lib/constants/saga-meta'
 import SagaShowcase, { type SagaCardData } from '@/components/sagas/SagaShowcase'
+import SplitText from '@/components/motion/SplitText'
 
 export const metadata: Metadata = {
   title: 'Sagalar - One Piece Destanı',
@@ -55,9 +56,7 @@ export default function SagasPage() {
           </p>
           {/* Zemin görsel değil temalı degrade — siyah drop-shadow light temada
               koyu metnin arkasında leke bırakıyordu, kaldırıldı. */}
-          <h1 className="mb-4 text-4xl font-extrabold text-pirate-text sm:text-5xl md:text-6xl">
-            Sagalar
-          </h1>
+          <SplitText as="h1" play delay={0.2} className="mb-4 text-4xl font-extrabold text-pirate-text sm:text-5xl md:text-6xl" text="Sagalar" />
           <p className="mx-auto max-w-2xl text-sm leading-relaxed text-pirate-text/70 sm:text-base">
             One Piece&apos;in büyük destanı {SAGAS.length} destansı saga, {totalArcs} arc ve {totalEpisodes}+ bölümden oluşuyor. Her saga kendi dünyası, düşmanı ve duygu tonuyla unutulmaz bir yolculuk.
           </p>

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import { Medal, Star } from 'lucide-react'
 import { ACHIEVEMENTS } from '@/lib/constants/achievements'
+import SplitText from '@/components/motion/SplitText'
 
 const AchievementsClient = dynamic(() => import('@/components/achievements/AchievementsClient'))
 
@@ -27,9 +28,7 @@ export default function AchievementsPage() {
           <p className="eyebrow-lg mb-3 text-gold/70">
             Hedefler &amp; Rozetler
           </p>
-          <h1 className="mb-4 text-4xl font-bold text-pirate-text sm:text-5xl md:text-6xl">
-            Başarımlar
-          </h1>
+          <SplitText as="h1" play delay={0.2} className="mb-4 text-4xl font-bold text-pirate-text sm:text-5xl md:text-6xl" text="Başarımlar" />
           <p className="mx-auto max-w-2xl text-sm leading-relaxed text-pirate-muted sm:text-base">
             İzlediğin bölümler, çözdüğün quizler ve keşfettiğin sayfalar rozete dönüşür. Bronzdan efsaneviye dört kademe var.
           </p>

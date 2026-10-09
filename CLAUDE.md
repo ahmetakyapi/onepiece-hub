@@ -5,7 +5,7 @@ Türkçe One Piece fan platformu. Arc bazlı filler'sız bölüm düzeni (OnePac
 ## Stack
 
 Next.js 14 App Router · TypeScript strict · Tailwind 3.4 **dark + light** ·
-Manrope / Space Mono · Framer Motion 11 · Drizzle ORM + Neon
+Manrope / Space Mono · Framer Motion 11 · Lenis (smooth scroll) · Drizzle ORM + Neon
 (**`@neondatabase/serverless`** — `pg` değil) · Custom JWT (jose + bcryptjs) ·
 OnePaceTR iframe · Vercel.
 
@@ -127,6 +127,7 @@ dekoratif ve ayrı.
   ayrı token; `ocean-deep`e bağlıyken light'ta harita kayboluyordu.
 
 Utility class'lar:
+- **Hareket**: `.text-outline` (kontur display metni, `@supports` korumalı), `.roll-text`, `.page-enter`, `.scroll-cue-drop`, `.footer-giant`
 - **Layout**: `.glass`, `.glass-elevated`, `.surface`, `.bento-card`, `.wanted-poster`
 - **Butonlar**: `.btn-gold`, `.btn-luffy`, `.btn-ghost`
 - **Metin**: `.text-gold-gradient`, `.text-sea-gradient`, `.text-fire-gradient`, `.stat-number`
@@ -179,6 +180,36 @@ görünmez** oluyordu. Yeni utility eklerken aynı deseni koru.
 
 **Tipografi tabanı** (`globals.css`, global — ayrıca class eklemene gerek yok): `h1-h4` → `text-wrap: balance` + kademeli negatif letter-spacing; `p`/`li` → `text-wrap: pretty`; `html` → `scroll-padding-top: 7.5rem` (sabit header in-page anchor'ları örtmesin).
 
+## Hareket Sistemi — açılış · rota perdesi · smooth scroll
+
+Orkestrasyon `lib/motion.ts` (eğriler `EASE_CURTAIN`/`EASE_REVEAL`, açılış
+durumu, rota etiketleri), bileşenler `components/motion/*`. Hepsi
+`prefers-reduced-motion`'da devre dışı.
+
+| Parça | Dosya | Not |
+|-------|-------|-----|
+| Açılış sekansı | `Preloader.tsx` | Oturumda bir kez (sessionStorage `onepiece-intro-seen`). `INTRO_INIT_SCRIPT` ilk boyamadan önce `<html data-intro>` yazar, CSS yalnız o varken gösterir → **SSR'da render edilir, `ssr:false` YAPMA** (içerik bir an görünüp örtülür). JS patlarsa CSS failsafe 4.5 sn'de gizler. Kaydırma kilidi `body`'de (html'de olursa `body{overflow-x:hidden}` viewport'a yayılmaz, mobilde yatay taşma açılır). |
+| Hero bekleme | `hooks/useIntroReady.ts` | Hero animasyonları perde kalkınca başlar; yoksa preloader arkasında oynayıp biterdi. |
+| Rota perdesi | `RouteCurtain.tsx` | `useRouter()` nesnesinin `push`ı sarılır — `next/link` aynı nesneyi çağırdığı için linkler, komut paleti, kartlar hepsi yakalanır; linklerin kendi onClick'i (spoiler kilidi) bozulmaz. Bölümden bölüme, aynı rota, `replace` → perde yok. Aktifken `<html data-curtain>`; `useViewTransition` o zaman View Transition'ı atlar. |
+| Sayfa girişi | `app/template.tsx` | **Yalnız opacity.** VideoStage'in atası — transform/filter yazma (§ 2). |
+| Smooth scroll | `SmoothScroll.tsx` (Lenis) | Yalnız fare/trackpad. Modal/`.fixed`/`[role=dialog]`/iframe üstünde Lenis çekilir; `body.style.overflow='hidden'` olunca durur. Gerçek window scroll'u sürer → sticky/useScroll/IO aynen çalışır. |
+| Maskeli başlık | `SplitText.tsx` | Kelime başına maske. Görünürlük **kapsayıcıda** ölçülür. |
+| Hız şeridi | `VelocityMarquee.tsx` | Kaydırma hızı/yönüyle hızlanır ve eğilir. |
+| Saga Rotası | `components/home/SagaVoyage.tsx` | Desktop'ta sticky yatay galeri, mobilde snap carousel. |
+
+**Maske + IntersectionObserver tuzağı:** `overflow:hidden` kutunun dışında
+bekleyen öğeye (`y:'110%'`) tek tek `whileInView` koyma — IO onu tamamen
+kırpılmış sayar, hiç tetiklenmez. Tetiklemeyi kapsayıcıya ver, çocuklara
+varyantla yay (footer dev wordmark'ı bu yüzden öyle).
+
+**Sticky + overflow:** ana sayfa `<main>`i `overflow-x-clip` taşır,
+`overflow-hidden` değil — hidden kaydırma kabı yaratıp SagaVoyage'ın
+sticky'sini öldürür. Sticky bölüm ekleyeceksen atalarda `overflow-hidden` arama.
+
+**Header** aşağı kaydırınca gizlenir, yukarıda geri gelir (`.header-shell[data-hidden]`);
+menü/dropdown açıkken gizlenmez. Nav'da `layoutId` ile kayan aktif/hover
+zemini ve `.roll-text` (hover'da yuvarlanan etiket).
+
 ## Framer Motion
 
 Standart varyantlar `lib/variants.ts`: `fadeIn`, `fadeUp`, `fadeUpLarge`, `fadeLeft`, `fadeRight`, `scaleIn`, `slideDown`, `modalBackdrop`, `modalPanel`, `staggerContainer(stagger)`. Sabit ease: `EASE = [0.22, 1, 0.36, 1]`.
@@ -207,7 +238,8 @@ Cross-origin iframe'de gerçek `ended`/`currentTime` okunamaz. `hooks/useEpisode
 
 ### 3. Dynamic Import Zorunluluğu (SSR Patlar)
 Canvas/window erişimi yapan bileşenler **mutlaka** `dynamic(..., { ssr: false })` ile yüklenir:
-`ParticleField`, `WaveBackground`, `StatsBar`, `ArcTimeline`, `ScrollProgress`, `MobileBottomNav`, `PoneglyphOverlay`, `FeaturedArcSpotlight`, `JourneyScroll`.
+`ParticleField`, `WaveBackground`, `StatsBar`, `ArcTimeline`, `ScrollProgress`, `MobileBottomNav`, `PoneglyphOverlay`, `FeaturedArcSpotlight`, `JourneyScroll`, `SagaVoyage`, `RouteCurtain`, `SmoothScroll`.
+**İstisna:** `Preloader` SSR'da render edilmek ZORUNDA (bkz. Hareket Sistemi).
 
 ### 4. KULLANMA Listesi
 - `CustomCursor` / `useMagnetic` — generic AI pattern'dı, dosyaları da silindi. Geri ekleme.
@@ -279,7 +311,7 @@ Users tablosunda `email` kolonu yok → şifre sıfırlama özelliği eklenemez 
 `types/Episode.pixeldrainId?` — eski video stratejisinden kalma, artık kullanılmıyor.
 
 ### 15b. localStorage Anahtarları
-`onepiece-watched` (izleme, anonim) · `onepiece-player-prefs` (oynatıcı tercihleri + kalibrasyon) · `onepiece-last-watched` (ResumeBar) · `onepiece-theme` (tema) · crew affiliation · quiz ses flag'i. Hepsi cihaza özel, DB'ye yazılmaz. Yeni anahtar eklerken `lib/player-config.ts` → `PLAYER_STORAGE_KEYS` desenini izle.
+`onepiece-watched` (izleme, anonim) · `onepiece-player-prefs` (oynatıcı tercihleri + kalibrasyon) · `onepiece-last-watched` (ResumeBar) · `onepiece-theme` (tema) · crew affiliation · quiz ses flag'i · `onepiece-intro-seen` (sessionStorage — açılış sekansı). Hepsi cihaza özel, DB'ye yazılmaz. Yeni anahtar eklerken `lib/player-config.ts` → `PLAYER_STORAGE_KEYS` desenini izle.
 
 ### 16. Yeni Feature Performance Kuralları
 **SVG > Canvas > External lib** — custom SVG/div çizimi tercih edilir (SSR-safe, no extra bundle). Recharts/Chart.js kullanma.

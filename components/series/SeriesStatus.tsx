@@ -9,6 +9,7 @@ import {
   SERIES_STATUS, STATUS_AS_OF, WATCHABLE_THROUGH,
   getDaysUntil, getStatusFreshness, type SeriesTrack,
 } from '@/lib/constants/series-status'
+import SplitText from '@/components/motion/SplitText'
 
 type TrackMeta = {
   track: SeriesTrack
@@ -96,10 +97,7 @@ export default function SeriesStatus() {
               </span>
               Seri durumu
             </p>
-            <h2 className="text-2xl font-extrabold sm:text-3xl">
-              <span className="text-pirate-text">Şu an </span>
-              <span className="text-gold-gradient">{SERIES_STATUS.currentArcName}</span>
-            </h2>
+            <SplitText as="h2" className="text-2xl font-extrabold sm:text-3xl" parts={[{ text: 'Şu an', className: 'text-pirate-text' }, { text: SERIES_STATUS.currentArcName, className: 'text-gold-gradient' }]} />
             <p className="mt-1.5 max-w-lg text-[13px] leading-relaxed text-pirate-muted sm:text-sm">
               Manga, anime ve One Pace üç farklı hızda ilerliyor. Nerede olduğunu
               buradan takip et. Sitedeki bölümler{' '}

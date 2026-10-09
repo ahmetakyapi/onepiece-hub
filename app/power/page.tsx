@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { BarChart3, ArrowRight } from 'lucide-react'
 import PowerLeaderboard from '@/components/power/PowerLeaderboard'
+import SplitText from '@/components/motion/SplitText'
 
 /* /power → tier bazlı sıralama · /power-ranking → radar chart'lı stat analizi.
    Başlıkları bilerek ayrı: aynı başlıkla iki sayfa SEO'da birbirini yiyordu. */
@@ -23,9 +24,7 @@ export default function PowerPage() {
           {/* Metin rengi token'a bağlandı: eskiden `text-white` + siyah
               drop-shadow vardı, light temada parşömen zeminde kayboluyordu.
               Gölge de ocean-deep'e bağlı — light'ta kendiliğinden sönüyor. */}
-          <h1 className="mb-3 text-5xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.6)] sm:text-6xl md:text-7xl">
-            Güç Sıralaması
-          </h1>
+          <SplitText as="h1" play delay={0.2} className="mb-3 text-5xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.6)] sm:text-6xl md:text-7xl" text="Güç Sıralaması" />
           <p className="mx-auto max-w-2xl text-base leading-relaxed text-pirate-text/70 drop-shadow-[0_2px_8px_rgb(var(--ocean-deep)/0.4)] sm:text-lg">
             One Piece dünyasının en güçlü korsanlarını keşfet. Güç seviyeleri, yetenekler ve istatistiklerle karşılaştır.
           </p>

@@ -1,9 +1,51 @@
 'use client'
 
-import { ArrowUpRight, Github, Skull } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Github } from 'lucide-react'
 import Link from 'next/link'
+import { motion, useReducedMotion } from 'framer-motion'
 import { BrandLockup } from '@/components/brand/CompassMark'
 import { FOOTER_SECTIONS } from '@/lib/constants/navigation'
+import { EASE_REVEAL } from '@/lib/motion'
+import SplitText from '@/components/motion/SplitText'
+
+const GIANT = 'ONE PIECE'.split('')
+
+/* Dev wordmark — görünür olunca harfler sırayla alttan yükselir; her harf
+   üstüne gelince altına döner. Dekoratif: ekran okuyucudan gizli.
+
+   Görünürlük KAPSAYICIDA ölçülür, harf başına değil: harfler başlangıçta
+   `overflow: hidden` kutunun dışında durduğu için IntersectionObserver
+   onları tamamen kırpılmış sayar ve tek tek `whileInView` hiç tetiklenmez. */
+const giantLetter = {
+  hidden: { y: '100%' },
+  visible: (i: number) => ({ y: '0%', transition: { duration: 1.1, ease: EASE_REVEAL, delay: i * 0.05 } }),
+}
+
+function GiantWordmark() {
+  const reduced = useReducedMotion()
+  return (
+    <motion.div
+      className="relative select-none overflow-hidden px-2"
+      aria-hidden
+      initial={reduced ? false : 'hidden'}
+      whileInView="visible"
+      viewport={{ once: true, margin: '0px 0px -5% 0px' }}
+    >
+      <div className="footer-giant flex justify-center whitespace-nowrap font-extrabold">
+        {GIANT.map((ch, i) => (
+          <motion.span
+            key={i}
+            custom={i}
+            variants={giantLetter}
+            className="inline-block text-pirate-text/[0.11] transition-colors duration-500 hover:text-gold/80"
+          >
+            {ch === ' ' ? '\u00a0' : ch}
+          </motion.span>
+        ))}
+      </div>
+    </motion.div>
+  )
+}
 
 export default function Footer() {
   return (
@@ -25,15 +67,37 @@ export default function Footer() {
       </div>
       <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
 
-      {/* Decorative orbs + jolly roger watermark */}
+      {/* Decorative orbs */}
       <div className="pointer-events-none absolute bottom-0 left-[15%] h-64 w-64 rounded-full bg-gold/[0.02] blur-[100px]" />
       <div className="pointer-events-none absolute bottom-0 right-[15%] h-64 w-64 rounded-full bg-sea/[0.02] blur-[100px]" />
-      <Skull
-        aria-hidden
-        className="pointer-events-none absolute -bottom-6 right-8 h-32 w-32 text-pirate-text/[0.04] sm:right-16 sm:h-40 sm:w-40"
-      />
 
       <div className="relative mx-auto max-w-7xl px-6 py-16 sm:py-20">
+        {/* Kapanış çağrısı — büyük, sakin, tek eylem */}
+        <div className="mb-16 flex flex-col items-start justify-between gap-8 border-b border-pirate-border/20 pb-14 sm:mb-20 md:flex-row md:items-end">
+          <div>
+            <p className="eyebrow-lg mb-4 text-gold">Sıradaki durak</p>
+            <SplitText
+              as="p"
+              className="text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl"
+              parts={[
+                { text: 'Yolculuk', className: 'text-pirate-text' },
+                { text: 'devam ediyor.', className: 'text-gold-gradient' },
+              ]}
+              breakAfter={[{ index: 0 }]}
+            />
+          </div>
+          <Link
+            href="/arcs"
+            className="group relative flex h-32 w-32 shrink-0 items-center justify-center overflow-hidden rounded-full border border-gold/40 text-sm font-bold text-gold transition-colors duration-500 hover:text-ocean-deep sm:h-40 sm:w-40"
+          >
+            <span className="absolute inset-0 translate-y-full rounded-full bg-gold transition-transform duration-700 ease-expo-out group-hover:translate-y-0" />
+            <span className="relative flex flex-col items-center gap-1.5">
+              İzlemeye Başla
+              <ArrowRight className="h-4 w-4 -rotate-45 transition-transform duration-500 group-hover:rotate-0" />
+            </span>
+          </Link>
+        </div>
+
         <div className="grid gap-12 md:grid-cols-5">
           {/* Logo + tagline — spans 2 cols */}
           <div className="md:col-span-2 flex flex-col items-center md:items-start animate-fade-in-up">
@@ -112,6 +176,8 @@ export default function Footer() {
           </div>
         </div>
       </div>
+
+      <GiantWordmark />
     </footer>
   )
 }

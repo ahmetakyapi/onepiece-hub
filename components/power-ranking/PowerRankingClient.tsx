@@ -10,6 +10,7 @@ import { EASE } from '@/lib/variants'
 import { CHARACTERS } from '@/lib/constants/characters'
 import { POWER_LEVELS, STAT_LABELS, type PowerStats } from '@/lib/constants/power-levels'
 import { getCharacterImage } from '@/lib/constants/images'
+import SplitText from '@/components/motion/SplitText'
 
 /* ─── Radar Chart (SVG) ──────────────────────────────────────────────── */
 /* `color` artık tam bir CSS rengi (token'lı). Dolgu opaklığı eskiden
@@ -208,9 +209,7 @@ export default function PowerRankingClient() {
           transition={{ duration: 0.6, ease: EASE }}
           className="mb-10 text-center"
         >
-          <h1 className="mb-3 text-3xl font-extrabold sm:text-4xl">
-            <span className="text-gold-gradient">Güç Sıralaması</span>
-          </h1>
+          <SplitText as="h1" play delay={0.2} className="mb-3 text-3xl font-extrabold sm:text-4xl" parts={[{ text: 'Güç Sıralaması', className: 'text-gold-gradient' }]} />
           <p className="mx-auto max-w-lg text-sm text-pirate-muted">
             Karakterlerin güç seviyelerini karşılaştır. Bir karaktere tıkla, ardından karşılaştırmak istediğin karakteri seç.
           </p>

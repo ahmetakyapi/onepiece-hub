@@ -11,6 +11,7 @@ import {
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
 import { getArcImage, getCharacterThumb } from '@/lib/constants/images'
 import { ACCENT_CLASSES, type SagaMeta } from '@/lib/constants/saga-meta'
+import SplitText from '@/components/motion/SplitText'
 
 interface ArcItem {
   slug: string
@@ -142,9 +143,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
             </div>
 
             {/* Title — scrim `ocean-deep` temayla dönüyor, metin de dönmeli */}
-            <h1 className="mb-3 text-5xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.8)] sm:text-6xl md:text-7xl">
-              {data.name}
-            </h1>
+            <SplitText as="h1" play delay={0.2} className="mb-3 text-5xl font-extrabold text-pirate-text drop-shadow-[0_4px_24px_rgb(var(--ocean-deep)/0.8)] sm:text-6xl md:text-7xl" text={data.name} />
             {data.tagline && (
               <p className={`mb-5 text-lg font-semibold italic ${cls.text} drop-shadow-[0_2px_12px_rgb(var(--ocean-deep)/0.6)] sm:text-xl`}>
                 &ldquo;{data.tagline}&rdquo;

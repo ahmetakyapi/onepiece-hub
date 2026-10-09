@@ -6,6 +6,7 @@ import { ArrowLeft, Camera, Download, RotateCcw, Skull } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { fadeUp, EASE } from '@/lib/variants'
+import SplitText from '@/components/motion/SplitText'
 
 const EPITHET_SUGGESTIONS = [
   'Denizlerin Korkusu', 'Fırtına Bıçağı', 'Gölge Kaptan', 'Altın Yumruk',
@@ -133,10 +134,7 @@ export default function WantedPosterCreator() {
         </Link>
 
         <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-10 text-center">
-          <h1 className="mb-3 text-3xl font-extrabold sm:text-4xl">
-            <span className="text-gold-gradient">Wanted Poster</span>{' '}
-            <span className="text-pirate-text">Oluşturucu</span>
-          </h1>
+          <SplitText as="h1" play delay={0.2} className="mb-3 text-3xl font-extrabold sm:text-4xl" parts={[{ text: 'Wanted Poster', className: 'text-gold-gradient' }, { text: 'Oluşturucu', className: 'text-pirate-text' }]} />
           <p className="mx-auto max-w-lg text-sm text-pirate-muted">
             Kendi One Piece wanted poster&apos;ını oluştur. Fotoğrafını yükle, ismini ve ödülünü belirle!
           </p>

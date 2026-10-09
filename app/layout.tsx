@@ -4,7 +4,7 @@ import { Analytics } from '@vercel/analytics/next'
 import { AuthProvider } from '@/hooks/useAuth'
 import { ThemeProvider } from '@/hooks/useTheme'
 import { SpoilerGateProvider } from '@/hooks/useSpoilerGate'
-import { THEME_INIT_SCRIPT } from '@/lib/theme-config'
+import { INTRO_INIT_SCRIPT, THEME_INIT_SCRIPT } from '@/lib/theme-config'
 import { ClientLayout } from '@/components/layout/ClientLayout'
 import { SITE_STATS } from '@/lib/constants/stats'
 import '@/lib/env'
@@ -109,6 +109,8 @@ export default function RootLayout({
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        {/* Açılış sekansı bayrağı — oturumun ilk sayfasında `data-intro` yazar */}
+        <script dangerouslySetInnerHTML={{ __html: INTRO_INIT_SCRIPT }} />
       </head>
       <body className={`${manrope.className} bg-ocean-deep`} suppressHydrationWarning>
         <ThemeProvider>
