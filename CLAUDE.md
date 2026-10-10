@@ -1,7 +1,7 @@
 # One Piece Hub
 
-Türkçe One Piece fan platformu. Arc bazlı filler'sız bölüm düzeni (OnePaceTR), karakter/wiki ansiklopedisi, izleme takibi, quiz sistemi, topluluk yorumları.
-
+Türkçe One Piece fan platformu: arc bazlı filler'sız bölümler (OnePaceTR iframe),
+karakter/wiki ansiklopedisi, izleme takibi, quiz, yorumlar.
 
 ## Commit yazarı
 
@@ -17,431 +17,279 @@ git config user.email "ahmetakyapii@gmail.com"
 
 Bu kural sahibinin tüm repolarında geçerli (9 Ekim 2026).
 
-## Stack
+## Stack ve Komutlar
 
-Next.js 14 App Router · TypeScript strict · Tailwind 3.4 **dark + light** ·
-Manrope / Space Mono · Framer Motion 11 · Lenis (smooth scroll) · Drizzle ORM + Neon
-(**`@neondatabase/serverless`** — `pg` değil) · Custom JWT (jose + bcryptjs) ·
-OnePaceTR iframe · Vercel.
+Next.js 14 App Router · TypeScript strict · Tailwind 3.4 (dark + light) ·
+Manrope + Space Mono (`next/font`) · Framer Motion 11 · Lenis · Drizzle +
+Neon (`@neondatabase/serverless`) · custom JWT (jose + bcryptjs) · Vercel.
+
+```bash
+npm run dev | build | lint | typecheck
+npm run db:push | db:generate | db:migrate | db:studio   # drizzle-kit
+```
+
+Env: `DATABASE_URL`, `AUTH_SECRET` (`openssl rand -base64 32`),
+`NEXT_PUBLIC_APP_URL` — üçü de zorunlu, yoksa `lib/env.ts` açılışta throw eder.
+`NEXT_PUBLIC_APP_NAME` opsiyonel. `UPSTASH_REDIS_REST_URL/TOKEN` opsiyonel:
+`middleware.ts` rate limit'i onlarla, yoksa in-memory çalışır.
 
 ## Mimari
 
-- **Statik veri**: arc, karakter, meyve, savaş, quiz, lokasyon, bounty, crew — hepsi `lib/constants/*` TS dosyalarında. **DB'ye yazılmaz.**
-- **Sayılar**: `lib/constants/stats.ts` → `SITE_STATS` **tek kaynak**. Arc/karakter/meyve sayısı UI'da **elle yazılmaz**, hep buradan türetilir (`formatRuntime()`, `getArcRuntimeSeconds()` de burada). Mevcut değerler: 10 saga · 36 arc · 463 bölüm · 66 karakter · 43 meyve · 22 savaş · 32 lokasyon · 12 crew · 38 bounty · ~212 saat.
-- **Seri güncelliği**: `lib/constants/series-status.ts` → manga/anime/One Pace nerede. **Elle güncellenir**, `STATUS_AS_OF` tarihi UI'da "son güncelleme" olarak görünür. `components/series/SeriesStatus.tsx` ana sayfada render eder.
-- **Dinamik veri (DB)**: sadece kullanıcı etkileşimi — `users`, `watchProgress`, `quizScores`, `comments`, `favorites`. Schema: `lib/schema.ts`.
-- **İzleme takibi**: Giriş yapmış → `/api/progress` (DB). Anonim → localStorage (`onepiece-watched`). Login/register'da otomatik sync (`hooks/useAuth.tsx`).
-- **Auth**: Custom JWT (`lib/token.ts` + `lib/password.ts`), httpOnly cookie, 30d TTL. next-auth kullanılmaz.
-- **Layout**: Header + Footer + AuthProvider + ScrollProgress + CommandPalette + RippleEffect + ToastContainer + MobileBottomNav hepsi `app/layout.tsx`'de. Yeni sayfa bunları import etmez.
-- **API pattern**: `ok()` / `err()` / `serverErr()` helpers from `lib/api.ts`. Mesajlar Türkçe.
+- **Statik içerik** (arc, karakter, meyve, savaş, quiz, lokasyon, bounty, crew)
+  `lib/constants/*` TS dosyalarında; DB'ye yazılmaz. Arc'lar saga başına
+  `lib/constants/arcs/<saga>.ts`, birleşim `arcs/index.ts`.
+- **Sayılar** `lib/constants/stats.ts` → `SITE_STATS` tek kaynak (+ `formatRuntime`,
+  `getArcRuntimeSeconds`). Arc/bölüm/karakter sayısı UI'da, metadata'da ya da
+  dokümanda **elle yazılmaz**.
+- **Seri durumu** `lib/constants/series-status.ts` elle güncellenir; `STATUS_AS_OF`
+  UI'da "son güncelleme" olarak görünür.
+- **DB** (`lib/schema.ts`) yalnız kullanıcı etkileşimi: `users`, `watchProgress`,
+  `quizScores`, `comments`, `favorites`. `users`'ta e-posta yok → şifre sıfırlama
+  bilinçli olarak yok.
+- **Auth**: `lib/token.ts` + `lib/password.ts`, httpOnly cookie, 30 gün.
+  Middleware `/profile`'ı korur ve API'ye yol bazlı rate limit uygular.
+- **İzleme**: girişli → `/api/progress`; anonim → localStorage, giriş/kayıtta
+  `hooks/useAuth.tsx` DB'ye senkronlar.
+- **API**: `lib/api.ts` → `ok()` / `err()` / `serverErr()`; mesajlar Türkçe.
+- **Kabuk**: `app/layout.tsx` provider'ları (Theme → Auth → SpoilerGate) kurar;
+  Header, Footer, Preloader, RouteCurtain, CommandPalette, MobileBottomNav vb.
+  `components/layout/ClientLayout.tsx`'te. Yeni sayfa bunları import etmez.
 
 ## Tema — "Sinematik Okyanus"
 
-**İki tema var**: dark "gece seferi" (varsayılan) ve light "gündüz seferi"
-(sıcak parşömen zemin, beyaz kartlar, koyulaştırılmış altın/deniz).
+Dark "gece seferi" (varsayılan) + light "gündüz seferi" (parşömen zemin).
 
-### Token mimarisi — bunu anlamadan renk değiştirme
+### Token mimarisi — anlamadan renk değiştirme
 
-`app/globals.css` paleti **RGB kanal üçlüsü** olarak tanımlar
-(`--gold: 244 163 0`, `#f4a300` DEĞİL), `[data-theme='light']` bloğu light
-karşılıklarını verir. `tailwind.config.ts` bunları
-`rgb(var(--x) / <alpha-value>)` ile sarar.
+- `app/globals.css` paleti **RGB kanal üçlüsü** tutar (`--gold: 244 163 0`, hex
+  DEĞİL); `[data-theme='light']` light karşılıklarını verir; `tailwind.config.ts`
+  `rgb(var(--x) / <alpha-value>)` ile sarar. Böylece `bg-gold`,
+  `border-pirate-border/30` vb. iki temada da doğru. **Hex yazarsan opaklık
+  modifier'ı çöker.**
+- `--pirate-border` light'ta önceden harmanlanmış opak renk — modifier'sız da
+  kullanılıyor, ham lacivert sert çizgi yapardı.
+- Renk = token sınıfı. Inline `rgb(var(--x) / a)` yalnız sınıfın ulaşmadığı yerde
+  (SVG fill, karmaşık degrade).
 
-Sonuç: **`bg-gold`, `text-pirate-muted`, `border-pirate-border/30` gibi mevcut
-Tailwind sınıfları iki temada da otomatik doğru.** Bileşende renk sınıfı
-değiştirmene gerek yok — 3300'den fazla kullanım tek yerden bağlı.
-**Kanal formatını bozma**, `#hex` yazarsan opaklık modifier'ı çöker.
+### Renk skalaları — ham Tailwind paleti YASAK
 
-`--pirate-border` light'ta **önceden harmanlanmış opak** bir değer
-(`rgba(6,14,26,.1)`'in parşömen üstündeki karşılığı) — çünkü
-`border-pirate-border` opaklık modifier'ı olmadan da kullanılıyor; ham
-lacivert orada sert bir çizgi yapardı.
+- **`accent-*`** (cyan/teal/emerald/lime/amber/orange/rose/pink/indigo/silver/
+  bronze): çok öğeli sınıflandırmalar (saga, ekip, meyve türü, tehlike, başarım,
+  deniz). Light'ta koyulaşır. Ham `cyan-* emerald-* amber-* teal-* rose-* pink-*
+  indigo-* orange-* slate-*` light'ta parşömen üstünde görünmez oluyordu.
+  Yeni öğeye mevcut bir öğenin tonunu verme.
+- **`fruit` / `fruit-light|strong|deep`**: Şeytan Meyvesi, Haki, Shichibukai.
+  Ham `purple-*` / `violet-*` yazma.
+- Ekip renkleri: `lib/constants/crew-styles.ts` (`CREW_COLORS`) ve
+  `CharacterAvatar` (`CREW_GRADIENTS`, `CREW_TEXT_COLORS`) — ikisi de token'lı.
 
-### Tema nasıl sürülüyor
+### Kasıtlı olarak tema DIŞI
 
-`<html data-theme="dark|light">` · next-themes YOK, custom
-(`hooks/useTheme.tsx` + `lib/theme-config.ts`). İki katman:
-1. `layout.tsx`'teki blocking script ilk boyamadan önce yazar (FOUC yok).
-2. `ThemeProvider` mount'ta tercihi **yeniden uygular** (aşağıdaki gotcha).
+- Wanted poster sepyası (`app/bounties`, `WantedPosterCreator`) — iki temada koyu.
+- `VideoStage` çerçevesi — koyu; içindeki butonlar `.btn-ghost` değil sabit beyaz.
+- `app/api/og/route.tsx` — sunucuda temasız.
+- Scrim/modal karartması `bg-black/*`. `bg-ocean-deep/*` KULLANMA (light'ta açar).
+- `--map-ground-*` — harita zemini ayrı token (`ocean-deep`e bağlıyken light'ta
+  harita kayboluyordu).
 
-Toggle: `components/layout/ThemeToggle.tsx` (header pill + mobil çekmece satırı).
+### Tema sürme
 
-### Marka
-
-`components/brand/CompassMark.tsx` → `CompassMark` · `Wordmark` · `BrandLockup`.
-Pusula işareti + "ONE PIECE" (Cinzel) + "HUB" (Space Mono, geniş tracking).
-Bileşendeki SVG renkleri token'lı (`rgb(var(--gold))`) — temayla döner.
-
-### İkonlar — kaynak SVG'den üretilir
-
-| Kaynak | Kullanan boyutlar |
-|--------|-------------------|
-| `public/icon.svg` (detaylı) | favicon SVG · `icon-192` · `icon-512` · `apple-touch-icon` |
-| `public/icon-small.svg` (sade) | `favicon-16x16` · `favicon-32x32` · `favicon.ico` |
-
-Küçük varyant ayrı: 16-32px'te kesikli iç halka ve merkez göbeği lekeye
-dönüşüyor, o yüzden kollar kalın ve detay atılmış. `apple-touch-icon`
-köşe yuvarlaması TAŞIMAZ — iOS kendi maskesini uyguluyor.
-
-Favicon SVG'leri **temasız sabit renk** taşır (favicon bağlamında CSS
-değişkeni çözülmez) — bileşendeki `CompassMark` ile karıştırma.
-
-Yeniden üretmek: macOS'ta `sips`/`qlmanage` SVG işlemiyor; headless Chrome
-CDP ile rasterleştirilip `favicon.ico` (16+32+48 gömülü PNG) elle
-paketlendi. Eski `/logo.webp` silindi.
+`<html data-theme>` · next-themes YOK (`hooks/useTheme.tsx` +
+`lib/theme-config.ts`). `layout.tsx`'teki blocking script ilk boyamadan önce
+yazar; `ThemeProvider` mount'ta **yeniden yazar** (gotcha 17–18).
+Toggle: `components/layout/ThemeToggle.tsx`.
 
 ### Tipografi
 
-| Aile | Sınıf | Nerede |
-|------|-------|--------|
-| Manrope | (varsayılan) | Başlıklar dahil her şey — gövde, buton, nav, form |
-| Space Mono | `font-mono` · `.eyebrow` · `.eyebrow-lg` | Veri/alan etiketleri, ödüller, bölüm no, süre |
-
-`.eyebrow` = Space Mono 700, uppercase, `0.2em` tracking. **Yalnız
-işlevsel/veri etiketi** için: stat başlığı ("Toplam Ödül"), kart içi alan
-adı ("Kaptan", "Önceki Arc"), rozet/çip, filtre sayacı.
-
-**Başlık üstü kicker YOK (Ekim 2026).** H1/H2'nin üstündeki süs etiketleri
-("FILLER'SIZ ARC BAZLI" hero hapı, "Seyir Masası", "Saga Rotası",
-"POSEIDON'UN SESİ", "Büyük Hikaye", "Karşı Karşıya", footer "Sıradaki durak",
-/explore kickerları vb.) sahibinin isteğiyle kaldırıldı — küçük mono satır
-okunmuyor ve kalabalık görünüyordu. Bölüm başlığı doğrudan başlıkla açılır;
-yeni bölüm eklerken başlığın üstüne eyebrow/kicker KOYMA.
-`MangaImpactDivider`'ın `subtitle`'ı da bu yüzden opsiyonel ve varsayılanı boş.
-
-**Cinzel KULLANILMIYOR.** Tasarım dokümanı başlıklar için Cinzel (serif
-display) öneriyordu ve bir süre uygulandı, ama render edildiğinde beğenilmedi
-— başlıklar Manrope'a geri alındı. `font-display` sınıfı ve `--font-display`
-token'ı kaldırıldı; geri getirmek istersen tasarım dokümanı § marka temeli.
-Space Mono etiket katmanı KALDI, o beğenildi.
-
-**İki fontta da `subsets: ['latin', 'latin-ext']` ŞART** — Google'ın `latin`
-aralığı `ı` içerir ama `ğ Ğ ş Ş İ` İÇERMEZ. Eksikse Türkçe başlıklarda
-kelime ortasında fallback fonta düşer.
-
-### `accent-*` — içerik vurgu skalası
-
-10 saga · 15 mürettebat · 6 meyve türü · 5 tehlike seviyesi · 4 başarım
-kademesi · 4 deniz gibi **çok öğeli sınıflandırmalar** için 11 tonluk skala
-(`accent-cyan/teal/emerald/lime/amber/orange/rose/pink/indigo/silver/bronze`).
-Light temada 700-800 seviyeye döner.
-
-Daha önce bunlar ham `cyan-400` / `emerald-400` / `amber-300` ile yazılıyordu;
-koyu zeminde okunuyor, light'ta parşömen üstünde **1.2–1.8:1 kontrasta düşüp
-görünmez** oluyorlardı. `fruit` token'ında çözülen sızıntının aynısı.
-
-**Ham `cyan-*` `emerald-*` `amber-*` `teal-*` `rose-*` `pink-*` `indigo-*`
-`orange-*` `slate-*` sınıfı YAZMA.** Skalanın tek işi öğeleri ayırmak —
-yeni öğe eklerken **aynı token'ı iki öğeye verme**.
-
-Ekip kimlik renkleri artık bu skalada (`lib/constants/crew-styles.ts`,
-15 ekip 15 ayrı ton). `CREW_GRADIENTS` (avatar arkası degrade) hâlâ
-dekoratif ve ayrı.
-
-### Kasıtlı olarak tema DIŞI kalanlar
-
-- **Wanted poster sepyası** (`app/bounties/page.tsx`, `WantedPosterCreator`) —
-  yıpranmış afiş estetiği, iki temada da koyu.
-- **Video sahnesi** (`VideoStage`) — oynatıcı çerçevesi iki temada da koyu;
-  içindeki butonlar bu yüzden `.btn-ghost` DEĞİL sabit beyaz tonlarda.
-- **`app/api/og/route.tsx`** — sunucuda temasız render.
-- **`bg-black/*` scrim ve modal karartmaları** — karartma iki temada da koyu.
-  `bg-ocean-deep/*` KULLANMA: light'ta parşömene dönüp karartmak yerine açar.
-- **`--map-ground-*`** — dünya haritasının okyanus zemini sayfa zemininden
-  ayrı token; `ocean-deep`e bağlıyken light'ta harita kayboluyordu.
-
-Utility class'lar:
-- **Hareket**: `.text-outline` (kontur display metni, `@supports` korumalı), `.roll-text`, `.page-enter`, `.scroll-cue-drop`, `.footer-giant`
-- **Layout**: `.glass`, `.glass-elevated`, `.surface`, `.bento-card`, `.wanted-poster`
-- **Butonlar**: `.btn-gold`, `.btn-luffy`, `.btn-ghost`
-- **Metin**: `.text-gold-gradient`, `.text-sea-gradient`, `.text-fire-gradient`, `.stat-number`
-- **Rozet/Badge**: `.chip`, `.tag`
-- **Efekt**: `.glass-lift`, `.shine-hover`, `.divider-glow`, `.orb`, `.scrollbar-thin`
-  (`.link-glow` tanımlı ama **hiçbir yerde kullanılmıyor** — Tailwind `@layer
-  components` kullanılmayan sınıfı purge ettiği için üretilen CSS'e hiç girmiyor)
-
-**Tailwind sınıflarını tercih et** — CSS variables sadece `globals.css` içinde kullanılmalı.
-
-### `fruit` — kategori vurgu rengi
-
-Şeytan Meyveleri · Haki · Şichibukai içeriklerinin rengi. Daha önce ham
-`purple-300/400/500/600` sınıflarıyla **109 yerde** yazılıyordu; palette
-tanımlı olmadığı için sistemin parçası değil sızıntıydı. Değerler Tailwind
-karşılıklarıyla birebir aynı, token'lama görünümü değiştirmedi.
-
-| Token | Hex | Eski karşılığı |
-|-------|-----|----------------|
-| `fruit-light` | `#d8b4fe` | `purple-300` |
-| `fruit` | `#c084fc` | `purple-400` |
-| `fruit-strong` | `#a855f7` | `purple-500` |
-| `fruit-deep` | `#9333ea` | `purple-600` |
-
-**Ham `purple-*` / `violet-*` sınıfı yazma** — `fruit` kullan.
-
-Ekip kimlik renkleri (`CharacterAvatar` → `CREW_GRADIENTS`) **ayrı bir
-sistemdir**: 15 ekibin her birinin kendi rengi var (emerald, amber, cyan, pink,
-teal…). O bir içerik paleti, marka sistemi değil — `fruit`'e çekilmemeli.
+- **Manrope** her şey (başlıklar dahil). **Space Mono** (`font-mono`, `.eyebrow`,
+  `.eyebrow-lg`) yalnız veri/alan etiketi: stat başlığı, kart içi alan adı,
+  rozet, bölüm no, ödül, süre.
+- **Başlık üstü kicker/eyebrow YOK (Ekim 2026, sahibinin isteği)** — okunmuyor,
+  kalabalık. Bölüm doğrudan başlıkla açılır. `MangaImpactDivider` `subtitle`'ı
+  bu yüzden opsiyonel, varsayılan boş.
+- **Cinzel / serif display KULLANILMIYOR** — denendi, beğenilmedi;
+  `font-display` kaldırıldı. Wordmark'ta da yok (Manrope bold + Space Mono "HUB").
+- **İki fontta `subsets: ['latin', 'latin-ext']` ŞART** — `latin` `ğ ş İ`
+  içermez, başlıklar kelime ortasında fallback'e düşer.
+- Global taban `globals.css`'te: `h1–h4` balance + negatif tracking, `p/li`
+  pretty, `scroll-padding-top` (sabit header).
 
 ### Degrade metin — fallback zorunlu
 
-`.text-*-gradient` utility'leri önce solid rengini alır, degrade kırpması
-`@supports` bloğunun içindedir. Bir dönem `-webkit-text-fill-color: transparent`
-koşulsuz yazılıyordu: `background-clip: text` desteklenmeyen yerde harfin
-dolgusu şeffaf kalıp arkasına degrade basılmadığı için **metin tamamen
-görünmez** oluyordu. Yeni utility eklerken aynı deseni koru.
-
-### Bilinen detector bulguları — kasıtlı, düzeltilmeyecek
-
-`npx impeccable detect app components lib` 13 bulgu raporlar. Hepsi incelendi:
-
-| Bulgu | Adet | Karar |
-|-------|------|-------|
-| `gradient-text` | 6 | Marka utility'leri; artık fallback'li ve `@supports` korumalı — `acilis-zili`'nin `.display-ink`'iyle aynı gerekçe |
-| `side-tab` | 4 | `border-l-4` kart vurguları. Gerçek bir kalıp uyarısı; düzeltmek görsel yeniden tasarım gerektirir, **açık madde** |
-| `ai-color-palette` | 1 | `CharacterAvatar` beast-pirates ekip degradesi — içerik paleti |
-| `bounce-easing` | 1 | `--ease-spring`, tek kullanım (`transform 0.2s`). Ekosistem kuralı Framer Motion içindir, bu CSS mikro-etkileşimi |
-| `layout-transition` | 1 | `.progress-bar-fill` degrade taşıyor; `scaleX` degradeyi sıkıştırır. Düz renkli çubuklar (`haki`) dönüştürüldü |
-
-**Tipografi tabanı** (`globals.css`, global — ayrıca class eklemene gerek yok): `h1-h4` → `text-wrap: balance` + kademeli negatif letter-spacing; `p`/`li` → `text-wrap: pretty`; `html` → `scroll-padding-top: 7.5rem` (sabit header in-page anchor'ları örtmesin).
-
-## Hareket Sistemi — açılış · rota perdesi · smooth scroll
-
-Orkestrasyon `lib/motion.ts` (eğriler `EASE_CURTAIN`/`EASE_REVEAL`, açılış
-durumu, rota etiketleri), bileşenler `components/motion/*`. Hepsi
-`prefers-reduced-motion`'da devre dışı.
-
-| Parça | Dosya | Not |
-|-------|-------|-----|
-| Açılış sekansı | `Preloader.tsx` | **"Seyir Haritası", sayaç YOK** (~2.3 sn): harita ağı + Red Line → pusula halkası çizilir, iğne döner ve doğuya (Grand Line) oturur → altın halat rotası soldan sağa çizilir, adalar (East Blue · Alabasta · Wano · Laugh Tale) yanar → "ONE PIECE HUB" harf harf yükselir → dalga kenarlı iki perde (önde zemin, arkada altın) yukarı süpürülür. 1-4 **CSS keyframe** (`globals.css` `.op-i-*`, ilk boyamada başlar, hydration'ı beklemez); çıkış Framer Motion, `performance.now() ≥ 1450 ms` + `load` (üst sınır 3.2 sn). Rota bandı `preserveAspectRatio="xMidYMid slice"` — mobilde kırpılır, çizgi kalınlığı korunur; ada adları mobilde gizli. Dalga kenarının `scaleY`'si saran div'de — kök `<svg>`'ye Framer transform yazınca orijin fill-box'tan hesaplanıp dalga perdeden kopuyordu. Oturumda bir kez (sessionStorage `onepiece-intro-seen`). `INTRO_INIT_SCRIPT` ilk boyamadan önce `<html data-intro>` yazar, CSS yalnız o varken gösterir → **SSR'da render edilir, `ssr:false` YAPMA** (içerik bir an görünüp örtülür). JS patlarsa CSS failsafe 4.5 sn'de gizler. Kaydırma kilidi `body`'de (html'de olursa `body{overflow-x:hidden}` viewport'a yayılmaz, mobilde yatay taşma açılır). |
-| Hero bekleme | `hooks/useIntroReady.ts` | Hero animasyonları perde kalkınca başlar; yoksa preloader arkasında oynayıp biterdi. |
-| Rota perdesi | `RouteCurtain.tsx` | `useRouter()` nesnesinin `push`ı sarılır — `next/link` aynı nesneyi çağırdığı için linkler, komut paleti, kartlar hepsi yakalanır; linklerin kendi onClick'i (spoiler kilidi) bozulmaz. Bölümden bölüme, aynı rota, `replace` → perde yok. Aktifken `<html data-curtain>`; `useViewTransition` o zaman View Transition'ı atlar. |
-| Sayfa girişi | `app/template.tsx` | **Yalnız opacity.** VideoStage'in atası — transform/filter yazma (§ 2). |
-| Smooth scroll | `SmoothScroll.tsx` (Lenis) | Yalnız fare/trackpad. Modal/`.fixed`/`[role=dialog]`/iframe üstünde Lenis çekilir; `body.style.overflow='hidden'` olunca durur. Gerçek window scroll'u sürer → sticky/useScroll/IO aynen çalışır. |
-| Maskeli başlık | `SplitText.tsx` | Kelime başına maske. Görünürlük **kapsayıcıda** ölçülür. |
-| Hız şeridi | `VelocityMarquee.tsx` | Kaydırma hızı/yönüyle hızlanır ve eğilir. |
-| Saga Rotası | `components/home/SagaVoyage.tsx` | Desktop'ta sticky yatay galeri, mobilde snap carousel. |
-
-**Maske + IntersectionObserver tuzağı:** `overflow:hidden` kutunun dışında
-bekleyen öğeye (`y:'110%'`) tek tek `whileInView` koyma — IO onu tamamen
-kırpılmış sayar, hiç tetiklenmez. Tetiklemeyi kapsayıcıya ver, çocuklara
-varyantla yay (footer dev wordmark'ı bu yüzden öyle).
-
-**Sticky + overflow:** ana sayfa `<main>`i `overflow-x-clip` taşır,
-`overflow-hidden` değil — hidden kaydırma kabı yaratıp SagaVoyage'ın
-sticky'sini öldürür. Sticky bölüm ekleyeceksen atalarda `overflow-hidden` arama.
-
-**Header** aşağı kaydırınca gizlenir, yukarıda geri gelir (`.header-shell[data-hidden]`);
-menü/dropdown açıkken gizlenmez. Nav'da `layoutId` ile kayan aktif/hover
-zemini ve `.roll-text` (hover'da yuvarlanan etiket).
-
-## Framer Motion
-
-Standart varyantlar `lib/variants.ts`: `fadeIn`, `fadeUp`, `fadeUpLarge`, `fadeLeft`, `fadeRight`, `scaleIn`, `slideDown`, `modalBackdrop`, `modalPanel`, `staggerContainer(stagger)`. Sabit ease: `EASE = [0.22, 1, 0.36, 1]`.
-
-## Gotcha'lar — non-obvious
-
-### 1. Global Episode Numarası ARCS Sırasına Bağlı
-`getGlobalEpisodeNumber(arcSlug, episodeNumber)` `ARCS` dizisindeki arc sıralamasına göre kümülatif sayar. **Arc eklerken/sıra değiştirirken dikkat** — yanlış sıra tüm video embed'leri bozar.
-
-### 2. Video Oynatıcı — Kırpma Geometrisi + Tek iframe Kuralı
-Bölümler OnePaceTR sayfası iframe'e gömülüp **video alanına kırpılarak** oynatılıyor (OnePaceTR bir SPA, API'si token korumalı → video elementine erişemiyoruz).
-
-- Geometri artık magic number değil: `lib/player-config.ts` → `DEFAULT_GEOMETRY` (`width 200%, height 255%, offsetX -55%, offsetY -38%`) + `STAGE_ASPECT_RATIO = '16 / 11'`.
-- **Oran değiştirmek kadrajı bozar** — iframe'in kendi layout viewport'u kutu oranına bağlı, OnePaceTR responsive yerleşimi değişiyor. Oranı değiştirirsen geometriyi yeniden kalibre et. Aynı oran inline/sinema/mini modların **hepsinde** kullanılır (eskiden sinema modu 16/9'du, kadraj farklıydı).
-- Kullanıcı UI'dan kalibre edebilir (`PlayerSettings` → localStorage) ve `full` embed moduna düşebilir → geometri bozulsa bile oynatıcı çalışır.
-- **`onError` cross-origin iframe'de tetiklenmez.** Hata tespiti `onLoad` + `PLAYER_TIMINGS.loadTimeoutMs` zaman aşımıyla yapılır.
-
-**⚠️ Tek iframe kuralı**: `VideoStage` **asla remount edilmemeli** — remount oynatmayı sıfırlar. inline/sinema/mini geçişi sadece saran div'in `className`'ini değiştirir. Ayrıca sahnenin **hiçbir ata elemanında `transform`/`filter`/`contain` olmamalı** (`position: fixed` için containing block oluşturur). Bu yüzden WatchPage'de oynatıcı kolonu Framer Motion ile sarılmaz.
-
-`components/watch/`: `WatchPage` (mod orkestrasyonu + kısayollar) · `VideoStage` (kalıcı iframe + yükleme/hata) · `EpisodeRail` (arama/filtre/memo) · `PlayerSettings` · `UpNextCard` · `ShortcutsDialog` · `ResumeBar`.
-
-Kısayollar `PLAYER_SHORTCUTS`'tan beslenir (hem handler hem yardım paneli): `→/N`, `←/P`, `F`, `T`, `W`, `U`, `R`, `Esc`, `?`.
-
-### 2b. Sıradaki Bölüm Sayacı Tahminidir
-Cross-origin iframe'de gerçek `ended`/`currentTime` okunamaz. `hooks/useEpisodeTimer.ts` duvar saati sayar, sekme gizliyken durur. Bu yüzden **otomatik geçiş varsayılan olarak kapalı** (`usePlayerPrefs.autoAdvance`).
-
-### 3. Dynamic Import Zorunluluğu (SSR Patlar)
-Canvas/window erişimi yapan bileşenler **mutlaka** `dynamic(..., { ssr: false })` ile yüklenir:
-`ParticleField`, `WaveBackground`, `StatsBar`, `ArcTimeline`, `ScrollProgress`, `MobileBottomNav`, `PoneglyphOverlay`, `FeaturedArcSpotlight`, `JourneyScroll`, `SagaVoyage`, `RouteCurtain`, `SmoothScroll`.
-**İstisna:** `Preloader` SSR'da render edilmek ZORUNDA (bkz. Hareket Sistemi).
-
-### 4. KULLANMA Listesi
-- `CustomCursor` / `useMagnetic` — generic AI pattern'dı, dosyaları da silindi. Geri ekleme.
-- `next-auth` — custom JWT tercih edildi
-- `pg` paketi — Neon serverless yerine kullanılmaz
-
-### 5. Body Pseudo-element Z-Index
-`body::before` = noise texture (`z-9999`). `body::after` = ambient gradient orb'lar (`z-0`). İçerik `z-10+` olmalı, yoksa noise overlay'in altında kalır.
-
-### 5b. next/image Optimizasyonu KAPALI
-`next.config.mjs` → `images.unoptimized: true`. Vercel'in görsel optimizasyon
-kotası dolduğu için `/_next/image` üzerinden geçen her görsel production'da
-**HTTP 402** (`OPTIMIZED_IMAGE_REQUEST_PAYMENT_REQUIRED`) dönüyordu; ham
-dosyalar 200 veriyordu. Kapatınca `next/image` dosyayı olduğu gibi servis
-ediyor (kaynaklar zaten `.webp`).
-
-Bedeli: responsive yeniden boyutlandırma ve AVIF yok — tam boyut iniyor.
-Kota tekrar açılırsa tek satırı kaldırmak yeterli. Yerelde bu hata GÖRÜNMEZ,
-sadece Vercel'de olur.
-
-Optimizasyon kapalı olduğu için ağırlık **elle** yönetiliyor:
-
-1. **Kaynaklar q=0.78'de yeniden kodlandı** — 0.35-0.45 B/px ile gereksiz
-   yüksek kalitedeydiler. `public/arcs` 4.78 → 3.01 MB, `public/characters`
-   2.60 → 1.84 MB. Görsel fark yok (manga/anime düz renk + çizgi).
-2. **`public/characters/thumbs/` — 192px avatar kopyaları.** Gösterim ölçüsü
-   ≤96px olan her yerde `getCharacterThumb(slug)` kullanılır; kart/hero gibi
-   büyük kullanımlar `getCharacterImage()` ile tam portrede kalır.
-   /bounties tek başına 33 avatar × tam portre indiriyordu (~1.3 MB → 0.33 MB).
-
-**Yeni karakter eklerken thumb da üret** — yoksa avatar hiç görünmez
-(`getCharacterThumb` yol türetir, dosya yoksa 404). Üretim: headless Chrome
-canvas (`sips` webp yazamıyor); yöntem PR #6 açıklamasında.
-
-### 6. Next/Image Remote Host Whitelist
-`next.config.mjs` → `remotePatterns`: `avatars.githubusercontent.com`, `static.wikia.nocookie.net`, `i.imgur.com`, `cdn.myanimelist.net`. Yeni dış host → ekle. Format: AVIF > WebP.
-
-### 7. Bounty Tier Eşikleri Hardcoded
-`app/bounties/page.tsx`'de: Emperor ≥ 3B, Commander ≥ 1B, Supernova ≥ 300M, Rookie < 300M. `EXTRA_BOUNTIES` dizisi de aynı dosyada — constant'a taşınmamış (TODO).
-
-### 8. Ana Sayfa Hero Sticky Timing
-`app/page.tsx`: section `h-[130vh] sm:h-[160vh]`. Scene 1 opacity `[0, 0.25, 0.4] → [1, 1, 0]`, Scene 2 `[0.32, 0.5, 0.95, 1] → [0, 1, 1, 0]`. Scene 2 sonunda `scene2HintOpacity` ile "Devam et" chevron beliriyor. Timing bozulursa mobilde Scene 2 hiç görünmeyebilir.
-
-### 9. EraShowcase (Timeline) Sticky
-`components/timeline/EraShowcase.tsx` → `h-[490vh] sm:h-[630vh]` = 7 era × 70/90vh. Mobilde kısaltıldı. Timeline sayfasında PageHero'dan sonra "sinema modu" intro banner var — kullanıcı sticky sekansın geldiğini anlar.
-
-### 9b. Karakterler Sayfası Sekmeli
-`app/characters/page.tsx` iki sekme: **Karakterler** (arama + mürettebat
-filtresi + grid) ve **İlişkiler** (`RelationshipGraph`). Grafik eskiden
-listenin üstünde duruyordu, ağır bir blok olduğu için listeye ulaşmayı
-uzatıyordu. Sekme state'i `useState`, URL'e yazılmıyor.
-
-### 10. Relationship Graph Mobile Switch
-`components/characters/RelationshipGraph.tsx` `matchMedia('(max-width: 767px)')` ile mobilde circular SVG yerine avatar rail + relation list gösterir. Desktop'ta orijinal 1200×1200 viewBox SVG.
-
-### 11. Crew Affiliation — localStorage-only
-Register sırasında kullanıcı crew seçer (`lib/crew-affiliation.ts`). DB'de saklanmaz — localStorage'da. Profile banner'da aura rengi buradan okunur.
-
-### 12. Quiz Ses Efektleri Opt-in
-`lib/audio.ts` Web Audio API ile synth ses. `isSoundEnabled()` localStorage flag kontrolü. `SFX.correct/wrong/streak/yonko` ile çağrılır. Quiz sayfasında Volume2/VolumeX toggle var.
-
-### 13. View Transitions API
-`hooks/useViewTransition.ts` — `document.startViewTransition` sarar. CharacterCard, ArcCard, FeaturedArcSpotlight, DevilFruitDetail'de aktif. `viewTransitionName` ile shared element morph.
-
-### 14. Email Yok
-Users tablosunda `email` kolonu yok → şifre sıfırlama özelliği eklenemez (design choice).
-
-### 15. pixeldrainId Ölü Alan
-`types/Episode.pixeldrainId?` — eski video stratejisinden kalma, artık kullanılmıyor.
-
-### 15b. localStorage Anahtarları
-`onepiece-watched` (izleme, anonim) · `onepiece-player-prefs` (oynatıcı tercihleri + kalibrasyon) · `onepiece-last-watched` (ResumeBar) · `onepiece-theme` (tema) · crew affiliation · quiz ses flag'i · `onepiece-intro-seen` (sessionStorage — açılış sekansı). Hepsi cihaza özel, DB'ye yazılmaz. Yeni anahtar eklerken `lib/player-config.ts` → `PLAYER_STORAGE_KEYS` desenini izle.
-
-### 16. Yeni Feature Performance Kuralları
-**SVG > Canvas > External lib** — custom SVG/div çizimi tercih edilir (SSR-safe, no extra bundle). Recharts/Chart.js kullanma.
-
-**React.memo + useMemo** — list/grid bileşenler (card grid, leaderboard) ve filter/sort işlemleri mutlaka optimize edilmeli. Listelenecek bileşenleri `memo()` ile wrap, hesaplı `useMemo` için dependency array'leri eksiksiz.
-
-**dynamic(..., {ssr:false})** sadece window/canvas/Web Audio kullanan bileşenler için. SVG static render edilebilir.
-
-**generateStaticParams + Server Component** — veri statik ise page server component, `generateStaticParams` ile tüm slug'ları build-time SSG yapılır.
-
-**useScroll/useTransform gate** — parallax animasyonları `matchMedia('(min-width: 768px)')` ile md+ breakpoint'te aktif edilir (mobilde CPU yükü).
-
-**Image: sizes + format** — her image `sizes` prop, AVIF/WebP formatları next.config `images.formats` ile.
-
-**Inline animation objects** — `framer-motion` varyantları `lib/variants.ts`'den import et, component içinde inline tanımlama değil.
-
-Örnek: `PowerStatBars` → `React.memo`, `useInView` trigger, `useMemo` yok (veri prop), bar fill `animate={{width}}` with EASE constant.
-
-### 17. Tema Sabiti Düz Modülde Olmak ZORUNDA
-`THEME_STORAGE_KEY` ve blocking script gövdesi `lib/theme-config.ts`'te —
-`'use client'` TAŞIMAYAN düz bir modül. Bir server component (`layout.tsx`)
-`'use client'` modülünden sabit import ederse Next onu gerçek string yerine
-**client referans nesnesine** çevirir; script'e `'[object Object]'` gömülür,
-script bir anahtara yazıp `useTheme` başka anahtardan okur, kayıtlı tema
-tercihi her yüklemede sessizce yok sayılır. Yeni tema sabiti eklerken bu
-dosyaya koy.
-
-### 18. `<html>`'de `data-theme` Attribute'u YOK — Bilerek
-`layout.tsx` `<html>`e `data-theme` YAZMAZ. React'in bu attribute hakkında
-fikri olduğu anda, istemci render'ına düşen rotalarda (`loading.tsx`
-taşıyanlar) kök elemanı yeniden kurarken değeri SSR sabitine döndürüp init
-script'in yazdığını siliyor. Tek yazar: init script + `ThemeProvider`'ın
-mount effect'i (o effect attribute'u okumakla kalmaz, **yeniden yazar** —
-kaldırma). Hiç yazılmadığında `globals.css`teki `:root` zaten dark veriyor,
-yani JS kapalıyken de doğru.
-
-### 19. Mobil — Bilinen Durum ve Tuzaklar
-390×844 / DPR 2'de 16 rota × 2 tema tarandı (yatay kaydırma, viewport taşması,
-dokunma hedefi, minik metin). **Yatay kaydırma ve taşma sıfır.**
-
-İki tuzak çıktı, ikisi de aynı desende:
-
-**Dekoratif parıltı katmanları viewport'u büyütür.** `left-1/2 w-[500px]
--translate-x-1/2` bir parıltı 390px'lik ekranda ±250px yayılıp belgeyi 445px'e
-çıkarıyordu. `body { overflow-x: hidden }` bunu HER ZAMAN engellemez.
-Kural: negatif `-inset-*` veya viewport'tan geniş dekoratif kutu kullanıyorsan
-kapsayıcıya `overflow-hidden` VE yatayda `inset-x-0` ver.
-
-**Tam ödül rakamları mobil kartlara sığmaz.** "5.564.800.000" mono 13 karakter;
-3 sütunlu podyum kartından taşıyordu. Podyum mobilde `formatBounty()` kısa
-biçimini (`5.6B`) gösterir, `sm:` ve üstünde tam rakam — tasarım dokümanının
-mobil mock'u da böyle.
-
-**Dokunma hedefleri**: küçük metin linklerinde `-my-2 py-2` deseni kullanılır —
-alan ~32px'e çıkar, görsel aralık bozulmaz. Footer linkleri, /login alt
-linkleri ve /world çipleri bu desende.
-
-Kasıtlı bırakılanlar: 30-32px'lik ikincil chrome hedefleri (footer, profil
-çipi, "Başa Dön") ve wanted poster'ın 7-8px dekoratif metni (`sm:`de büyüyor).
-
-## CSS Reduced-Motion + Print
-
-- `prefers-reduced-motion`: tüm animasyonlar disable
-- `background-attachment: fixed` mobilde `scroll`'a döner (< 640px)
-- `::selection` gold, focus-visible gold ring
-- Print: dekoratif elementler gizlenir
-
-## Komutlar
-
-```bash
-npm run dev          # Dev server (port 3000)
-npm run build        # Production build
-npm run lint         # ESLint
-npm run typecheck    # tsc --noEmit
-npm run db:push      # Drizzle schema push
-npm run db:generate  # Migration generate
-npm run db:migrate   # Migration run
-npm run db:studio    # Drizzle Studio GUI
-```
-
-## Env Vars
-
-- `DATABASE_URL` — Neon Postgres
-- `AUTH_SECRET` — **zorunlu**, `openssl rand -base64 32`. Yoksa `lib/env.ts` throw eder.
-- `NEXT_PUBLIC_APP_URL` — `http://localhost:3000`
-- `NEXT_PUBLIC_APP_NAME` — `One Piece Hub`
-- `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` — opsiyonel, prod rate limit. Yoksa in-memory fallback.
-
-## Slash Commands (Proje-özel)
-
-`.claude/commands/` içinde:
-- `/new-arc <slug>` — doğru saga dosyasına arc iskelet ekler
-- `/new-character <slug>` — karakter iskelet ekler + images.ts güncellemesi hatırlatır
-- `/new-quiz <arcSlug>` — arc'a quiz ekler
-- `/add-bounty <slug>` — BOUNTIES'e entry ekler, tier doğrulaması yapar
-- `/mobile-audit` — kapsamlı mobil responsive tarama + düzeltme
-
-## Subagents (Proje-özel)
-
-`.claude/agents/` içinde:
-- `op-data-surgeon` — `lib/constants/*` güvenli edit + referans tutarlılığı
-- `op-design-auditor` — mobil/erişilebilirlik/tema/performans auditleri
-
-## Ekosistem Referansları
-
-- Global kurallar: `~/.claude/CLAUDE.md`
-- Tema: `~/dev-starter/knowledge/themes/ahmetakyapi.md`
-- Hatalar: `~/dev-starter/knowledge/mistakes.md`
-- Desenler: `~/dev-starter/knowledge/patterns.md`
+`.text-*-gradient` önce solid rengi alır; `-webkit-text-fill-color: transparent`
++ `background-clip: text` yalnız `@supports` içinde. Koşulsuz yazılınca
+desteksiz tarayıcıda metin tamamen görünmez oluyordu. Yeni utility aynı desende.
+
+### Utility sınıfları (`globals.css`)
+
+`.glass` `.glass-elevated` `.surface` `.bento-card` `.wanted-poster` ·
+`.btn-gold` `.btn-luffy` `.btn-ghost` · `.text-{gold,sea,fire}-gradient`
+`.stat-number` `.text-outline` · `.chip` `.tag` · `.glass-lift` `.shine-hover`
+`.divider-glow` `.orb` `.scrollbar-thin` · `.roll-text` `.page-enter`
+`.scroll-cue-drop` `.footer-giant`. (`.link-glow` tanımlı ama kullanılmıyor,
+`@layer components` purge ediyor.)
+
+### Marka ve ikonlar
+
+- `components/brand/CompassMark.tsx` → `CompassMark` · `Wordmark` · `BrandLockup`;
+  SVG renkleri token'lı, temayla döner.
+- Favicon'lar temasız sabit renk (favicon'da CSS değişkeni çözülmez).
+  `public/icon.svg` → favicon SVG, `icon-192/512`, `apple-touch-icon` (köşe
+  yuvarlaması YOK, iOS maskeler); `public/icon-small.svg` (sade, kalın kollar) →
+  `favicon-16/32`, `favicon.ico`. Rasterleştirme: headless Chrome (macOS
+  `sips`/`qlmanage` SVG işlemiyor), `.ico` = 16+32+48 PNG.
+
+### Detector bulguları — kasıtlı
+
+`npx impeccable detect app components lib`: `gradient-text` (fallback'li marka
+utility'leri), `bounce-easing` (`--ease-spring`, CSS mikro-etkileşim),
+`layout-transition` (`.progress-bar-fill` degrade taşıdığı için `scaleX` değil
+width) kasıtlı. `side-tab` (`border-l-4` kart vurgusu) açık madde.
+
+## Hareket Sistemi
+
+Orkestrasyon `lib/motion.ts` (`EASE_CURTAIN`, `EASE_REVEAL`, açılış durumu, rota
+etiketleri); bileşenler `components/motion/*`; varyantlar `lib/variants.ts`
+(`EASE` + `fadeUp`, `staggerContainer()` …) — bileşen içinde inline varyant
+tanımlama. Hepsi `prefers-reduced-motion`'da kapalı.
+
+- **Açılış — `Preloader.tsx`, "Seyir Haritası", sayaç YOK.** Çizim adımları CSS
+  keyframe (`.op-i-*`, ilk boyamada başlar, hydration'ı beklemez); çıkış Framer.
+  Oturumda bir kez (sessionStorage `onepiece-intro-seen`); `INTRO_INIT_SCRIPT`
+  ilk boyamadan önce `<html data-intro>` yazar, CSS yalnız o varken gösterir →
+  **SSR'da render edilir, `ssr:false` YAPMA** (içerik bir an görünüp örtülür).
+  JS patlarsa CSS failsafe gizler. Kaydırma kilidi `body`'de (html'de olursa
+  mobilde yatay taşma açılır). Dalga kenarının `scaleY`'si saran div'de — kök
+  `<svg>`'ye Framer transform yazınca dalga perdeden kopuyor.
+- **Hero bekleme**: `hooks/useIntroReady.ts` — hero animasyonları perde kalkınca
+  başlar, yoksa perdenin arkasında oynayıp biter.
+- **Rota perdesi — `RouteCurtain.tsx`**: `useRouter()` nesnesinin `push`ı
+  sarılır; `next/link` aynı nesneyi çağırdığı için tüm gezinmeler yakalanır,
+  linklerin kendi onClick'i (spoiler kilidi) bozulmaz. Bölümden bölüme, aynı
+  rota, `replace` → perde yok. Aktifken `<html data-curtain>`; `useViewTransition`
+  o zaman View Transition'ı atlar.
+- **Sayfa girişi `app/template.tsx` YALNIZ opacity** — VideoStage'in atası
+  (§ 2).
+- **Lenis — `SmoothScroll.tsx`**: yalnız fare/trackpad; dialog/`.fixed`/iframe
+  üstünde çekilir, `body.style.overflow='hidden'` olunca durur. Gerçek window
+  scroll'u sürer → sticky/useScroll/IO çalışır.
+- **Header** aşağı kaydırınca gizlenir (`.header-shell[data-hidden]`), menü
+  açıkken gizlenmez.
+- **View Transitions**: `hooks/useViewTransition.ts` (kartlar, spotlight, meyve
+  ve keşfet sayfaları; `viewTransitionName` ile morph).
+
+Tuzaklar:
+- **Maske + IO**: `overflow:hidden` dışında bekleyen öğeye (`y:'110%'`) tek tek
+  `whileInView` koyma — IO kırpılmış sayar, hiç tetiklenmez. Tetik kapsayıcıda,
+  çocuklara varyantla yay (`SplitText`, footer wordmark böyle).
+- **Sticky + overflow**: sticky'nin atalarında `overflow-hidden` olmamalı —
+  kaydırma kabı yaratıp sticky'yi öldürür. Ana sayfa `<main>`i bu yüzden
+  `overflow-x-clip` (SagaVoyage).
+
+## Gotcha'lar
+
+> Numaralar koddan referanslanıyor (`§ 2`, `§ 5b`, `§ 16`) — yeniden numaralama.
+
+### 1. Global bölüm numarası ARCS sırasına bağlı
+`getGlobalEpisodeNumber` (`lib/constants/arcs/index.ts`) `ARCS` sırasına göre
+kümülatif sayar. Arc eklerken/sıra değiştirirken dikkat — yanlış sıra tüm video
+embed'lerini kaydırır.
+
+### 2. Video oynatıcı — kırpma + tek iframe
+OnePaceTR sayfası iframe'e gömülüp **video alanına kırpılır** (SPA, API token
+korumalı → video elementine erişim yok).
+- Geometri ve oran `lib/player-config.ts` (`DEFAULT_GEOMETRY`,
+  `STAGE_ASPECT_RATIO`). **Oranı değiştirmek kadrajı bozar** (iframe'in layout
+  viewport'u kutu oranına bağlı) → değiştirirsen geometriyi yeniden kalibre et.
+  Inline/sinema/mini aynı oranı kullanır.
+- Kullanıcı `PlayerSettings`'ten kalibre edebilir ve `full` embed moduna düşebilir.
+- **Cross-origin iframe'de `onError` tetiklenmez** → hata `onLoad` +
+  `PLAYER_TIMINGS.loadTimeoutMs`. `ended`/`currentTime` da okunamaz:
+  `hooks/useEpisodeTimer.ts` duvar saati sayar (sekme gizliyken durur), bu yüzden
+  otomatik geçiş varsayılan kapalı (`usePlayerPrefs.autoAdvance`).
+- **⚠️ Tek iframe**: `VideoStage` asla remount edilmez (oynatma sıfırlanır);
+  mod geçişi yalnız saran div'in `className`'i. Sahnenin **hiçbir atasında
+  `transform`/`filter`/`contain` olmaz** (`position: fixed` için containing block)
+  — WatchPage'de oynatıcı kolonu Framer ile sarılmaz.
+- Kısayollar tek kaynak `PLAYER_SHORTCUTS` (handler + yardım paneli).
+
+### 3. `dynamic(..., { ssr: false })`
+Yalnız window/canvas/Web Audio/localStorage'a render'da dokunan bileşenler
+(ana sayfa sahneleri, `ClientLayout`'taki overlay'ler, `RelationshipGraph` …).
+SVG statik render edilebilir. **İstisna: `Preloader` SSR ZORUNLU.**
+
+### 4. KULLANMA
+- `CustomCursor` / `useMagnetic` — generic AI deseni, silindi; geri ekleme.
+- `next-auth` (custom JWT var) · `pg` (Neon serverless var).
+- Recharts/Chart.js — çizimler custom SVG/div.
+
+### 5. Body pseudo-element katmanları
+`body::before` = noise (`z-9999`, pointer-events yok, mobilde kapalı);
+`body::after` = ambient orb'lar (`fixed`, `z-0`). Konumlanmamış içerik orb
+katmanının altında kalır → içerik `relative z-10` (ya da üstü).
+
+### 5b. next/image optimizasyonu KAPALI
+`next.config.mjs` → `images.unoptimized: true`: Vercel optimizasyon kotası dolunca
+`/_next/image` production'da 402 döndü (yerelde görünmez). Kota açılırsa tek
+satırı kaldır. Bedeli: tam boyut iner, ağırlık elle yönetilir:
+- Kaynaklar `.webp`, makul kalitede yeniden kodlandı.
+- ≤96px avatar gösterimi `getCharacterThumb(slug)` → `public/characters/thumbs/`
+  (192px); büyük kullanım `getCharacterImage()`.
+- **Yeni karakterde thumb da üret** — yoksa avatar 404. Üretim: headless Chrome
+  canvas (`sips` webp yazamıyor), yöntem PR #6'da.
+
+Dış görsel host'u eklerken hem `remotePatterns`'a hem `headers()` CSP
+`img-src`'ye yaz.
+
+### 7. Bounty kademeleri
+Eşikler `app/bounties/page.tsx` → `TIERS` (≥3B İmparator, ≥1B Komutan, ≥300M
+Supernova, altı Çaylak) — constant'a taşınmadı. Veri `lib/constants/bounties.ts`.
+
+### 11. Tarayıcıda kalan kullanıcı verisi
+DB'ye yazılmaz, cihaza özel: `onepiece-watched` (anonim izleme),
+`onepiece-player-prefs`, `onepiece-last-watched`, `onepiece-theme`,
+`onepiece-crew-affiliation` (kayıtta seçilir, profil aurası), `onepiece-sound-enabled`
+(quiz sesi opt-in, `lib/audio.ts`), `onepiece-spoiler-gate`, sessionStorage
+`onepiece-intro-seen`. Yeni anahtar `onepiece-` önekli, modülde sabit
+(`PLAYER_STORAGE_KEYS` deseni).
+
+### 16. Performans
+- Ağır kaydırma efektleri (parallax, sabit yatay galeri, hız şeridi)
+  `hooks/useMotionGate.ts` arkasında: yalnız md+ ve hareket azaltma kapalıyken.
+- Liste/grid kartları `memo`, filtre/sıralama `useMemo`.
+- Statik slug sayfaları server component + `generateStaticParams`.
+
+### 17. Tema sabiti düz modülde ZORUNLU
+`THEME_STORAGE_KEY`, `THEME_INIT_SCRIPT`, `INTRO_INIT_SCRIPT` → `lib/theme-config.ts`,
+`'use client'` TAŞIMAZ. Server component `'use client'` modülünden sabit import
+ederse gerçek string yerine client referansı gelir, script'e `'[object Object]'`
+gömülür ve kayıtlı tema sessizce yok sayılır.
+
+### 18. `<html>`'de `data-theme` JSX'te YOK — bilerek
+React bu attribute'a sahip çıkarsa istemci render'ına düşen rotalarda
+(`loading.tsx` taşıyanlar) SSR değerine döndürüp init script'in yazdığını siler.
+Tek yazar: init script + `ThemeProvider` mount effect'i (yeniden yazar —
+kaldırma). Hiç yazılmazsa `:root` dark verir, JS kapalıyken de doğru.
+
+### 19. Mobil tuzaklar
+390px'te 16 rota × 2 tema tarandı, yatay taşma sıfır — öyle kalmalı.
+- **Dekoratif parıltı viewport'u büyütür**: `left-1/2 w-[500px] -translate-x-1/2`
+  ya da negatif `-inset-*` kutular belgeyi genişletir; `body{overflow-x:hidden}`
+  her zaman kurtarmaz. Kapsayıcıya `overflow-hidden` + yatayda `inset-x-0`.
+- **Tam ödül rakamı mobil karta sığmaz** → mobilde `formatBounty()` kısa biçim
+  (`5.6B`), `sm:` ve üstünde tam rakam.
+- **Dokunma hedefi**: küçük metin linklerinde `-my-2 py-2` (alan büyür, aralık
+  bozulmaz). Kasıtlı istisna: 30–32px ikincil chrome ve wanted poster'ın
+  dekoratif mikro metni.
+- `RelationshipGraph` mobilde (`max-width: 767px`) dairesel SVG yerine avatar
+  rayı + liste; `EraShowcase` sticky sekansı yalnız md+ (mobilde scroll jail).
+
+## Proje `.claude/`
+
+- Komutlar: `/new-arc <slug> [saga]`, `/new-character <slug>`, `/new-quiz <arcSlug>`,
+  `/add-bounty <slug> <miktar>`, `/mobile-audit`.
+- Ajanlar: `op-data-surgeon` (`lib/constants/*` güvenli edit + referans
+  bütünlüğü), `op-design-auditor` (mobil/erişilebilirlik/tema/performans
+  denetimi, edit etmez).
+
+Ekosistem: `~/.claude/CLAUDE.md` · `~/dev-starter/knowledge/{themes/ahmetakyapi,mistakes,patterns}.md`.
