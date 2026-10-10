@@ -243,7 +243,7 @@ Proje `.claude/` altında AI-assisted dev için komple kurulum içerir:
 | Subagent | `op-data-surgeon` | `lib/constants/*` güvenli edit + slug referans bütünlüğü |
 | Subagent | `op-design-auditor` | Mobil/a11y/tema/performans auditleri (rapor-only) |
 
-`CLAUDE.md` proje-özel gotcha'ları içerir — OnePaceTR iframe offset'leri, Scene 2 timing, dynamic import zorunluluğu, crew affiliation localStorage-only, vb.
+`CLAUDE.md` proje-özel gotcha'ları içerir — OnePaceTR iframe kadrajı, tek iframe kuralı, dynamic import zorunluluğu, crew affiliation localStorage-only, vb.
 
 ---
 
@@ -263,7 +263,6 @@ Bilinçli olarak dışarda bırakılanlar:
 - `hooks/useMagnetic.ts` — aynı sebep
 - `next-auth` — custom JWT tercih edildi
 - `pg` — Neon serverless yerine kullanılmaz
-- `types/Episode.pixeldrainId` — eski video stratejisinden artık
 
 ---
 

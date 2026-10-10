@@ -49,4 +49,4 @@ Bounty eklenecek. Slug: `$1`, Miktar: `$2`.
 - BOUNTIES listesi azalan sıralı olmalı. Sıralama bozulursa `/bounties` podium ve tier listeleri yanlış sıralanır.
 - `crew` label'ı okunabilir Türkçe olmalı. Bu alan sadece UI'da gösterilir, filter değişkeni değil.
 - Podium (top 3) `isFiltered === false` iken görünür.
-- `EXTRA_BOUNTIES` dizisi `app/bounties/page.tsx`'de (constant'a taşınmamış) — kullanıcı "ek 32 bounty" kavramını kastediyorsa oraya eklenmeli, ama ana liste BOUNTIES'tir.
+- Tier eşikleri `app/bounties/page.tsx` → `TIERS` (`minBounty`); ayrı bir ek bounty listesi yok, tek kaynak BOUNTIES.

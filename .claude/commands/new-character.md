@@ -77,3 +77,9 @@ Yeni karakter eklenecek. Slug: `$1`.
   ],
 },
 ```
+
+## Görseller (ikisi de şart)
+
+- Tam portre: `public/characters/<slug>.webp` + `CHARACTER_IMAGES` kaydı (`lib/constants/images.ts`).
+- 192px avatar kopyası: `public/characters/thumbs/<slug>.webp`. ≤96px gösterimler
+  `getCharacterThumb(slug)` ile bu yolu türetir; dosya yoksa avatar 404 verir.
