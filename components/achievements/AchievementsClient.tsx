@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { LogIn, Sparkles } from 'lucide-react'
@@ -10,25 +10,52 @@ import { ARCS } from '@/lib/constants/arcs'
 import { fadeUp, EASE } from '@/lib/variants'
 import AchievementShowcase from './AchievementShowcase'
 
-function getLocalFavorites(): number {
-  if (typeof window === 'undefined') return 0
-  try {
-    const raw = localStorage.getItem('onepiece-favorites')
-    return raw ? JSON.parse(raw).length : 0
-  } catch { return 0 }
+type RemoteStats = {
+  quizScores: Array<{ score: number; totalQ: number }>
+  favoritesCount: number
+  commentsCount: number
 }
 
-function getLocalQuizScores(): Array<{ score: number; totalQ: number }> {
-  if (typeof window === 'undefined') return []
-  try {
-    const raw = localStorage.getItem('onepiece-quiz-scores')
-    return raw ? JSON.parse(raw) : []
-  } catch { return [] }
+const EMPTY_REMOTE: RemoteStats = { quizScores: [], favoritesCount: 0, commentsCount: 0 }
+
+/* Quiz skorları, favoriler ve yorumlar yalnız DB'de (girişli kullanıcı). Bu ekran
+   eskiden hiçbir kodun yazmadığı localStorage anahtarlarını okuyordu, o yüzden bu
+   başarımlar herkeste sıfırda kalıyordu. Kaynak profil sayfasıyla aynı uçlar. */
+async function loadRemoteStats(): Promise<RemoteStats> {
+  const get = (url: string) =>
+    fetch(url)
+      .then((r) => (r.ok ? r.json() : null))
+      .catch(() => null)
+  const [quiz, favs, comments] = await Promise.all([
+    get('/api/quiz-scores'),
+    get('/api/favorites'),
+    get('/api/comments?mine=count'),
+  ])
+  return {
+    quizScores: quiz?.data?.scores ?? [],
+    favoritesCount: favs?.data?.favorites?.length ?? 0,
+    commentsCount: comments?.data?.count ?? 0,
+  }
 }
 
 export default function AchievementsClient() {
   const { user, loading } = useAuth()
   const { watched } = useWatchedEpisodes()
+  const [remote, setRemote] = useState<RemoteStats>(EMPTY_REMOTE)
+
+  useEffect(() => {
+    if (!user) {
+      setRemote(EMPTY_REMOTE)
+      return
+    }
+    let cancelled = false
+    loadRemoteStats().then((r) => {
+      if (!cancelled) setRemote(r)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [user])
 
   const stats = useMemo(() => {
     const watchedSlugs = Array.from(watched)
@@ -41,7 +68,7 @@ export default function AchievementsClient() {
       if (completed > 0 && completed === arc.episodes.length) completedArcs++
     }
 
-    const quizScores = getLocalQuizScores()
+    const quizScores = remote.quizScores
     const perfectQuizzes = quizScores.filter(q => q.score === q.totalQ).length
     const totalQuizScore = quizScores.reduce((sum, q) => sum + q.score, 0)
 
@@ -51,10 +78,10 @@ export default function AchievementsClient() {
       quizzesTaken: quizScores.length,
       perfectQuizzes,
       totalQuizScore,
-      favoritesCount: getLocalFavorites(),
-      commentsCount: 0,
+      favoritesCount: remote.favoritesCount,
+      commentsCount: remote.commentsCount,
     }
-  }, [watched])
+  }, [watched, remote])
 
   if (loading) {
     return (

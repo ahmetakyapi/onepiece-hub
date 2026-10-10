@@ -5,14 +5,26 @@ import { db } from '@/lib/db'
 import { comments } from '@/lib/schema'
 import { verifyToken } from '@/lib/token'
 import { isValidTarget } from '@/lib/validation'
-import { eq, and, desc } from 'drizzle-orm'
+import { eq, and, desc, count } from 'drizzle-orm'
 
 const COMMENT_MIN_LENGTH = 2
 const COMMENT_MAX_LENGTH = 500
 
 // GET /api/comments?targetType=arc&targetSlug=xxx
+// GET /api/comments?mine=count — giriş yapmış kullanıcının yorum sayısı (başarımlar)
 export async function GET(req: NextRequest) {
   try {
+    if (req.nextUrl.searchParams.get('mine') === 'count') {
+      const token = req.cookies.get('session')?.value
+      const user = token ? await verifyToken(token) : null
+      if (!user) return err('Giriş yapmalısınız', 401)
+      const [row] = await db
+        .select({ value: count() })
+        .from(comments)
+        .where(eq(comments.userId, user.id))
+      return ok({ count: row?.value ?? 0 })
+    }
+
     const targetType = req.nextUrl.searchParams.get('targetType')
     const targetSlug = req.nextUrl.searchParams.get('targetSlug')
 
