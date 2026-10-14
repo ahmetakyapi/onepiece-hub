@@ -132,7 +132,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
               <div className={`inline-flex items-center gap-2 rounded-full border ${cls.border} ${cls.bg} px-4 py-1.5 backdrop-blur-md`}>
                 <span className="text-lg">{data.iconEmoji}</span>
                 <span className={`eyebrow-lg ${cls.text}`}>
-                  Saga {String(data.index).padStart(2, '0')} / {String(data.totalSagas).padStart(2, '0')}
+                  Saga {data.index} / {data.totalSagas}
                 </span>
               </div>
               {data.era && (
@@ -228,10 +228,10 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
 
                       <div className="p-5">
                         <div className="mb-2 flex items-center gap-2">
-                          <span className="eyebrow text-pirate-muted/60">
-                            Arc {String(i + 1).padStart(2, '0')}
+                          <span className="eyebrow text-pirate-muted">
+                            {i + 1}. Arc
                           </span>
-                          <span className="inline-flex items-center gap-1 font-mono text-[10px] font-bold text-sea">
+                          <span className="inline-flex items-center gap-1 font-mono text-xs font-bold text-sea">
                             <Film className="h-2.5 w-2.5" />
                             {arc.episodeCount} bölüm
                           </span>
@@ -357,7 +357,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
                       </p>
                       <Link
                         href={`/arcs/${e.arcSlug}`}
-                        className="eyebrow mt-0.5 inline-block text-pirate-muted/60 hover:text-gold transition-colors"
+                        className="eyebrow mt-0.5 inline-block text-pirate-muted hover:text-gold transition-colors"
                       >
                         {e.arcName} →
                       </Link>
@@ -378,7 +378,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
             >
               <ChevronLeft className="h-5 w-5 flex-shrink-0 text-pirate-muted transition-all group-hover:-translate-x-1 group-hover:text-gold" />
               <div className="min-w-0 flex-1">
-                <p className="eyebrow text-pirate-muted/60">
+                <p className="eyebrow text-pirate-muted">
                   Önceki Saga
                 </p>
                 <p className="truncate text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">
@@ -388,7 +388,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
             </Link>
           ) : (
             <div className="rounded-2xl border border-dashed border-pirate-border/15 bg-ocean-surface/10 p-4 text-center">
-              <p className="eyebrow text-pirate-muted/40">
+              <p className="eyebrow text-pirate-muted">
                 Yolculuğun Başı
               </p>
             </div>
@@ -399,7 +399,7 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
               className="group flex items-center gap-3 rounded-2xl border border-pirate-border/30 bg-ocean-surface/30 p-4 text-right transition-all hover:border-gold/40 hover:bg-ocean-surface/60"
             >
               <div className="min-w-0 flex-1">
-                <p className="eyebrow text-pirate-muted/60">
+                <p className="eyebrow text-pirate-muted">
                   Sonraki Saga
                 </p>
                 <p className="truncate text-sm font-bold text-pirate-text group-hover:text-gold transition-colors">

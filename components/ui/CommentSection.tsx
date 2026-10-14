@@ -184,7 +184,7 @@ export default function CommentSection({ targetType, targetSlug }: Props) {
                   <span className="text-xs font-semibold text-pirate-text">
                     @{comment.username}
                   </span>
-                  <span className="font-mono text-[10px] text-pirate-muted/40">
+                  <span className="font-mono text-xs text-pirate-muted">
                     {getTimeAgo(comment.createdAt)}
                   </span>
                   <div className="flex-1" />

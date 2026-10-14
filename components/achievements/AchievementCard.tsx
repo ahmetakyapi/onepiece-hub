@@ -54,7 +54,7 @@ function AchievementCard({ achievement, unlocked, index = 0 }: AchievementCardPr
               {achievement.name}
             </p>
             {unlocked && (
-              <span className={cn('eyebrow rounded-full px-1.5 py-1 text-[9px]', tier.bg, tier.color)}>
+              <span className={cn('eyebrow rounded-full px-1.5 py-1 text-xs', tier.bg, tier.color)}>
                 {tier.label}
               </span>
             )}

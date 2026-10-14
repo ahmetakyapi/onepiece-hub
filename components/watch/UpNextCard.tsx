@@ -87,7 +87,7 @@ export default function UpNextCard({
           <p className="truncate text-[13px] font-bold text-pirate-text">
             {episodeTitle}
           </p>
-          <p className="font-mono text-[10px] text-pirate-muted">Bölüm {globalEpisode}</p>
+          <p className="font-mono text-xs text-pirate-muted">Bölüm {globalEpisode}</p>
         </div>
 
         <div className="flex flex-shrink-0 items-center gap-1.5">

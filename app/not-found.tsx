@@ -39,7 +39,7 @@ export default function NotFound() {
           <div className="manga-panel flex flex-col justify-between p-5 sm:p-6">
             <div>
               <h1 className="text-xl font-extrabold leading-tight text-pirate-text sm:text-2xl">
-                Bu ada henüz keşfedilmedi.
+                Bu ada henüz keşfedilmedi
               </h1>
             </div>
             <span

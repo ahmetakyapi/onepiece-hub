@@ -55,7 +55,7 @@ export default function SagasPage() {
               koyu metnin arkasında leke bırakıyordu, kaldırıldı. */}
           <SplitText as="h1" play delay={0.2} className="mb-4 text-4xl font-extrabold text-pirate-text sm:text-5xl md:text-6xl" text="Sagalar" />
           <p className="mx-auto max-w-2xl text-sm leading-relaxed text-pirate-text/70 sm:text-base">
-            One Piece&apos;in büyük destanı {SAGAS.length} destansı saga, {totalArcs} arc ve {totalEpisodes}+ bölümden oluşuyor. Her saga kendi dünyası, düşmanı ve duygu tonuyla unutulmaz bir yolculuk.
+            One Piece&apos;in hikâyesi burada {SAGAS.length} saga, {totalArcs} arc ve filler&apos;sız {totalEpisodes} bölümden oluşuyor. Her saganın kendi dünyası, düşmanı ve havası var.
           </p>
 
           {/* Journey stats */}
@@ -67,7 +67,7 @@ export default function SagasPage() {
               <span className="stat-number text-base font-bold text-gold">{totalArcs}</span> arc
             </div>
             <div className="rounded-full border border-pirate-border/30 bg-ocean-surface/40 px-4 py-2 text-xs font-semibold text-pirate-text">
-              <span className="stat-number text-base font-bold text-gold">{totalEpisodes}</span>+ bölüm
+              <span className="stat-number text-base font-bold text-gold">{totalEpisodes}</span> bölüm
             </div>
           </div>
         </div>

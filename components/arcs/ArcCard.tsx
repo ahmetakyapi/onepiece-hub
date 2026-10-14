@@ -7,6 +7,7 @@ import { ArrowRight, Compass, Film, EyeOff, Eye } from 'lucide-react'
 import { memo, useRef, useCallback, useEffect, useState } from 'react'
 import { fadeUp } from '@/lib/variants'
 import { getArcImage } from '@/lib/constants/images'
+import { getSagaName } from '@/lib/constants/sagas'
 import { useViewTransition } from '@/hooks/useViewTransition'
 import { useSpoilerGate } from '@/hooks/useSpoilerGate'
 import type { Arc } from '@/types'
@@ -74,7 +75,7 @@ function ArcCard({ arc }: { arc: Arc }) {
             navigate(`/arcs/${arc.slug}`)
           }}
           className="bento-card group relative flex flex-col overflow-hidden"
-          aria-label={blocked ? `Spoiler: ${arc.saga ?? ''} gizli arc. Göstermek için tıkla.` : undefined}
+          aria-label={blocked ? `Spoiler: ${getSagaName(arc.saga)} sagasından gizli arc. Göstermek için tıkla.` : undefined}
         >
           {/* Holographic shine overlay */}
           <motion.div
@@ -110,14 +111,14 @@ function ArcCard({ arc }: { arc: Arc }) {
                   <EyeOff className="h-5 w-5 text-luffy" />
                 </div>
                 <p className="eyebrow-lg text-luffy">Spoiler</p>
-                <p className="text-[10px] text-pirate-text/70">Göstermek için tıkla</p>
+                <p className="text-xs text-pirate-text/70">Göstermek için tıkla</p>
               </div>
             )}
 
             {/* Saga badge */}
             {arc.saga && !blocked && (
-              <span className="absolute left-3 top-3 tag border-gold/15 bg-gold/[0.08] text-gold/70">
-                {arc.saga.toUpperCase()}
+              <span className="absolute left-3 top-3 tag border-gold/25 bg-ocean-deep/75 text-gold backdrop-blur-md">
+                {getSagaName(arc.saga)}
               </span>
             )}
             {/* Episode badge */}

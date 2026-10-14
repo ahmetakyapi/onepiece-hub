@@ -396,25 +396,29 @@ body::after {
 /* ─── Components ────────────────────────────────────────────────────────── */
 @layer components {
 
-  /* ── Eyebrow — Space Mono etiket ──────────────────────────────────────
+  /* ── Eyebrow — işlevsel etiket ────────────────────────────────────────
      Yalnız işlevsel/veri etiketleri (stat başlığı, kart içi alan adı,
      rozet). Başlık üstü süs kicker'ı olarak KULLANILMAZ — kaldırıldılar,
-     bkz. CLAUDE.md § Tipografi. Title Case kuralı buraya işlemez. */
+     bkz. CLAUDE.md § Tipografi.
+
+     Okunur etiket (Ekim 2026, sahibinin isteği): Manrope, normal harf,
+     en az 12px. Eskiden 10px Space Mono + büyük harf + 0.2em aralıktı;
+     149 kullanımda okunmuyordu ("KONUM", "ÖNE ÇIKAN KARAKTERLER").
+     Metin elle yazıldığı gibi görünür — Title Case'i kaynak taşır.
+     Rakamın kendisi mono kalacaksa yanına `font-mono` ayrıca yazılır. */
   .eyebrow {
-    font-family: var(--font-mono), ui-monospace, monospace;
-    font-weight: 700;
-    font-size: 0.625rem;
-    line-height: 1.2;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
+    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 600;
+    font-size: 0.75rem;
+    line-height: 1.3;
+    letter-spacing: 0;
   }
   .eyebrow-lg {
-    font-family: var(--font-mono), ui-monospace, monospace;
-    font-weight: 700;
-    font-size: 0.6875rem;
-    line-height: 1.2;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
+    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 600;
+    font-size: 0.8125rem;
+    line-height: 1.3;
+    letter-spacing: 0;
   }
 
   /* ── Glass v2: Multi-layer glassmorphism ─────────────────────────────
@@ -773,18 +777,19 @@ body::after {
   }
 
   /* ── Tag pill — for categories ─────────────────────────────────────── */
+  /* 12px, normal harf — eskiden 10.4px + büyük harfti ("LUFFY",
+     "EAST-BLUE"); okunur etiket kuralı, bkz. `.eyebrow`. */
   .tag {
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    padding: 0.2rem 0.5rem;
+    padding: 0.2rem 0.55rem;
     border-radius: 6px;
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 600;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
+    line-height: 1.35;
     background: rgb(var(--sea) / 0.1);
-    color: rgb(var(--pirate-text) / 0.75);
+    color: rgb(var(--pirate-text) / 0.85);
     border: 1px solid rgb(var(--sea) / 0.1);
   }
 

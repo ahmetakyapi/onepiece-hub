@@ -273,7 +273,7 @@ export default function PowerRankingClient() {
                       {char.name}
                     </p>
                     {char.epithet && (
-                      <p className="text-[10px] text-pirate-muted/70 truncate">{char.epithet}</p>
+                      <p className="text-xs text-pirate-muted truncate">{char.epithet}</p>
                     )}
                   </div>
 

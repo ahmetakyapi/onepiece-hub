@@ -160,7 +160,7 @@ export default function SpoilerGateWidget() {
                 <div className="min-h-[5rem] flex-1 overflow-y-auto scrollbar-thin px-5 pb-5 space-y-3 short:pt-3 short:pb-3">
                   {groupedArcs.map(({ saga, arcs }) => (
                     <div key={saga.slug}>
-                      <p className="eyebrow mb-1.5 text-[9px] text-pirate-muted/70">
+                      <p className="eyebrow mb-1.5 text-xs text-pirate-muted">
                         {saga.name}
                       </p>
                       <div className="flex flex-wrap gap-1.5">

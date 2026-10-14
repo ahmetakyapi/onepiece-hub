@@ -81,7 +81,7 @@ function AvatarStack({ count }: { count: number }) {
         ))}
       </div>
       {extra > 0 && (
-        <span className="ml-1.5 font-mono text-[10px] font-semibold text-pirate-muted">
+        <span className="ml-1.5 font-mono text-xs font-semibold text-pirate-muted">
           +{extra}
         </span>
       )}
@@ -153,7 +153,7 @@ export default function CrewsPage() {
               <span className={`text-xs font-semibold transition-colors ${!activeType ? 'text-gold' : 'text-pirate-muted group-hover:text-pirate-text'}`}>
                 Tümü
               </span>
-              <span className={`rounded-full px-2 py-0.5 font-mono text-[10px] font-bold ${!activeType ? 'bg-gold/20 text-gold' : 'bg-pirate-border/30 text-pirate-muted'}`}>
+              <span className={`rounded-full px-2 py-0.5 font-mono text-xs font-bold ${!activeType ? 'bg-gold/20 text-gold' : 'bg-pirate-border/30 text-pirate-muted'}`}>
                 {CREWS.length}
               </span>
             </motion.button>
@@ -179,7 +179,7 @@ export default function CrewsPage() {
                   <span className={`text-xs font-semibold transition-colors ${isActive ? colors.text : 'text-pirate-muted group-hover:text-pirate-text'}`}>
                     {CREW_TYPE_LABELS[type]}
                   </span>
-                  <span className={`rounded-full px-2 py-0.5 font-mono text-[10px] font-bold ${isActive ? `${colors.bg} ${colors.text}` : 'bg-pirate-border/30 text-pirate-muted'}`}>
+                  <span className={`rounded-full px-2 py-0.5 font-mono text-xs font-bold ${isActive ? `${colors.bg} ${colors.text}` : 'bg-pirate-border/30 text-pirate-muted'}`}>
                     {count}
                   </span>
                 </motion.button>
@@ -232,7 +232,7 @@ export default function CrewsPage() {
                             <h3 className={`mb-1 text-base font-bold ${crew.color} transition-colors group-hover:text-gold`}>
                               {crew.name}
                             </h3>
-                            <p className="font-mono text-[10px] text-pirate-muted/50">{crew.japaneseName}</p>
+                            <p className="font-mono text-xs text-pirate-muted">{crew.japaneseName}</p>
                           </div>
                           {/* Status dot */}
                           <div className="flex items-center gap-1.5 pt-1">
@@ -240,7 +240,7 @@ export default function CrewsPage() {
                               <span className={`absolute inline-flex h-full w-full animate-ping rounded-full ${status.dot} opacity-40`} />
                               <span className={`relative inline-flex h-2.5 w-2.5 rounded-full ${status.dot} ring-2 ${status.ring}`} />
                             </span>
-                            <span className="text-[10px] font-medium text-pirate-muted">
+                            <span className="text-xs font-medium text-pirate-muted">
                               {status.label}
                             </span>
                           </div>
@@ -248,7 +248,7 @@ export default function CrewsPage() {
 
                         {/* Type badge */}
                         <div className="mb-3">
-                          <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold ${crew.bg} ${crew.color}`}>
+                          <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold ${crew.bg} ${crew.color}`}>
                             {(() => { const TIcon = TYPE_ICONS[crew.type] ?? Anchor; return <TIcon className="h-2.5 w-2.5" /> })()}
                             {CREW_TYPE_LABELS[crew.type]}
                           </span>

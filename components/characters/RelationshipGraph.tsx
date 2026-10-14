@@ -127,7 +127,7 @@ export default function RelationshipGraph() {
       {/* Mobile: character picker rail */}
       {isMobile && (
         <div className="bento-card overflow-hidden rounded-2xl p-4">
-          <p className="eyebrow mb-3 px-1 text-pirate-muted/70">
+          <p className="eyebrow mb-3 px-1 text-pirate-muted">
             Karakter seç, ilişkilerini gör
           </p>
           <div className="-mx-2 flex gap-3 overflow-x-auto px-2 pb-2 scrollbar-thin">
@@ -347,7 +347,7 @@ export default function RelationshipGraph() {
                 </div>
                 <div className="min-w-0">
                   <h3 className="truncate text-base font-bold text-pirate-text sm:text-lg">{selected.name}</h3>
-                  <span className="eyebrow text-pirate-muted/60">
+                  <span className="eyebrow text-pirate-muted">
                     {filteredSelectedRelations.length} ilişki bağlantısı
                   </span>
                 </div>
@@ -388,7 +388,7 @@ export default function RelationshipGraph() {
                         <p className="truncate text-base font-bold text-pirate-text transition-colors group-hover:text-gold sm:text-base">
                           {rel.name}
                         </p>
-                        <p className="eyebrow mt-1 text-pirate-muted/60">{config.label}</p>
+                        <p className="eyebrow mt-1 text-pirate-muted">{config.label}</p>
                       </div>
                       {rel.label && (
                         <span

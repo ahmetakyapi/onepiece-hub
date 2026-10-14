@@ -18,7 +18,7 @@ const manrope = Manrope({
   display: 'swap',
 })
 
-/* Etiket / veri — Space Mono. Eyebrow'lar, ödüller, bölüm numaraları. */
+/* Veri — Space Mono: ödüller, bölüm numaraları, süreler. Etiketler Manrope. */
 const spaceMono = Space_Mono({
   subsets: ['latin', 'latin-ext'],
   weight: ['400', '700'],

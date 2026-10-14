@@ -76,7 +76,7 @@ const SagaPanel = memo(function SagaPanel({
       </div>
 
       <div className="relative flex items-start justify-between p-6 sm:p-7">
-        <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-white/70">
+        <span className="text-[13px] font-semibold text-white/85">
           {item.era}
         </span>
         <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition-all duration-500 group-hover:rotate-45 group-hover:bg-gold group-hover:text-black">
@@ -90,10 +90,10 @@ const SagaPanel = memo(function SagaPanel({
         </span>
         <h3 className="mt-2 text-3xl font-extrabold text-white sm:text-4xl">{item.name}</h3>
         <p className="mt-1 text-sm text-white/75 sm:text-base">{item.tagline}</p>
-        <div className="mt-5 flex items-center gap-4 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">
-          <span>{item.arcCount} arc</span>
+        <div className="mt-5 flex items-center gap-4 text-[13px] font-semibold text-white/80">
+          <span><span className="font-mono">{item.arcCount}</span> arc</span>
           <span className="h-px w-6 bg-white/30" />
-          <span>{item.episodes} bölüm</span>
+          <span><span className="font-mono">{item.episodes}</span> bölüm</span>
         </div>
       </div>
     </Link>
@@ -134,8 +134,8 @@ export default function SagaVoyage() {
         as="h2"
         className="text-4xl font-extrabold leading-[1.02] sm:text-5xl lg:text-6xl"
         parts={[
-          { text: 'On saga,', className: 'text-pirate-text' },
-          { text: 'tek rota.', className: 'text-gold-gradient' },
+          { text: 'On Saga,', className: 'text-pirate-text' },
+          { text: 'Tek Rota', className: 'text-gold-gradient' },
         ]}
         breakAfter={[{ index: 0 }]}
       />

@@ -182,10 +182,10 @@ export default function Header() {
                     >
                       {/* Header */}
                       <div className="mb-1 flex items-center justify-between px-3 py-2">
-                        <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-pirate-muted">
+                        <span className="text-xs font-bold text-pirate-muted">
                           Ansiklopedi
                         </span>
-                        <span className="rounded-full bg-gold/10 px-2 py-0.5 text-[9px] font-bold text-gold">
+                        <span className="rounded-full bg-gold/10 px-2 py-0.5 text-xs font-bold text-gold">
                           {WIKI_LINKS.length} bölüm
                         </span>
                       </div>
@@ -363,7 +363,7 @@ export default function Header() {
 
               {/* Wiki section */}
               <div className="mb-2">
-                <p className="px-4 py-2 text-[10px] font-bold uppercase tracking-[0.12em] text-pirate-muted">
+                <p className="px-4 py-2 text-xs font-bold text-pirate-muted">
                   Wiki & Ansiklopedi
                 </p>
                 <div className="space-y-0.5">
@@ -384,7 +384,7 @@ export default function Header() {
                         </div>
                         <div>
                           <p className="text-[13px] font-semibold text-pirate-text">{link.label}</p>
-                          <p className="text-[10px] text-pirate-muted/60">{link.desc}</p>
+                          <p className="text-xs text-pirate-muted">{link.desc}</p>
                         </div>
                       </Link>
                     </motion.div>

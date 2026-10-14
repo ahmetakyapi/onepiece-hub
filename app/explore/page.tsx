@@ -16,7 +16,7 @@ import { ARCS, getArcBySlug } from '@/lib/constants/arcs'
 import { CHARACTERS, CREW_LABELS } from '@/lib/constants/characters'
 import { DEVIL_FRUITS, DEVIL_FRUIT_TYPE_INFO } from '@/lib/constants/devil-fruits'
 import { BATTLES, BATTLE_CATEGORIES } from '@/lib/constants/battles'
-import { SAGAS } from '@/lib/constants/sagas'
+import { SAGAS, getSagaName } from '@/lib/constants/sagas'
 import { SITE_STATS } from '@/lib/constants/stats'
 import { getArcImage, getCharacterImage } from '@/lib/constants/images'
 import { CREW_COLORS } from '@/lib/constants/crew-styles'
@@ -139,10 +139,10 @@ export default function ExplorePage() {
                     <div className="mb-3 flex flex-wrap items-center gap-2">
                       {featuredArc.saga && (
                         <span className="tag border-gold/30 bg-gold/[0.12] text-gold">
-                          {featuredArc.saga.toUpperCase()}
+                          {getSagaName(featuredArc.saga)}
                         </span>
                       )}
-                      <span className="inline-flex items-center gap-1 rounded-full border border-sea/25 bg-ocean-deep/60 px-2.5 py-0.5 text-[10px] font-bold text-sea backdrop-blur-md">
+                      <span className="inline-flex items-center gap-1 rounded-full border border-sea/25 bg-ocean-deep/60 px-2.5 py-0.5 text-xs font-bold text-sea backdrop-blur-md">
                         <Anchor className="h-2.5 w-2.5" />
                         {featuredArc.episodeCount} Bölüm
                       </span>
@@ -247,7 +247,7 @@ export default function ExplorePage() {
                     />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep via-ocean-deep/30 to-transparent" />
-                  <span className="absolute left-3 top-3 rounded-full border border-sea/30 bg-ocean-deep/60 px-2.5 py-0.5 text-[10px] font-bold text-sea backdrop-blur-md">
+                  <span className="absolute left-3 top-3 rounded-full border border-sea/30 bg-ocean-deep/60 px-2.5 py-0.5 text-xs font-bold text-sea backdrop-blur-md">
                     <Users className="mr-1 inline h-2.5 w-2.5" />
                     Karakter
                   </span>
@@ -295,7 +295,7 @@ export default function ExplorePage() {
                     </div>
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep via-ocean-deep/30 to-transparent" />
-                  <span className={`absolute left-3 top-3 rounded-full border border-fruit/30 bg-ocean-deep/60 px-2.5 py-0.5 text-[10px] font-bold backdrop-blur-md ${DEVIL_FRUIT_TYPE_INFO[picks.fruit.type]?.color ?? 'text-fruit'}`}>
+                  <span className={`absolute left-3 top-3 rounded-full border border-fruit/30 bg-ocean-deep/60 px-2.5 py-0.5 text-xs font-bold backdrop-blur-md ${DEVIL_FRUIT_TYPE_INFO[picks.fruit.type]?.color ?? 'text-fruit'}`}>
                     <Cherry className="mr-1 inline h-2.5 w-2.5" />
                     Meyve
                   </span>
@@ -337,7 +337,7 @@ export default function ExplorePage() {
                     />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep via-ocean-deep/30 to-transparent" />
-                  <span className="absolute left-3 top-3 rounded-full border border-gold/30 bg-ocean-deep/60 px-2.5 py-0.5 text-[10px] font-bold text-gold backdrop-blur-md">
+                  <span className="absolute left-3 top-3 rounded-full border border-gold/30 bg-ocean-deep/60 px-2.5 py-0.5 text-xs font-bold text-gold backdrop-blur-md">
                     <Compass className="mr-1 inline h-2.5 w-2.5" />
                     Arc
                   </span>
@@ -355,7 +355,7 @@ export default function ExplorePage() {
                   <div className="flex items-center justify-between">
                     {picks.arc.saga && (
                       <span className="tag border-gold/20 bg-gold/[0.08] text-gold/70">
-                        {picks.arc.saga.toUpperCase()}
+                        {getSagaName(picks.arc.saga)}
                       </span>
                     )}
                     <ArrowRight className="h-3.5 w-3.5 text-pirate-muted/40 transition-all group-hover:translate-x-0.5 group-hover:text-gold" />
@@ -420,7 +420,7 @@ export default function ExplorePage() {
 
                   <div className="mt-auto space-y-2">
                     <div>
-                      <div className="mb-1 flex items-center gap-1.5 text-[10px]">
+                      <div className="mb-1 flex items-center gap-1.5 text-xs">
                         <Zap className="h-2.5 w-2.5 text-gold" />
                         <span className="font-semibold text-pirate-muted">Güç</span>
                         <span className="ml-auto font-mono font-bold text-gold">{battle.powerLevel}/5</span>
@@ -433,7 +433,7 @@ export default function ExplorePage() {
                       </div>
                     </div>
                     <div>
-                      <div className="mb-1 flex items-center gap-1.5 text-[10px]">
+                      <div className="mb-1 flex items-center gap-1.5 text-xs">
                         <Heart className="h-2.5 w-2.5 text-luffy" />
                         <span className="font-semibold text-pirate-muted">Duygu</span>
                         <span className="ml-auto font-mono font-bold text-luffy">{battle.emotionalWeight}/5</span>

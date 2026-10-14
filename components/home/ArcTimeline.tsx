@@ -30,11 +30,11 @@ function SagaSection({ saga, index }: { saga: typeof SAGAS[number]; index: numbe
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sea/[0.08] border border-sea/10">
           <Anchor className="h-3.5 w-3.5 text-sea" />
         </div>
-        <h3 className="text-sm font-bold uppercase tracking-[0.1em] text-sea">
-          {saga.name}
+        <h3 className="text-base font-bold text-pirate-text">
+          {saga.name} Saga
         </h3>
         <div className="h-px flex-1 bg-gradient-to-r from-sea/15 to-transparent" />
-        <span className="rounded-full bg-sea/[0.06] px-2.5 py-0.5 font-mono text-[10px] font-semibold text-sea/70">
+        <span className="rounded-full bg-sea/[0.06] px-2.5 py-0.5 font-mono text-xs font-semibold text-sea/70">
           {totalEps} bölüm
         </span>
       </div>
@@ -75,7 +75,7 @@ function SagaSection({ saga, index }: { saga: typeof SAGAS[number]; index: numbe
                 <div className="absolute inset-0 bg-gradient-to-t from-ocean-deep via-ocean-deep/20 to-transparent" />
 
                 {/* Episode badge — floating pill */}
-                <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-ocean-deep/70 px-2.5 py-1 font-mono text-[10px] font-bold text-sea backdrop-blur-md border border-sea/10">
+                <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-ocean-deep/70 px-2.5 py-1 font-mono text-xs font-bold text-sea backdrop-blur-md border border-sea/10">
                   <Film className="h-2.5 w-2.5" />
                   {arc.episodeCount}
                 </span>

@@ -67,7 +67,7 @@ function SagaCard({ saga, alternate }: { saga: SagaCardData; alternate: boolean 
             <div className={`flex items-center gap-2 rounded-full border ${cls.border} ${cls.bg} px-3 py-1.5 backdrop-blur-md`}>
               <span className="text-lg">{saga.iconEmoji}</span>
               <span className={`eyebrow-lg ${cls.text}`}>
-                Saga {String(saga.index).padStart(2, '0')}
+                {saga.index}. Saga
               </span>
             </div>
           </div>
@@ -85,11 +85,6 @@ function SagaCard({ saga, alternate }: { saga: SagaCardData; alternate: boolean 
         {/* Content side */}
         <div className="relative flex flex-col justify-between p-6 sm:p-8">
           <div>
-            {saga.era && (
-              <p className={`eyebrow-lg mb-3 hidden ${cls.text} md:block`}>
-                {saga.era}
-              </p>
-            )}
             <h2 className={`mb-2 text-3xl font-extrabold text-pirate-text transition-colors duration-300 ${cls.hoverText} sm:text-4xl md:text-5xl`}>
               {saga.name}
             </h2>
@@ -102,13 +97,19 @@ function SagaCard({ saga, alternate }: { saga: SagaCardData; alternate: boolean 
           </div>
 
           <div>
-            {/* Stats */}
+            {/* Stats — dönem adı da burada: başlığın üstünde kicker olarak
+                duruyordu (sahibinin kuralı: başlık üstü etiket yok). */}
             <div className="mb-5 flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-pirate-border/30 bg-ocean-surface/50 px-3 py-1.5 text-[11px] font-semibold text-pirate-text">
+              {saga.era && (
+                <span className={`hidden items-center rounded-full border ${cls.border} ${cls.bg} px-3 py-1.5 text-xs font-semibold ${cls.text} md:inline-flex`}>
+                  {saga.era}
+                </span>
+              )}
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-pirate-border/30 bg-ocean-surface/50 px-3 py-1.5 text-xs font-semibold text-pirate-text">
                 <BookOpen className="h-3 w-3" />
                 <span className="tabular-nums">{saga.arcCount}</span> arc
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-pirate-border/30 bg-ocean-surface/50 px-3 py-1.5 text-[11px] font-semibold text-pirate-text">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-pirate-border/30 bg-ocean-surface/50 px-3 py-1.5 text-xs font-semibold text-pirate-text">
                 <Film className="h-3 w-3" />
                 <span className="tabular-nums">{saga.totalEpisodes}</span> bölüm
               </span>

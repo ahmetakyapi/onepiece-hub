@@ -75,7 +75,7 @@ export default function ResumeBar({ compact = false, className = '' }: Props) {
         >
           {lastWatched.episodeTitle}
         </Link>
-        <p className="truncate font-mono text-[10px] text-pirate-muted">
+        <p className="truncate font-mono text-xs text-pirate-muted">
           {lastWatched.arcName} · {lastWatched.episodeNumber}/{lastWatched.episodeCount} ·{' '}
           {getTimeAgo(new Date(lastWatched.at).toISOString())}
         </p>

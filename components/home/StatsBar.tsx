@@ -111,7 +111,7 @@ export default function StatsBar() {
             </span>
 
             {/* Label */}
-            <span className="text-[10px] font-semibold uppercase tracking-[0.1em] text-pirate-muted sm:text-[11px]">
+            <span className="text-xs font-semibold text-pirate-muted sm:text-[13px]">
               {stat.label}
             </span>
           </motion.div>

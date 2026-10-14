@@ -108,7 +108,7 @@ export default function VideoStage({
           <div className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-gold/25" />
           <span className="eyebrow absolute left-2 top-2 rounded bg-black/85 px-2 py-1 text-gold">
             <Crop className="mr-1 inline h-3 w-3" />
-            Kırpma alanı
+            Kırpma Alanı
           </span>
         </div>
       )}

@@ -110,7 +110,7 @@ export default function AchievementsClient() {
             </div>
             <div className="min-w-0 flex-1">
               <p className="mb-1 text-sm font-bold text-pirate-text sm:text-base">
-                Giriş yap, başarımların senkronlansın
+                Giriş Yap, Başarımların Senkronlansın
               </p>
               <p className="text-xs text-pirate-muted sm:text-sm">
                 Şu an yerel olarak takip ediyorsun. Giriş yaparsan cihazlar arası senkronizasyon aktif olur.

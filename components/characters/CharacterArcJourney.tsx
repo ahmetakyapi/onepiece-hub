@@ -65,7 +65,7 @@ function CharacterArcJourney({ firstArc, appearances, characterName }: Props) {
             <Compass className="h-4 w-4 text-gold" />
           </div>
           <div>
-            <p className="eyebrow text-pirate-muted/60">Toplam Arc</p>
+            <p className="eyebrow text-pirate-muted">Toplam Arc</p>
             <p className="text-sm font-bold text-gold stat-number">{totalArcs}</p>
           </div>
         </div>
@@ -74,7 +74,7 @@ function CharacterArcJourney({ firstArc, appearances, characterName }: Props) {
             <Film className="h-4 w-4 text-sea" />
           </div>
           <div>
-            <p className="eyebrow text-pirate-muted/60">Bölüm</p>
+            <p className="eyebrow text-pirate-muted">Bölüm</p>
             <p className="text-sm font-bold text-sea stat-number">{totalEpisodes}</p>
           </div>
         </div>
@@ -83,7 +83,7 @@ function CharacterArcJourney({ firstArc, appearances, characterName }: Props) {
             <Star className="h-4 w-4 text-luffy" />
           </div>
           <div>
-            <p className="eyebrow text-pirate-muted/60">İlk Arc</p>
+            <p className="eyebrow text-pirate-muted">İlk Arc</p>
             <p className="truncate text-sm font-bold text-luffy">
               {ARCS.find(a => a.slug === firstArc)?.name ?? '-'}
             </p>
@@ -102,7 +102,7 @@ function CharacterArcJourney({ firstArc, appearances, characterName }: Props) {
             {/* Saga header */}
             <div className="mb-3 flex items-center gap-3">
               <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg border border-gold/25 bg-gold/10">
-                <span className="font-mono text-[10px] font-bold tabular-nums text-gold">
+                <span className="font-mono text-xs font-bold tabular-nums text-gold">
                   {String(sagaIdx + 1).padStart(2, '0')}
                 </span>
               </div>
@@ -170,8 +170,8 @@ function CharacterArcJourney({ firstArc, appearances, characterName }: Props) {
                             {arc.name}
                           </p>
                           {isFirstArc && (
-                            <span className="eyebrow flex-shrink-0 rounded-full border border-luffy/30 bg-luffy/10 px-1.5 py-0.5 text-[9px] text-luffy">
-                              Debut
+                            <span className="eyebrow flex-shrink-0 rounded-full border border-luffy/30 bg-luffy/10 px-1.5 py-0.5 text-xs text-luffy">
+                              İlk Görünüş
                             </span>
                           )}
                         </div>

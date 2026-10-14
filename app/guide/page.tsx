@@ -9,7 +9,9 @@ import {
   CheckCircle2, BookOpen, MapPin
 } from 'lucide-react'
 import Link from 'next/link'
-import { SITE_STATS } from '@/lib/constants/stats'
+import { SITE_STATS, formatRuntime, getArcRuntimeSeconds } from '@/lib/constants/stats'
+import { SAGAS } from '@/lib/constants/sagas'
+import { getArcBySlug } from '@/lib/constants/arcs'
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
@@ -19,8 +21,6 @@ type GuideStep = {
   id: string
   num: number
   title: string
-  episodes: string
-  duration: string
   description: string
   icon: typeof Play
   color: string
@@ -32,7 +32,8 @@ type GuideStep = {
    */
   accent: string
   highlights: string[]
-  arcSlugs: string[]
+  /** Saga hâlâ sürüyor mu — sayının yanında "Devam Ediyor" rozeti */
+  ongoing?: boolean
 }
 
 /** Kanal üçlüsünden (`var(--gold)` ya da `34 211 238`) alfa'lı renk üretir. */
@@ -53,92 +54,73 @@ const FULL_PATH: GuideStep[] = [
   {
     id: 'east-blue', num: 1,
     title: 'East Blue',
-    episodes: '6 Arc', duration: '~61 bölüm',
     description: 'Luffy\'nin macerası burada başlıyor. Hasır Şapka mürettebatının ilk üyelerini topladığı efsanevi başlangıç.',
     icon: Anchor, color: 'text-sea', accent: 'var(--sea)',
     highlights: ['Luffy\'nin hikayesi başlıyor', 'Zoro, Nami, Usopp, Sanji katılır', 'Arlong Park: ilk büyük duygusal doruk'],
-    arcSlugs: ['romance-dawn', 'orange-town', 'syrup-village', 'baratie', 'arlong-park', 'loguetown'],
   },
   {
     id: 'alabasta', num: 2,
     title: 'Alabasta',
-    episodes: '5 Arc', duration: '~63 bölüm',
     description: 'Grand Line\'a giriş! Chopper katılır. Vivi\'nin krallığı için Crocodile\'a karşı destansı savaş.',
     icon: Globe, color: 'text-gold', accent: 'var(--gold)',
     highlights: ['Chopper katılır', 'Crocodile vs Luffy', 'Vivi\'nin fedakarlığı', 'Robin mürettebata katılır'],
-    arcSlugs: ['reverse-mountain', 'whiskey-peak', 'little-garden', 'drum-island', 'arabasta'],
   },
   {
     id: 'sky-island', num: 3,
     title: 'Sky Island',
-    episodes: '2 Arc', duration: '~43 bölüm',
     description: 'Gökyüzü adası Skypiea! Enel ile efsanevi savaş ve One Piece evreninin derinlikleri.',
     icon: Sparkles, color: 'text-accent-cyan', accent: '34 211 238',
     highlights: ['Skypiea: gökyüzü adası', 'Enel vs Luffy', 'Poneglyph\'ler ve kayıp tarih'],
-    arcSlugs: ['jaya', 'skypiea'],
   },
   {
     id: 'water-7', num: 4,
     title: 'Water 7 & Enies Lobby',
-    episodes: '4 Arc', duration: '~80 bölüm',
     description: 'One Piece\'in en duygusal sagası. Robin\'in geçmişi, Going Merry\'nin vedası.',
     icon: Heart, color: 'text-luffy', accent: 'var(--luffy)',
     highlights: ['Franky katılır', 'Robin\'in "Yaşamak istiyorum!" sahnesi', 'CP9 vs Hasır Şapkalar', 'Going Merry\'ye veda'],
-    arcSlugs: ['long-ring-long-land', 'water-seven', 'enies-lobby', 'post-enies-lobby'],
   },
   {
     id: 'thriller-bark', num: 5,
     title: 'Thriller Bark',
-    episodes: '1 Arc', duration: '~24 bölüm',
     description: 'Brook mürettebata katılır! Moria\'nın dev gemi adasında korku ve komedi.',
     icon: Skull, color: 'text-fruit', accent: 'var(--fruit-strong)',
     highlights: ['Brook katılır', 'Zoro\'nun efsanevi fedakarlığı', '"Hiçbir şey olmadı" sahnesi'],
-    arcSlugs: ['thriller-bark'],
   },
   {
     id: 'summit-war', num: 6,
     title: 'Summit War',
-    episodes: '5 Arc', duration: '~79 bölüm',
     description: 'En epik saga. Ace\'i kurtarmak için Impel Down, Marineford Savaşı ve serinin dönüm noktası.',
     icon: Flame, color: 'text-accent-orange', accent: '251 146 60',
     highlights: ['Impel Down cezaevi kaçışı', 'Marineford: tüm güçlerin savaşı', 'Ace\'in kaderi', '2 yıllık eğitim'],
-    arcSlugs: ['sabaody-archipelago', 'amazon-lily', 'impel-down', 'marineford', 'post-war'],
   },
   {
     id: 'fish-man-island', num: 7,
     title: 'Fish-Man Island',
-    episodes: '2 Arc', duration: '~32 bölüm',
     description: '2 yıllık eğitim sonrası mürettebat geri döner! Denizaltı macerası ve Jinbe.',
     icon: Ship, color: 'text-accent-teal', accent: '45 212 191',
     highlights: ['Mürettebat güçlenerek geri döner', 'Fish-Man Island', 'Jinbe ile ittifak'],
-    arcSlugs: ['return-to-sabaody', 'fish-man-island'],
   },
   {
     id: 'dressrosa', num: 8,
     title: 'Dressrosa',
-    episodes: '2 Arc', duration: '~69 bölüm',
     description: 'Doflamingo\'nun imparatorluğuna karşı dev savaş! Law ittifakı ve Gear 4.',
     icon: Swords, color: 'text-accent-rose', accent: '251 113 133',
     highlights: ['Law-Luffy ittifakı', 'Doflamingo vs Luffy: Gear 4', 'Hasır Şapka Büyük Filosu kurulur'],
-    arcSlugs: ['punk-hazard', 'dressrosa'],
   },
   {
     id: 'four-emperors', num: 9,
     title: 'Four Emperors',
-    episodes: '4 Arc', duration: '~130 bölüm',
     description: 'İmparatorlara meydan okuma! Big Mom, Kaido ve destansı Wano savaşı.',
     icon: Crown, color: 'text-gold-bright', accent: 'var(--gold-bright)',
     highlights: ['Sanji\'nin geçmişi ve kurtarılması', 'Wano: samuray ülkesi', 'Kaido vs Luffy: Gear 5', 'Luffy Yonko olur'],
-    arcSlugs: ['zou', 'whole-cake-island', 'reverie', 'wano'],
   },
   {
     id: 'final', num: 10,
     title: 'Final Saga',
-    episodes: '1+ Arc', duration: 'Devam ediyor',
     description: 'Son saga! Vegapunk, Dünya Hükümeti sırları ve One Piece\'e giden yol.',
     icon: Star, color: 'text-accent-amber', accent: '252 211 77',
     highlights: ['Egghead: Vegapunk adası', 'Dünya Hükümeti\'nin sırları', 'Void Century ortaya çıkıyor'],
-    arcSlugs: ['egghead'],
+    ongoing: true,
   },
 ]
 
@@ -163,9 +145,33 @@ const CONTINUE_AFTER_NETFLIX = FULL_PATH.filter(
   (s) => !['east-blue'].includes(s.id)
 )
 
+/* ─── Sayılar veriden ─────────────────────────────────────────────────────
+   Arc listesi, bölüm sayısı ve süre ELLE YAZILMAZ: SAGAS + ARCS'tan türer
+   (CLAUDE.md → SITE_STATS tek kaynak). Eskiden kartlarda "East Blue · 6 Arc
+   · ~61 bölüm" gibi orijinal anime sayıları elle yazılıydı; sitenin kendi
+   filler'sız düzeniyle (8 arc · 37 bölüm) çelişiyor, bazı arc'lar listede
+   hiç görünmüyordu. Netflix yolunda dizinin kapsadığı arc'lar düşülür. */
+type SagaFacts = { arcSlugs: string[]; episodes: number; runtimeSeconds: number }
+
+const NETFLIX_COVERED = new Set(NETFLIX_PATH.flatMap((s) => s.arcSlugs))
+
+function sagaFacts(sagaSlug: string, skip?: Set<string>): SagaFacts {
+  const arcSlugs = (SAGAS.find((s) => s.slug === sagaSlug)?.arcs ?? []).filter((slug) => !skip?.has(slug))
+  let episodes = 0
+  let runtimeSeconds = 0
+  for (const slug of arcSlugs) {
+    episodes += getArcBySlug(slug)?.episodeCount ?? 0
+    runtimeSeconds += getArcRuntimeSeconds(slug)
+  }
+  return { arcSlugs, episodes, runtimeSeconds }
+}
+
+const FULL_FACTS = Object.fromEntries(FULL_PATH.map((s) => [s.id, sagaFacts(s.id)]))
+const NETFLIX_FACTS = Object.fromEntries(FULL_PATH.map((s) => [s.id, sagaFacts(s.id, NETFLIX_COVERED)]))
+
 /* ─── Saga Card Component ─────────────────────────────────────────────── */
 
-function SagaCard({ step, index, total }: { step: GuideStep; index: number; total: number }) {
+function SagaCard({ step, facts, index, total }: { step: GuideStep; facts: SagaFacts; index: number; total: number }) {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-40px' })
@@ -225,8 +231,8 @@ function SagaCard({ step, index, total }: { step: GuideStep; index: number; tota
 
       {/* ── Card ──────────────────────────────────────────── */}
       <motion.div
-        initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
-        animate={inView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
+        initial={{ opacity: 0, y: 20 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, ease: EASE, delay: 0.15 + index * 0.06 }}
         onMouseMove={handleMouse}
         className="group relative mb-6 flex-1 overflow-hidden rounded-2xl border border-ink/[0.06] bg-gradient-to-br from-ink/[0.04] to-ink/[0.01] backdrop-blur-md transition-all duration-500 hover:border-ink/[0.1] hover:shadow-[0_8px_40px_rgba(0,0,0,0.3)]"
@@ -277,14 +283,17 @@ function SagaCard({ step, index, total }: { step: GuideStep; index: number; tota
                   className="eyebrow rounded-full px-2 py-0.5"
                   style={{ background: tone(step.accent, 0.08), color: tone(step.accent) }}
                 >
-                  {step.episodes}
+                  {facts.arcSlugs.length} Arc
                 </span>
-                <span className="font-mono text-[10px] font-medium text-pirate-muted/50">
-                  {step.duration}
+                <span className="text-xs font-medium text-pirate-muted">
+                  <span className="font-mono">{facts.episodes}</span> bölüm · {formatRuntime(facts.runtimeSeconds)}
                 </span>
+                {step.ongoing && (
+                  <span className="eyebrow rounded-full bg-haki/10 px-2 py-0.5 text-haki">Devam Ediyor</span>
+                )}
               </div>
             </div>
-            <p className="text-xs leading-relaxed text-pirate-muted/60 sm:text-[13px]">
+            <p className="text-xs leading-relaxed text-pirate-muted sm:text-[13px]">
               {step.description}
             </p>
           </div>
@@ -311,7 +320,7 @@ function SagaCard({ step, index, total }: { step: GuideStep; index: number; tota
             >
               <div className="relative z-10 border-t border-ink/[0.04] px-4 pb-5 pt-4 sm:px-5">
                 {/* Highlights */}
-                <p className="eyebrow mb-3 text-pirate-muted/40">
+                <p className="eyebrow mb-3 text-pirate-muted">
                   Bu Sagada Neler Olacak
                 </p>
                 <div className="mb-5 grid gap-2 sm:grid-cols-2">
@@ -327,18 +336,18 @@ function SagaCard({ step, index, total }: { step: GuideStep; index: number; tota
                 </div>
 
                 {/* Arc links */}
-                <p className="eyebrow mb-2 text-pirate-muted/40">
+                <p className="eyebrow mb-2 text-pirate-muted">
                   Arc&apos;ları Keşfet
                 </p>
                 <div className="flex flex-wrap gap-1.5">
-                  {step.arcSlugs.map((slug) => (
+                  {facts.arcSlugs.map((slug) => (
                     <Link
                       key={slug}
                       href={`/arcs/${slug}`}
-                      className="group/arc inline-flex items-center gap-1.5 rounded-lg border border-ink/[0.06] bg-ink/[0.02] px-2.5 py-1.5 text-[11px] font-medium text-pirate-muted/70 transition-all duration-300 hover:border-gold/20 hover:bg-gold/[0.04] hover:text-gold"
+                      className="group/arc inline-flex items-center gap-1.5 rounded-lg border border-ink/[0.06] bg-ink/[0.02] px-2.5 py-1.5 text-xs font-medium text-pirate-muted transition-all duration-300 hover:border-gold/20 hover:bg-gold/[0.04] hover:text-gold"
                     >
                       <Play className="h-2.5 w-2.5 transition-transform group-hover/arc:scale-110" />
-                      {slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                      {getArcBySlug(slug)?.name ?? slug}
                     </Link>
                   ))}
                 </div>
@@ -360,7 +369,11 @@ export default function GuidePage() {
   const stepsRef = useRef<HTMLDivElement>(null)
   const stepsInView = useInView(stepsRef, { once: true, margin: '-80px' })
 
-  const activeSteps = tab === 'scratch' ? FULL_PATH : CONTINUE_AFTER_NETFLIX
+  const facts = tab === 'scratch' ? FULL_FACTS : NETFLIX_FACTS
+  /* Netflix yolunda dizinin tamamen kapsadığı saga kartı düşer */
+  const activeSteps = (tab === 'scratch' ? FULL_PATH : CONTINUE_AFTER_NETFLIX).filter(
+    (step) => facts[step.id].arcSlugs.length > 0,
+  )
 
   return (
       <main className="relative min-h-screen pt-28 sm:pt-32 overflow-hidden">
@@ -491,7 +504,7 @@ export default function GuidePage() {
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-haki/10 border border-haki/15">
                       <Eye className="h-3.5 w-3.5 text-haki" />
                     </div>
-                    <h2 className="eyebrow-lg text-pirate-muted/60">
+                    <h2 className="eyebrow-lg text-pirate-muted">
                       Netflix&apos;te İzlediklerin
                     </h2>
                     <div className="h-px flex-1 bg-gradient-to-r from-haki/15 to-transparent" />
@@ -522,8 +535,8 @@ export default function GuidePage() {
                               <span className="eyebrow text-haki/60">Tamamlandı</span>
                             </div>
                             <h4 className="text-sm font-bold text-pirate-text">{item.title}</h4>
-                            <p className="mt-1 text-xs text-pirate-muted/60 leading-relaxed">{item.description}</p>
-                            <p className="mt-2 flex items-center gap-1.5 text-[11px] text-pirate-muted/40">
+                            <p className="mt-1 text-xs text-pirate-muted leading-relaxed">{item.description}</p>
+                            <p className="mt-2 flex items-center gap-1.5 text-xs text-pirate-muted">
                               <BookOpen className="h-3 w-3" />
                               Kapsam: {item.covers}
                             </p>
@@ -552,7 +565,7 @@ export default function GuidePage() {
                       </div>
                       <div>
                         <h3 className="text-base font-bold text-gold sm:text-lg">Buradan Devam Et</h3>
-                        <p className="mt-0.5 text-sm text-pirate-muted/70">
+                        <p className="mt-0.5 text-sm text-pirate-muted">
                           Anime ile Alabasta arc&apos;ından (Crocodile savaşı) devam edebilirsin.
                         </p>
                       </div>
@@ -564,7 +577,7 @@ export default function GuidePage() {
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gold/10 border border-gold/15">
                       <Compass className="h-3.5 w-3.5 text-gold" />
                     </div>
-                    <h2 className="eyebrow-lg text-pirate-muted/60">
+                    <h2 className="eyebrow-lg text-pirate-muted">
                       Anime ile Devam
                     </h2>
                     <div className="h-px flex-1 bg-gradient-to-r from-gold/15 to-transparent" />
@@ -590,7 +603,7 @@ export default function GuidePage() {
                       </div>
                       <div>
                         <h2 className="mb-1 text-lg font-bold text-pirate-text">Sıfırdan Anime Yolu</h2>
-                        <p className="text-[13px] text-pirate-muted/60 leading-relaxed">
+                        <p className="text-[13px] text-pirate-muted leading-relaxed">
                           One Piece&apos;i en başından izlemek istiyorsan bu yol sana göre.
                           Filler&apos;sız, saf hikaye. Her saga adım adım.
                         </p>
@@ -611,7 +624,7 @@ export default function GuidePage() {
                           <p className={`text-xl font-extrabold tabular-nums ${stat.color}`}>
                             {stat.value}
                           </p>
-                          <p className="eyebrow text-pirate-muted/40">{stat.label}</p>
+                          <p className="eyebrow text-pirate-muted">{stat.label}</p>
                         </div>
                       ))}
                     </div>
@@ -622,7 +635,7 @@ export default function GuidePage() {
               {/* ── Timeline ─────────────────────────────────── */}
               <div ref={stepsRef} className="pl-1">
                 {activeSteps.map((step, i) => (
-                  <SagaCard key={step.id} step={step} index={i} total={activeSteps.length} />
+                  <SagaCard key={step.id} step={step} facts={facts[step.id]} index={i} total={activeSteps.length} />
                 ))}
               </div>
 
@@ -656,7 +669,7 @@ export default function GuidePage() {
           >
             <div className="inline-flex items-center gap-3 rounded-2xl border border-ink/[0.04] bg-ink/[0.02] px-5 py-3 backdrop-blur-sm">
               <Sparkles className="h-3.5 w-3.5 text-gold/40" />
-              <p className="text-xs text-pirate-muted/50 sm:text-[13px]">
+              <p className="text-xs text-pirate-muted sm:text-[13px]">
                 Tüm bölümler filler&apos;sız, OnePaceTR ile izlenebilir.{' '}
                 <Link href="/arcs" className="font-medium text-gold/70 transition-colors hover:text-gold">
                   Arc Haritası

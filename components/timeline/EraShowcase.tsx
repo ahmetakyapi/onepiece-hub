@@ -190,7 +190,7 @@ export default function EraShowcase() {
               />
             </div>
             <p className="eyebrow mt-2 text-center text-gold/80">
-              900 yıllık yolculuk
+              900 Yıllık Yolculuk
             </p>
           </div>
         </div>

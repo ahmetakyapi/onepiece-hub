@@ -12,10 +12,25 @@ import dynamic from 'next/dynamic'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
 import { getTimeAgo, formatDate } from '@/lib/utils'
 import { useAuth } from '@/hooks/useAuth'
-import { ARCS } from '@/lib/constants/arcs'
+import { ARCS, getArcBySlug } from '@/lib/constants/arcs'
+import { getCharacterBySlug } from '@/lib/constants/characters'
+import { getDevilFruitBySlug } from '@/lib/constants/devil-fruits'
+import { getCrewBySlug } from '@/lib/constants/crews'
 import WaveSeparator from '@/components/ui/WaveSeparator'
 import { getStoredAffiliation, getAffiliationById } from '@/lib/crew-affiliation'
 import type { Arc } from '@/types'
+
+/** Favorinin görünen adı — veriden. Slug'dan başlık üretmek ("gomu-gomu" →
+ *  "Gomu Gomu", "luffy" → "Luffy") gerçek adı ("Monkey D. Luffy") kaybediyordu. */
+function favoriteLabel(type: string, slug: string): string {
+  const name =
+    type === 'arc' ? getArcBySlug(slug)?.name
+    : type === 'character' ? getCharacterBySlug(slug)?.name
+    : type === 'devil-fruit' ? getDevilFruitBySlug(slug)?.name
+    : type === 'crew' ? getCrewBySlug(slug)?.name
+    : undefined
+  return name ?? slug
+}
 
 const WatchingDashboard = dynamic(() => import('@/components/profile/WatchingDashboard'), { ssr: false })
 const AchievementShowcase = dynamic(() => import('@/components/achievements/AchievementShowcase'), { ssr: false })
@@ -224,7 +239,7 @@ export default function ProfilePage() {
                       <p className="text-sm text-pirate-muted">@{user.username}</p>
                       {affiliation && (
                         <span
-                          className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-bold ${affiliation.border} ${affiliation.bg} ${affiliation.text}`}
+                          className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-bold ${affiliation.border} ${affiliation.bg} ${affiliation.text}`}
                         >
                           <affiliation.icon className="h-2.5 w-2.5" />
                           {affiliation.name}
@@ -448,8 +463,7 @@ export default function ProfilePage() {
               </h2>
               <div className="flex flex-wrap gap-2">
                 {favs.map((fav) => {
-                  const arc = fav.targetType === 'arc' ? ARCS.find((a) => a.slug === fav.targetSlug) : null
-                  const label = arc?.name ?? fav.targetSlug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+                  const label = favoriteLabel(fav.targetType, fav.targetSlug)
                   const href = `/${fav.targetType === 'devil-fruit' ? 'devil-fruits' : fav.targetType + 's'}/${fav.targetSlug}`
                   return (
                     <Link

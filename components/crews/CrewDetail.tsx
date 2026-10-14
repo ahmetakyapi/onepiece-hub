@@ -130,7 +130,7 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
                   <Crown className="h-4 w-4 text-gold" />
                 </div>
                 <div className="min-w-0">
-                  <p className="eyebrow text-pirate-muted/60">Lider</p>
+                  <p className="eyebrow text-pirate-muted">Lider</p>
                   {crew.captainSlug ? (
                     <Link href={`/characters/${crew.captainSlug}`} className="block truncate text-sm font-bold text-gold transition-colors hover:text-gold-bright">
                       {crew.captain}
@@ -147,7 +147,7 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
                   <Trophy className="h-4 w-4 text-gold" />
                 </div>
                 <div>
-                  <p className="eyebrow text-pirate-muted/60">Toplam Ödül</p>
+                  <p className="eyebrow text-pirate-muted">Toplam Ödül</p>
                   <p className="stat-number font-mono text-sm font-bold text-gold">{crew.totalBounty} Berry</p>
                 </div>
               </div>
@@ -157,7 +157,7 @@ export default function CrewDetailClient({ crew }: { crew: Crew }) {
                 <Users className="h-4 w-4 text-sea" />
               </div>
               <div>
-                <p className="eyebrow text-pirate-muted/60">Bilinen Üye</p>
+                <p className="eyebrow text-pirate-muted">Bilinen Üye</p>
                 <p className="stat-number font-mono text-sm font-bold text-sea">{crew.notableMembers.length} korsan</p>
               </div>
             </div>

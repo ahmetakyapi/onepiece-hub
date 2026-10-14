@@ -73,7 +73,7 @@ function RelatedCharacters({ characters, title = 'İlgili Karakterler', descript
                     <p className="truncate text-[11px] text-pirate-muted">{char.epithet}</p>
                   )}
                   {char.bounty && (
-                    <p className="mt-0.5 truncate font-mono text-[10px] font-semibold text-gold/70 stat-number">
+                    <p className="mt-0.5 truncate font-mono text-xs font-semibold text-gold/70 stat-number">
                       {char.bounty}
                     </p>
                   )}

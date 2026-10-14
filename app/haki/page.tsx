@@ -383,7 +383,7 @@ export default function HakiPage() {
                         <p className={`text-sm font-bold transition-colors sm:text-base ${isActive ? haki.color : 'text-pirate-muted group-hover:text-pirate-text'}`}>
                           {haki.meaning}
                         </p>
-                        <p className="hidden text-[10px] text-pirate-muted/60 sm:block">{haki.japaneseName}</p>
+                        <p className="hidden text-xs text-pirate-muted sm:block">{haki.japaneseName}</p>
                       </div>
                     </div>
                     <p className={`text-[11px] leading-relaxed transition-colors sm:text-xs ${isActive ? 'text-pirate-muted' : 'text-pirate-muted/60'}`}>
@@ -567,7 +567,7 @@ export default function HakiPage() {
                           return (
                             <div key={t.id} className="flex items-center gap-1">
                               <div className="h-2 w-2 rounded-full" style={{ background: tone(hakiInfo.token) }} />
-                              <span className="text-[9px] font-semibold text-pirate-muted">{hakiInfo.label}</span>
+                              <span className="text-xs font-semibold text-pirate-muted">{hakiInfo.label}</span>
                             </div>
                           )
                         })}
@@ -648,7 +648,7 @@ export default function HakiPage() {
                             {fact.hakiType === 'all' ? 'Tüm Haki' : hakiInfo.label}
                           </span>
                           {fact.arc && (
-                            <span className="hidden font-mono text-[10px] text-pirate-muted/50 sm:inline">
+                            <span className="hidden font-mono text-xs text-pirate-muted sm:inline">
                               {fact.arc}
                             </span>
                           )}

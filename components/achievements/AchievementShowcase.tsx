@@ -86,7 +86,7 @@ export default function AchievementShowcase({ stats }: AchievementShowcaseProps)
         <div key={category}>
           <h4 className="mb-3 flex items-center gap-2 text-sm font-bold text-pirate-text">
             {CATEGORY_LABELS[category] ?? category}
-            <span className="font-mono text-[10px] font-bold text-pirate-muted/60">
+            <span className="font-mono text-xs font-bold text-pirate-muted">
               {achievements.filter((a) => a.check(stats)).length}/{achievements.length}
             </span>
           </h4>

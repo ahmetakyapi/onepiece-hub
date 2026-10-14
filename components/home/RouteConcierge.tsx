@@ -104,7 +104,7 @@ export default function RouteConcierge() {
                 transition={{ duration: 0.5, ease: EASE, delay: 0.12 + i * 0.06 }}
                 className="rounded-xl border border-pirate-border/20 bg-ocean-surface/35 px-3 py-2.5"
               >
-                <div className="eyebrow mb-1 flex items-center gap-1.5 text-pirate-muted/70">
+                <div className="eyebrow mb-1 flex items-center gap-1.5 text-pirate-muted">
                   <item.icon className="h-3 w-3 text-gold/70" />
                   {item.label}
                 </div>
@@ -145,7 +145,7 @@ export default function RouteConcierge() {
                 </div>
 
                 <div className="mt-6 flex items-center justify-between border-t border-ink/[0.06] pt-4">
-                  <span className="eyebrow text-pirate-muted/60">
+                  <span className="eyebrow text-pirate-muted">
                     {route.meta}
                   </span>
                   <span className={`inline-flex items-center gap-1.5 text-xs font-extrabold ${route.accent}`}>

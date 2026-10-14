@@ -252,7 +252,7 @@ export default function LoginPage() {
                             <p className={`text-[11px] font-bold leading-tight ${active ? c.text : 'text-pirate-text/80'}`}>
                               {c.name}
                             </p>
-                            <p className="text-[9px] leading-tight text-pirate-muted/60 line-clamp-1">
+                            <p className="text-xs leading-tight text-pirate-muted line-clamp-1">
                               {c.tagline}
                             </p>
                           </button>
@@ -287,18 +287,20 @@ export default function LoginPage() {
               {/* Toggle */}
               <motion.div variants={fadeUp} className="mt-6 text-center lg:text-left">
                 <button
+                  type="button"
                   onClick={() => { setIsRegister((v) => !v); setError('') }}
-                  className="-my-2 py-2 text-xs text-pirate-muted transition-colors hover:text-gold"
+                  className="group -my-2 py-2 text-sm text-pirate-muted transition-colors"
                 >
-                  {isRegister
-                    ? 'Zaten hesabın var mı? Giriş yap'
-                    : 'Hesabın yok mu? Kayıt ol'}
+                  {isRegister ? 'Zaten hesabın var mı?' : 'Hesabın yok mu?'}{' '}
+                  <span className="font-semibold text-gold underline-offset-4 group-hover:underline">
+                    {isRegister ? 'Giriş Yap' : 'Kayıt Ol'}
+                  </span>
                 </button>
               </motion.div>
 
               <motion.div variants={fadeUp} className="mt-4 text-center lg:text-left">
-                <Link href="/" className="-my-2 inline-block py-2 text-xs text-sea transition-colors hover:text-gold">
-                  Ana sayfaya dön
+                <Link href="/" className="-my-2 inline-block py-2 text-sm text-sea transition-colors hover:text-gold">
+                  Ana Sayfaya Dön
                 </Link>
               </motion.div>
             </motion.div>

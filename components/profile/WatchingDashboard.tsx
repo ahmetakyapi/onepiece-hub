@@ -24,7 +24,7 @@ function StatCard({ icon: Icon, label, value, color }: {
         <div className={`flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-current/10 to-current/5 ${color}`}>
           <Icon className="h-4 w-4" />
         </div>
-        <span className="eyebrow text-pirate-muted/60">{label}</span>
+        <span className="eyebrow text-pirate-muted">{label}</span>
       </div>
       <p className="text-2xl font-bold text-pirate-text stat-number">{value}</p>
     </div>
@@ -130,7 +130,7 @@ function WatchingHeatmap({ dates }: { dates: string[] }) {
         </div>
       </div>
       {/* Legend */}
-      <div className="mt-3 flex items-center justify-end gap-1.5 font-mono text-[9px] text-pirate-muted/50">
+      <div className="mt-3 flex items-center justify-end gap-1.5 font-mono text-xs text-pirate-muted">
         <span>Az</span>
         <div className="h-2.5 w-2.5 rounded-[2px] bg-ocean-surface/40" />
         <div className="h-2.5 w-2.5 rounded-[2px] bg-sea/30" />
@@ -217,7 +217,7 @@ export default function WatchingDashboard({ watchedEpisodes, watchedDates = [] }
             className="h-full rounded-full bg-gradient-to-r from-sea via-gold to-luffy"
           />
         </div>
-        <p className="mt-2 font-mono text-[10px] text-pirate-muted/50">
+        <p className="mt-2 font-mono text-xs text-pirate-muted">
           {totalWatched} / {totalEpisodes} bölüm izlendi
         </p>
       </div>

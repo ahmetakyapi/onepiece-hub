@@ -93,7 +93,7 @@ export default function DetailPanel({
                     </span>
                     <span className="text-pirate-muted/30">·</span>
                     <span
-                      className="text-[10px] font-semibold"
+                      className="text-xs font-semibold"
                       style={{ color: SEA_MARKER_COLORS[location.sea] ?? 'rgb(var(--pirate-text))' }}
                     >
                       {sea?.name}

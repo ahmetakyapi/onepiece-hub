@@ -106,7 +106,7 @@ export default function SeriesStatus() {
 
           <time
             dateTime={STATUS_AS_OF}
-            className="chip !cursor-default flex-shrink-0 self-start !py-1.5 !font-mono !text-[10px] !font-semibold sm:self-auto"
+            className="chip !cursor-default flex-shrink-0 self-start !py-1.5 !font-mono !text-xs !font-semibold sm:self-auto"
           >
             <CalendarClock className="h-3 w-3 text-gold" />
             {getStatusFreshness()}
@@ -158,7 +158,7 @@ export default function SeriesStatus() {
                 <NextRelease track={track} />
 
                 {track.note && (
-                  <p className="relative mt-2 border-t border-pirate-border/30 pt-2 text-[10px] leading-snug text-pirate-muted/70">
+                  <p className="relative mt-2 border-t border-pirate-border/30 pt-2 text-xs leading-snug text-pirate-muted">
                     {track.note}
                   </p>
                 )}

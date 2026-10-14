@@ -155,7 +155,9 @@ function CharacterCard({ character }: Props) {
 
             {char.epithet && (
               <div className="absolute left-3 top-3 z-10">
-                <span className={`inline-flex items-center gap-1 rounded-lg border ${colors.border} ${colors.bg} px-2 py-0.5 text-[10px] font-bold ${colors.text} backdrop-blur-md`}>
+                {/* Koyu zemin: açık renkli görsellerde (Luffy'nin şapkası)
+                    yarı saydam renkli rozet zeminde kayboluyordu. */}
+                <span className={`inline-flex items-center gap-1 rounded-lg border ${colors.border} bg-ocean-deep/75 px-2 py-0.5 text-xs font-bold ${colors.text} backdrop-blur-md`}>
                   {char.epithet}
                 </span>
               </div>
@@ -163,7 +165,7 @@ function CharacterCard({ character }: Props) {
 
             {char.bounty && (
               <div className="absolute right-3 top-3 z-10">
-                <span className="inline-flex items-center gap-1 rounded-lg border border-gold/20 bg-ocean-deep/60 px-2 py-0.5 font-mono text-[10px] font-bold text-gold backdrop-blur-md">
+                <span className="inline-flex items-center gap-1 rounded-lg border border-gold/20 bg-ocean-deep/60 px-2 py-0.5 font-mono text-xs font-bold text-gold backdrop-blur-md">
                   <Skull className="h-2.5 w-2.5" />
                   {formatBounty(bountyValue)}
                 </span>
@@ -183,7 +185,7 @@ function CharacterCard({ character }: Props) {
           <div className="flex flex-1 flex-col p-4 pt-2">
             <div className="mb-2.5">
               <span
-                className={`inline-flex items-center gap-1.5 rounded-md border ${colors.border} ${colors.bg} px-2 py-0.5 text-[10px] font-semibold ${colors.text}`}
+                className={`inline-flex items-center gap-1.5 rounded-md border ${colors.border} ${colors.bg} px-2 py-0.5 text-xs font-semibold ${colors.text}`}
               >
                 <Anchor className="h-2.5 w-2.5" />
                 {CREW_LABELS[char.crew]}
@@ -197,7 +199,7 @@ function CharacterCard({ character }: Props) {
             {char.devilFruit && (
               <div className="mt-2 flex items-center gap-1.5">
                 <Sparkles className="h-3 w-3 text-fruit/70" />
-                <span className="truncate text-[10px] text-fruit/70">
+                <span className="truncate text-xs text-fruit/70">
                   {char.devilFruit.name}
                 </span>
               </div>
@@ -206,15 +208,15 @@ function CharacterCard({ character }: Props) {
             <div className="mt-auto flex items-center justify-between border-t border-pirate-border/10 pt-3 mt-3">
               {char.bounty ? (
                 <div className="flex items-baseline gap-1">
-                  <span className="eyebrow text-pirate-muted/40">Ödül</span>
+                  <span className="eyebrow text-pirate-muted">Ödül</span>
                   <span className="font-mono text-xs font-bold text-gold tabular-nums">
                     {char.bounty}
                   </span>
                 </div>
               ) : (
-                <span className="eyebrow text-pirate-muted/30">Ödül bilinmiyor</span>
+                <span className="eyebrow text-pirate-muted">Ödül bilinmiyor</span>
               )}
-              <div className="flex items-center gap-1 text-[10px] text-pirate-muted/30 transition-all duration-300 group-hover:text-gold/60">
+              <div className="flex items-center gap-1 text-xs text-pirate-muted transition-all duration-300 group-hover:text-gold/60">
                 <span className="hidden sm:inline">Detay</span>
                 <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-1" />
               </div>

@@ -35,20 +35,12 @@ Ama asıl niyet başka: **dark-mode tasarımla bir anime wiki'sinin nasıl hisse
 
 ## İçerik
 
-| Kategori | Adet |
-|---|---|
-| Arc | **36** |
-| Bölüm | **463** |
-| Karakter | **66** |
-| Saga | **10** |
-| Mürettebat | **12** |
-| Şeytan Meyvesi | **43** |
-| Efsanevi Savaş | **22** |
-| Lokasyon | **32** |
-| Bounty Entry | **46** |
-| Arc Quiz | 15+ |
+Arc, bölüm, karakter, saga, mürettebat, Şeytan Meyvesi, savaş, lokasyon,
+ödül ve quiz verisi `lib/constants/*` altında type-safe TypeScript
+dosyalarında. DB'ye yazılmaz — statik, SSG'ye uygun, git'te versiyonlanır.
 
-Tüm içerik `lib/constants/*` altında type-safe TypeScript dosyalarında. DB'ye yazılmaz — statik, SSG'ye uygun, git'te versiyonlanır.
+Sayılar burada elle tutulmaz (eskiden tutuluyordu ve eskidi): hepsi
+`lib/constants/stats.ts` → `SITE_STATS`'tan türer, arayüz de oradan okur.
 
 ---
 
@@ -100,8 +92,8 @@ Tüm içerik `lib/constants/*` altında type-safe TypeScript dosyalarında. DB'y
 - Tüm sticky hero'lar mobile height-reduced
 - Footer ilan padding'i MobileBottomNav safe-area
 
-### Tema: Okyanus Derinliği
-- Dark-only — gold (#f4a300), sea (#1e90ff), luffy (#e74c3c) palet ailesi
+### Tema: Sinematik Okyanus
+- Dark (varsayılan) + light; token'lar `app/globals.css`'te RGB kanal üçlüsü — ayrıntı `CLAUDE.md`
 - Glassmorphism: `.glass`, `.glass-elevated`, `.surface`, `.bento-card`, `.wanted-poster`
 - `prefers-reduced-motion` respect, print-friendly
 - Noise overlay (body::before, z-9999) + ambient orb'lar (body::after, z-0)
@@ -113,7 +105,7 @@ Tüm içerik `lib/constants/*` altında type-safe TypeScript dosyalarında. DB'y
 | Katman | Teknoloji |
 |---|---|
 | Framework | Next.js 14 App Router + TypeScript strict |
-| Stil | Tailwind CSS 3.4 (dark-only custom theme) |
+| Stil | Tailwind CSS 3.4 (token'lı dark + light tema) |
 | Animasyon | Framer Motion 11 (`lib/variants.ts` standart varyantlar) |
 | Veritabanı | Drizzle ORM + Neon Postgres (`@neondatabase/serverless`) |
 | Auth | Custom JWT (jose + bcryptjs), httpOnly cookie, 30d TTL |

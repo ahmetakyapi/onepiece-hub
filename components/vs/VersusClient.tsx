@@ -306,7 +306,7 @@ function VersusClient() {
                           <span className={`font-mono tabular-nums font-bold ${leftWin ? 'text-luffy' : 'text-pirate-muted/70'}`}>
                             {lVal}
                           </span>
-                          <span className="eyebrow text-pirate-muted/60">
+                          <span className="eyebrow text-pirate-muted">
                             {meta.label}
                           </span>
                           <span className={`font-mono tabular-nums font-bold ${rightWin ? 'text-sea' : 'text-pirate-muted/70'}`}>
@@ -370,10 +370,10 @@ function VersusClient() {
             <Shield className="h-5 w-5 text-gold/70" />
           </div>
           <p className="mb-1 text-base font-bold text-pirate-text">
-            {!left && !right ? 'İki karakter seç' : 'Bir karakter daha seç'}
+            {!left && !right ? 'İki Karakter Seç' : 'Bir Karakter Daha Seç'}
           </p>
           <p className="text-xs text-pirate-muted sm:text-sm">
-            Yan yana karşılaştırmak için yukarıdan seç, veya <button onClick={randomPick} className="text-gold hover:underline">rastgele seç</button>
+            Yan yana karşılaştırmak için yukarıdan seç ya da <button type="button" onClick={randomPick} className="font-semibold text-gold hover:underline">rastgele seç</button>
           </p>
         </motion.div>
       )}

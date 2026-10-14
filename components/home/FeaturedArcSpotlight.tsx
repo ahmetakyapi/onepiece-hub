@@ -7,6 +7,7 @@ import { useRef } from 'react'
 import { Play, Flame, Swords, Anchor, Quote, ArrowRight } from 'lucide-react'
 import { getArcBySlug } from '@/lib/constants/arcs'
 import { getArcImage } from '@/lib/constants/images'
+import { getSagaName } from '@/lib/constants/sagas'
 import { EASE } from '@/lib/variants'
 import { useViewTransition } from '@/hooks/useViewTransition'
 import SplitText from '@/components/motion/SplitText'
@@ -94,15 +95,15 @@ export default function FeaturedArcSpotlight() {
                 <div className="mb-4 flex flex-wrap items-center gap-2">
                   {arc.saga && (
                     <span className="tag border-gold/25 bg-gold/[0.1] text-gold">
-                      {arc.saga.toUpperCase()}
+                      {getSagaName(arc.saga)}
                     </span>
                   )}
-                  <span className="inline-flex items-center gap-1 rounded-full border border-sea/25 bg-ocean-deep/60 px-2.5 py-0.5 font-mono text-[10px] font-bold text-sea backdrop-blur-md">
+                  <span className="inline-flex items-center gap-1 rounded-full border border-sea/25 bg-ocean-deep/60 px-2.5 py-0.5 font-mono text-xs font-bold text-sea backdrop-blur-md">
                     <Anchor className="h-2.5 w-2.5" />
                     {arc.episodeCount} Bölüm
                   </span>
                   {arc.location && (
-                    <span className="inline-flex items-center gap-1 rounded-full border border-pirate-border/40 bg-ocean-deep/50 px-2.5 py-0.5 text-[10px] font-semibold text-pirate-muted backdrop-blur-md">
+                    <span className="inline-flex items-center gap-1 rounded-full border border-pirate-border/40 bg-ocean-deep/50 px-2.5 py-0.5 text-xs font-semibold text-pirate-muted backdrop-blur-md">
                       {arc.location}
                     </span>
                   )}

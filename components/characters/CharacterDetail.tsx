@@ -63,7 +63,7 @@ function StatPill({ icon: Icon, label, value, color = 'text-sea', mono = false }
         <Icon className="h-4 w-4" />
       </div>
       <div>
-        <p className="eyebrow text-pirate-muted/50">{label}</p>
+        <p className="eyebrow text-pirate-muted">{label}</p>
         <p className={`text-sm font-bold text-pirate-text ${mono ? 'font-mono tabular-nums' : ''}`}>{value}</p>
       </div>
     </div>
@@ -87,6 +87,7 @@ function RevealSection({ children, className = '' }: { children: React.ReactNode
 
 export default function CharacterDetailClient({ character }: { character: Character }) {
   const [parallaxEnabled, setParallaxEnabled] = useState(false)
+  const [portraitRatio, setPortraitRatio] = useState<number | null>(null)
 
   useEffect(() => {
     setParallaxEnabled(window.matchMedia('(min-width: 768px)').matches)
@@ -115,14 +116,27 @@ export default function CharacterDetailClient({ character }: { character: Charac
           style={parallaxEnabled ? { y: heroY, scale: heroScale, viewTransitionName: `character-image-${character.slug}` } : { viewTransitionName: `character-image-${character.slug}` }}
         >
           {imgSrc ? (
-            <Image
-              src={imgSrc}
-              alt={character.name}
-              fill
-              className="object-contain object-center"
-              sizes="100vw"
-              priority
-            />
+            /* Portre kendi oranındaki kutuda durur ve kenarları maskeyle
+               zemine erir. Eskiden tam genişlik `object-contain` idi:
+               masaüstünde ortada keskin kenarlı dar bir dikdörtgen kalıyor,
+               iki yanı boş lacivertti. Oran görsel yüklenince okunur. */
+            <div
+              className="relative h-full max-w-full [mask-image:linear-gradient(to_right,transparent,#000_16%,#000_84%,transparent)]"
+              style={portraitRatio ? { aspectRatio: portraitRatio } : { width: '100%' }}
+            >
+              <Image
+                src={imgSrc}
+                alt={character.name}
+                fill
+                className="object-contain object-center"
+                sizes="100vw"
+                priority
+                onLoad={(e) => {
+                  const img = e.currentTarget
+                  if (img.naturalWidth && img.naturalHeight) setPortraitRatio(img.naturalWidth / img.naturalHeight)
+                }}
+              />
+            </div>
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-ocean-surface to-ocean-deep relative overflow-hidden">
               <div className="orb absolute w-80 h-80 bg-sea/[0.07] animate-morph" />
@@ -132,7 +146,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
                   <span className="text-4xl font-extrabold text-gold/60 select-none">{character.name.charAt(0)}</span>
                 </div>
                 {character.epithet && (
-                  <p className="eyebrow text-pirate-muted/40">{character.epithet}</p>
+                  <p className="eyebrow text-pirate-muted">{character.epithet}</p>
                 )}
               </div>
             </div>
@@ -182,8 +196,8 @@ export default function CharacterDetailClient({ character }: { character: Charac
 
             {/* Name + epithet */}
             <motion.div
-              initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: EASE, delay: 0.3 }}
             >
               <div className="mb-2 flex items-center gap-3">
@@ -342,7 +356,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
                   <div className="flex items-center gap-2 border-b border-pirate-border/10 px-5 py-3">
                     <CategoryIcon className={`h-4 w-4 ${config.color}`} />
                     <h3 className={`text-sm font-bold ${config.color}`}>{category}</h3>
-                    <span className="eyebrow ml-auto text-pirate-muted/40">
+                    <span className="eyebrow ml-auto text-pirate-muted">
                       {abilities.length} yetenek
                     </span>
                   </div>
@@ -429,7 +443,7 @@ export default function CharacterDetailClient({ character }: { character: Charac
                         <p className="text-sm font-semibold text-pirate-text group-hover:text-gold transition-colors">
                           {battle.name}
                         </p>
-                        <p className="eyebrow mt-0.5 text-pirate-muted/50">{battle.arc}</p>
+                        <p className="eyebrow mt-0.5 text-pirate-muted">{battle.arc}</p>
                       </div>
                       <span className={`eyebrow rounded-full px-2.5 py-1 ${
                         isWinnerSide

@@ -29,7 +29,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['var(--font-sans)', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        /* Etiket / veri — Space Mono. Eyebrow'lar, ödüller, bölüm numaraları. */
+        /* Veri — Space Mono: ödüller, bölüm numaraları, süreler. Etiketler Manrope. */
         mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
       },
       colors: {

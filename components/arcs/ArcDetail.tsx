@@ -13,6 +13,8 @@ import { getArcImage } from '@/lib/constants/images'
 import { getCharacterImage } from '@/lib/constants/images'
 import { getGlobalEpisodeNumber, ARCS } from '@/lib/constants/arcs'
 import { BATTLES } from '@/lib/constants/battles'
+import { getCharacterBySlug } from '@/lib/constants/characters'
+import { getSagaName } from '@/lib/constants/sagas'
 import { formatRuntime, getArcRuntimeSeconds } from '@/lib/constants/stats'
 import type { Arc } from '@/types'
 import CommentSection from '@/components/ui/CommentSection'
@@ -97,7 +99,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
             <div className="mx-auto max-w-5xl">
               {arc.saga && (
                 <span className="mb-3 inline-block tag border-gold/25 bg-gold/[0.1] text-gold backdrop-blur-md">
-                  {arc.saga.toUpperCase()} SAGA
+                  {getSagaName(arc.saga)} Saga
                 </span>
               )}
               <div className="mb-3 flex flex-wrap items-center gap-3">
@@ -139,7 +141,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                   <MapPin className="h-4 w-4 text-sea" />
                 </div>
                 <div>
-                  <p className="eyebrow text-pirate-muted/60">Konum</p>
+                  <p className="eyebrow text-pirate-muted">Konum</p>
                   <p className="text-sm font-semibold text-pirate-text">{arc.location}</p>
                 </div>
               </div>
@@ -150,7 +152,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                   <Skull className="h-4 w-4 text-luffy" />
                 </div>
                 <div>
-                  <p className="eyebrow text-pirate-muted/60">Ana Düşman</p>
+                  <p className="eyebrow text-pirate-muted">Ana Düşman</p>
                   <p className="text-sm font-semibold text-pirate-text">{arc.villain}</p>
                 </div>
               </div>
@@ -161,7 +163,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                   <Users className="h-4 w-4 text-sea" />
                 </div>
                 <div>
-                  <p className="eyebrow text-pirate-muted/60">Öne Çıkan Karakterler</p>
+                  <p className="eyebrow text-pirate-muted">Öne Çıkan Karakterler</p>
                   <div className="mt-1 flex flex-wrap gap-1.5">
                     {arc.characters.map((slug) => (
                       <Link
@@ -169,7 +171,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                         href={`/characters/${slug}`}
                         className="tag transition-colors hover:bg-sea/[0.12] hover:text-sea"
                       >
-                        {slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
+                        {getCharacterBySlug(slug)?.name ?? slug}
                       </Link>
                     ))}
                   </div>
@@ -378,7 +380,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                   >
                     <ArrowLeft className="h-4 w-4 text-pirate-muted group-hover:text-gold group-hover:-translate-x-1 transition-all" />
                     <div className="min-w-0">
-                      <p className="eyebrow text-pirate-muted/50">Önceki Arc</p>
+                      <p className="eyebrow text-pirate-muted">Önceki Arc</p>
                       <p className="text-xs font-semibold text-pirate-text group-hover:text-gold transition-colors truncate">{prevArc.name}</p>
                     </div>
                   </Link>
@@ -389,7 +391,7 @@ export default function ArcDetailClient({ arc }: { arc: Arc }) {
                     className="bento-card group flex items-center justify-end gap-3 px-4 py-3 text-right"
                   >
                     <div className="min-w-0">
-                      <p className="eyebrow text-pirate-muted/50">Sonraki Arc</p>
+                      <p className="eyebrow text-pirate-muted">Sonraki Arc</p>
                       <p className="text-xs font-semibold text-pirate-text group-hover:text-gold transition-colors truncate">{nextArc.name}</p>
                     </div>
                     <ArrowRight className="h-4 w-4 text-pirate-muted group-hover:text-gold group-hover:translate-x-1 transition-all" />

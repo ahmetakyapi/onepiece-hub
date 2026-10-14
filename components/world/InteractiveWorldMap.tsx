@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { MapPin, X, Compass, Waves, ChevronRight, AlertTriangle } from 'lucide-react'
 import Link from 'next/link'
 import { LOCATIONS, SEAS } from '@/lib/constants/locations'
+import { getArcBySlug } from '@/lib/constants/arcs'
 import { cn } from '@/lib/utils'
 import { EASE } from '@/lib/variants'
 import { TYPE_LABELS } from './map-data'
@@ -239,7 +240,7 @@ export default function InteractiveWorldMap() {
                   <div className="mb-1 flex items-center gap-2">
                     <MapPin className="h-4 w-4" style={{ color: SEA_COLORS[selectedLocation.sea] }} />
                     <h3 className="text-lg font-bold text-pirate-text">{selectedLocation.name}</h3>
-                    <span className="rounded-full bg-ocean-surface px-2 py-0.5 text-[10px] font-semibold text-pirate-muted">
+                    <span className="rounded-full bg-ocean-surface px-2 py-0.5 text-xs font-semibold text-pirate-muted">
                       {SEAS.find(s => s.slug === selectedLocation.sea)?.name}
                     </span>
                   </div>
@@ -262,7 +263,7 @@ export default function InteractiveWorldMap() {
               {/* Danger level */}
               <div className="mb-4 flex items-center gap-2">
                 <AlertTriangle className="h-3.5 w-3.5 text-pirate-muted/40" />
-                <span className="eyebrow text-pirate-muted/50">Tehlike Seviyesi</span>
+                <span className="eyebrow text-pirate-muted">Tehlike Seviyesi</span>
                 <div className="flex gap-1">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <div
@@ -305,7 +306,7 @@ export default function InteractiveWorldMap() {
                       href={`/arcs/${arc}`}
                       className="inline-flex items-center gap-1 rounded-lg bg-ocean-surface px-2.5 py-1 text-[11px] font-medium text-pirate-muted transition-colors hover:bg-sea/10 hover:text-sea"
                     >
-                      {arc.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
+                      {getArcBySlug(arc)?.name ?? arc}
                       <ChevronRight className="h-2.5 w-2.5" />
                     </Link>
                   ))}

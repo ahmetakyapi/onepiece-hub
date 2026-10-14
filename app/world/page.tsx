@@ -315,7 +315,7 @@ export default function WorldPage() {
                               </div>
                               <div>
                                 <h3 className="text-sm font-bold text-pirate-text">{loc.name}</h3>
-                                <span className="text-[10px] text-pirate-muted">
+                                <span className="text-xs text-pirate-muted">
                                   {TYPE_LABELS[loc.type]}
                                 </span>
                               </div>
@@ -331,11 +331,11 @@ export default function WorldPage() {
                             <div className="mb-1 flex items-center justify-between">
                               <div className="flex items-center gap-1.5">
                                 <Shield className={`h-3 w-3 ${DANGER_COLORS[loc.dangerLevel]}`} />
-                                <span className={`text-[10px] font-semibold ${DANGER_COLORS[loc.dangerLevel]}`}>
+                                <span className={`text-xs font-semibold ${DANGER_COLORS[loc.dangerLevel]}`}>
                                   Tehlike: {DANGER_LABELS[loc.dangerLevel]}
                                 </span>
                               </div>
-                              <span className={`font-mono text-[10px] font-bold ${DANGER_COLORS[loc.dangerLevel]}`}>
+                              <span className={`font-mono text-xs font-bold ${DANGER_COLORS[loc.dangerLevel]}`}>
                                 {loc.dangerLevel}/5
                               </span>
                             </div>
@@ -380,7 +380,7 @@ export default function WorldPage() {
                                     href={`/arcs/${arcSlug}`}
                                     /* py-1.5: çip 19px yüksekliğindeydi, mobilde dokunma hedefi
                                        olarak çok küçüktü (~32px'e çıkarıldı). */
-                                    className="rounded-full bg-ocean-surface px-2.5 py-1.5 text-[10px] font-medium text-sea transition-colors hover:bg-sea/10 hover:text-sea-light"
+                                    className="rounded-full bg-ocean-surface px-2.5 py-1.5 text-xs font-medium text-sea transition-colors hover:bg-sea/10 hover:text-sea-light"
                                   >
                                     {arc?.name ?? arcSlug}
                                   </Link>

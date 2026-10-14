@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 import { EASE, fadeUp } from '@/lib/variants'
 import { getGlobalEpisodeNumber } from '@/lib/constants/arcs'
+import { getSagaName } from '@/lib/constants/sagas'
 import { useWatchedEpisodes } from '@/hooks/useWatchedEpisodes'
 import { usePlayerPrefs } from '@/hooks/usePlayerPrefs'
 import { useEpisodeTimer } from '@/hooks/useEpisodeTimer'
@@ -340,7 +341,7 @@ export default function WatchPageClient({
             {watched}/{arc.episodeCount} izlendi
           </span>
           <span className="text-pirate-muted/30">•</span>
-          <span className="text-pirate-muted/70">{arc.saga}</span>
+          <span className="text-pirate-muted">{getSagaName(arc.saga)}</span>
         </nav>
 
         {/*
@@ -441,8 +442,8 @@ export default function WatchPageClient({
                         <span className="relative inline-flex h-2 w-2 rounded-full bg-luffy" />
                       </span>
                       <span className="eyebrow text-white/80">Sinema</span>
-                      <span className="text-[10px] text-white/40">•</span>
-                      <span className="font-mono text-[10px] text-white/70">
+                      <span className="text-xs text-white/40">•</span>
+                      <span className="font-mono text-xs text-white/70">
                         Bölüm {globalEp}
                       </span>
                     </div>
@@ -469,7 +470,7 @@ export default function WatchPageClient({
                 {/* Mini oynatıcı şeridi */}
                 {mode === 'mini' && (
                   <div className="absolute inset-x-0 top-0 z-30 flex items-center gap-1.5 bg-gradient-to-b from-black/80 to-transparent px-2 py-1.5">
-                    <span className="min-w-0 flex-1 truncate text-[10px] font-semibold text-white/85">
+                    <span className="min-w-0 flex-1 truncate text-xs font-semibold text-white/85">
                       {episode.title}
                     </span>
                     <button
@@ -698,7 +699,7 @@ export default function WatchPageClient({
 
       {/* Sinema modu alt bilgi şeridi */}
       {mode === 'cinema' && (
-        <div className="pointer-events-none fixed inset-x-0 bottom-5 z-[261] flex flex-wrap items-center justify-center gap-x-5 gap-y-1 px-4 text-center text-[10px] text-white/35">
+        <div className="pointer-events-none fixed inset-x-0 bottom-5 z-[261] flex flex-wrap items-center justify-center gap-x-5 gap-y-1 px-4 text-center text-xs text-white/60">
           <span className="eyebrow flex items-center gap-1.5">
             {/* kbd'nin UA varsayılan font-family'si miras almayı keser — açıkça ver */}
             <kbd className="rounded border border-white/20 bg-white/5 px-1.5 py-0.5 font-mono normal-case text-white/60">

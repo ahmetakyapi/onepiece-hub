@@ -54,7 +54,7 @@ export default function SpeechBubble({
         )}
       >
         {character && (
-          <span className="mb-1 block text-[10px] font-bold uppercase tracking-wider opacity-50">
+          <span className="mb-1 block text-xs font-bold opacity-70">
             {character}
           </span>
         )}

@@ -142,7 +142,7 @@ export default function PlayerSettings({
         >
           <Crop className="h-3.5 w-3.5" />
           <span className="text-[11px] font-bold">Kırpılmış</span>
-          <span className="text-[9px] leading-tight opacity-70">Sadece video alanı</span>
+          <span className="text-xs leading-tight opacity-70">Sadece video alanı</span>
         </button>
         <button
           onClick={() => setEmbedMode('full')}
@@ -155,7 +155,7 @@ export default function PlayerSettings({
         >
           <Maximize className="h-3.5 w-3.5" />
           <span className="text-[11px] font-bold">Tam Sayfa</span>
-          <span className="text-[9px] leading-tight opacity-70">{PLAYER_SOURCE.name} arayüzü</span>
+          <span className="text-xs leading-tight opacity-70">{PLAYER_SOURCE.name} arayüzü</span>
         </button>
       </div>
 
@@ -167,13 +167,13 @@ export default function PlayerSettings({
             <span className="eyebrow text-pirate-muted">Kırpma Kalibrasyonu</span>
             <button
               onClick={onResetGeometry}
-              className="inline-flex items-center gap-1 text-[10px] font-semibold text-pirate-muted transition-colors hover:text-gold"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-pirate-muted transition-colors hover:text-gold"
             >
               <RotateCcw className="h-3 w-3" />
               Sıfırla
             </button>
           </div>
-          <p className="px-2 pb-2 text-[10px] leading-snug text-pirate-muted/80">
+          <p className="px-2 pb-2 text-xs leading-snug text-pirate-muted/80">
             Video kadrajı kaymışsa buradan düzelt. Ayar bu cihazda saklanır.
           </p>
           <div className="space-y-2 px-2 pb-1">
@@ -181,7 +181,7 @@ export default function PlayerSettings({
               const limits = GEOMETRY_LIMITS[field.key]
               return (
                 <label key={field.key} className="block">
-                  <span className="mb-1 flex items-center justify-between text-[10px] font-semibold text-pirate-muted">
+                  <span className="mb-1 flex items-center justify-between text-xs font-semibold text-pirate-muted">
                     {field.label}
                     <span className="font-mono text-gold">
                       {prefs.geometry[field.key]}

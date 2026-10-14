@@ -75,7 +75,7 @@ export default function WorldMap() {
             <div className="h-2 w-2 rounded-full bg-gold/60" />
             <div className="h-2 w-2 rounded-full bg-sea/60" />
           </div>
-          <span className="eyebrow text-pirate-muted/60">
+          <span className="eyebrow text-pirate-muted">
             One Piece Dünya Haritası
           </span>
         </div>
@@ -132,7 +132,7 @@ export default function WorldMap() {
 
         {/* Bottom legend */}
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-pirate-border/20 bg-ocean-surface/20 px-5 py-3">
-          <span className="eyebrow text-pirate-muted/50">
+          <span className="eyebrow text-pirate-muted">
             Bölgeler
           </span>
           {LEGEND_ITEMS.map((item) => (
@@ -141,18 +141,18 @@ export default function WorldMap() {
                 className="h-2 w-2 rounded-full"
                 style={{ background: item.color }}
               />
-              <span className="text-[10px] font-medium text-pirate-muted/70">
+              <span className="text-xs font-medium text-pirate-muted">
                 {item.label}
               </span>
             </div>
           ))}
           <div className="flex items-center gap-1.5">
             <div className="h-px w-4 border-t border-dashed border-gold/40" />
-            <span className="text-[10px] font-medium text-pirate-muted/70">
+            <span className="text-xs font-medium text-pirate-muted">
               Hasır Şapka Rotası
             </span>
           </div>
-          <div className="ml-auto hidden text-[10px] text-pirate-muted/40 sm:block">
+          <div className="ml-auto hidden text-xs text-pirate-muted sm:block">
             Lokasyona tıkla → Detay
           </div>
         </div>

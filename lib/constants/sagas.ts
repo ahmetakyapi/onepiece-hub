@@ -52,3 +52,11 @@ export const SAGAS: Saga[] = [
     arcs: ['egghead'],
   },
 ]
+
+/** Saga'nın görünen adı ("east-blue" → "East Blue"). Rozetlerde slug'ı
+ *  büyük harfe çevirip basmak "EAST-BLUE" gibi okunmaz etiketler
+ *  üretiyordu; ad her zaman buradan okunur. Bilinmeyen slug olduğu gibi döner. */
+export function getSagaName(slug: string | undefined): string {
+  if (!slug) return ''
+  return SAGAS.find((s) => s.slug === slug)?.name ?? slug
+}

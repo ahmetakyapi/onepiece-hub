@@ -16,8 +16,8 @@ const SORT_OPTIONS: { mode: SortMode; label: string; stat?: string }[] = [
   { mode: 'overall', label: 'Genel Güç' },
   { mode: 'strength', label: 'En Güçlü' },
   { mode: 'speed', label: 'En Hızlı' },
-  { mode: 'haki', label: 'En Hakilı' },
-  { mode: 'devilFruit', label: 'En Meyvelı' },
+  { mode: 'haki', label: 'En Hakili' },
+  { mode: 'devilFruit', label: 'En Meyveli' },
   { mode: 'intelligence', label: 'En Zeki' },
   { mode: 'endurance', label: 'En Dayanıklı' },
 ]
@@ -95,7 +95,7 @@ function PowerLeaderboard() {
           <button
             key={option.mode}
             onClick={() => setSortMode(option.mode)}
-            className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+            className={`rounded-full px-4 py-2 text-[13px] font-semibold transition-all duration-300 ${
               sortMode === option.mode
                 ? 'bg-gold text-ocean-deep shadow-lg'
                 : 'border border-pirate-border/30 bg-ocean-surface/50 text-pirate-text hover:border-gold/50 hover:bg-ocean-surface'
