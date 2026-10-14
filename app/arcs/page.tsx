@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Search, Compass, Anchor, Film, Clock } from 'lucide-react'
+import Link from 'next/link'
 import { SAGAS } from '@/lib/constants/sagas'
 import { ARCS, getArcsBySaga } from '@/lib/constants/arcs'
 import ArcCard from '@/components/arcs/ArcCard'
@@ -12,6 +13,7 @@ import EmptyState from '@/components/ui/EmptyState'
 import ResumeBar from '@/components/watch/ResumeBar'
 import { EASE } from '@/lib/variants'
 import { SITE_STATS, formatRuntime } from '@/lib/constants/stats'
+import { matchesSearch } from '@/lib/utils'
 
 /* Orb renkleri token'dan okunur — ham rgba() light temada dönmüyordu */
 const HERO_ORBS = [
@@ -27,14 +29,10 @@ export default function ArcsPage() {
 
   /* Filtreleme her render'da değil, sadece girdi değişince çalışır */
   const filteredArcs = useMemo(() => {
-    const needle = search.trim().toLocaleLowerCase('tr')
     return ARCS.filter((arc) => {
-      const matchesSearch =
-        !needle ||
-        arc.name.toLocaleLowerCase('tr').includes(needle) ||
-        arc.summary.toLocaleLowerCase('tr').includes(needle)
+      const matchesQuery = matchesSearch(search, arc.name, arc.summary)
       const matchesSaga = !activeSaga || arc.saga === activeSaga
-      return matchesSearch && matchesSaga
+      return matchesQuery && matchesSaga
     })
   }, [search, activeSaga])
 
@@ -95,18 +93,28 @@ export default function ArcsPage() {
               />
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            {/* Telefonda tek satır, yatay kayar: 11 çip beş satıra sarıp
+                listeyi ~200px aşağı itiyordu. sm+ eskisi gibi sarar. */}
+            <div
+              role="group"
+              aria-label="Sagaya göre süz"
+              className="-mx-6 flex gap-2 overflow-x-auto px-6 pb-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden"
+            >
               <button
+                type="button"
                 onClick={() => setActiveSaga(null)}
-                className={`chip transition-all duration-300 ${!activeSaga ? 'border-gold/30 bg-gold/[0.08] text-gold' : ''}`}
+                aria-pressed={!activeSaga}
+                className={`chip flex-shrink-0 transition-all duration-300 ${!activeSaga ? 'border-gold/30 bg-gold/[0.08] text-gold' : ''}`}
               >
                 Tümü
               </button>
               {SAGAS.map((saga) => (
                 <button
                   key={saga.slug}
+                  type="button"
                   onClick={() => setActiveSaga(saga.slug === activeSaga ? null : saga.slug)}
-                  className={`chip transition-all duration-300 ${activeSaga === saga.slug ? 'border-gold/30 bg-gold/[0.08] text-gold' : ''}`}
+                  aria-pressed={activeSaga === saga.slug}
+                  className={`chip flex-shrink-0 transition-all duration-300 ${activeSaga === saga.slug ? 'border-gold/30 bg-gold/[0.08] text-gold' : ''}`}
                 >
                   {saga.name}
                 </button>
@@ -128,8 +136,7 @@ export default function ArcsPage() {
             <div className="space-y-12">
               {SAGAS.map((saga) => {
                 const arcs = getArcsBySaga(saga.slug).filter((arc) =>
-                  arc.name.toLowerCase().includes(search.toLowerCase()) ||
-                  arc.summary.toLowerCase().includes(search.toLowerCase())
+                  matchesSearch(search, arc.name, arc.summary)
                 )
                 if (arcs.length === 0) return null
                 return (
@@ -138,11 +145,15 @@ export default function ArcsPage() {
                       <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sea/[0.08] border border-sea/10">
                         <Anchor className="h-3.5 w-3.5 text-sea" />
                       </div>
-                      <h2 className="text-sm font-bold uppercase text-sea">
-                        {saga.name}
+                      {/* Saga adı saga sayfasına götürür; eskiden 14px büyük
+                          harf düz metindi ("EAST BLUE"). */}
+                      <h2 className="text-base font-bold text-pirate-text sm:text-lg">
+                        <Link href={`/sagas/${saga.slug}`} className="transition-colors hover:text-gold">
+                          {saga.name} Saga
+                        </Link>
                       </h2>
                       <div className="h-px flex-1 bg-gradient-to-r from-sea/15 to-transparent" />
-                      <span className="eyebrow rounded-full bg-sea/[0.06] px-2.5 py-1 text-sea/70">
+                      <span className="eyebrow rounded-full bg-sea/[0.06] px-2.5 py-1 text-sea">
                         {arcs.length} Arc
                       </span>
                     </div>

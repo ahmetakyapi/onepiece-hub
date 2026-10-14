@@ -10,6 +10,7 @@ import {
 } from 'lucide-react'
 import { fadeUp, staggerContainer } from '@/lib/variants'
 import { getCharacterThumb } from '@/lib/constants/images'
+import { matchesSearch } from '@/lib/utils'
 
 export interface TechniqueEntry {
   name: string
@@ -160,15 +161,9 @@ function TechniqueGrid({ techniques }: { techniques: TechniqueEntry[] }) {
   }, [techniques])
 
   const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase()
     return techniques.filter(t => {
       if (activeCategory && t.category !== activeCategory) return false
-      if (!q) return true
-      return (
-        t.name.toLowerCase().includes(q) ||
-        t.description.toLowerCase().includes(q) ||
-        t.characterName.toLowerCase().includes(q)
-      )
+      return matchesSearch(search, t.name, t.description, t.characterName)
     })
   }, [techniques, search, activeCategory])
 
@@ -201,14 +196,14 @@ function TechniqueGrid({ techniques }: { techniques: TechniqueEntry[] }) {
       <motion.div variants={fadeUp} className="flex flex-wrap gap-2">
         <button
           onClick={() => setActiveCategory(null)}
-          className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-all ${
+          className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-semibold transition-all ${
             activeCategory === null
               ? 'bg-gold text-ocean-deep shadow-lg'
               : 'border border-pirate-border/30 bg-ocean-surface/40 text-pirate-text hover:border-gold/40'
           }`}
         >
           Tümü
-          <span className="rounded-full bg-ocean-deep/20 px-1.5 py-0.5 font-mono text-[10px] font-bold tabular-nums">
+          <span className="rounded-full bg-ocean-deep/20 px-1.5 py-0.5 font-mono text-xs font-bold tabular-nums">
             {techniques.length}
           </span>
         </button>
@@ -222,7 +217,7 @@ function TechniqueGrid({ techniques }: { techniques: TechniqueEntry[] }) {
             <button
               key={cat}
               onClick={() => setActiveCategory(isActive ? null : cat)}
-              className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-all ${
+              className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-semibold transition-all ${
                 isActive
                   ? `${config.bg} ${config.color} border ${config.border} shadow-lg`
                   : 'border border-pirate-border/30 bg-ocean-surface/40 text-pirate-text hover:border-gold/40'
@@ -230,7 +225,7 @@ function TechniqueGrid({ techniques }: { techniques: TechniqueEntry[] }) {
             >
               <CategoryIcon className="h-3 w-3" />
               {cat}
-              <span className="rounded-full bg-ocean-deep/40 px-1.5 py-0.5 font-mono text-[10px] font-bold tabular-nums">
+              <span className="rounded-full bg-ocean-deep/40 px-1.5 py-0.5 font-mono text-xs font-bold tabular-nums">
                 {count}
               </span>
             </button>

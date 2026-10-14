@@ -22,7 +22,7 @@ import EmptyState from '@/components/ui/EmptyState'
 import AmbientBackground from '@/components/ui/AmbientBackground'
 import { getCharacterThumb } from '@/lib/constants/images'
 import { EASE } from '@/lib/variants'
-import { parseBounty, formatBounty } from '@/lib/utils'
+import { parseBounty, formatBounty, matchesSearch } from '@/lib/utils'
 import { BOUNTIES, CREW_FILTERS } from '@/lib/constants/bounties'
 import type { BountyEntry } from '@/types'
 
@@ -117,13 +117,7 @@ export default function BountiesPage() {
       result = result.filter((b) => b.crew === crewFilter)
     }
     if (search) {
-      const q = search.toLowerCase()
-      result = result.filter(
-        (b) =>
-          b.name.toLowerCase().includes(q) ||
-          b.crew.toLowerCase().includes(q) ||
-          (b.epithet?.toLowerCase().includes(q) ?? false)
-      )
+      result = result.filter((b) => matchesSearch(search, b.name, b.crew, b.epithet))
     }
     return result
   }, [search, crewFilter, allSorted])
@@ -476,7 +470,7 @@ export default function BountiesPage() {
                       </div>
                       <div className="flex-1 text-left">
                         <p className={`text-sm font-bold ${tier.color}`}>{tier.label}</p>
-                        <p className="mt-0.5 text-[10px] text-pirate-muted">
+                        <p className="mt-0.5 text-xs text-pirate-muted">
                           <span className="font-mono font-bold">{entries.length}</span> korsan
                         </p>
                       </div>
@@ -563,7 +557,7 @@ export default function BountiesPage() {
                                               style={{ width: `${barPercent}%` }}
                                             />
                                           </div>
-                                          <span className="hidden text-[10px] text-pirate-muted sm:inline">
+                                          <span className="hidden text-xs text-pirate-muted sm:inline">
                                             {entry.crew}
                                           </span>
                                         </div>

@@ -37,6 +37,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .then((data) => {
         if (data?.data?.user) setUser(data.data.user)
       })
+      .catch(() => {
+        /* Ağ hatası — misafir olarak devam; yakalanmazsa konsola işlenmemiş hata düşüyordu */
+      })
       .finally(() => setLoading(false))
   }, [])
 

@@ -18,6 +18,8 @@ import { getQuizByArcSlug } from '@/lib/constants/quizzes'
 import { getArcBySlug } from '@/lib/constants/arcs'
 import { EASE } from '@/lib/variants'
 import { SFX, isSoundEnabled, setSoundEnabled } from '@/lib/audio'
+import { useAuth } from '@/hooks/useAuth'
+import { toast } from '@/lib/toast'
 
 /**
  * Quiz oynatıcı.
@@ -38,6 +40,11 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
   const [streak, setStreak] = useState(0)
   const [bestStreak, setBestStreak] = useState(0)
   const [soundOn, setSoundOn] = useState(false)
+  /* Skor kaydının sonucu sonuç ekranında söylenir. Eskiden misafirin skoru
+     da POST ediliyor, 401 sessizce yutuluyordu — kullanıcı skorunun
+     kaydedildiğini sanıyordu. */
+  const [saveState, setSaveState] = useState<'idle' | 'saved' | 'guest' | 'error'>('idle')
+  const { user, loading: authLoading } = useAuth()
   const scoreSaved = useRef(false)
   const yonkoSFXPlayed = useRef(false)
 
@@ -56,17 +63,29 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
 
   // Quiz bittiğinde skoru DB'ye kaydet + Yonko SFX çal
   useEffect(() => {
-    if (!finished || scoreSaved.current || !quiz) return
+    if (!finished || scoreSaved.current || !quiz || authLoading) return
     scoreSaved.current = true
-    fetch('/api/quiz-scores', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        arcSlug,
-        score,
-        totalQ: quiz.questions.length,
-      }),
-    }).catch(() => {})
+    if (!user) {
+      setSaveState('guest')
+    } else {
+      fetch('/api/quiz-scores', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          arcSlug,
+          score,
+          totalQ: quiz.questions.length,
+        }),
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error(String(res.status))
+          setSaveState('saved')
+        })
+        .catch(() => {
+          setSaveState('error')
+          toast({ kind: 'error', title: 'Skor kaydedilemedi', message: 'Bağlantını kontrol edip quiz’i tekrar oynayabilirsin.' })
+        })
+    }
 
     if (soundOn && !yonkoSFXPlayed.current) {
       const pct = (score / quiz.questions.length) * 100
@@ -75,7 +94,7 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
         window.setTimeout(() => SFX.yonko(), 400)
       }
     }
-  }, [finished, arcSlug, score, quiz, soundOn])
+  }, [finished, arcSlug, score, quiz, soundOn, user, authLoading])
 
   const handleSelect = useCallback((index: number) => {
     if (showResult || !quiz) return
@@ -118,8 +137,36 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
     setFinished(false)
     setStreak(0)
     setBestStreak(0)
+    setSaveState('idle')
     scoreSaved.current = false
   }, [])
+
+  /* Klavye: 1–4 ya da A–D seçer, Enter / → sonraki soruya geçer. Odak bir
+     düğmedeyken Enter'ı tarayıcıya bırakır — yoksa "Sonraki" düğmesine
+     basınca soru iki kez ilerliyordu. */
+  useEffect(() => {
+    if (!quiz || finished) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey || e.repeat) return
+      const target = e.target as HTMLElement | null
+      if (target?.closest('input, textarea, select, [contenteditable="true"], [role="dialog"]')) return
+      const count = quiz.questions[currentQ].options.length
+      const key = e.key.toLocaleLowerCase('tr-TR')
+      const index = /^[1-9]$/.test(key) ? Number(key) - 1 : 'abcd'.indexOf(key)
+      if (!showResult && index >= 0 && index < count) {
+        e.preventDefault()
+        handleSelect(index)
+        return
+      }
+      if (showResult && (e.key === 'Enter' || e.key === 'ArrowRight')) {
+        if (e.key === 'Enter' && target?.closest('button, a')) return
+        e.preventDefault()
+        handleNext()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [quiz, finished, currentQ, showResult, handleSelect, handleNext])
 
   if (!quiz || !arc) {
     return (
@@ -334,6 +381,25 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
                       <ArrowRight className="h-4 w-4" />
                     </Link>
                   </motion.div>
+
+                  {saveState === 'guest' && (
+                    <p className="mt-6 text-sm text-pirate-muted">
+                      Skorun kaydedilmedi.{' '}
+                      <Link
+                        href={`/login?from=${encodeURIComponent(`/quiz/${arc.slug}`)}`}
+                        className="font-semibold text-gold underline-offset-4 hover:underline"
+                      >
+                        Giriş Yap
+                      </Link>
+                      , en iyi skorun profiline ve başarımlarına yazılsın.
+                    </p>
+                  )}
+                  {saveState === 'saved' && (
+                    <p className="mt-6 inline-flex items-center gap-1.5 text-sm text-pirate-muted">
+                      <CheckCircle className="h-4 w-4 text-haki" />
+                      Skorun kaydedildi, en iyisi profilinde.
+                    </p>
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -427,6 +493,14 @@ export default function QuizClient({ arcSlug }: { arcSlug: string }) {
                   )
                 })}
               </div>
+
+              <p className="hidden text-xs text-pirate-muted sm:block">
+                Klavyeyle de oynayabilirsin:{' '}
+                <kbd className="rounded border border-pirate-border/50 px-1.5 py-0.5 font-mono text-[11px]">1</kbd>–<kbd className="rounded border border-pirate-border/50 px-1.5 py-0.5 font-mono text-[11px]">4</kbd>{' '}
+                seçer,{' '}
+                <kbd className="rounded border border-pirate-border/50 px-1.5 py-0.5 font-mono text-[11px]">Enter</kbd>{' '}
+                ilerletir.
+              </p>
 
               {/* Next button */}
               {showResult && (

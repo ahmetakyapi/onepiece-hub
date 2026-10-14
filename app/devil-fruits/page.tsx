@@ -10,6 +10,7 @@ import AmbientBackground from '@/components/ui/AmbientBackground'
 import { DEVIL_FRUITS, DEVIL_FRUIT_TYPE_INFO } from '@/lib/constants/devil-fruits'
 import { getCharacterImage, getCharacterThumb } from '@/lib/constants/images'
 import { useViewTransition } from '@/hooks/useViewTransition'
+import { matchesSearch } from '@/lib/utils'
 
 const TYPES = Object.keys(DEVIL_FRUIT_TYPE_INFO)
 
@@ -29,13 +30,9 @@ export default function DevilFruitsPage() {
 
   const filtered = useMemo(() => {
     return DEVIL_FRUITS.filter((df) => {
-      const matchesSearch =
-        df.name.toLowerCase().includes(search.toLowerCase()) ||
-        df.user.toLowerCase().includes(search.toLowerCase()) ||
-        df.description.toLowerCase().includes(search.toLowerCase()) ||
-        df.meaning.toLowerCase().includes(search.toLowerCase())
+      const matchesQuery = matchesSearch(search, df.name, df.user, df.description, df.meaning)
       const matchesType = !activeType || df.type === activeType
-      return matchesSearch && matchesType
+      return matchesQuery && matchesType
     })
   }, [search, activeType])
 
@@ -272,14 +269,14 @@ export default function DevilFruitsPage() {
                               {df.abilities.slice(0, 2).map((ability) => (
                                 <span
                                   key={ability}
-                                  className="flex items-center gap-1 rounded-lg bg-ocean-surface px-2 py-1 text-[10px] text-pirate-muted"
+                                  className="flex items-center gap-1 rounded-lg bg-ocean-surface px-2 py-1 text-xs text-pirate-muted"
                                 >
                                   <Zap className="h-2.5 w-2.5 text-gold/50" />
                                   {ability.length > 30 ? ability.slice(0, 30) + '...' : ability}
                                 </span>
                               ))}
                               {df.abilities.length > 2 && (
-                                <span className="rounded-lg bg-ocean-surface px-2 py-1 text-[10px] font-semibold text-gold/60">
+                                <span className="rounded-lg bg-ocean-surface px-2 py-1 text-xs font-semibold text-gold/60">
                                   +{df.abilities.length - 2}
                                 </span>
                               )}

@@ -5,6 +5,27 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+/** Arama için metni sadeleştirir: Türkçe küçük harf + aksan/Türkçe harf
+ *  farkı yok. "Şeytan" ~ "seytan", "İmu" ~ "imu", "ROBIN" ~ "robin".
+ *
+ *  Sayfalar eskiden düz `toLowerCase()` kullanıyordu: büyük "İ" iki
+ *  karaktere ("i̇") dönüp hiçbir şeyle eşleşmiyor, Türkçe klavyesiz yazan
+ *  ("seytan meyvesi") hiçbir sonuç bulamıyordu. Tek kural burada. */
+export function normalizeSearch(value: string): string {
+  return value
+    .toLocaleLowerCase('tr-TR')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/ı/g, 'i')
+}
+
+/** Sorgu boşsa her şey eşleşir; değilse alanlardan biri sorguyu içermeli. */
+export function matchesSearch(query: string, ...fields: (string | null | undefined)[]): boolean {
+  const q = normalizeSearch(query.trim())
+  if (!q) return true
+  return fields.some((f) => f != null && normalizeSearch(f).includes(q))
+}
+
 /** Tarihi formatla: "15 Mart 2026" */
 export function formatDate(date: Date | string, locale = 'tr-TR'): string {
   return new Intl.DateTimeFormat(locale, {
@@ -41,7 +62,7 @@ export function getTimeAgo(dateStr: string): string {
   const diff = Date.now() - new Date(dateStr).getTime()
   const mins = Math.floor(diff / 60000)
   if (mins < 1) return 'az önce'
-  if (mins < 60) return `${mins} dk önce`
+  if (mins < 60) return `${mins} dakika önce`
   const hours = Math.floor(mins / 60)
   if (hours < 24) return `${hours} saat önce`
   const days = Math.floor(hours / 24)

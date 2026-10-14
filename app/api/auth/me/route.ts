@@ -1,19 +1,23 @@
 import { NextRequest } from 'next/server'
 import { eq } from 'drizzle-orm'
-import { ok, err, serverErr } from '@/lib/api'
+import { ok, serverErr } from '@/lib/api'
 import { verifyToken } from '@/lib/token'
 import { db } from '@/lib/db'
 import { users } from '@/lib/schema'
 
 export const dynamic = 'force-dynamic'
 
+/* Oturum yoksa 200 + `user: null`. Bu uç bir "kim var?" sorusu, korumalı
+   kaynak değil: misafir için 401 dönmek her sayfa açılışında tarayıcı
+   konsoluna kırmızı bir hata basıyordu. Korumalı uçlar (progress,
+   favorites, quiz-scores…) 401'i korur. */
 export async function GET(req: NextRequest) {
   try {
     const token = req.cookies.get('session')?.value
-    if (!token) return err('Giriş yapılmamış', 401)
+    if (!token) return ok({ user: null })
 
     const payload = await verifyToken(token)
-    if (!payload) return err('Geçersiz oturum', 401)
+    if (!payload) return ok({ user: null })
 
     const [user] = await db
       .select({
@@ -27,7 +31,7 @@ export async function GET(req: NextRequest) {
       .where(eq(users.id, payload.id))
       .limit(1)
 
-    if (!user) return err('Kullanıcı bulunamadı', 404)
+    if (!user) return ok({ user: null })
 
     return ok({
       user: {

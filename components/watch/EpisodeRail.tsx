@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import { EASE } from '@/lib/variants'
 import type { Arc, Episode } from '@/types'
+import { matchesSearch } from '@/lib/utils'
 
 type ArcLink = { name: string; slug: string; firstEpisodeSlug?: string }
 
@@ -84,12 +85,12 @@ const EpisodeRow = memo(function EpisodeRow({
         >
           {episode.title}
         </span>
-        <span className="block font-mono text-[10px] opacity-50">
+        <span className="block font-mono text-xs opacity-50">
           Bölüm {episode.number}
         </span>
       </span>
 
-      <span className="flex flex-shrink-0 items-center gap-1 font-mono text-[10px] opacity-50">
+      <span className="flex flex-shrink-0 items-center gap-1 font-mono text-xs opacity-50">
         <Clock className="h-3 w-3" />
         {episode.duration}
       </span>
@@ -117,12 +118,12 @@ export default function EpisodeRail({
   const percent = arc.episodeCount > 0 ? Math.round((watchedCount / arc.episodeCount) * 100) : 0
 
   const visibleEpisodes = useMemo(() => {
-    const needle = query.trim().toLocaleLowerCase('tr')
+    const needle = query.trim()
     return arc.episodes.filter((ep) => {
       if (filter === 'unwatched' && isWatched(ep.slug) && ep.slug !== currentSlug) return false
       if (!needle) return true
       return (
-        ep.title.toLocaleLowerCase('tr').includes(needle) ||
+        matchesSearch(needle, ep.title) ||
         String(ep.number) === needle ||
         String(globalNumberOf(ep.number)) === needle
       )

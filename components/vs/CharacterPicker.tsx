@@ -8,6 +8,7 @@ import { CHARACTERS } from '@/lib/constants/characters'
 import { getCharacterThumb } from '@/lib/constants/images'
 import { EASE } from '@/lib/variants'
 import type { Character } from '@/types'
+import { matchesSearch } from '@/lib/utils'
 
 interface Props {
   value: Character | null
@@ -34,13 +35,8 @@ function CharacterPicker({ value, onSelect, accent, disabledSlug, label }: Props
   }, [open])
 
   const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase()
-    const list = q
-      ? CHARACTERS.filter(c =>
-          c.name.toLowerCase().includes(q) ||
-          (c.epithet && c.epithet.toLowerCase().includes(q)) ||
-          c.slug.includes(q)
-        )
+    const list = search.trim()
+      ? CHARACTERS.filter(c => matchesSearch(search, c.name, c.epithet, c.slug))
       : CHARACTERS
     return list.slice(0, 30)
   }, [search])

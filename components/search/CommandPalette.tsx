@@ -24,6 +24,7 @@ import { CHARACTERS } from '@/lib/constants/characters'
 import { ARCS } from '@/lib/constants/arcs'
 import { DEVIL_FRUITS } from '@/lib/constants/devil-fruits'
 import { SITE_STATS } from '@/lib/constants/stats'
+import { normalizeSearch } from '@/lib/utils'
 
 type ResultKind = 'character' | 'arc' | 'fruit' | 'page'
 
@@ -104,8 +105,8 @@ const ALL_RESULTS: Result[] = [
 
 function scoreMatch(query: string, text: string): number {
   if (!query) return 0
-  const q = normalizeSearchText(query.trim())
-  const t = normalizeSearchText(text)
+  const q = normalizeSearch(query.trim())
+  const t = normalizeSearch(text)
   if (!q) return 0
   if (t === q) return 100
   if (t.startsWith(q)) return 80
@@ -113,19 +114,6 @@ function scoreMatch(query: string, text: string): number {
   if (wordStartMatch) return 60
   if (t.includes(q)) return 40
   return 0
-}
-
-function normalizeSearchText(value: string): string {
-  return value
-    .toLocaleLowerCase('tr-TR')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/ı/g, 'i')
-    .replace(/ş/g, 's')
-    .replace(/ğ/g, 'g')
-    .replace(/ü/g, 'u')
-    .replace(/ö/g, 'o')
-    .replace(/ç/g, 'c')
 }
 
 function escapeRegExp(value: string): string {
@@ -315,7 +303,7 @@ export default function CommandPalette() {
                 <div className="p-2">
                   {groups.map((group) => (
                     <div key={group.kind} className="mb-1 last:mb-0">
-                      <p className="eyebrow px-3 pb-1.5 pt-2 text-pirate-muted/60">
+                      <p className="eyebrow px-3 pb-1.5 pt-2 text-pirate-muted">
                         {KIND_LABELS[group.kind]}
                         <span className="ml-2 text-pirate-muted/35">{group.items.length}</span>
                       </p>
@@ -375,7 +363,7 @@ export default function CommandPalette() {
               )}
             </div>
 
-            <div className="flex items-center justify-between border-t border-pirate-border/20 px-5 py-2.5 text-[10px] text-pirate-muted/60">
+            <div className="flex items-center justify-between border-t border-pirate-border/20 px-5 py-2.5 text-xs text-pirate-muted">
               <div className="flex items-center gap-3">
                 <span className="flex items-center gap-1">
                   <kbd className="rounded border border-pirate-border/40 bg-ocean-surface/60 px-1.5 py-0.5 font-mono font-semibold">

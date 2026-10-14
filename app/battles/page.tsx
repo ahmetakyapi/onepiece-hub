@@ -25,6 +25,7 @@ import AmbientBackground from '@/components/ui/AmbientBackground'
 import { BATTLES, BATTLE_CATEGORIES } from '@/lib/constants/battles'
 import { getCharacterThumb } from '@/lib/constants/images'
 import { EASE } from '@/lib/variants'
+import { matchesSearch } from '@/lib/utils'
 
 /* ─── Constants ──────────────────────────────────────────────── */
 
@@ -151,13 +152,8 @@ export default function BattlesPage() {
     }
 
     if (search) {
-      const q = search.toLowerCase()
-      result = result.filter(
-        (b) =>
-          b.name.toLowerCase().includes(q) ||
-          b.arc.toLowerCase().includes(q) ||
-          b.participants.side1.some((p) => p.toLowerCase().includes(q)) ||
-          b.participants.side2.some((p) => p.toLowerCase().includes(q))
+      result = result.filter((b) =>
+        matchesSearch(search, b.name, b.arc, ...b.participants.side1, ...b.participants.side2)
       )
     }
 
@@ -438,7 +434,7 @@ export default function BattlesPage() {
               >
                 <Sparkles className="h-3.5 w-3.5" />
                 Tümü
-                <span className="ml-1 text-[10px] opacity-60">{BATTLES.length}</span>
+                <span className="ml-1 text-xs opacity-60">{BATTLES.length}</span>
               </button>
 
               {categories.map(([key, { label, color }]) => {
@@ -457,7 +453,7 @@ export default function BattlesPage() {
                   >
                     <IconComp className="h-3.5 w-3.5" />
                     {label}
-                    <span className="ml-1 text-[10px] opacity-60">{categoryCounts[key] || 0}</span>
+                    <span className="ml-1 text-xs opacity-60">{categoryCounts[key] || 0}</span>
                   </button>
                 )
               })}
@@ -653,7 +649,7 @@ export default function BattlesPage() {
                           <span className="eyebrow-lg text-pirate-text">
                             Kilit Anlar
                           </span>
-                          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gold/10 font-mono text-[10px] font-bold text-gold">
+                          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gold/10 font-mono text-xs font-bold text-gold">
                             {battle.keyMoments.length}
                           </span>
                         </div>

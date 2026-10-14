@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -17,8 +17,41 @@ import { ARCS, getArcBySlug } from '@/lib/constants/arcs'
 import { getArcImage } from '@/lib/constants/images'
 import { SAGAS } from '@/lib/constants/sagas'
 import { fadeUp, staggerContainer } from '@/lib/variants'
+import { useAuth } from '@/hooks/useAuth'
+
+type BestScore = { score: number; totalQ: number }
 
 export default function QuizHubPage() {
+  const { user } = useAuth()
+  /* Girişli kullanıcının en iyi skorları — kartta "En İyi 4/5" rozeti.
+     Skorlar eskiden yalnız profilde görünüyordu; hangi quiz'i çözdüğünü
+     görmek için listeden çıkmak gerekiyordu. Misafirde istek atılmaz. */
+  const [best, setBest] = useState<Record<string, BestScore> | null>(null)
+
+  useEffect(() => {
+    if (!user) {
+      setBest(null)
+      return
+    }
+    let cancelled = false
+    fetch('/api/quiz-scores')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (cancelled || !data?.data?.scores) return
+        const map: Record<string, BestScore> = {}
+        for (const s of data.data.scores as { arcSlug: string; score: number; totalQ: number }[]) {
+          map[s.arcSlug] = { score: s.score, totalQ: s.totalQ }
+        }
+        setBest(map)
+      })
+      .catch(() => {
+        /* Skorlar ek bilgi — liste onlarsız da çalışır */
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [user])
+
   const quizzesBySaga = useMemo(() => {
     return SAGAS.map((saga) => {
       const sagaQuizzes = saga.arcs
@@ -36,13 +69,24 @@ export default function QuizHubPage() {
 
   const totalQuizzes = QUIZZES.length
   const totalQuestions = QUIZZES.reduce((acc, q) => acc + q.questions.length, 0)
+  const solvedCount = best ? QUIZZES.filter((q) => best[q.arcSlug]).length : 0
 
+  const stats = [
+    { label: 'Quiz', value: String(totalQuizzes), icon: BrainCircuit },
+    { label: 'Soru', value: String(totalQuestions), icon: Sparkles },
+    { label: 'Saga', value: String(SAGAS.length), icon: Trophy },
+    ...(best ? [{ label: 'Çözdüğün', value: `${solvedCount}/${totalQuizzes}`, icon: CheckCircle }] : []),
+  ]
+
+  /* Üst boşluk diğer liste sayfalarıyla aynı (`pt-24`): eskiden yoktu,
+     hero sabit header'ın altına giriyor, ikon logoyla çakışıyordu. */
   return (
-      <main className="relative min-h-screen">
+      <main className="relative min-h-screen pt-24">
         <div className="mx-auto max-w-6xl px-6">
           <PageHero
-            title="Quiz Arena"
-            subtitle="One Piece bilgini test et!"
+            title="Quiz"
+            subtitle="Arenası"
+            description="Her arc için kısa bir quiz. Bilgini test et; giriş yaptıysan en iyi skorun profiline yazılır."
             icon={BrainCircuit}
             accentColor="purple"
             orbs={[
@@ -52,43 +96,43 @@ export default function QuizHubPage() {
             ]}
           />
 
-          {/* Stats */}
-          <section className="max-w-6xl mx-auto px-4 -mt-6 mb-12 relative z-10">
+          {/* Stats — mobilde de yan yana: alt alta üç tam genişlik kart
+              ilk ekranı tek başına dolduruyordu. */}
+          <section className="relative z-10 mx-auto -mt-6 mb-12 max-w-6xl">
           <motion.div
             variants={staggerContainer(0.1)}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-4"
+            className={`grid gap-2 sm:gap-4 ${stats.length === 4 ? 'grid-cols-2 sm:grid-cols-4' : 'grid-cols-3'}`}
           >
-            {[
-              { label: 'Quiz', value: totalQuizzes, icon: BrainCircuit },
-              { label: 'Soru', value: totalQuestions, icon: Sparkles },
-              { label: 'Saga', value: SAGAS.length, icon: Trophy },
-            ].map((stat) => (
+            {stats.map((stat) => (
               <motion.div
                 key={stat.label}
                 variants={fadeUp}
-                className="glass rounded-xl p-4 text-center"
+                className="glass rounded-xl px-2 py-4 text-center sm:p-4"
               >
                 <stat.icon className="w-5 h-5 mx-auto mb-2 text-gold" />
-                <span className="block text-2xl font-bold text-gold stat-number">{stat.value}</span>
+                <span className="block text-xl font-bold text-gold stat-number sm:text-2xl">{stat.value}</span>
                 <span className="eyebrow mt-1 block text-pirate-muted">{stat.label}</span>
               </motion.div>
             ))}
           </motion.div>
         </section>
 
-        {/* Saga-grouped quizzes */}
-        <section className="max-w-6xl mx-auto px-4 pb-24">
-          <motion.div
-            variants={staggerContainer(0.08)}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-            className="space-y-12"
-          >
+        {/* Saga-grouped quizzes — her saga kendi görünürlüğüyle açılır.
+            Eskiden tek dev kapsayıcı `amount: 0.1` bekliyordu; ~5000px'lik
+            listenin %10'u görünmeden hiçbir kart çıkmıyor, ilk ekran boş
+            kalıyordu. */}
+        <section className="mx-auto max-w-6xl pb-24">
+          <div className="space-y-12">
             {quizzesBySaga.map(({ saga, quizzes }) => (
-              <motion.div key={saga.slug} variants={fadeUp}>
+              <motion.div
+                key={saga.slug}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '0px 0px -10% 0px' }}
+              >
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-1 h-8 rounded-full bg-gradient-to-b from-gold to-gold/30" />
                   <h2 className="text-xl font-bold text-pirate-text">{saga.name} Saga</h2>
@@ -98,6 +142,8 @@ export default function QuizHubPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {quizzes.map(({ arc, quiz, arcSlug }) => {
                     const img = getArcImage(arcSlug)
+                    const mine = best?.[arcSlug]
+                    const perfect = mine ? mine.score === mine.totalQ : false
                     return (
                       <Link
                         key={arcSlug}
@@ -123,6 +169,20 @@ export default function QuizHubPage() {
                           <div className="absolute top-3 right-3 glass eyebrow rounded-lg px-2 py-1.5 text-pirate-text">
                             {quiz.questions.length} soru
                           </div>
+
+                          {/* Kendi en iyi skorun */}
+                          {mine && (
+                            <div
+                              className={`absolute top-3 left-3 inline-flex items-center gap-1 rounded-lg border px-2 py-1.5 text-xs font-semibold backdrop-blur-md ${
+                                perfect
+                                  ? 'border-gold/40 bg-ocean-deep/80 text-gold'
+                                  : 'border-haki/30 bg-ocean-deep/80 text-haki'
+                              }`}
+                            >
+                              <CheckCircle className="h-3.5 w-3.5" />
+                              En İyi <span className="font-mono">{mine.score}/{mine.totalQ}</span>
+                            </div>
+                          )}
                         </div>
 
                         {/* Content */}
@@ -131,10 +191,13 @@ export default function QuizHubPage() {
                             {arc.name}
                           </h3>
                           <div className="flex items-center justify-between mt-2">
-                            <span className="font-mono text-[11px] text-pirate-muted">
-                              {arc.episodes?.length ?? 0} bölüm
+                            <span className="text-xs text-pirate-muted">
+                              <span className="font-mono">{arc.episodes?.length ?? 0}</span> bölüm
                             </span>
-                            <ChevronRight className="w-4 h-4 text-pirate-muted group-hover:text-gold group-hover:translate-x-1 transition-all" />
+                            <span className="inline-flex items-center gap-1 text-xs font-semibold text-pirate-muted group-hover:text-gold transition-colors">
+                              {mine ? 'Tekrar Oyna' : 'Başla'}
+                              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            </span>
                           </div>
                         </div>
                       </Link>
@@ -143,7 +206,7 @@ export default function QuizHubPage() {
                 </div>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </section>
         </div>
       </main>

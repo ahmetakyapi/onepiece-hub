@@ -17,7 +17,7 @@ import CrewAmbient from '@/components/characters/CrewAmbient'
 import AmbientBackground from '@/components/ui/AmbientBackground'
 import { CHARACTERS, CREW_LABELS } from '@/lib/constants/characters'
 import { fadeUp, staggerContainer, EASE } from '@/lib/variants'
-import { parseBounty } from '@/lib/utils'
+import { parseBounty, matchesSearch } from '@/lib/utils'
 import { CREW_COLORS, CREW_ICONS } from '@/lib/constants/crew-styles'
 import { CHARACTER_RELATIONS } from '@/lib/constants/relationships'
 import type { CrewType } from '@/types'
@@ -63,13 +63,9 @@ export default function CharactersPage() {
 
   const filtered = useMemo(() => {
     let result = CHARACTERS.filter((c) => {
-      const q = search.toLowerCase()
-      const matchesSearch =
-        c.name.toLowerCase().includes(q) ||
-        c.description.toLowerCase().includes(q) ||
-        (c.epithet && c.epithet.toLowerCase().includes(q))
+      const matchesQuery = matchesSearch(search, c.name, c.description, c.epithet)
       const matchesCrew = !activeCrew || c.crew === activeCrew
-      return matchesSearch && matchesCrew
+      return matchesQuery && matchesCrew
     })
 
     if (sortMode === 'bounty-desc') {
@@ -138,7 +134,7 @@ export default function CharactersPage() {
                 >
                   <t.icon className="h-4 w-4" />
                   {t.label}
-                  <span className="text-[10px] opacity-60">{t.count}</span>
+                  <span className="text-xs opacity-60">{t.count}</span>
                 </button>
               )
             })}
@@ -213,6 +209,8 @@ export default function CharactersPage() {
             className="mb-10 flex flex-wrap gap-2"
           >
             <button
+              type="button"
+              aria-pressed={!activeCrew}
               onClick={() => setActiveCrew(null)}
               className={`chip flex items-center gap-1.5 transition-all duration-300 ${
                 !activeCrew ? 'border-gold/30 bg-gold/[0.08] text-gold' : ''
@@ -220,15 +218,19 @@ export default function CharactersPage() {
             >
               <Users className="h-3 w-3" />
               Tümü
-              <span className="ml-0.5 text-[10px] opacity-60">{CHARACTERS.length}</span>
+              <span className="ml-0.5 text-xs opacity-60">{CHARACTERS.length}</span>
             </button>
-            {CREW_FILTERS.map(([key, label]) => {
+            {/* Karakteri olmayan grup süzgeci gösterilmez — "Baroque Works 0"
+                seçilince boş liste dışında bir şey vermiyordu. */}
+            {CREW_FILTERS.filter(([key]) => (crewCounts[key] || 0) > 0).map(([key, label]) => {
               const colors = CREW_COLORS[key] || CREW_COLORS.other
               const count = crewCounts[key] || 0
               const Icon = CREW_ICONS[key] || Anchor
               return (
                 <button
                   key={key}
+                  type="button"
+                  aria-pressed={activeCrew === key}
                   onClick={() => setActiveCrew(key === activeCrew ? null : key)}
                   className={`chip flex items-center gap-1.5 transition-all duration-300 ${
                     activeCrew === key
@@ -238,7 +240,7 @@ export default function CharactersPage() {
                 >
                   <Icon className="h-3 w-3" />
                   {label}
-                  <span className="ml-0.5 text-[10px] opacity-60">{count}</span>
+                  <span className="ml-0.5 text-xs opacity-60">{count}</span>
                 </button>
               )
             })}

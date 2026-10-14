@@ -7,6 +7,7 @@ import Link from 'next/link'
 import PageHero from '@/components/wiki/PageHero'
 import EraShowcase from '@/components/timeline/EraShowcase'
 import { fadeUp, EASE } from '@/lib/variants'
+import { matchesSearch } from '@/lib/utils'
 
 type TimelineEvent = {
   year: string
@@ -131,15 +132,10 @@ export default function TimelinePage() {
   const [search, setSearch] = useState('')
 
   const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase()
     return TIMELINE.filter((e) => {
       if (activeCategory && e.category !== activeCategory) return false
       if (importantOnly && e.importance !== 3) return false
-      if (q) {
-        const hay = `${e.title} ${e.description} ${e.year}`.toLowerCase()
-        if (!hay.includes(q)) return false
-      }
-      return true
+      return matchesSearch(search, e.title, e.description, String(e.year))
     })
   }, [activeCategory, importantOnly, search])
 
@@ -237,7 +233,7 @@ export default function TimelinePage() {
             </div>
             <button
               onClick={() => setImportantOnly(!importantOnly)}
-              className={`inline-flex items-center gap-1.5 rounded-full border px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition-all ${
+              className={`inline-flex items-center gap-1.5 rounded-full border px-4 py-2.5 text-[13px] font-semibold transition-all ${
                 importantOnly
                   ? 'border-luffy/40 bg-luffy/10 text-luffy shadow-[0_0_16px_rgb(var(--luffy)/0.2)]'
                   : 'border-pirate-border/30 bg-ocean-surface/40 text-pirate-text hover:border-luffy/40 hover:text-luffy'
