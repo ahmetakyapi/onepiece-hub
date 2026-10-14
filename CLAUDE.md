@@ -51,6 +51,9 @@ Env: `DATABASE_URL`, `AUTH_SECRET` (`openssl rand -base64 32`),
 - **İzleme**: girişli → `/api/progress`; anonim → localStorage, giriş/kayıtta
   `hooks/useAuth.tsx` DB'ye senkronlar.
 - **API**: `lib/api.ts` → `ok()` / `err()` / `serverErr()`; mesajlar Türkçe.
+- **Arama**: süzgeçler `lib/utils.ts` → `matchesSearch()` / `normalizeSearch()`
+  (Türkçe küçük harf + aksansız: "seytan" "Şeytan"ı, "İmu" "Imu"yu bulur).
+  Düz `toLowerCase()` ile yeni arama yazma.
 - **Kabuk**: `app/layout.tsx` provider'ları (Theme → Auth → SpoilerGate) kurar;
   Header, Footer, Preloader, RouteCurtain, CommandPalette, MobileBottomNav vb.
   `components/layout/ClientLayout.tsx`'te. Yeni sayfa bunları import etmez.
@@ -101,9 +104,14 @@ Toggle: `components/layout/ThemeToggle.tsx`.
 
 ### Tipografi
 
-- **Manrope** her şey (başlıklar dahil). **Space Mono** (`font-mono`, `.eyebrow`,
-  `.eyebrow-lg`) yalnız veri/alan etiketi: stat başlığı, kart içi alan adı,
-  rozet, bölüm no, ödül, süre.
+- **Manrope** her şey (başlıklar dahil). **Space Mono** (`font-mono`) yalnız
+  veri: ödül, bölüm no, süre, sayaç.
+- **Okunur etiket (Ekim 2026)**: `.eyebrow` / `.eyebrow-lg` / `.tag` Manrope,
+  normal harf, ≥12px (eskiden 10px büyük harf mono — okunmuyordu). Etiket ve
+  rozet metni elle Title Case yazılır; `text-[9px]`/`text-[10px]`, küçük
+  metinde `uppercase` + geniş `tracking` ve `text-pirate-muted/40-60` gibi
+  soluk etiket yazma (AA altı). Rozette slug basma (`EAST-BLUE`) — ad
+  veriden: `getSagaName`, `getArcBySlug`, `getCharacterBySlug`.
 - **Başlık üstü kicker/eyebrow YOK (Ekim 2026, sahibinin isteği)** — okunmuyor,
   kalabalık. Bölüm doğrudan başlıkla açılır. `MangaImpactDivider` `subtitle`'ı
   bu yüzden opsiyonel, varsayılan boş.
@@ -153,6 +161,12 @@ etiketleri); bileşenler `components/motion/*`; varyantlar `lib/variants.ts`
 (`EASE` + `fadeUp`, `staggerContainer()` …) — bileşen içinde inline varyant
 tanımlama. Hepsi `prefers-reduced-motion`'da kapalı.
 
+- **Hareket azaltma**: `ClientLayout` → `MotionConfig reducedMotion="user"`
+  (Framer transform'ları anında biter). Bileşende `initial={reduced ? false :
+  …}` YAZMA — sunucu `reduced`ı bilmez, her sayfada hydration uyarısı
+  veriyordu; `initial` sabit kalır, kısaltma `transition`da
+  (`PageHero` → `still`). Girişler yalnız opaklık + transform:
+  `filter: blur()` canlandırma (boyama + kalan `filter` `fixed`'i hapseder).
 - **Açılış — `Preloader.tsx`, "Seyir Haritası", sayaç YOK.** Çizim adımları CSS
   keyframe (`.op-i-*`, ilk boyamada başlar, hydration'ı beklemez); çıkış Framer.
   Oturumda bir kez (sessionStorage `onepiece-intro-seen`); `INTRO_INIT_SCRIPT`

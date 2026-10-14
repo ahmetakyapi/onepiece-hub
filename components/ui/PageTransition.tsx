@@ -9,12 +9,10 @@ const pageVariants = {
   initial: {
     opacity: 0,
     y: 12,
-    filter: 'blur(4px)',
   },
   enter: {
     opacity: 1,
     y: 0,
-    filter: 'blur(0px)',
     transition: {
       duration: 0.45,
       ease: EASE,
@@ -23,7 +21,6 @@ const pageVariants = {
   exit: {
     opacity: 0,
     y: -8,
-    filter: 'blur(2px)',
     transition: {
       duration: 0.25,
       ease: EASE,

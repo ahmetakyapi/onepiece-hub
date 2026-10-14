@@ -101,12 +101,10 @@ function MilestoneCard({ milestone, index }: { milestone: typeof MILESTONES[0]; 
         initial={{
           opacity: 0,
           x: isLeft ? -60 : 60,
-          filter: 'blur(8px)',
         }}
         animate={inView ? {
           opacity: 1,
           x: 0,
-          filter: 'blur(0px)',
         } : {}}
         transition={{ duration: 0.8, ease: EASE, delay: 0.3 }}
         className={`hidden w-[calc(50%-3rem)] md:block ${isLeft ? 'mr-auto text-right' : 'ml-auto text-left'}`}

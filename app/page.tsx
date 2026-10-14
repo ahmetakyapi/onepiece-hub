@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useScroll, useTransform, useInView } from 'framer-motion'
+import { motion, useScroll, useTransform, useInView, useReducedMotion } from 'framer-motion'
 import { Play, Compass, Cherry, Shield, Globe, Anchor, Swords, Trophy, Clock, ArrowRight, Map, Skull, Zap, BookOpen } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -191,6 +191,9 @@ export default function Home() {
     ['inset(0% 0% 0% 0% round 0px)', 'inset(6% 4% 10% 4% round 40px)'],
   )
   const ready = useIntroReady()
+  /* Hareket azaltmada açılıştaki çerçeve genişlemesi (clip-path) ve
+     zoom anında biter, kaydırmaya bağlı kırpma/parallax hiç bağlanmaz. */
+  const reduced = useReducedMotion()
 
   // On mobile the Ken-burns animation already provides motion for the hero
   // image, and scroll-driven transforms add noticeable jank. Gate parallax so
@@ -198,11 +201,11 @@ export default function Home() {
   const [parallaxEnabled, setParallaxEnabled] = useState(false)
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 768px)')
-    const apply = () => setParallaxEnabled(mq.matches)
+    const apply = () => setParallaxEnabled(mq.matches && !reduced)
     apply()
     mq.addEventListener('change', apply)
     return () => mq.removeEventListener('change', apply)
-  }, [])
+  }, [reduced])
 
   const wikiRef = useRef<HTMLDivElement>(null)
   const wikiInView = useInView(wikiRef, { once: true, margin: '-80px' })
@@ -231,7 +234,7 @@ export default function Home() {
               className="absolute inset-0"
               initial={{ clipPath: 'inset(14% 12% 14% 12% round 32px)' }}
               animate={ready ? { clipPath: 'inset(0% 0% 0% 0% round 0px)' } : undefined}
-              transition={{ duration: 1.6, ease: EASE_REVEAL }}
+              transition={reduced ? { duration: 0 } : { duration: 1.6, ease: EASE_REVEAL }}
             >
               <motion.div
                 className="absolute inset-0"
@@ -241,7 +244,7 @@ export default function Home() {
                   className="absolute inset-0"
                   initial={{ scale: 1.35 }}
                   animate={ready ? { scale: 1 } : undefined}
-                  transition={{ duration: 2.2, ease: EASE_REVEAL }}
+                  transition={reduced ? { duration: 0 } : { duration: 2.2, ease: EASE_REVEAL }}
                 >
                   <Image
                     src="/hero.webp"
@@ -346,7 +349,7 @@ export default function Home() {
             <span className="relative block h-12 w-px overflow-hidden bg-pirate-text/15">
               <span className="scroll-cue-drop absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-transparent to-gold" />
             </span>
-            <span className="font-mono text-[10px] font-bold uppercase tracking-[0.35em] text-pirate-text/60 [writing-mode:vertical-rl]">
+            <span className="text-xs font-semibold text-pirate-text/70 [writing-mode:vertical-rl]">
               Kaydır
             </span>
           </motion.div>
@@ -467,7 +470,7 @@ export default function Home() {
                       <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${tool.accentBg} border ${tool.accentBorder} transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3`}>
                         <tool.icon className={`h-5 w-5 ${tool.accent}`} />
                       </div>
-                      <span className={`rounded-full ${tool.accentBg} px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider ${tool.accent}`}>
+                      <span className={`rounded-full ${tool.accentBg} px-2.5 py-1 text-xs font-bold ${tool.accent}`}>
                         {tool.tag}
                       </span>
                     </div>
@@ -538,7 +541,7 @@ export default function Home() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-bold text-pirate-text">{item.label}</p>
-                      <p className="text-[10px] text-pirate-muted/60">{item.desc}</p>
+                      <p className="text-xs text-pirate-muted">{item.desc}</p>
                     </div>
                     {item.count ? (
                       <span className={`font-mono text-lg font-extrabold ${item.color} opacity-60 transition-opacity group-hover:opacity-100`}>

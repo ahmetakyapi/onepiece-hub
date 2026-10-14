@@ -68,9 +68,12 @@ export default function SplitText({
                     <span className="inline-block overflow-hidden pb-[0.12em] -mb-[0.12em] align-bottom">
                       <motion.span
                         className={`inline-block will-change-transform ${part.className ?? ''}`}
-                        initial={reduced ? false : { y: '115%', rotate: 5 }}
+                        /* `initial` sabit: sunucu `reduced`ı bilemez, dalı
+                           buraya koymak hydration uyuşmazlığı veriyordu.
+                           Hareket azaltmada kelimeler gecikmesiz yerinde. */
+                        initial={{ y: '115%', rotate: 5 }}
                         animate={active || reduced ? { y: '0%', rotate: 0 } : { y: '115%', rotate: 5 }}
-                        transition={{ duration: 0.95, ease: EASE_REVEAL, delay: delay + i * stagger }}
+                        transition={reduced ? { duration: 0 } : { duration: 0.95, ease: EASE_REVEAL, delay: delay + i * stagger }}
                         style={{ transformOrigin: '0% 100%' }}
                       >
                         {word}

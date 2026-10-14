@@ -52,8 +52,8 @@ export default function VoidCenturySection() {
       <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
         {/* Headline */}
         <motion.h2
-          initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
-          animate={inView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, ease: EASE, delay: 0.15 }}
           className="mb-5 text-[28px] font-extrabold leading-[1.05] drop-shadow-[0_4px_24px_rgba(0,0,0,0.75)] sm:text-5xl md:text-6xl"
         >

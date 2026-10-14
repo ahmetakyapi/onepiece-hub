@@ -1,6 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import { MotionConfig } from 'framer-motion'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 /* SSR'da render edilmeli — `dynamic(ssr:false)` ile gelirse içerik bir an
@@ -21,9 +22,18 @@ interface Props {
   children: React.ReactNode
 }
 
+/* `MotionConfig reducedMotion="user"`: hareket azaltmayı seçen kullanıcıda
+   Framer'ın transform/layout animasyonları anında biter (opaklık geçişleri
+   kalır). CSS tarafı `globals.css`teki reduce bloğunda; bu ikisi olmadan
+   Framer'la yazılmış yüzlerce giriş animasyonu tercihi yok sayıyordu.
+
+   Bileşenlerde `initial={reduced ? false : …}` YAZMA: sunucu `reduced`ı
+   bilemez, istemci bilir — her sayfada hydration uyuşmazlığı çıkıyordu
+   (SplitText, PageHero, Footer). Başlangıç durumu iki tarafta aynı kalır,
+   kısaltmayı burası ya da `transition` yapar. */
 export function ClientLayout({ children }: Props) {
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-lg focus:bg-gold focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-ocean-deep"
@@ -45,6 +55,6 @@ export function ClientLayout({ children }: Props) {
       </div>
       <MobileBottomNav />
       <SpoilerGateWidget />
-    </>
+    </MotionConfig>
   )
 }

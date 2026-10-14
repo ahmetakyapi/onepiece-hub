@@ -54,6 +54,10 @@ export default function PageHero({
   const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '22%'])
   const contentOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.25])
   const accent = ACCENT_STYLES[accentColor]
+  /* Hareket azaltmada her giriş anında biter. `initial`'ı `reduced`a göre
+     dallamak (`false`) sunucu/istemci HTML'ini ayırıp hydration uyarısı
+     veriyordu; geçiş süresi HTML'e yazılmadığı için dal burada güvenli. */
+  const still = reduced ? { duration: 0 } : null
 
   /* Kart çerçevesi açılışta ortadan dışa doğru açılır (clip-path); başlık
      maskeli kelimelerle yükselir, ikon dönerek yerine oturur. Kaydırınca
@@ -62,9 +66,9 @@ export default function PageHero({
     <motion.section
       ref={heroRef}
       className="relative mb-12 overflow-hidden rounded-3xl border border-pirate-border/20"
-      initial={reduced ? false : { clipPath: 'inset(8% 6% 8% 6% round 48px)', opacity: 0 }}
+      initial={{ clipPath: 'inset(8% 6% 8% 6% round 48px)', opacity: 0 }}
       animate={{ clipPath: 'inset(0% 0% 0% 0% round 24px)', opacity: 1, transitionEnd: { clipPath: 'none' } }}
-      transition={{ duration: 1.2, ease: EASE_REVEAL }}
+      transition={still ?? { duration: 1.2, ease: EASE_REVEAL }}
     >
       {/* Background */}
       <div className="absolute inset-0 -top-20 -bottom-20">
@@ -93,14 +97,14 @@ export default function PageHero({
 
       {/* Content */}
       <motion.div
-        className="relative z-10 px-8 py-14 sm:px-12 sm:py-20"
+        className="relative z-10 px-6 py-10 sm:px-12 sm:py-20"
         style={parallax ? { y: contentY, opacity: contentOpacity } : undefined}
       >
         {/* Icon badge */}
         <motion.div
-          initial={reduced ? false : { scale: 0.4, rotate: -45, opacity: 0 }}
+          initial={{ scale: 0.4, rotate: -45, opacity: 0 }}
           animate={{ scale: 1, rotate: 0, opacity: 1 }}
-          transition={{ duration: 0.9, ease: EASE_REVEAL, delay: 0.25 }}
+          transition={still ?? { duration: 0.9, ease: EASE_REVEAL, delay: 0.25 }}
           className={`mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl border ${accent?.border ?? 'border-gold/20'} ${accent?.bg ?? 'bg-gold/[0.06]'}`}
         >
           <Icon className={`h-7 w-7 ${accent?.text ?? 'text-gold'}`} />
@@ -122,9 +126,9 @@ export default function PageHero({
         {/* Description */}
         {description && (
           <motion.p
-            initial={reduced ? false : { opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: EASE_REVEAL, delay: 0.55 }}
+            transition={still ?? { duration: 0.8, ease: EASE_REVEAL, delay: 0.55 }}
             className="max-w-2xl text-sm leading-relaxed text-pirate-muted sm:text-base"
           >
             {description}
@@ -134,9 +138,9 @@ export default function PageHero({
         {/* Extra content */}
         {children && (
           <motion.div
-            initial={reduced ? false : { opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: EASE_REVEAL, delay: 0.68 }}
+            transition={still ?? { duration: 0.8, ease: EASE_REVEAL, delay: 0.68 }}
             className="mt-6"
           >
             {children}
@@ -146,10 +150,10 @@ export default function PageHero({
         {/* Altın çizgi — başlığın altından soldan sağa çekilir */}
         <motion.div
           aria-hidden
-          initial={reduced ? false : { scaleX: 0 }}
+          initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
-          transition={{ duration: 1.4, ease: EASE_REVEAL, delay: 0.5 }}
-          className="mt-8 h-px w-40 origin-left bg-gradient-to-r from-gold/60 via-sea/40 to-transparent"
+          transition={still ?? { duration: 1.4, ease: EASE_REVEAL, delay: 0.5 }}
+          className="mt-6 h-px w-40 sm:mt-8 origin-left bg-gradient-to-r from-gold/60 via-sea/40 to-transparent"
         />
       </motion.div>
 

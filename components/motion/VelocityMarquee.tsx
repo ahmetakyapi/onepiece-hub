@@ -3,6 +3,7 @@
 import {
   motion,
   useAnimationFrame,
+  useInView,
   useMotionValue,
   useReducedMotion,
   useScroll,
@@ -18,7 +19,11 @@ import { useRef, type ReactNode } from 'react'
    yön değiştirir ve hıza orantılı olarak hafifçe eğilir (skew).
 
    İçerik 4 kopya render edilir, `wrap(-25, -50)` ile kesintisiz döner.
-   Hareket azaltmada durağan. */
+   Hareket azaltmada durağan; ekran dışındayken kare döngüsü iş yapmaz.
+
+   `style` her iki durumda da aynı verilir: `reduced ? undefined : …`
+   sunucuda transform, istemcide boş stil basıp hydration uyarısı
+   veriyordu. Hareket azaltmada x sabit kalır, eğim hiç bağlanmaz. */
 
 type Props = {
   children: ReactNode
@@ -37,9 +42,11 @@ export default function VelocityMarquee({ children, baseVelocity = -3, className
   const skew = useTransform(smoothVelocity, [-2500, 0, 2500], [7, 0, -7])
   const x = useTransform(baseX, (v) => `${wrap(-25, -50, v)}%`)
   const direction = useRef(1)
+  const rootRef = useRef<HTMLDivElement>(null)
+  const inView = useInView(rootRef, { margin: '120px 0px' })
 
   useAnimationFrame((_, delta) => {
-    if (reduced) return
+    if (reduced || !inView) return
     let moveBy = direction.current * baseVelocity * (delta / 1000)
     const vf = velocityFactor.get()
     if (vf < 0) direction.current = -1
@@ -49,8 +56,8 @@ export default function VelocityMarquee({ children, baseVelocity = -3, className
   })
 
   return (
-    <div className={`flex overflow-hidden whitespace-nowrap ${className ?? ''}`}>
-      <motion.div className="flex flex-nowrap" style={reduced ? undefined : { x, skewX: skew }}>
+    <div ref={rootRef} className={`flex overflow-hidden whitespace-nowrap ${className ?? ''}`}>
+      <motion.div className="flex flex-nowrap" style={{ x, skewX: reduced ? 0 : skew }}>
         {[0, 1, 2, 3].map((i) => (
           <span key={i} className="flex shrink-0 items-center" aria-hidden={i > 0}>
             {children}

@@ -20,6 +20,10 @@ const giantLetter = {
   hidden: { y: '100%' },
   visible: (i: number) => ({ y: '0%', transition: { duration: 1.1, ease: EASE_REVEAL, delay: i * 0.05 } }),
 }
+const giantLetterStill = {
+  hidden: { y: '100%' },
+  visible: { y: '0%', transition: { duration: 0 } },
+}
 
 function GiantWordmark() {
   const reduced = useReducedMotion()
@@ -27,7 +31,10 @@ function GiantWordmark() {
     <motion.div
       className="relative select-none overflow-hidden px-2"
       aria-hidden
-      initial={reduced ? false : 'hidden'}
+      /* `initial` sabit kalır — `reduced ? false : …` sunucuda başka,
+         istemcide başka HTML verip hydration uyarısı üretiyordu. Hareket
+         azaltmada harfler gecikmesiz varyantla anında yerine oturur. */
+      initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '0px 0px -5% 0px' }}
     >
@@ -36,7 +43,7 @@ function GiantWordmark() {
           <motion.span
             key={i}
             custom={i}
-            variants={giantLetter}
+            variants={reduced ? giantLetterStill : giantLetter}
             className="inline-block text-pirate-text/[0.11] transition-colors duration-500 hover:text-gold/80"
           >
             {ch === ' ' ? '\u00a0' : ch}
@@ -80,7 +87,7 @@ export default function Footer() {
               className="text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl"
               parts={[
                 { text: 'Yolculuk', className: 'text-pirate-text' },
-                { text: 'devam ediyor.', className: 'text-gold-gradient' },
+                { text: 'Devam Ediyor', className: 'text-gold-gradient' },
               ]}
               breakAfter={[{ index: 0 }]}
             />

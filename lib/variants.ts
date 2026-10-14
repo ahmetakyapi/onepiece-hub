@@ -62,27 +62,29 @@ export const modalPanel = {
 }
 
 /* ─── Scroll-triggered reveal variants ───────────────────────────────── */
+/* Yalnız opaklık + transform. Eskiden `filter: blur()` da canlanıyordu:
+   her karede büyük bir katmanı yeniden boyatıyor ve bitince satır içinde
+   kalan `filter: blur(0px)` `position: fixed` çocukları hapsediyordu. */
 export const scrollReveal = {
-  hidden:  { opacity: 0, y: 40, filter: 'blur(8px)' },
-  visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: EASE } },
+  hidden:  { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } },
 }
 
 export const scrollRevealLeft = {
-  hidden:  { opacity: 0, x: -60, filter: 'blur(6px)' },
-  visible: { opacity: 1, x: 0, filter: 'blur(0px)', transition: { duration: 0.7, ease: EASE } },
+  hidden:  { opacity: 0, x: -60 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: EASE } },
 }
 
 export const scrollRevealRight = {
-  hidden:  { opacity: 0, x: 60, filter: 'blur(6px)' },
-  visible: { opacity: 1, x: 0, filter: 'blur(0px)', transition: { duration: 0.7, ease: EASE } },
+  hidden:  { opacity: 0, x: 60 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: EASE } },
 }
 
 export const heroTextReveal = {
-  hidden:  { opacity: 0, y: 30, filter: 'blur(10px)', scale: 0.97 },
+  hidden:  { opacity: 0, y: 30, scale: 0.97 },
   visible: (delay: number) => ({
     opacity: 1,
     y: 0,
-    filter: 'blur(0px)',
     scale: 1,
     transition: { delay, duration: 0.8, ease: EASE },
   }),
