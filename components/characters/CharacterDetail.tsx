@@ -3,7 +3,8 @@
 import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
+import { useMotionGate } from '@/hooks/useMotionGate'
 import {
   ArrowLeft, Users, Anchor, Sword, Sparkles,
   Skull, MapPin, Zap, BookOpen, Film,
@@ -86,12 +87,9 @@ function RevealSection({ children, className = '' }: { children: React.ReactNode
 }
 
 export default function CharacterDetailClient({ character }: { character: Character }) {
-  const [parallaxEnabled, setParallaxEnabled] = useState(false)
+  /* Kaydırmaya bağlı parallax yalnız md+ ve hareket azaltma kapalıyken (§ 16) */
+  const parallaxEnabled = useMotionGate()
   const [portraitRatio, setPortraitRatio] = useState<number | null>(null)
-
-  useEffect(() => {
-    setParallaxEnabled(window.matchMedia('(min-width: 768px)').matches)
-  }, [])
 
   const firstArc = getArcBySlug(character.firstArc)
   const heroRef = useRef<HTMLDivElement>(null)

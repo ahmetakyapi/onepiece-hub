@@ -25,8 +25,9 @@ const ROUTES = [
     eyebrow: 'Başlangıç',
     desc: 'East Blue’dan itibaren ana hikayeyi temiz, sıralı ve spoilersız bir akışla takip et.',
     href: '/guide',
-    cta: 'Rehberi aç',
-    meta: '36 arc rotası',
+    cta: 'Rehberi Aç',
+    /* Sayı veriden — eskiden elle yazılmış "36" idi (CLAUDE.md → SITE_STATS) */
+    meta: `${SITE_STATS.arcs} Arc Rotası`,
     accent: 'text-gold',
     border: 'border-gold/25',
     bg: 'from-gold/[0.12] to-gold/[0.03]',
@@ -34,11 +35,11 @@ const ROUTES = [
   {
     icon: TimerReset,
     title: 'Kaldığın Yerden',
-    eyebrow: 'Devam et',
+    eyebrow: 'Devam Et',
     desc: 'Saga özetleri ve kritik dönemeçlerle hikayeye ritmini kaybetmeden geri dön.',
     href: '/timeline',
-    cta: 'Özetleri gör',
-    meta: '25+ dönüm noktası',
+    cta: 'Özetleri Gör',
+    meta: 'Dönüm Noktaları',
     accent: 'text-sea-light',
     border: 'border-sea/25',
     bg: 'from-sea/[0.12] to-sea/[0.03]',
@@ -49,8 +50,8 @@ const ROUTES = [
     eyebrow: 'Kıyas',
     desc: 'Karakter seviyelerini, teknikleri ve unutulmaz düelloları aynı ölçekte incele.',
     href: '/power',
-    cta: 'Analize git',
-    meta: 'tier sistemi',
+    cta: 'Analize Git',
+    meta: 'Tier Sistemi',
     accent: 'text-luffy',
     border: 'border-luffy/25',
     bg: 'from-luffy/[0.12] to-luffy/[0.03]',
@@ -58,11 +59,11 @@ const ROUTES = [
   {
     icon: BookOpen,
     title: 'Evren Arşivi',
-    eyebrow: 'Derin okuma',
+    eyebrow: 'Derin Okuma',
     desc: 'Meyveler, Haki, mürettebatlar ve dünya haritası arasındaki büyük bağlantıları keşfet.',
     href: '/explore',
-    cta: 'Arşivi keşfet',
-    meta: 'wiki seçkisi',
+    cta: 'Arşivi Keşfet',
+    meta: 'Wiki Seçkisi',
     accent: 'text-accent-emerald',
     border: 'border-accent-emerald/25',
     bg: 'from-accent-emerald/[0.12] to-accent-emerald/[0.03]',
@@ -70,9 +71,9 @@ const ROUTES = [
 ] as const
 
 const HIGHLIGHTS = [
-  { icon: Map, label: 'Düzenli akış', value: `${SITE_STATS.episodes} bölüm` },
-  { icon: Swords, label: 'Karakter arşivi', value: `${SITE_STATS.characters} profil` },
-  { icon: Sparkles, label: 'Seçilmiş rotalar', value: '4 başlangıç' },
+  { icon: Map, label: 'Düzenli Akış', value: `${SITE_STATS.episodes} bölüm` },
+  { icon: Swords, label: 'Karakter Arşivi', value: `${SITE_STATS.characters} profil` },
+  { icon: Sparkles, label: 'Seçilmiş Rotalar', value: `${ROUTES.length} başlangıç` },
 ] as const
 
 export default function RouteConcierge() {
@@ -89,7 +90,7 @@ export default function RouteConcierge() {
           className="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between"
         >
           <div className="max-w-3xl">
-            <SplitText as="h2" className="max-w-[760px] text-balance text-2xl font-extrabold leading-tight text-pirate-text sm:text-3xl lg:text-4xl" parts={[{ text: 'One Piece yolculuğunu' }, { text: 'daha net bir rotaya bağla', className: 'text-gold-gradient' }]} breakAfter={[{ index: 0 }]} />
+            <SplitText as="h2" className="max-w-[760px] text-balance text-2xl font-extrabold leading-tight text-pirate-text sm:text-3xl lg:text-4xl" parts={[{ text: 'One Piece Yolculuğunu' }, { text: 'Daha Net Bir Rotaya Bağla', className: 'text-gold-gradient' }]} breakAfter={[{ index: 0 }]} />
             <p className="mt-4 max-w-2xl text-sm leading-7 text-pirate-muted sm:text-base">
               Nereden başlayacağını, hangi özetle geri döneceğini ya da hangi arşive dalacağını tek bakışta seç. Kalabalığı azalttık; hikayenin tadı ve keşif hissi sende kalsın.
             </p>

@@ -7,6 +7,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { fadeUp, EASE } from '@/lib/variants'
 import { toast } from '@/lib/toast'
+import { normalizeSearch } from '@/lib/utils'
 import SplitText from '@/components/motion/SplitText'
 
 const EPITHET_SUGGESTIONS = [
@@ -62,14 +63,28 @@ function formatBounty(value: number): string {
 
 /** Dosya adı: "Monkey D. Luffy" → "wanted-monkey-d-luffy.png" */
 function posterFileName(name: string): string {
-  const slug = name
-    .toLocaleLowerCase('tr-TR')
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/ı/g, 'i')
+  const slug = normalizeSearch(name)
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
   return `wanted-${slug || 'poster'}.png`
+}
+
+/** Metni tuvalde `maxWidth`e sığan satırlara böler — önizlemede iki satıra
+ *  inen uzun isim PNG'de tek satır olup afişin dışına taşıyordu. */
+function wrapLines(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
+  const lines: string[] = []
+  let line = ''
+  for (const word of text.split(/\s+/)) {
+    const next = line ? `${line} ${word}` : word
+    if (line && ctx.measureText(next).width > maxWidth) {
+      lines.push(line)
+      line = word
+    } else {
+      line = next
+    }
+  }
+  if (line) lines.push(line)
+  return lines
 }
 
 function loadImage(src: string): Promise<HTMLImageElement> {
@@ -195,10 +210,33 @@ export default function WantedPosterCreator() {
         const cs = getComputedStyle(el)
         ctx.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`
         ctx.fillStyle = cs.color
+        /* Harf aralığı son harften sonra da eklenir; ortalarken yarısı
+           kadar sağa kaydırılır ki metin önizlemedeki yerine otursun. */
+        const tracking = cs.letterSpacing === 'normal' ? 0 : parseFloat(cs.letterSpacing) || 0
         if ('letterSpacing' in ctx) {
-          ;(ctx as CanvasRenderingContext2D & { letterSpacing: string }).letterSpacing = cs.letterSpacing === 'normal' ? '0px' : cs.letterSpacing
+          ;(ctx as CanvasRenderingContext2D & { letterSpacing: string }).letterSpacing = `${tracking}px`
         }
-        ctx.fillText(text, r.left - box.left + r.width / 2, r.top - box.top + r.height / 2)
+        const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight)
+        // +2px: tuval ölçümü tarayıcının satır kırımından birkaç alt-piksel farklı
+        const maxWidth = Math.max(1, r.width - padX) + 2
+        let lines = wrapLines(ctx, text, maxWidth)
+        /* Başlıklar `text-wrap: balance` (globals.css) ile kırılır; aynı satır
+           sayısını koruyan en dar genişlik aranır ki PNG önizlemeyle aynı
+           yerden bölünsün ("Charlotte Linlin / Big Mom Kaido"). */
+        if (lines.length > 1 && /^H[1-4]$/.test(el.tagName)) {
+          let lo = 0
+          let hi = maxWidth
+          while (hi - lo > 1) {
+            const mid = (lo + hi) / 2
+            if (wrapLines(ctx, text, mid).length <= lines.length) hi = mid
+            else lo = mid
+          }
+          lines = wrapLines(ctx, text, hi)
+        }
+        const lineHeight = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.2
+        const cx = r.left - box.left + r.width / 2 + tracking / 2
+        const top = r.top - box.top + r.height / 2 - ((lines.length - 1) * lineHeight) / 2
+        lines.forEach((line, i) => ctx.fillText(line, cx, top + i * lineHeight))
       })
 
       // Ayırıcı çizgiler
@@ -213,8 +251,12 @@ export default function WantedPosterCreator() {
         const r = el.getBoundingClientRect()
         ctx.strokeStyle = getComputedStyle(el).borderTopColor
         ctx.lineWidth = 1
+        const x = r.left - box.left + 0.5
+        const y = r.top - box.top + 0.5
         ctx.beginPath()
-        ctx.roundRect(r.left - box.left + 0.5, r.top - box.top + 0.5, r.width - 1, r.height - 1, r.height / 2)
+        // `roundRect` Safari 16 / Firefox 112 öncesinde yok — köşeli çerçeve yeter
+        if (typeof ctx.roundRect === 'function') ctx.roundRect(x, y, r.width - 1, r.height - 1, r.height / 2)
+        else ctx.rect(x, y, r.width - 1, r.height - 1)
         ctx.stroke()
       })
       for (const svg of Array.from(poster.querySelectorAll<SVGSVGElement>('svg[data-poster-icon]'))) {

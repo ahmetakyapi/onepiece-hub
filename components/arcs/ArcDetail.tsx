@@ -1,7 +1,8 @@
 'use client'
 
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef, useState, useEffect, useMemo } from 'react'
+import { useRef, useMemo } from 'react'
+import { useMotionGate } from '@/hooks/useMotionGate'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
@@ -24,14 +25,11 @@ import SplitText from '@/components/motion/SplitText'
 const EASE = [0.16, 1, 0.3, 1] as const
 
 export default function ArcDetailClient({ arc }: { arc: Arc }) {
-  const [parallaxEnabled, setParallaxEnabled] = useState(false)
+  /* Kaydırmaya bağlı parallax yalnız md+ ve hareket azaltma kapalıyken (§ 16) */
+  const parallaxEnabled = useMotionGate()
 
   /* Gerçek bölüm sürelerinden — sabit 24 dk tahmini yerine */
   const arcRuntime = useMemo(() => formatRuntime(getArcRuntimeSeconds(arc.slug)), [arc.slug])
-
-  useEffect(() => {
-    setParallaxEnabled(window.matchMedia('(min-width: 768px)').matches)
-  }, [])
 
   const coverRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({

@@ -215,7 +215,9 @@ export default function PowerRankingClient() {
           </p>
         </motion.div>
 
-        <div className="grid gap-8 lg:grid-cols-5">
+        {/* grid-cols-1 = minmax(0, 1fr): uzun lakaplar tek sütunu 390px'te
+            ekrandan taşırıyordu (grid blowout). */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
           {/* Ranking List */}
           <div className="lg:col-span-3 space-y-2">
             {sorted.map((power, i) => {

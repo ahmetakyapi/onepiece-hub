@@ -29,7 +29,7 @@ const TRACK_META: readonly TrackMeta[] = [
     ring: 'border-gold/25',
     glow: 'bg-gold/[0.07]',
     href: '/arcs',
-    cta: 'İzlemeye başla',
+    cta: 'İzlemeye Başla',
   },
   {
     track: SERIES_STATUS.anime,
@@ -48,7 +48,7 @@ const TRACK_META: readonly TrackMeta[] = [
 ]
 
 const STATUS_LABEL: Record<SeriesTrack['status'], string> = {
-  ongoing: 'Devam ediyor',
+  ongoing: 'Devam Ediyor',
   break: 'Arada',
   'caught-up': 'Güncel',
 }

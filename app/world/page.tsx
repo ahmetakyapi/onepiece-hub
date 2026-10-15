@@ -168,7 +168,7 @@ export default function WorldPage() {
                             {locationCount}
                           </span>
                           <span className="eyebrow text-pirate-muted">
-                            lokasyon
+                            Lokasyon
                           </span>
                         </div>
                       )}

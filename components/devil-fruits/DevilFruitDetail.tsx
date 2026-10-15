@@ -3,7 +3,8 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRef, useState, useEffect } from 'react'
+import { useRef } from 'react'
+import { useMotionGate } from '@/hooks/useMotionGate'
 import {
   ArrowLeft, Cherry, Sparkles, Skull, Zap,
   AlertTriangle, Star, BookOpen, Globe, ArrowRight,
@@ -16,11 +17,8 @@ import type { DevilFruitEntry } from '@/types'
 import SplitText from '@/components/motion/SplitText'
 
 export default function DevilFruitDetailClient({ fruit }: { fruit: DevilFruitEntry }) {
-  const [parallaxEnabled, setParallaxEnabled] = useState(false)
-
-  useEffect(() => {
-    setParallaxEnabled(window.matchMedia('(min-width: 768px)').matches)
-  }, [])
+  /* Kaydırmaya bağlı parallax yalnız md+ ve hareket azaltma kapalıyken (§ 16) */
+  const parallaxEnabled = useMotionGate()
 
   const typeInfo = DEVIL_FRUIT_TYPE_INFO[fruit.type]
   const userImg = fruit.userSlug ? getCharacterImage(fruit.userSlug) : ''

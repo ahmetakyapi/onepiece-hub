@@ -1,6 +1,7 @@
 'use client'
 
-import { memo, useEffect, useRef, useState } from 'react'
+import { memo, useRef } from 'react'
+import { useMotionGate } from '@/hooks/useMotionGate'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, useScroll, useTransform } from 'framer-motion'
@@ -55,10 +56,8 @@ function SagaDetail({ data }: { data: SagaDetailData }) {
   const cls = ACCENT_CLASSES[data.accent]
   const featuredCover = getArcImage(data.featuredArcSlug)
 
-  const [parallaxEnabled, setParallaxEnabled] = useState(false)
-  useEffect(() => {
-    setParallaxEnabled(window.matchMedia('(min-width: 768px)').matches)
-  }, [])
+  /* Kaydırmaya bağlı parallax yalnız md+ ve hareket azaltma kapalıyken (§ 16) */
+  const parallaxEnabled = useMotionGate()
 
   const heroRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({

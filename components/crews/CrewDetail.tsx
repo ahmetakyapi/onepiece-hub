@@ -3,7 +3,8 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRef, useState, useEffect } from 'react'
+import { useRef } from 'react'
+import { useMotionGate } from '@/hooks/useMotionGate'
 import {
   ArrowLeft, Crown, Users, Skull, BookOpen,
   Trophy, MapPin, Anchor, Star, ArrowRight,
@@ -16,11 +17,8 @@ import type { Crew } from '@/types'
 import SplitText from '@/components/motion/SplitText'
 
 export default function CrewDetailClient({ crew }: { crew: Crew }) {
-  const [parallaxEnabled, setParallaxEnabled] = useState(false)
-
-  useEffect(() => {
-    setParallaxEnabled(window.matchMedia('(min-width: 768px)').matches)
-  }, [])
+  /* Kaydırmaya bağlı parallax yalnız md+ ve hareket azaltma kapalıyken (§ 16) */
+  const parallaxEnabled = useMotionGate()
 
   const heroRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({

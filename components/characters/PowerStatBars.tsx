@@ -35,7 +35,7 @@ function PowerStatBars({ slug }: Props) {
           </div>
         </div>
         <div className="h-32 flex flex-col items-end justify-end">
-          <div className="eyebrow text-pirate-muted mb-2">skala 0-100</div>
+          <div className="eyebrow text-pirate-muted mb-2">Skala 0–100</div>
           <div className="flex gap-1">
             {[...Array(5)].map((_, i) => (
               <div

@@ -214,7 +214,7 @@ function CharacterCard({ character }: Props) {
                   </span>
                 </div>
               ) : (
-                <span className="eyebrow text-pirate-muted">Ödül bilinmiyor</span>
+                <span className="eyebrow text-pirate-muted">Ödül Bilinmiyor</span>
               )}
               <div className="flex items-center gap-1 text-xs text-pirate-muted transition-all duration-300 group-hover:text-gold/60">
                 <span className="hidden sm:inline">Detay</span>

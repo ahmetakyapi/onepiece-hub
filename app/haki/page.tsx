@@ -292,8 +292,10 @@ export default function HakiPage() {
   const totalUsers = HAKI_TYPES.reduce((sum, h) => sum + h.users.length, 0)
   const masterCount = HAKI_MASTERS.filter((m) => m.types.length === 3).length
 
+  /* overflow-x-clip: aktif Haki'nin `-right-40` ışıması telefonda sayfayı
+     136px yana genişletiyordu (sticky yok, clip kaydırma kabı açmaz). */
   return (
-      <main className="relative min-h-screen pt-24">
+      <main className="relative min-h-screen overflow-x-clip pt-24">
         <div className="mx-auto max-w-6xl px-6">
           {/* Hero */}
           <PageHero
@@ -502,7 +504,10 @@ export default function HakiPage() {
                   <Users className={`h-5 w-5 ${activeHaki.color}`} />
                   Bilinen Kullanıcılar
                 </h3>
-                <div className="grid gap-3 sm:grid-cols-2">
+                {/* `grid-cols-1` = minmax(0, 1fr): düz `grid` sütunu en uzun
+                    `truncate` notun genişliğine açılıp 390px'te satırları
+                    ekran dışına taşırıyordu. */}
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   {activeHaki.users.map((user) => (
                     <UserCard key={user.name} user={user} colorToken={activeHaki.colorToken} />
                   ))}
